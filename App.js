@@ -1,11 +1,11 @@
 import "react-native-gesture-handler";
 import React from "react";
+import "./firebase.js";
 import { StyleProvider, View, Button, Icon } from "native-base";
 import getTheme from "./native-base-theme/components";
 import material from "./native-base-theme/variables/material";
 import store from "./store";
 import { Provider } from "react-redux";
-import * as firebase from "firebase";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,22 +23,10 @@ import CreateMatch from "./screens/create-match";
 import MatchDetails from "./screens/match-details";
 import SearchMatch from "./screens/search-match";
 import Menu from "./screens/menu";
-import ConnectionBaseScreen from "./screens/connection-base";
-import ConnectionProfileScreen from "./screens/connection-profile";
-import ConnectionTeamScreen from "./screens/connection-team";
+import SignIn from "./screens/signin";
+import SignUp from "./screens/signup";
 
 import { COLORS } from "./styles/colors";
-
-/*firebase.initializeApp({
-  apiKey: "AIzaSyBDNPTLIGIYLodDGT4IR5TAIbr6WMHX14Q",
-  authDomain: "matchin-3b3ab.firebaseapp.com",
-  databaseURL: "https://matchin-3b3ab.firebaseio.com",
-  projectId: "matchin-3b3ab",
-  storageBucket: "matchin-3b3ab.appspot.com",
-  messagingSenderId: "336368684803",
-  appId: "1:336368684803:web:5d6698e0824ed30c6e2336",
-  measurementId: "G-1MRM684H2E",
-});*/
 
 const Stack = createStackNavigator();
 
@@ -85,7 +73,7 @@ export default class App extends React.Component {
           <View style={{ flex: 1 }}>
             <NavigationContainer>
               <Stack.Navigator
-                initialRouteName="ConnectionBaseScreen"
+                initialRouteName="SignUp"
                 screenOptions={{
                   headerTintColor: "#FFF",
                   gestureEnabled: true,
@@ -142,22 +130,15 @@ export default class App extends React.Component {
                 <Stack.Screen name="CreateMatch" component={CreateMatch} />
                 <Stack.Screen name="MatchDetails" component={MatchDetails} />
                 <Stack.Screen
-                  name="ConnectionBaseScreen"
-                  component={ConnectionBaseScreen}
+                  name="SignIn"
+                  component={SignIn}
                   options={{
                     headerShown: false,
                   }}
                 />
                 <Stack.Screen
-                  name="ConnectionProfileScreen"
-                  component={ConnectionProfileScreen}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name="ConnectionTeamScreen"
-                  component={ConnectionTeamScreen}
+                  name="SignUp"
+                  component={SignUp}
                   options={{
                     headerShown: false,
                   }}
