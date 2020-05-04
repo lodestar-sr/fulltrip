@@ -157,8 +157,6 @@ export default class App extends React.Component {
                 />
               </Stack.Navigator>
             </NavigationContainer>
-
-            <FooterTabComponent />
           </View>
         </StyleProvider>
       </Provider>

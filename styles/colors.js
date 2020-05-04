@@ -7,4 +7,6 @@ export const COLORS = {
   primary_text: "#666666",
   secondary_text: "#FFFFFF",
   shadow: "#555555",
+  facebookColor: "#3b5998",
+  googleColor: "#db4a39",
 };
