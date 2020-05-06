@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MatchIn",
-    "slug": "MatchIn",
+    "name": "Weezle",
+    "slug": "weezle",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.groweb.matchin",
+      "bundleIdentifier": "com.groweb.weezle",
       "buildNumber": "1.0.0",
       "supportsTablet": true,
       "splash": {
