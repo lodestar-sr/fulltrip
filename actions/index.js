@@ -1,9 +1,12 @@
-export const getCurrentUserProfile = (profile) => async (dispatch) => {
-  const req = db.collection("users").doc("userId");
+import * as firebase from "firebase";
+import { SET_CURRENT_USER } from "../actions/action-types";
 
-  req.get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${doc.data()}`);
-    });
+export const getCurrentUser = () => async (dispatch) => {
+  await firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      dispatch({ type: SET_CURRENT_USER, payload: user });
+    } else {
+      // No user is signed in.
+    }
   });
 };

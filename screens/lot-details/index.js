@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 
-export default class Menu extends React.Component {
+export default class LotDetails extends React.Component {
   constructor(props) {
     super(props);
   }

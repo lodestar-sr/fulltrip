@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 
-export default class CreateMatch extends React.Component {
+export default class CreateLot extends React.Component {
   constructor(props) {
     super(props);
   }

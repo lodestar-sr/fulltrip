@@ -11,8 +11,7 @@ export const signInUser = (email, password) => {
     // Handle Errors here.
     var errorCode = error.code;
     var errorMessage = error.message;
-
-    if (this.erroMessage) console.log(errorCode, errorMessage);
+    console.log(errorCode);
     // ...
   });
 };
@@ -24,7 +23,6 @@ export const signUpUser = (email, password) => {
     let errorMessage = errorMessageFR[errorCode];
 
     if (errorMessage) {
-      console.log({ errorMessage });
       toastShow({ errorMessage });
     }
 
@@ -32,8 +30,17 @@ export const signUpUser = (email, password) => {
   });
 };
 
+export const signOut = () => {
+  Auth.signOut()
+    .then(function () {
+      // Sign-out successful.
+    })
+    .catch(function (error) {
+      // An error happened.
+    });
+};
+
 export function toastShow(err) {
-  console.log(err.errorMessage);
   Toast.show({
     text: err.errorMessage,
     buttonText: "Se connecter",

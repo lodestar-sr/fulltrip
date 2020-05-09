@@ -17,9 +17,11 @@ import {
 import { StyleSheet, ScrollView, StatusBar } from "react-native";
 import { signUpUser } from "../../services/authentification";
 import validate from "../../validation_wrapper";
+import { connect } from "react-redux";
+import { getCurrentUser } from "../../actions/index";
 import { COLORS } from "../../styles/colors";
 
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +33,14 @@ export default class SignUp extends React.Component {
       iconPassword: "eye-off",
       displayPassword: true,
     };
+  }
+
+  componentDidMount() {
+    this.props.getCurrentUser();
+
+    if (this.props.currentUser) {
+      this.props.navigation.navigate("SearchLot");
+    }
   }
 
   showPasswordInput() {
@@ -194,12 +204,7 @@ export default class SignUp extends React.Component {
                     <Text>Créer un compte</Text>
                   </Button>
                   <View style={style.socialContainer}>
-                    <View
-                      style={{
-                        alignItems: "space-between",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <View>
                       <Button
                         block
                         rounded
@@ -213,12 +218,7 @@ export default class SignUp extends React.Component {
                         <Text>Se connecter avec Facebook</Text>
                       </Button>
                     </View>
-                    <View
-                      style={{
-                        alignItems: "space-between",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <View>
                       <Button
                         block
                         rounded
@@ -262,3 +262,15 @@ const style = StyleSheet.create({
     borderTopColor: "#EDEDED",
   },
 });
+
+const mapStateToProps = (store) => {
+  return {
+    currentUser: store.user,
+  };
+};
+
+const mapDispatchToProps = {
+  getCurrentUser,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

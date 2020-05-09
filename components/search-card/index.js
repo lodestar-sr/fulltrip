@@ -1,20 +1,28 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
-import { Button, Icon, Card, CardItem, Body } from "native-base";
+import {
+  Button,
+  Icon,
+  List,
+  ListItem,
+  Body,
+  Left,
+  Right,
+  Thumbnail,
+} from "native-base";
 import { connect } from "react-redux";
 import { TEAM_DETAILS } from "../../mock.js";
 import { COLORS } from "../../styles/colors.js";
 
 class SearchCard extends React.Component {
   render() {
-    console.log(this.props.currentProfile.data);
     return (
-      <View style={{ paddingBottom: 40 }}>
+      <View style={{ paddingBottom: 200 }}>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Button
             full
             style={{
-              backgroundColor: COLORS.primary_light,
+              backgroundColor: COLORS.primary,
             }}
           >
             <Icon name="options" />
@@ -22,146 +30,69 @@ class SearchCard extends React.Component {
           </Button>
         </View>
         <ScrollView>
-          <View
+          <List
             style={{
-              paddingTop: 10,
-              paddingBottom: 80,
+              backgroundColor: "#FFF",
             }}
           >
             {TEAM_DETAILS.data.map((u, i) => {
               return (
-                <Card key={i} transparent>
-                  <CardItem
-                    style={{
-                      backgroundColor: "transparent",
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                    }}
-                  >
-                    <Body>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "row",
-                          alignItems: "center",
-                          backgroundColor: COLORS.primary,
-                          borderRadius: 5,
-                          elevation: 4,
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#FFF",
-                            padding: 10,
-                            borderBottomLeftRadius: 5,
-                            borderBottomRightRadius: 0,
-                            borderTopLeftRadius: 5,
-                            borderTopRightRadius: 0,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              color: "#FFF",
-                              fontWeight: "bold",
-                              fontSize: 16,
-                            }}
-                          >
-                            {u.date_match}
-                          </Text>
-                          <Text
-                            style={{
-                              color: "#FFF",
-                              fontWeight: "bold",
-                              fontSize: 16,
-                            }}
-                          >
-                            {u.time_match}
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flex: 4,
-                            backgroundColor: "#FFF",
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                            padding: 10,
-                            borderBottomLeftRadius: 0,
-                            borderBottomRightRadius: 5,
-                            borderTopLeftRadius: 0,
-                            borderTopRightRadius: 5,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontWeight: "bold",
-                              fontSize: 16,
-                              color: "#666",
-                              paddingRight: 20,
-                            }}
-                          >
-                            {u.club_name.toUpperCase()}
-                          </Text>
-                          <View
-                            style={{
-                              position: "absolute",
-                              top: 5,
-                              right: 5,
-                            }}
-                          >
-                            {u.need_arbitre ? (
-                              <View style={style.arbitrator_badge}>
-                                <Image
-                                  style={style.arbitrator_badge_image}
-                                  source={require("../../assets/tool.png")}
-                                />
-                              </View>
-                            ) : (
-                              <View />
-                            )}
-                          </View>
-                          <Text style={style.coach_name}>
-                            {u.coach_firstname + " " + u.coach_name}
-                          </Text>
-                          <View
-                            style={{
-                              flex: 1,
-                              flexDirection: "row",
-                              paddingTop: 5,
-                            }}
-                          >
-                            <View
-                              style={{
-                                flex: 1,
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                alignItems: "center",
-                                justifyContent: "flex-start",
-                                paddingTop: 5,
-                              }}
-                            >
-                              <Text style={style.category_badge}>
-                                {u.category}
-                              </Text>
-                              <Text style={style.level_badge}>
-                                {u.competition_level}
-                              </Text>
-                              <Text style={style.club_status}>
-                                {u.club_status}
-                              </Text>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                    </Body>
-                  </CardItem>
-                </Card>
+                <ListItem
+                  key={i}
+                  thumbnail
+                  button
+                  onPress={() => {
+                    console.log("ok");
+                  }}
+                  style={{
+                    backgroundColor: "#FFF",
+                  }}
+                >
+                  <Left>
+                    <Thumbnail square source={{ uri: u.lot.photo_url }} />
+                  </Left>
+                  <Body>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 14,
+                        color: "#666",
+                        paddingRight: 20,
+                      }}
+                    >
+                      {u.lot.starting_city.toUpperCase()}{" "}
+                      <Icon name="arrow-forward" style={{ fontSize: 14 }} />{" "}
+                      {u.lot.arrival_city.toUpperCase()}
+                    </Text>
+                    <Text style={style.coach_name}>
+                      {u.lot.delivry_start_date}{" "}
+                      <Icon
+                        name="arrow-back"
+                        style={{ fontSize: 14, color: "#ABABAB" }}
+                      />
+                      <Icon
+                        name="arrow-forward"
+                        style={{ fontSize: 14, color: "#ABABAB" }}
+                      />{" "}
+                      {u.lot.delivry_end_date}
+                    </Text>
+
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginVertical: 5,
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text style={style.price}>{u.price + "€"}</Text>
+                      <Text style={style.badge}>{u.lot.size + " m3"}</Text>
+                      <Text style={style.badge}>{u.service}</Text>
+                    </View>
+                  </Body>
+                </ListItem>
               );
             })}
-          </View>
+          </List>
         </ScrollView>
       </View>
     );
@@ -185,52 +116,21 @@ const style = StyleSheet.create({
   },
   coach_name: {
     color: "#ABABAB",
+    fontSize: 14,
   },
-  level_badge: {
-    backgroundColor: COLORS.primary_light,
-    color: "#FFF",
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 5,
-    marginRight: 5,
-    marginLeft: 5,
-    fontWeight: "bold",
-  },
-  category_badge: {
+  badge: {
     backgroundColor: COLORS.primary,
     color: "#FFF",
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
+    padding: 5,
+    marginRight: 5,
     borderRadius: 5,
+    fontSize: 10,
     fontWeight: "bold",
   },
-  arbitrator_badge: {
-    backgroundColor: COLORS.secondary,
-    width: 30,
-    height: 30,
-    padding: 10,
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    fontWeight: "bold",
-  },
-  arbitrator_badge_image: {
-    width: 20,
-    height: 20,
-  },
-  club_status: {
-    backgroundColor: COLORS.secondary,
-    color: "#666",
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 5,
+  price: {
+    color: COLORS.primary,
+    fontSize: 18,
+    marginRight: 10,
     fontWeight: "bold",
   },
 });

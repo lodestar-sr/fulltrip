@@ -10,7 +10,8 @@
   "dependencies": {
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/bottom-tabs": "^5.2.8",
-    "@react-navigation/native": "^5.1.7",
+    "@react-navigation/drawer": "^5.7.1",
+    "@react-navigation/native": "^5.2.6",
     "@react-navigation/stack": "^5.2.14",
     "expo": "~37.0.3",
     "expo-font": "~8.1.0",
@@ -21,6 +22,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
     "react-native-action-button": "^2.8.5",
     "react-native-calendars": "^1.265.0",
+    "react-native-drawer": "^2.5.1",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-reanimated": "~1.7.0",

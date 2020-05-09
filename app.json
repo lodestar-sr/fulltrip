@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Weezle",
-    "slug": "weezle",
+    "name": "FullTrip",
+    "slug": "fulltrip",
     "platforms": [
       "ios",
       "android",
@@ -22,7 +22,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.groweb.weezle",
+      "bundleIdentifier": "com.groweb.fulltrip",
       "buildNumber": "1.0.0",
       "supportsTablet": true,
       "splash": {
@@ -31,7 +31,7 @@
       }
     },
     "android": {
-      "package": "com.groweb.matchin",
+      "package": "com.groweb.fulltrip",
       "versionCode": 1,
       "splash": {
         "image": "./assets/splash.png",

@@ -9,38 +9,18 @@ import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
 
-import FooterTabComponent from "./components/footer-tab";
-
-import Dashboard from "./screens/dashboard";
-import CreateMatch from "./screens/create-match";
-import MatchDetails from "./screens/match-details";
-import SearchMatch from "./screens/search-match";
-import Menu from "./screens/menu";
+import CreateLot from "./screens/create-lot";
+import LotDetails from "./screens/lot-details";
+import SearchLot from "./screens/search-lot";
 import SignIn from "./screens/signin";
 import SignUp from "./screens/signup";
 
 import { COLORS } from "./styles/colors";
 
-const Stack = createStackNavigator();
-
-const animationConfig = {
-  animation: "spring",
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: false,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
+const Drawer = createDrawerNavigator();
 
 export default class App extends React.Component {
   constructor(props) {
@@ -72,46 +52,34 @@ export default class App extends React.Component {
         <StyleProvider style={getTheme(material)}>
           <View style={{ flex: 1 }}>
             <NavigationContainer>
-              <Stack.Navigator
-                initialRouteName="SignUp"
-                screenOptions={{
-                  headerTintColor: "#FFF",
-                  gestureEnabled: true,
-                  gestureDirection: "horizontal",
-                  headerStyle: {
-                    backgroundColor: COLORS.primary_dark,
-                    shadowColor: "#000",
-                    elevation: 10,
-                  },
-                }}
-              >
-                <Stack.Screen
-                  name="SearchMatch"
-                  component={SearchMatch}
-                  options={({ navigation: { navigate } }) => ({
-                    headerTitle: "Rechercher un match",
+              <Drawer.Navigator initialRouteName="SignUp">
+                <Drawer.Screen
+                  name="SearchLot"
+                  component={SearchLot}
+                  options={({ navigation }) => ({
+                    headerTitle: "Rechercher un lot",
                     headerLeft: () => (
                       <Button
-                        onPress={() => {
-                          navigate("Menu");
-                        }}
                         style={{
                           backgroundColor: "transparent",
                           elevation: 0,
+                        }}
+                        onPress={() => {
+                          navigation.openDrawer();
                         }}
                       >
                         <Icon
                           name="menu"
                           underlayColor="transparent"
-                          style={{ paddingTop: 5, color: "#FFF" }}
+                          style={{
+                            paddingTop: 5,
+                            color: "#FFF",
+                          }}
                         />
                       </Button>
                     ),
                     headerRight: () => (
                       <Button
-                        onPress={() => {
-                          navigate("Menu");
-                        }}
                         style={{
                           backgroundColor: "transparent",
                           elevation: 0,
@@ -120,42 +88,32 @@ export default class App extends React.Component {
                         <Icon
                           name="more"
                           underlayColor="transparent"
-                          style={{ paddingTop: 5, color: "#FFF" }}
+                          style={{
+                            paddingTop: 5,
+                            color: "#FFF",
+                          }}
                         />
                       </Button>
                     ),
                   })}
                 />
-                <Stack.Screen name="Dashboard" component={Dashboard} />
-                <Stack.Screen name="CreateMatch" component={CreateMatch} />
-                <Stack.Screen name="MatchDetails" component={MatchDetails} />
-                <Stack.Screen
+                <Drawer.Screen name="CreateLot" component={CreateLot} />
+                <Drawer.Screen name="LotDetails" component={LotDetails} />
+                <Drawer.Screen
                   name="SignIn"
                   component={SignIn}
                   options={{
                     headerShown: false,
                   }}
                 />
-                <Stack.Screen
+                <Drawer.Screen
                   name="SignUp"
                   component={SignUp}
                   options={{
                     headerShown: false,
                   }}
                 />
-                <Stack.Screen
-                  name="Menu"
-                  component={Menu}
-                  options={{
-                    transitionSpec: {
-                      open: animationConfig,
-                      close: animationConfig,
-                    },
-                    cardStyleInterpolator:
-                      CardStyleInterpolators.forHorizontalIOS,
-                  }}
-                />
-              </Stack.Navigator>
+              </Drawer.Navigator>
             </NavigationContainer>
           </View>
         </StyleProvider>
@@ -163,3 +121,13 @@ export default class App extends React.Component {
     );
   }
 }
+
+const drawerStyles = {
+  drawer: {
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    backgroundColor: "#000000",
+  },
+  main: { paddingLeft: 3, backgroundColor: "#000000" },
+};
