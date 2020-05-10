@@ -11,7 +11,7 @@ import {
   Thumbnail,
 } from "native-base";
 import { connect } from "react-redux";
-import { TEAM_DETAILS } from "../../mock.js";
+import { LOT_DETAILS } from "../../mock.js";
 import { COLORS } from "../../styles/colors.js";
 
 class SearchCard extends React.Component {
@@ -22,7 +22,7 @@ class SearchCard extends React.Component {
           <Button
             full
             style={{
-              backgroundColor: COLORS.primary,
+              backgroundColor: COLORS.primary_light,
             }}
           >
             <Icon name="options" />
@@ -35,7 +35,7 @@ class SearchCard extends React.Component {
               backgroundColor: "#FFF",
             }}
           >
-            {TEAM_DETAILS.data.map((u, i) => {
+            {LOT_DETAILS.data.map((u, i) => {
               return (
                 <ListItem
                   key={i}

@@ -1,4 +1,4 @@
-export const TEAM_DETAILS = {
+export const LOT_DETAILS = {
   data: [
     {
       travel_id: 1,

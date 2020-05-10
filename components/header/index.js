@@ -15,25 +15,25 @@ import { COLORS } from "../../styles/colors.js";
 
 export default class HeaderComponent extends React.Component {
   render() {
-    console.log(this.props.nav);
     return (
       <Header
         androidStatusBarColor={COLORS.primary_dark}
-        style={{ backgroundColor: COLORS.primary_dark }}
+        style={{ backgroundColor: this.props.headerBackgroundColor }}
+        noShadow={this.props.shadow}
       >
         <Left>
-          <Button
-            transparent
-            onPress={() => {
-              this.props.nav.openDrawer();
-            }}
-          >
-            <Icon name="menu" />
+          <Button transparent onPress={() => this.props.iconLeftOnPress()}>
+            <Icon name={this.props.iconLeft} />
           </Button>
         </Left>
         <Body>
-          <Title>Rechercher un lot</Title>
+          <Title>{this.props.title}</Title>
         </Body>
+        <Right>
+          <Button transparent onPress={() => this.props.iconRightOnPress()}>
+            <Icon name={this.props.iconRight} />
+          </Button>
+        </Right>
       </Header>
     );
   }
