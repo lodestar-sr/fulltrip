@@ -47,6 +47,7 @@ export default class App extends React.Component {
     if (!this.state.isReady) {
       return <AppLoading />;
     }
+
     return (
       <Provider store={store}>
         <StyleProvider style={getTheme(material)}>

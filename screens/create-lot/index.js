@@ -32,14 +32,14 @@ class CreateLot extends React.Component {
       finished: false,
       owner_validation: false,
       client_validation: false,
+      disponibility_date: new Date(),
+      creation_date: new Date(),
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (n, v) => {
     this.setState({ [n]: v });
-
-    console.log(this.state);
   };
 
   _next() {
@@ -62,6 +62,11 @@ class CreateLot extends React.Component {
 
   addLot() {
     insertLot(this.state);
+  }
+
+  setDate(newDate) {
+    this.setState({ disponibility_date: newDate });
+    console.log(this.state);
   }
 
   get nextButton() {
@@ -195,6 +200,7 @@ class CreateLot extends React.Component {
               photo_url={this.state.photo_url}
               currentStep={this.state.currentStep}
               handleChange={this.handleChange}
+              setDate={this.setDate}
             />
             <View
               style={{

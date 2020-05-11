@@ -1,6 +1,15 @@
 import React from "react";
 import { View } from "react-native";
-import { Form, Item, Label, Input, Text, H1, Textarea } from "native-base";
+import {
+  Form,
+  Item,
+  Label,
+  Input,
+  Text,
+  H1,
+  Textarea,
+  DatePicker,
+} from "native-base";
 
 import { COLORS } from "../../../styles/colors.js";
 
@@ -35,6 +44,20 @@ export const Step3 = (props) => {
         }}
       >
         <Form>
+          <DatePicker
+            defaultDate={new Date()}
+            minimumDate={new Date()}
+            maximumDate={new Date(2050, 12, 31)}
+            locale={"fr"}
+            timeZoneOffsetInMinutes={undefined}
+            modalTransparent={false}
+            animationType={"fade"}
+            androidMode={"spinner"}
+            placeHolderText="Date de disponnibilité du lot"
+            placeHolderTextStyle={{ color: "#333333" }}
+            onDateChange={() => props.setDate()}
+            disabled={false}
+          />
           <Item floatingLabel>
             <Label style={{ marginVertical: 10, lineHeight: 14 }}>
               Photo du lot
@@ -49,7 +72,7 @@ export const Step3 = (props) => {
           </Item>
           <Item floatingLabel style={{ marginVertical: 10 }}>
             <Label style={{ lineHeight: 14 }}>Commentaires</Label>
-            <Input
+            <Textarea
               name="comments"
               value={props.comments}
               onChange={(v) => {

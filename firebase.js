@@ -1,3 +1,4 @@
+window.addEventListener = (x) => x;
 import * as firebase from "firebase";
 const firebaseConfig = {
   apiKey: "AIzaSyA1bL0g3QQatTU161FYTNr8sujJBqkXUkw",
