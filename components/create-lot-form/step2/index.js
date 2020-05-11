@@ -4,8 +4,8 @@ import { Form, Item, Label, Picker, Input, Text, Icon, H1 } from "native-base";
 
 import { COLORS } from "../../../styles/colors.js";
 
-export const Step1 = (props) => {
-  if (props.currentStep !== 1) {
+export const Step2 = (props) => {
+  if (props.currentStep !== 2) {
     // Prop: The current step
     return null;
   }
@@ -18,10 +18,9 @@ export const Step1 = (props) => {
           marginVertical: 50,
         }}
       >
-        <H1 style={{ color: "#FFF", textAlign: "center" }}>Au départ</H1>
+        <H1 style={{ color: "#FFF", textAlign: "center" }}>À l'arrivée</H1>
         <Text style={{ color: "#FFF", textAlign: "center" }}>
-          Renseignez l'ensemble des informations utiles à l'enlèvement de votre
-          lot
+          Renseignez l'ensemble des informations utiles à la dépose de votre lot
         </Text>
       </View>
       <View
@@ -36,13 +35,13 @@ export const Step1 = (props) => {
       >
         <Form>
           <Item floatingLabel>
-            <Label style={{ lineHeight: 14 }}>Adresse de départ</Label>
+            <Label style={{ lineHeight: 14 }}>Adresse d'arrivée</Label>
             <Input
-              name="starting_address"
-              value={props.starting_address}
+              name="arrival_address"
               style={{ padding: 5 }}
+              value={props.arrival_address}
               onChange={(v) => {
-                props.handleChange("starting_address", v.nativeEvent.text);
+                props.handleChange("arrival_address", v.nativeEvent.text);
               }}
             />
           </Item>
@@ -57,15 +56,15 @@ export const Step1 = (props) => {
             <Item picker style={{ marginLeft: 10, flex: 1 }}>
               <Picker
                 mode="dialog"
-                name="starting_access_type"
+                name="arrival_access_type"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{ width: undefined }}
                 placeholder="Sélectionnez"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
-                selectedValue={props.starting_access_type}
+                selectedValue={props.arrival_access_type}
                 onValueChange={(value) => {
-                  props.handleChange("starting_access_type", value);
+                  props.handleChange("arrival_access_type", value);
                 }}
               >
                 <Picker.Item label="Sélectionnez" value="Sélectionnez" />
@@ -75,17 +74,34 @@ export const Step1 = (props) => {
               </Picker>
             </Item>
           </View>
-          <Item floatingLabel style={{ marginBottom: 10, marginTop: 0 }}>
-            <Label style={{ lineHeight: 14 }}>Quantité en m3</Label>
-            <Input
-              keyboardType="number-pad"
-              name="quantity"
-              value={props.quantity}
-              onChange={(v) => {
-                props.handleChange("quantity", v.nativeEvent.text);
-              }}
-            />
-          </Item>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ marginLeft: 10 }}>Prestation</Text>
+            <Item picker style={{ marginLeft: 10, flex: 1 }}>
+              <Picker
+                mode="dialog"
+                name="service"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
+                placeholder="Sélectionnez"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={props.service}
+                onValueChange={(value) => {
+                  props.handleChange("service", value);
+                }}
+              >
+                <Picker.Item label="Sélectionnez" value="Sélectionnez" />
+                <Picker.Item label="Economique" value="Economique" />
+                <Picker.Item label="Standard" value="Standard" />
+                <Picker.Item label="Luxe" value="Luxe" />
+              </Picker>
+            </Item>
+          </View>
         </Form>
       </View>
     </View>
