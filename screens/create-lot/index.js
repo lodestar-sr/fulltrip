@@ -2,28 +2,36 @@ import React from "react";
 import { View, ScrollView, ImageBackground, StyleSheet } from "react-native";
 import { Text, Button, Left, Right } from "native-base";
 import HeaderComponent from "../../components/header";
+import { connect } from "react-redux";
 import { Step1 } from "../../components/create-lot-form/step1";
 import { Step2 } from "../../components/create-lot-form/step2";
 import { Step3 } from "../../components/create-lot-form/step3";
+import { insertLot } from "../../services/database";
 
 import { COLORS } from "../../styles/colors.js";
 
 const image = require("../../assets/bg.jpg");
 
-export default class CreateLot extends React.Component {
+class CreateLot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      owner_uid: this.props.currentUser.uid,
+      client_uid: "",
       currentStep: 1,
-      starting_address: "",
-      arrival_address: "",
-      starting_access_type: "",
-      arrival_access_type: "",
-      quantity: "",
-      service: "",
-      photo_url: "",
-      price: "",
-      comments: "",
+      starting_address: "test",
+      arrival_address: "test",
+      starting_access_type: "test",
+      arrival_access_type: "test",
+      quantity: "333",
+      service: "test",
+      photo_url: "test",
+      price: "333",
+      comments: "test",
+      active: false,
+      finished: false,
+      owner_validation: false,
+      client_validation: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -53,7 +61,7 @@ export default class CreateLot extends React.Component {
   }
 
   addLot() {
-    console.log("Lot ajouté !", this.state);
+    insertLot(this.state);
   }
 
   get nextButton() {
@@ -210,3 +218,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const mapStateToProps = (store) => {
+  return {
+    currentUser: store.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(CreateLot);

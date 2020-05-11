@@ -60,6 +60,7 @@ export const Step3 = (props) => {
           <Item floatingLabel style={{ marginVertical: 10 }}>
             <Label style={{ lineHeight: 14 }}>Prix</Label>
             <Input
+              keyboardType="number-pad"
               name="price"
               value={props.price}
               onChange={(v) => {
