@@ -5,10 +5,11 @@ import {
   Item,
   Label,
   Input,
+  Button,
+  Icon,
   Text,
   H1,
   Textarea,
-  DatePicker,
 } from "native-base";
 
 import { COLORS } from "../../../styles/colors.js";
@@ -24,7 +25,7 @@ export const Step3 = (props) => {
         style={{
           alignItems: "center",
           marginHorizontal: 20,
-          marginVertical: 50,
+          marginVertical: 40,
         }}
       >
         <H1 style={{ color: "#FFF", textAlign: "center" }}>Derniers détails</H1>
@@ -44,42 +45,25 @@ export const Step3 = (props) => {
         }}
       >
         <Form>
-          <DatePicker
-            defaultDate={new Date()}
-            minimumDate={new Date()}
-            maximumDate={new Date(2050, 12, 31)}
-            locale={"fr"}
-            timeZoneOffsetInMinutes={undefined}
-            modalTransparent={false}
-            animationType={"fade"}
-            androidMode={"spinner"}
-            placeHolderText="Date de disponnibilité du lot"
-            placeHolderTextStyle={{ color: "#333333" }}
-            onDateChange={() => props.setDate()}
-            disabled={false}
+          <Button
+            bordered
+            style={{ justifyContent: "center", marginVertical: 10 }}
+          >
+            <Icon name="camera"></Icon>
+            <Text>Ajouter une photo</Text>
+          </Button>
+          <Textarea
+            bordered
+            style={{ paddingVertical: 10, borderRadius: 10 }}
+            placeholderTextColor="#CDCDCD"
+            rowSpan={5}
+            placeholder="Détaillez votre lot"
+            name="comments"
+            value={props.comments}
+            onChange={(v) => {
+              props.handleChange("comments", v.nativeEvent.text);
+            }}
           />
-          <Item floatingLabel>
-            <Label style={{ marginVertical: 10, lineHeight: 14 }}>
-              Photo du lot
-            </Label>
-            <Input
-              name="photo_url"
-              style={{ padding: 5 }}
-              onChange={(v) => {
-                props.handleChange("photo_url", v.nativeEvent.text);
-              }}
-            />
-          </Item>
-          <Item floatingLabel style={{ marginVertical: 10 }}>
-            <Label style={{ lineHeight: 14 }}>Commentaires</Label>
-            <Textarea
-              name="comments"
-              value={props.comments}
-              onChange={(v) => {
-                props.handleChange("comments", v.nativeEvent.text);
-              }}
-            />
-          </Item>
           <Item floatingLabel style={{ marginVertical: 10 }}>
             <Label style={{ lineHeight: 14 }}>Prix</Label>
             <Input

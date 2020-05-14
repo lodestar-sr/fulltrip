@@ -98,7 +98,7 @@ export default class App extends React.Component {
                     ),
                   })}
                 />
-                <Drawer.Screen name="CreateLot" component={CreateLot} />
+                <Drawer.Screen name="Proposer un lot" component={CreateLot} />
                 <Drawer.Screen name="LotDetails" component={LotDetails} />
                 <Drawer.Screen
                   name="SignIn"

@@ -19,15 +19,15 @@ class CreateLot extends React.Component {
       owner_uid: this.props.currentUser.uid,
       client_uid: "",
       currentStep: 1,
-      starting_address: "test",
-      arrival_address: "test",
-      starting_access_type: "test",
-      arrival_access_type: "test",
-      quantity: "333",
-      service: "test",
-      photo_url: "test",
-      price: "333",
-      comments: "test",
+      starting_address: "",
+      arrival_address: "",
+      starting_access_type: "",
+      arrival_access_type: "",
+      quantity: "",
+      service: "",
+      photo_url: "",
+      price: "",
+      comments: "",
       active: false,
       finished: false,
       owner_validation: false,
@@ -166,20 +166,20 @@ class CreateLot extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#FFF" }}>
-        <HeaderComponent
-          title="Proposer un lot"
-          iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
-          iconRight="close"
-          iconRightOnPress={() => this.props.navigation.navigate("SearchLot")}
-          shadow={true}
-          headerBackgroundColor={COLORS.primary_dark}
-          iconLeftOnPress={
-            this.state.currentStep != 1 ? () => this._prev() : ""
-          }
-        />
-        <ScrollView>
-          <ImageBackground source={image} style={styles.image}>
+      <ImageBackground source={image} style={styles.image}>
+        <View style={{ flex: 1 }}>
+          <HeaderComponent
+            title="Proposer un lot"
+            iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
+            iconRight="close"
+            iconRightOnPress={() => this.props.navigation.navigate("SearchLot")}
+            shadow={true}
+            headerBackgroundColor={COLORS.primary_dark}
+            iconLeftOnPress={
+              this.state.currentStep != 1 ? () => this._prev() : ""
+            }
+          />
+          <ScrollView>
             <Step1
               starting_address={this.state.starting_address}
               starting_access_type={this.state.starting_access_type}
@@ -210,9 +210,9 @@ class CreateLot extends React.Component {
             >
               {this.nextButton}
             </View>
-          </ImageBackground>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      </ImageBackground>
     );
   }
 }
