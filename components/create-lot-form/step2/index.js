@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Form, Item, Label, Picker, Input, Text, Icon, H1 } from "native-base";
 
 import { COLORS } from "../../../styles/colors.js";
+import GooglePlacesAutocomplete from "react-native-google-places-autocomplete";
 
 export const Step2 = (props) => {
   if (props.currentStep !== 2) {
@@ -34,14 +35,26 @@ export const Step2 = (props) => {
         }}
       >
         <Form>
-          <Item floatingLabel>
-            <Label style={{ lineHeight: 14 }}>Adresse d'arrivée</Label>
-            <Input
-              name="arrival_address"
-              style={{ padding: 5 }}
-              value={props.arrival_address}
-              onChange={(v) => {
-                props.handleChange("arrival_address", v.nativeEvent.text);
+          <Item>
+            <GooglePlacesAutocomplete
+              placeholder="Adresse de départ"
+              minLength={2}
+              autoFocus={false}
+              fetchDetails={true}
+              listViewDisplayed={false}
+              onPress={(data, details = null) => {
+                console.log(data, details);
+                props.handleChange("arrival_address", data);
+              }}
+              query={{
+                key: 'AIzaSyAviivTDt0XzleVXCCrY3TDqeHZkaEjB4U',
+                language: 'en'
+              }}
+              styles={{
+                textInputContainer: {
+                  backgroundColor: 'rgba(0,0,0,0)',
+                  borderTopWidth: 0,
+                }
               }}
             />
           </Item>

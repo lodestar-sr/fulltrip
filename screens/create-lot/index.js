@@ -179,7 +179,9 @@ class CreateLot extends React.Component {
               this.state.currentStep != 1 ? () => this._prev() : ""
             }
           />
-          <ScrollView>
+          <ScrollView
+              keyboardShouldPersistTaps="always"
+          >
             <Step1
               starting_address={this.state.starting_address}
               starting_access_type={this.state.starting_access_type}
