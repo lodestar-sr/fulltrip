@@ -166,7 +166,9 @@ class CreateLot extends React.Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+      >
         <ImageBackground source={image} style={styles.image}>
           <View style={{ flex: 1 }}>
             <HeaderComponent

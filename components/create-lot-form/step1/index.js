@@ -1,13 +1,19 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import {View} from "react-native";
 import {Form, H1, Icon, Input, Item, Label, Picker, Text} from "native-base";
 import GooglePlacesAutocomplete from "react-native-google-places-autocomplete";
+import {add} from "react-native-reanimated";
 
 export const Step1 = (props) => {
   if (props.currentStep !== 1) {
     // Prop: The current step
     return null;
   }
+
+  const addressRef = useRef();
+  useEffect(() => {
+    addressRef.current.setAddressText(props.starting_address.description);
+  });
   return (
     <View>
       <View
@@ -54,7 +60,7 @@ export const Step1 = (props) => {
                   borderTopWidth: 0,
                 }
               }}
-              textInputProps={props.starting_address}
+              ref={addressRef}
             />
           </Item>
           <View

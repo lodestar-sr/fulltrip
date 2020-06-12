@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import { View } from "react-native";
 import { Form, Item, Label, Picker, Input, Text, Icon, H1 } from "native-base";
 
@@ -10,6 +10,11 @@ export const Step2 = (props) => {
     // Prop: The current step
     return null;
   }
+
+  const addressRef = useRef();
+  useEffect(() => {
+    addressRef.current.setAddressText(props.arrival_address.description);
+  });
   return (
     <View>
       <View
@@ -56,6 +61,7 @@ export const Step2 = (props) => {
                   borderTopWidth: 0,
                 }
               }}
+              ref={addressRef}
             />
           </Item>
           <View
