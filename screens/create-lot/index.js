@@ -1,14 +1,14 @@
 import React from "react";
-import { View, ScrollView, ImageBackground, StyleSheet } from "react-native";
-import { Text, Button, Left, Right } from "native-base";
+import {ActivityIndicator, ImageBackground, ScrollView, StyleSheet, View} from "react-native";
+import {Button, Right, Text} from "native-base";
 import HeaderComponent from "../../components/header";
-import { connect } from "react-redux";
-import { Step1 } from "../../components/create-lot-form/step1";
-import { Step2 } from "../../components/create-lot-form/step2";
-import { Step3 } from "../../components/create-lot-form/step3";
-import { insertLot } from "../../services/database";
+import {connect} from "react-redux";
+import {Step1} from "../../components/create-lot-form/step1";
+import {Step2} from "../../components/create-lot-form/step2";
+import {Step3} from "../../components/create-lot-form/step3";
+import {insertLot} from "../../services/database";
 
-import { COLORS } from "../../styles/colors.js";
+import {COLORS} from "../../styles/colors.js";
 
 const image = require("../../assets/bg.jpg");
 
@@ -34,12 +34,13 @@ class CreateLot extends React.Component {
       client_validation: false,
       disponibility_date: new Date(),
       creation_date: new Date(),
+      loading: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (n, v) => {
-    this.setState({ [n]: v });
+    this.setState({[n]: v});
   };
 
   _next() {
@@ -61,13 +62,18 @@ class CreateLot extends React.Component {
   }
 
   addLot() {
+    this.setState({loading: true});
     insertLot(this.state).then(() => {
       console.log('Insert Data Successfully');
+      this.setState({loading: false});
+      this.props.navigation.navigate("SearchLot")
+    }).catch(err => {
+      this.setState({loading: false});
     });
   }
 
   setDate(newDate) {
-    this.setState({ disponibility_date: newDate });
+    this.setState({disponibility_date: newDate});
     console.log(this.state);
   }
 
@@ -167,63 +173,80 @@ class CreateLot extends React.Component {
   }
 
   render() {
+
     return (
-      <ScrollView
-        keyboardShouldPersistTaps="always"
-      >
-        <ImageBackground source={image} style={styles.image}>
-          <View style={{ flex: 1 }}>
-            <HeaderComponent
-              title="Proposer un lot"
-              iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
-              iconRight="close"
-              iconRightOnPress={() =>
-                this.props.navigation.navigate("SearchLot")
-              }
-              shadow={true}
-              headerBackgroundColor={COLORS.primary}
-              headerTextColor={"#FFF"}
-              iconLeftOnPress={
-                this.state.currentStep != 1 ? () => this._prev() : ""
-              }
-            />
+      <>
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+        >
+          <ImageBackground source={image} style={styles.image}>
+            <View style={{flex: 1}}>
+              <HeaderComponent
+                title="Proposer un lot"
+                iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
+                iconRight="close"
+                iconRightOnPress={() =>
+                  this.props.navigation.navigate("SearchLot")
+                }
+                shadow={true}
+                headerBackgroundColor={COLORS.primary}
+                headerTextColor={"#FFF"}
+                iconLeftOnPress={
+                  this.state.currentStep != 1 ? () => this._prev() : ""
+                }
+              />
               <ScrollView
                 keyboardShouldPersistTaps="always"
               >
-              <Step1
-                starting_address={this.state.starting_address}
-                starting_access_type={this.state.starting_access_type}
-                quantity={this.state.quantity}
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-              />
-              <Step2
-                arrival_address={this.state.arrival_address}
-                arrival_access_type={this.state.arrival_access_type}
-                service={this.state.service}
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-              />
-              <Step3
-                comments={this.state.comments}
-                price={this.state.price}
-                photo_url={this.state.photo_url}
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-                setDate={this.setDate}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  margin: 20,
-                }}
-              >
-                {this.nextButton}
-              </View>
-            </ScrollView>
-          </View>
-        </ImageBackground>
-      </ScrollView>
+                <Step1
+                  starting_address={this.state.starting_address}
+                  starting_access_type={this.state.starting_access_type}
+                  quantity={this.state.quantity}
+                  currentStep={this.state.currentStep}
+                  handleChange={this.handleChange}
+                />
+                <Step2
+                  arrival_address={this.state.arrival_address}
+                  arrival_access_type={this.state.arrival_access_type}
+                  service={this.state.service}
+                  currentStep={this.state.currentStep}
+                  handleChange={this.handleChange}
+                />
+                <Step3
+                  comments={this.state.comments}
+                  price={this.state.price}
+                  photo_url={this.state.photo_url}
+                  currentStep={this.state.currentStep}
+                  handleChange={this.handleChange}
+                  setDate={this.setDate}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    margin: 20,
+                  }}
+                >
+                  {this.nextButton}
+                </View>
+              </ScrollView>
+            </View>
+          </ImageBackground>
+        </ScrollView>
+        {
+          this.state.loading ? <View style={{
+            position: 'absolute',
+            backgroundColor: '#ff000030',
+            width: '100%',
+            height: '100%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            zIndex: 10000,
+          }}
+          >
+            <ActivityIndicator size="large" color="#ff0000"/>
+          </View> : null
+        }
+      </>
     );
   }
 }
