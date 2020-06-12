@@ -11,6 +11,7 @@ import {
   Text,
   Icon,
   H1,
+  H2,
   Toast,
   Root,
 } from "native-base";
@@ -88,11 +89,11 @@ class SignUp extends React.Component {
           }}
           scrollEnabled
         >
-          <StatusBar backgroundColor={COLORS.primary_dark} />
+          <StatusBar backgroundColor={COLORS.primary} />
           <Container
             style={{
               flex: 1,
-              backgroundColor: COLORS.primary_dark,
+              backgroundColor: COLORS.primary,
             }}
           >
             <View
@@ -102,7 +103,15 @@ class SignUp extends React.Component {
                 justifyContent: "center",
               }}
             >
-              <H1 style={{ color: "#FFF" }}>Créer un compte</H1>
+              <H1 style={{ color: "#FFF" }}>Bienvenue</H1>
+              <Text
+                style={{
+                  color: "#FFF",
+                  textAlign: "center",
+                }}
+              >
+                Veuillez créer un compte pour pouvoir accéder à l'application
+              </Text>
             </View>
             <View
               style={{
@@ -185,7 +194,7 @@ class SignUp extends React.Component {
                   >
                     <Text>Déjà un compte ? </Text>
                     <Text
-                      style={{ color: COLORS.primary_dark }}
+                      style={{ color: COLORS.primary }}
                       onPress={() => this.props.navigation.navigate("SignIn")}
                     >
                       Se connecter
@@ -195,7 +204,7 @@ class SignUp extends React.Component {
                     block
                     rounded
                     style={{
-                      backgroundColor: COLORS.primary_dark,
+                      backgroundColor: COLORS.primary,
                     }}
                     onPress={() => {
                       this.handleSignUpForm();

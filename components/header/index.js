@@ -17,17 +17,24 @@ export default class HeaderComponent extends React.Component {
   render() {
     return (
       <Header
-        androidStatusBarColor={COLORS.primary_dark}
-        style={{ backgroundColor: this.props.headerBackgroundColor }}
+        androidStatusBarColor={COLORS.primary}
+        style={{
+          backgroundColor: this.props.headerBackgroundColor,
+        }}
         noShadow={this.props.shadow}
       >
         <Left>
           <Button transparent onPress={() => this.props.iconLeftOnPress()}>
-            <Icon name={this.props.iconLeft} />
+            <Icon
+              name={this.props.iconLeft}
+              style={{ color: this.props.headerTextColor }}
+            />
           </Button>
         </Left>
         <Body>
-          <Title>{this.props.title}</Title>
+          <Title style={{ color: this.props.headerTextColor }}>
+            {this.props.title}
+          </Title>
         </Body>
         <Right>
           <Button transparent onPress={() => this.props.iconRightOnPress()}>
