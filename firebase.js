@@ -1,5 +1,7 @@
 window.addEventListener = (x) => x;
 import * as firebase from "firebase";
+require("firebase/firestore");
+
 const firebaseConfig = {
   apiKey: "AIzaSyA1bL0g3QQatTU161FYTNr8sujJBqkXUkw",
   authDomain: "fulltrip.firebaseapp.com",
@@ -11,3 +13,5 @@ const firebaseConfig = {
   measurementId: "G-R68X35NNVS",
 };
 firebase.initializeApp(firebaseConfig);
+
+export default firebase;

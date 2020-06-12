@@ -18,6 +18,12 @@ import SearchLot from "./screens/search-lot";
 import SignIn from "./screens/signin";
 import SignUp from "./screens/signup";
 
+import {decode, encode} from 'base-64'
+
+if (!global.btoa) {  global.btoa = encode }
+
+if (!global.atob) { global.atob = decode }
+
 import { COLORS } from "./styles/colors";
 
 const Drawer = createDrawerNavigator();

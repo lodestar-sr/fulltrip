@@ -16,7 +16,7 @@ class CreateLot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      owner_uid: this.props.currentUser.uid,
+      owner_uid: this.props.currentUser.uid ? this.props.currentUser.uid : '',
       client_uid: "",
       currentStep: 1,
       starting_address: "",
@@ -61,7 +61,9 @@ class CreateLot extends React.Component {
   }
 
   addLot() {
-    insertLot(this.state);
+    insertLot(this.state).then(() => {
+      console.log('Insert Data Successfully');
+    });
   }
 
   setDate(newDate) {

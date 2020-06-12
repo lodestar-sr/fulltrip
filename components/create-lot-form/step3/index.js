@@ -11,6 +11,7 @@ import {
   H1,
   Textarea,
 } from "native-base";
+import * as ImagePicker from 'expo-image-picker';
 
 import { COLORS } from "../../../styles/colors.js";
 
@@ -19,6 +20,23 @@ export const Step3 = (props) => {
     // Prop: The current step
     return null;
   }
+
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchCameraAsync();
+    console.log(pickerResult);
+
+    if (pickerResult && pickerResult.uri) {
+      props.handleChange("photo_url", pickerResult.uri);
+    }
+  }
+
   return (
     <View>
       <View
@@ -48,6 +66,7 @@ export const Step3 = (props) => {
           <Button
             bordered
             style={{ justifyContent: "center", marginVertical: 10 }}
+            onPress={openImagePickerAsync}
           >
             <Icon name="camera"></Icon>
             <Text>Ajouter une photo</Text>
