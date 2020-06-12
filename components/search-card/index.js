@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
+import { StyleSheet, View, ScrollView, Image } from "react-native";
 import {
   Button,
   Icon,
@@ -8,6 +8,7 @@ import {
   Body,
   Left,
   Right,
+  Text,
   Thumbnail,
 } from "native-base";
 import { connect } from "react-redux";
@@ -17,19 +18,91 @@ import { COLORS } from "../../styles/colors.js";
 class SearchCard extends React.Component {
   render() {
     return (
-      <View style={{ paddingBottom: 200 }}>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Button
-            full
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: "#FFF" }}
+      >
+        <View style={{ paddingBottom: 50 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
             style={{
-              backgroundColor: COLORS.primary_light,
+              flexDirection: "row",
             }}
           >
-            <Icon name="options" />
-            <Text style={{ fontSize: 16, color: "#FFF" }}>Filtres</Text>
-          </Button>
-        </View>
-        <ScrollView>
+            <Button
+              small
+              bordered
+              iconLeft
+              style={{
+                borderColor: "#999",
+                margin: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Icon
+                type="MaterialIcons"
+                name="filter-list"
+                style={{ color: "#999", fontSize: 16 }}
+              />
+              <Text uppercase={false} style={{ fontSize: 12, color: "#666" }}>
+                Filtres
+              </Text>
+            </Button>
+            <Button
+              small
+              bordered
+              iconLeft
+              style={{
+                borderColor: "#999",
+                margin: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Icon
+                type="Foundation"
+                name="marker"
+                style={{ color: "#999", fontSize: 16 }}
+              />
+              <Text uppercase={false} style={{ fontSize: 12, color: "#666" }}>
+                Localisation
+              </Text>
+            </Button>
+            <Button
+              small
+              bordered
+              iconLeft
+              style={{
+                borderColor: "#999",
+                margin: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Icon name="locate" style={{ color: "#999", fontSize: 16 }} />
+              <Text uppercase={false} style={{ fontSize: 12, color: "#666" }}>
+                Autour de moi
+              </Text>
+            </Button>
+            <Button
+              small
+              bordered
+              iconLeft
+              style={{
+                borderColor: "#999",
+                margin: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Icon
+                type="MaterialIcons"
+                name="sort"
+                style={{ color: "#999", fontSize: 16 }}
+              />
+              <Text uppercase={false} style={{ fontSize: 12, color: "#666" }}>
+                Trier par
+              </Text>
+            </Button>
+          </ScrollView>
           <List
             style={{
               backgroundColor: "#FFF",
@@ -42,7 +115,7 @@ class SearchCard extends React.Component {
                   thumbnail
                   button
                   onPress={() => {
-                    console.log("ok");
+                    this.props.viewLotDetails(u);
                   }}
                   style={{
                     backgroundColor: "#FFF",
@@ -58,23 +131,12 @@ class SearchCard extends React.Component {
                         fontSize: 14,
                         color: "#666",
                         paddingRight: 20,
+                        paddingVertical: 5,
                       }}
                     >
                       {u.lot.starting_city.toUpperCase()}{" "}
                       <Icon name="arrow-forward" style={{ fontSize: 14 }} />{" "}
                       {u.lot.arrival_city.toUpperCase()}
-                    </Text>
-                    <Text style={style.coach_name}>
-                      {u.lot.delivry_start_date}{" "}
-                      <Icon
-                        name="arrow-back"
-                        style={{ fontSize: 14, color: "#ABABAB" }}
-                      />
-                      <Icon
-                        name="arrow-forward"
-                        style={{ fontSize: 14, color: "#ABABAB" }}
-                      />{" "}
-                      {u.lot.delivry_end_date}
                     </Text>
 
                     <View
@@ -93,34 +155,18 @@ class SearchCard extends React.Component {
               );
             })}
           </List>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const style = StyleSheet.create({
-  addButton: {
-    bottom: 30,
-    borderRadius: 100,
-    width: 60,
-    height: 60,
-    backgroundColor: COLORS.special,
-    flex: 0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addButtonIcon: {
-    color: "#FFF",
-    fontSize: 40,
-  },
-  coach_name: {
-    color: "#ABABAB",
-    fontSize: 14,
-  },
   badge: {
-    backgroundColor: COLORS.primary,
-    color: "#FFF",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "#666",
+    color: "#666",
     padding: 5,
     marginRight: 5,
     borderRadius: 5,
@@ -128,7 +174,7 @@ const style = StyleSheet.create({
     fontWeight: "bold",
   },
   price: {
-    color: COLORS.primary,
+    color: "#666",
     fontSize: 18,
     marginRight: 10,
     fontWeight: "bold",

@@ -166,55 +166,60 @@ class CreateLot extends React.Component {
 
   render() {
     return (
-      <ImageBackground source={image} style={styles.image}>
-        <View style={{ flex: 1 }}>
-          <HeaderComponent
-            title="Proposer un lot"
-            iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
-            iconRight="close"
-            iconRightOnPress={() => this.props.navigation.navigate("SearchLot")}
-            shadow={true}
-            headerBackgroundColor={COLORS.primary_dark}
-            iconLeftOnPress={
-              this.state.currentStep != 1 ? () => this._prev() : ""
-            }
-          />
-          <ScrollView
-              keyboardShouldPersistTaps="always"
-          >
-            <Step1
-              starting_address={this.state.starting_address}
-              starting_access_type={this.state.starting_access_type}
-              quantity={this.state.quantity}
-              currentStep={this.state.currentStep}
-              handleChange={this.handleChange}
+      <ScrollView>
+        <ImageBackground source={image} style={styles.image}>
+          <View style={{ flex: 1 }}>
+            <HeaderComponent
+              title="Proposer un lot"
+              iconLeft={this.state.currentStep != 1 ? "arrow-back" : null}
+              iconRight="close"
+              iconRightOnPress={() =>
+                this.props.navigation.navigate("SearchLot")
+              }
+              shadow={true}
+              headerBackgroundColor={COLORS.primary}
+              headerTextColor={"#FFF"}
+              iconLeftOnPress={
+                this.state.currentStep != 1 ? () => this._prev() : ""
+              }
             />
-            <Step2
-              arrival_address={this.state.arrival_address}
-              arrival_access_type={this.state.arrival_access_type}
-              service={this.state.service}
-              currentStep={this.state.currentStep}
-              handleChange={this.handleChange}
-            />
-            <Step3
-              comments={this.state.comments}
-              price={this.state.price}
-              photo_url={this.state.photo_url}
-              currentStep={this.state.currentStep}
-              handleChange={this.handleChange}
-              setDate={this.setDate}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                margin: 20,
-              }}
-            >
-              {this.nextButton}
-            </View>
-          </ScrollView>
-        </View>
-      </ImageBackground>
+              <ScrollView
+                keyboardShouldPersistTaps="always"
+              >
+              <Step1
+                starting_address={this.state.starting_address}
+                starting_access_type={this.state.starting_access_type}
+                quantity={this.state.quantity}
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+              />
+              <Step2
+                arrival_address={this.state.arrival_address}
+                arrival_access_type={this.state.arrival_access_type}
+                service={this.state.service}
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+              />
+              <Step3
+                comments={this.state.comments}
+                price={this.state.price}
+                photo_url={this.state.photo_url}
+                currentStep={this.state.currentStep}
+                handleChange={this.handleChange}
+                setDate={this.setDate}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  margin: 20,
+                }}
+              >
+                {this.nextButton}
+              </View>
+            </ScrollView>
+          </View>
+        </ImageBackground>
+      </ScrollView>
     );
   }
 }

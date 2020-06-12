@@ -88,11 +88,11 @@ class SignIn extends React.Component {
           }}
           scrollEnabled
         >
-          <StatusBar backgroundColor={COLORS.primary_dark} />
+          <StatusBar backgroundColor={COLORS.primary} />
           <Container
             style={{
               flex: 1,
-              backgroundColor: COLORS.primary_dark,
+              backgroundColor: COLORS.primary,
             }}
           >
             <View
@@ -185,7 +185,7 @@ class SignIn extends React.Component {
                   >
                     <Text>Pas encore de compte ? </Text>
                     <Text
-                      style={{ color: COLORS.primary_dark }}
+                      style={{ color: COLORS.primary }}
                       onPress={() => this.props.navigation.goBack()}
                     >
                       Créer un compte
@@ -195,7 +195,7 @@ class SignIn extends React.Component {
                     block
                     rounded
                     style={{
-                      backgroundColor: COLORS.primary_dark,
+                      backgroundColor: COLORS.primary,
                     }}
                     onPress={() => {
                       this.handleSignInForm();

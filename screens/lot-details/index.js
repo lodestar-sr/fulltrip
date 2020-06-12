@@ -1,12 +1,13 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
-export default class LotDetails extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const LotDetails = ({ route, navigation }) => {
+  const data = route.params.data;
+  return (
+    <View>
+      <Text>{data.lot.arrival_city}</Text>
+    </View>
+  );
+};
 
-  render() {
-    return <View></View>;
-  }
-}
+export default LotDetails;

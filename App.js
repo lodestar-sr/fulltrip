@@ -54,50 +54,7 @@ export default class App extends React.Component {
           <View style={{ flex: 1 }}>
             <NavigationContainer>
               <Drawer.Navigator initialRouteName="SignUp">
-                <Drawer.Screen
-                  name="SearchLot"
-                  component={SearchLot}
-                  options={({ navigation }) => ({
-                    headerTitle: "Rechercher un lot",
-                    headerLeft: () => (
-                      <Button
-                        style={{
-                          backgroundColor: "transparent",
-                          elevation: 0,
-                        }}
-                        onPress={() => {
-                          navigation.openDrawer();
-                        }}
-                      >
-                        <Icon
-                          name="menu"
-                          underlayColor="transparent"
-                          style={{
-                            paddingTop: 5,
-                            color: "#FFF",
-                          }}
-                        />
-                      </Button>
-                    ),
-                    headerRight: () => (
-                      <Button
-                        style={{
-                          backgroundColor: "transparent",
-                          elevation: 0,
-                        }}
-                      >
-                        <Icon
-                          name="more"
-                          underlayColor="transparent"
-                          style={{
-                            paddingTop: 5,
-                            color: "#FFF",
-                          }}
-                        />
-                      </Button>
-                    ),
-                  })}
-                />
+                <Drawer.Screen name="SearchLot" component={SearchLot} />
                 <Drawer.Screen name="Proposer un lot" component={CreateLot} />
                 <Drawer.Screen name="LotDetails" component={LotDetails} />
                 <Drawer.Screen
