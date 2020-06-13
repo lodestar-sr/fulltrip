@@ -1,5 +1,5 @@
 import React from "react";
-import {ActivityIndicator, ImageBackground, ScrollView, StyleSheet, View} from "react-native";
+import {ActivityIndicator, Alert, ImageBackground, ScrollView, StyleSheet, View} from "react-native";
 import {Button, Right, Text} from "native-base";
 import HeaderComponent from "../../components/header";
 import {connect} from "react-redux";
@@ -36,6 +36,7 @@ class CreateLot extends React.Component {
       creation_date: new Date(),
       loading: false,
     };
+    console.log(this.state);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -62,14 +63,30 @@ class CreateLot extends React.Component {
   }
 
   addLot() {
-    this.setState({loading: true});
-    insertLot(this.state).then(() => {
-      console.log('Insert Data Successfully');
-      this.setState({loading: false});
-      this.props.navigation.navigate("SearchLot")
-    }).catch(err => {
-      this.setState({loading: false});
-    });
+    Alert.alert(
+      '',
+      'Votre lot a bien été envoyé, vous recevrez une notification lorsque qu\'il sera disponible',
+      [
+        {
+          text: 'Cancel',
+          style: "cancel",
+          onPress: () => console.log('Cancel pressed'),
+        },
+        {
+          text: 'Ok',
+          onPress: () => {
+            this.setState({loading: true});
+            insertLot(this.state).then(() => {
+              console.log('Insert Data Successfully');
+              this.setState({loading: false});
+              this.props.navigation.navigate("SearchLot");
+            }).catch(err => {
+              this.setState({loading: false});
+            });
+          }
+        },
+      ]
+    );
   }
 
   setDate(newDate) {
@@ -143,7 +160,7 @@ class CreateLot extends React.Component {
         );
       }
     } else if (currentStep === 3) {
-      if (photo_url && price && comments) {
+      if (price) {
         return (
           <Right>
             <Button

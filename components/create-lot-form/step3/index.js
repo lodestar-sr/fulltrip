@@ -1,19 +1,7 @@
 import React from "react";
-import { View } from "react-native";
-import {
-  Form,
-  Item,
-  Label,
-  Input,
-  Button,
-  Icon,
-  Text,
-  H1,
-  Textarea,
-} from "native-base";
+import {Image, View} from "react-native";
+import {Button, Form, H1, Icon, Input, Item, Label, Text, Textarea,} from "native-base";
 import * as ImagePicker from 'expo-image-picker';
-
-import { COLORS } from "../../../styles/colors.js";
 
 export const Step3 = (props) => {
   if (props.currentStep !== 3) {
@@ -30,6 +18,7 @@ export const Step3 = (props) => {
     }
 
     let pickerResult = await ImagePicker.launchCameraAsync();
+    // let pickerResult = await ImagePicker.launchImageLibraryAsync();
     console.log(pickerResult);
 
     if (pickerResult && pickerResult.uri) {
@@ -46,8 +35,8 @@ export const Step3 = (props) => {
           marginVertical: 40,
         }}
       >
-        <H1 style={{ color: "#FFF", textAlign: "center" }}>Derniers détails</H1>
-        <Text style={{ color: "#FFF", textAlign: "center" }}>
+        <H1 style={{color: "#FFF", textAlign: "center"}}>Derniers détails</H1>
+        <Text style={{color: "#FFF", textAlign: "center"}}>
           Les lots avec photo et description détaillée sont 4 fois plus visités.
           Pensez-y !
         </Text>
@@ -63,17 +52,31 @@ export const Step3 = (props) => {
         }}
       >
         <Form>
+          {
+            props.photo_url ?
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center'
+              }}
+              >
+                <Image source={{uri: props.photo_url}} style={{width: 150, aspectRatio: 1080 / 1920}}/>
+              </View> : null
+          }
           <Button
             bordered
-            style={{ justifyContent: "center", marginVertical: 10 }}
+            style={{justifyContent: "center", marginVertical: 10}}
             onPress={openImagePickerAsync}
           >
             <Icon name="camera"></Icon>
-            <Text>Ajouter une photo</Text>
+            <Text>
+              {
+                !props.photo_url ? 'Ajouter une photo' : 'Modifier votre photo'
+              }
+            </Text>
           </Button>
           <Textarea
             bordered
-            style={{ paddingVertical: 10, borderRadius: 10 }}
+            style={{paddingVertical: 10, borderRadius: 10}}
             placeholderTextColor="#CDCDCD"
             rowSpan={5}
             placeholder="Détaillez votre lot"
@@ -83,8 +86,8 @@ export const Step3 = (props) => {
               props.handleChange("comments", v.nativeEvent.text);
             }}
           />
-          <Item floatingLabel style={{ marginVertical: 10 }}>
-            <Label style={{ lineHeight: 14 }}>Prix</Label>
+          <Item floatingLabel style={{marginVertical: 10}}>
+            <Label style={{lineHeight: 14}}>Prix</Label>
             <Input
               keyboardType="number-pad"
               name="price"
