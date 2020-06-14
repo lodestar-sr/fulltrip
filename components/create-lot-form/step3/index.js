@@ -2,6 +2,7 @@ import React from "react";
 import {Image, View} from "react-native";
 import {Button, Form, H1, Icon, Input, Item, Label, Text, Textarea,} from "native-base";
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from "expo-image-manipulator";
 
 export const Step3 = (props) => {
   if (props.currentStep !== 3) {
@@ -17,12 +18,27 @@ export const Step3 = (props) => {
       return;
     }
 
-    let pickerResult = await ImagePicker.launchCameraAsync();
-    // let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
+    // let pickerResult = await ImagePicker.launchCameraAsync();
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log('Before compress: ' + pickerResult.uri);
 
     if (pickerResult && pickerResult.uri) {
-      props.handleChange("photo_url", pickerResult.uri);
+      const manipRes = await ImageManipulator.manipulateAsync(
+        pickerResult.uri,
+        [
+          {
+            resize: {
+              width: 720,
+              height: 1280
+            }
+          }
+        ],
+        {
+          compress: 0.2
+        }
+      );
+      props.handleChange("photo_url", manipRes.uri);
+      console.log('After compress: ' + manipRes.uri);
     }
   }
 

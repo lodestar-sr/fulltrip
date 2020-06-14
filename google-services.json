@@ -1,64 +1,42 @@
 {
   "project_info": {
-    "project_number": "336368684803",
-    "firebase_url": "https://matchin-3b3ab.firebaseio.com",
-    "project_id": "matchin-3b3ab",
-    "storage_bucket": "matchin-3b3ab.appspot.com"
+    "project_number": "77728748956",
+    "firebase_url": "https://fulltrip.firebaseio.com",
+    "project_id": "fulltrip",
+    "storage_bucket": "fulltrip.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:336368684803:android:c6a413e0a01a45ce6e2336",
+        "mobilesdk_app_id": "1:77728748956:android:51a2eab083f25272a5e459",
         "android_client_info": {
-          "package_name": "com.groweb.matchin"
+          "package_name": "com.groweb.fulltrip"
         }
       },
       "oauth_client": [
         {
-          "client_id": "336368684803-267fcejiqisfprvvdn8gslujjgidu33e.apps.googleusercontent.com",
+          "client_id": "77728748956-orkbsjitleslij8mg466sq35bgtt51p1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCeNq0ZYBm6I98AE3aBqz8BmeM603aIrGI"
+          "current_key": "AIzaSyAKZxSKP7V1pY4P6rx2nlfhU5LwGyCFhSM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "336368684803-267fcejiqisfprvvdn8gslujjgidu33e.apps.googleusercontent.com",
+              "client_id": "77728748956-orkbsjitleslij8mg466sq35bgtt51p1.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:336368684803:android:56a378cbbc5bc3c96e2336",
-        "android_client_info": {
-          "package_name": "com.matchin"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "336368684803-267fcejiqisfprvvdn8gslujjgidu33e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCeNq0ZYBm6I98AE3aBqz8BmeM603aIrGI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "336368684803-267fcejiqisfprvvdn8gslujjgidu33e.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "77728748956-akm428m87v8kjtgplqn47nhkuof08rd1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.groweb.fulltrip"
+              }
             }
           ]
         }
