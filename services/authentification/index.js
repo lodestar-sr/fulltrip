@@ -1,33 +1,18 @@
-import * as firebase from "firebase";
+import firebase from "../../firebase";
+import {Toast} from "native-base";
+
 const Auth = firebase.auth();
-import { Toast } from "native-base";
 
 export const errorMessageFR = {
   "auth/email-already-in-use": "Cet email existe déjà",
 };
 
 export const signInUser = (email, password) => {
-  Auth.signInWithEmailAndPassword(email, password).catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log(errorCode);
-    // ...
-  });
+  return Auth.signInWithEmailAndPassword(email, password);
 };
 
 export const signUpUser = (email, password) => {
-  Auth.createUserWithEmailAndPassword(email, password).catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    let errorMessage = errorMessageFR[errorCode];
-
-    if (errorMessage) {
-      toastShow({ errorMessage });
-    }
-
-    // ...
-  });
+  return Auth.createUserWithEmailAndPassword(email, password);
 };
 
 export const signOut = () => {
@@ -44,8 +29,8 @@ export function toastShow(err) {
   Toast.show({
     text: err.errorMessage,
     buttonText: "Se connecter",
-    buttonTextStyle: { color: "#FFF" },
-    buttonStyle: { backgroundColor: "#5cb85c", borderRadius: 100 },
+    buttonTextStyle: {color: "#FFF"},
+    buttonStyle: {backgroundColor: "#5cb85c", borderRadius: 100},
     duration: 3000,
   });
 }

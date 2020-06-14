@@ -16,7 +16,7 @@ import {
   Root,
 } from "native-base";
 import { StyleSheet, ScrollView, StatusBar } from "react-native";
-import { signUpUser } from "../../services/authentification";
+import {errorMessageFR, signUpUser, toastShow} from "../../services/authentification";
 import validate from "../../validation_wrapper";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../actions/index";
@@ -38,8 +38,9 @@ class SignUp extends React.Component {
 
   componentDidMount() {
     this.props.getCurrentUser();
+    console.log(this.props.currentUser);
 
-    if (this.props.currentUser) {
+    if (this.props.currentUser.user) {
       this.props.navigation.navigate("SearchLot");
     }
   }
@@ -66,7 +67,20 @@ class SignUp extends React.Component {
     });
 
     if (!emailError && !passwordError) {
-      signUpUser(this.state.email, this.state.password);
+      signUpUser(this.state.email, this.state.password).then(() => {
+        console.log('Signup success');
+        this.props.navigation.navigate('SignIn');
+      }).catch(error => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        let errorMessage = errorMessageFR[errorCode];
+
+        if (errorMessage) {
+          toastShow({ errorMessage });
+        }
+
+        // ...
+      });
     }
   }
 

@@ -15,7 +15,7 @@ import {
   Root,
 } from "native-base";
 import { StyleSheet, ScrollView, StatusBar } from "react-native";
-import { signInUser } from "../../services/authentification";
+import {errorMessageFR, signInUser, toastShow} from "../../services/authentification";
 import validate from "../../validation_wrapper";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../actions/index";
@@ -37,7 +37,8 @@ class SignIn extends React.Component {
 
   componentDidMount() {
     this.props.getCurrentUser().then(() => {
-      if (this.props.currentUser.lenght > 1) {
+      console.log(this.props.currentUser);
+      if (this.props.currentUser.user) {
         this.props.navigation.navigate("SearchLot");
       }
     });
@@ -65,18 +66,18 @@ class SignIn extends React.Component {
     });
 
     if (!emailError && !passwordError) {
-      signInUser(this.state.email, this.state.password);
+      signInUser(this.state.email, this.state.password).then(() => {
+        console.log('Singin success');
+        this.props.navigation.navigate('SearchLot');
+      }).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode);
+        // ...
+        toastShow({ errorMessage });
+      });
     }
-  }
-
-  toastShow(error) {
-    console.log(error);
-    Toast.show({
-      text: error,
-      buttonText: "Okay",
-      buttonTextStyle: { color: "#008000" },
-      buttonStyle: { backgroundColor: "#5cb85c" },
-    });
   }
 
   render() {
@@ -186,7 +187,7 @@ class SignIn extends React.Component {
                     <Text>Pas encore de compte ? </Text>
                     <Text
                       style={{ color: COLORS.primary }}
-                      onPress={() => this.props.navigation.goBack()}
+                      onPress={() => this.props.navigation.navigate('SignUp')}
                     >
                       Créer un compte
                     </Text>

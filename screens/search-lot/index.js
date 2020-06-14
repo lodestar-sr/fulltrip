@@ -4,10 +4,26 @@ import SearchCard from "../../components/search-card";
 import HeaderComponent from "../../components/header";
 
 import { COLORS } from "../../styles/colors.js";
+import firebase from "../../firebase";
 
 export default class SearchLot extends React.Component {
+
+  state = {
+    user: {},
+  }
+
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.setState({user: user});
+    //   } else {
+    //     this.props.navigation.navigate('SignIn');
+    //   }
+    // });
   }
 
   viewLotDetails = (data) => {
