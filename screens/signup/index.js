@@ -40,9 +40,9 @@ class SignUp extends React.Component {
     this.props.getCurrentUser();
     console.log(this.props.currentUser);
 
-    if (this.props.currentUser.user) {
+    // if (this.props.currentUser.user) {
       this.props.navigation.navigate("SearchLot");
-    }
+    // }
   }
 
   showPasswordInput() {
