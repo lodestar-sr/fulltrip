@@ -22,8 +22,19 @@ class CreateLot extends React.Component {
       starting_address: "",
       arrival_address: "",
       starting_access_type: "",
-      arrival_access_type: "",
+      starting_location_type: "",
       quantity: "",
+      starting_elevator: 'Non',
+      starting_furniture_lift: 'Non',
+      starting_dismantling_furniture: 'Non',
+
+      arrival_access_type: "",
+      arrival_location_type: "",
+      arrival_floors: "",
+      arrival_elevator: 'Non',
+      arrival_furniture_lift: 'Non',
+      arrival_reassembly_furniture: 'Non',
+
       service: "",
       photo_url: "",
       price: "",
@@ -35,6 +46,7 @@ class CreateLot extends React.Component {
       disponibility_date: new Date(),
       creation_date: new Date(),
       loading: false,
+      starting_floors: '',
     };
     console.log(this.state);
     this.handleChange = this.handleChange.bind(this);
@@ -99,8 +111,12 @@ class CreateLot extends React.Component {
       currentStep,
       starting_address,
       starting_access_type,
+      starting_location_type,
+      starting_floors,
       arrival_address,
       arrival_access_type,
+      arrival_location_type,
+      arrival_floors,
       quantity,
       service,
       price,
@@ -110,7 +126,7 @@ class CreateLot extends React.Component {
     // If the current step is not 3, then render the "next" button
 
     if (currentStep === 1) {
-      if (starting_address && starting_access_type && quantity) {
+      if (starting_address && starting_access_type && quantity && starting_location_type && starting_floors) {
         return (
           <Right>
             <Button
@@ -135,7 +151,7 @@ class CreateLot extends React.Component {
         );
       }
     } else if (currentStep === 2) {
-      if (arrival_address && arrival_access_type && service) {
+      if (arrival_address && arrival_access_type && service && arrival_location_type && arrival_floors) {
         return (
           <Right>
             <Button
@@ -218,13 +234,23 @@ class CreateLot extends React.Component {
                 <Step1
                   starting_address={this.state.starting_address}
                   starting_access_type={this.state.starting_access_type}
+                  starting_location_type={this.state.starting_location_type}
                   quantity={this.state.quantity}
+                  starting_floors={this.state.starting_floors}
+                  starting_elevator={this.state.starting_elevator}
+                  starting_furniture_lift={this.state.starting_furniture_lift}
+                  starting_dismantling_furniture={this.state.starting_dismantling_furniture}
                   currentStep={this.state.currentStep}
                   handleChange={this.handleChange}
                 />
                 <Step2
                   arrival_address={this.state.arrival_address}
                   arrival_access_type={this.state.arrival_access_type}
+                  arrival_location_type={this.state.arrival_location_type}
+                  arrival_floors={this.state.arrival_floors}
+                  arrival_elevator={this.state.arrival_elevator}
+                  arrival_furniture_lift={this.state.arrival_furniture_lift}
+                  arrival_reassembly_furniture={this.state.arrival_reassembly_furniture}
                   service={this.state.service}
                   currentStep={this.state.currentStep}
                   handleChange={this.handleChange}

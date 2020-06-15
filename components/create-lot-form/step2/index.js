@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from "react";
-import { View } from "react-native";
+import {Switch, View} from "react-native";
 import { Form, Item, Label, Picker, Input, Text, Icon, H1 } from "native-base";
 
 import { COLORS } from "../../../styles/colors.js";
@@ -68,7 +68,7 @@ export const Step2 = (props) => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginVertical: 30,
+              marginVertical: 16,
             }}
           >
             <Text style={{ marginLeft: 10 }}>Type d'accès</Text>
@@ -86,7 +86,6 @@ export const Step2 = (props) => {
                   props.handleChange("arrival_access_type", value);
                 }}
               >
-                <Picker.Item label="Sélectionnez" value="Sélectionnez" />
                 <Picker.Item label="Plein pieds" value="Plein pieds" />
                 <Picker.Item label="Ascenseur" value="Ascenseur" />
                 <Picker.Item label="Escaliers" value="Escaliers" />
@@ -114,12 +113,82 @@ export const Step2 = (props) => {
                   props.handleChange("service", value);
                 }}
               >
-                <Picker.Item label="Sélectionnez" value="Sélectionnez" />
                 <Picker.Item label="Economique" value="Economique" />
                 <Picker.Item label="Standard" value="Standard" />
                 <Picker.Item label="Luxe" value="Luxe" />
               </Picker>
             </Item>
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 16}}>
+            <Text style={{marginLeft: 10}}>Type de lieu</Text>
+            <Item picker style={{marginLeft: 10, flex: 1}}>
+              <Picker
+                mode="dialog"
+                name="arrival_location_type"
+                iosIcon={<Icon name="arrow-down"/>}
+                style={{width: undefined}}
+                placeholder="Type de lieu"
+                placeholderStyle={{color: "#bfc6ea"}}
+                placeholderIconColor="#007aff"
+                selectedValue={props.arrival_location_type}
+                onValueChange={(value) => {
+                  props.handleChange("arrival_location_type", value);
+                }}
+              >
+                {
+                  ['Immeuble', 'Maison', 'Garde-meubles', 'Entrepôt', 'Magasin'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                }
+              </Picker>
+            </Item>
+          </View>
+          <View style={{flexDirection: "row", alignItems: "center", marginVertical: 0,}}>
+            <Text style={{marginLeft: 10}}>Etages</Text>
+            <Item picker style={{marginLeft: 10, flex: 1}}>
+              <Picker
+                mode="dialog"
+                name="arrival_floors"
+                iosIcon={<Icon name="arrow-down"/>}
+                style={{width: undefined}}
+                placeholder="Etages"
+                placeholderStyle={{color: "#bfc6ea"}}
+                placeholderIconColor="#007aff"
+                selectedValue={props.arrival_floors}
+                onValueChange={(value) => {
+                  props.handleChange("arrival_floors", value);
+                }}
+              >
+                {
+                  ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                }
+              </Picker>
+            </Item>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 16}}>
+            <Label style={{marginLeft: 10}}>Ascenseur</Label>
+            <Switch
+              value={props.arrival_elevator == 'Oui'}
+              onValueChange={v => {
+                props.handleChange("arrival_elevator", v ? 'Oui' : 'Non');
+              }}
+            />
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 16}}>
+            <Label style={{marginLeft: 10}}>Monte meuble nécessaire</Label>
+            <Switch
+              value={props.arrival_furniture_lift == 'Oui'}
+              onValueChange={v => {
+                props.handleChange("arrival_furniture_lift", v ? 'Oui' : 'Non');
+              }}
+            />
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 16}}>
+            <Label style={{marginLeft: 10}}>Remontage des meubles ?</Label>
+            <Switch
+              value={props.arrival_reassembly_furniture == 'Oui'}
+              onValueChange={v => {
+                props.handleChange("arrival_reassembly_furniture", v ? 'Oui' : 'Non');
+              }}
+            />
           </View>
         </Form>
       </View>
