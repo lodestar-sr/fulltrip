@@ -86,9 +86,9 @@ export const Step2 = (props) => {
                   props.handleChange("arrival_access_type", value);
                 }}
               >
-                <Picker.Item label="Plein pieds" value="Plein pieds" />
-                <Picker.Item label="Ascenseur" value="Ascenseur" />
-                <Picker.Item label="Escaliers" value="Escaliers" />
+                {
+                  ['', 'Plein pieds', 'Ascenseur', 'Escaliers'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
+                }
               </Picker>
             </Item>
           </View>
@@ -113,9 +113,9 @@ export const Step2 = (props) => {
                   props.handleChange("service", value);
                 }}
               >
-                <Picker.Item label="Economique" value="Economique" />
-                <Picker.Item label="Standard" value="Standard" />
-                <Picker.Item label="Luxe" value="Luxe" />
+                {
+                  ['', 'Economique', 'Standard', 'Luxe'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
+                }
               </Picker>
             </Item>
           </View>
@@ -136,7 +136,7 @@ export const Step2 = (props) => {
                 }}
               >
                 {
-                  ['Immeuble', 'Maison', 'Garde-meubles', 'Entrepôt', 'Magasin'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                  ['', 'Immeuble', 'Maison', 'Garde-meubles', 'Entrepôt', 'Magasin'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
                 }
               </Picker>
             </Item>
@@ -158,7 +158,7 @@ export const Step2 = (props) => {
                 }}
               >
                 {
-                  ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                  ['', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
                 }
               </Picker>
             </Item>

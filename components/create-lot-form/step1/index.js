@@ -80,7 +80,7 @@ export const Step1 = (props) => {
                 }}
               >
                 {
-                  ['Plein pieds', 'Ascenseur', 'Escaliers'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                  ['', 'Plein pieds', 'Ascenseur', 'Escaliers'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
                 }
               </Picker>
             </Item>
@@ -113,7 +113,7 @@ export const Step1 = (props) => {
                 }}
               >
                 {
-                  ['Immeuble', 'Maison', 'Garde-meubles', 'Entrepôt', 'Magasin'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                  ['', 'Immeuble', 'Maison', 'Garde-meubles', 'Entrepôt', 'Magasin'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
                 }
               </Picker>
             </Item>
@@ -135,7 +135,7 @@ export const Step1 = (props) => {
                 }}
               >
                 {
-                  ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(itm => (<Picker.Item label={itm} value={itm}/>))
+                  ['', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map((itm, idx) => (<Picker.Item key={idx} label={itm == '' ? 'Sélectionnez' : itm} value={itm}/>))
                 }
               </Picker>
             </Item>
