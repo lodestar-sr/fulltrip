@@ -6,7 +6,7 @@ import HeaderComponent from "../../components/header";
 import { COLORS } from "../../styles/colors.js";
 import firebase from "../../firebase";
 
-export default class SearchLot extends React.Component {
+export default class LotSearch extends React.Component {
 
   state = {
     user: {},

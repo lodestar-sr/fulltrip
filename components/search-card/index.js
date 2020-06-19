@@ -39,6 +39,7 @@ class SearchCard extends React.Component {
                 margin: 10,
                 borderRadius: 5,
               }}
+              onPress={() => this.props.openMenu('LotFilters')}
             >
               <Icon
                 type="MaterialIcons"
