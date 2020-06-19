@@ -17,6 +17,7 @@ import LotDetails from "./screens/lot-details";
 import SearchLot from "./screens/search-lot";
 import SignIn from "./screens/signin";
 import SignUp from "./screens/signup";
+import LotFilters from "./screens/lot-filters";
 
 import {decode, encode} from 'base-64'
 
@@ -77,6 +78,7 @@ export default class App extends React.Component {
                     headerShown: false,
                   }}
                 />
+                <Drawer.Screen name="LotFilters" component={LotFilters} />
               </Drawer.Navigator>
             </NavigationContainer>
           </View>
