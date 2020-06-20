@@ -13,4 +13,5 @@ export const COLORS = {
   googleColor: "#db4a39",
   lightGray: "#999999",
   sky: "#40BFFF",
+  dfdede: "#DFDEDE",
 };
