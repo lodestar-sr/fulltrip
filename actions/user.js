@@ -1,10 +1,10 @@
 import * as firebase from "firebase";
-import { SET_CURRENT_USER } from "../actions/action-types";
+import { USER_ACTION } from "../actions/action-types";
 
 export const getCurrentUser = () => async (dispatch) => {
   await firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-      dispatch({ type: SET_CURRENT_USER, payload: user });
+      dispatch({ type: USER_ACTION.SET_CURRENT_USER, payload: user });
     } else {
       // No user is signed in.
     }

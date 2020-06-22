@@ -18,6 +18,7 @@ import {COLORS} from "./styles/colors";
 import {createStackNavigator} from "@react-navigation/stack";
 import Home from "./screens/home";
 import LotFilters from "./screens/lot-filters";
+import LotSearch from "./screens/lot-search";
 
 if (!global.btoa) {
   global.btoa = encode
@@ -33,7 +34,20 @@ const HomeStack = createStackNavigator();
 function HomeStackScreen() {
   return <HomeStack.Navigator>
     <HomeStack.Screen name="Home" component={Home}/>
-    <HomeStack.Screen name="LotFilters" component={LotFilters}/>
+    <HomeStack.Screen
+      name="LotFilters"
+      component={LotFilters}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <HomeStack.Screen
+      name="LotSearch"
+      component={LotSearch}
+      options={{
+        headerShown: false,
+      }}
+    />
   </HomeStack.Navigator>;
 }
 
@@ -134,7 +148,8 @@ export default class App extends React.Component {
                                   borderWidth: 4,
                                   borderColor: 'white',
                                   width: 60, height: 60,
-                                  borderRadius: 30
+                                  borderRadius: 30,
+                                  marginBottom: 15
                                 }}
                         >
                           <Icon name="add" style={{fontSize: 30, color: 'white'}}/>
@@ -152,10 +167,21 @@ export default class App extends React.Component {
                     if (route.name === 'Add') {
                       return null;
                     } else {
+                      let label = '';
+                      if (route.name === 'Home')
+                        label = 'Accueil';
+                      else if (route.name === 'Search')
+                        label = 'Chercher';
+                      else if (route.name === 'Message')
+                        label = 'Message';
+                      else if (route.name === 'Profile')
+                        label = 'Profil';
+
                       return <Text style={{
                         color: color,
                         fontSize: 10,
-                      }}>{route.name}</Text>
+                        marginBottom: 20
+                      }}>{label}</Text>
                     }
                   }
                 })}
@@ -163,8 +189,9 @@ export default class App extends React.Component {
                   activeTintColor: COLORS.sky,
                   inactiveTintColor: COLORS.lightGray,
                   style: {
-                    height: 100,
+                    height: 80,
                     paddingTop: 12,
+                    padding: 0,
                   }
                 }}
               >

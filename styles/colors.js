@@ -12,6 +12,8 @@ export const COLORS = {
   facebookColor: "#3b5998",
   googleColor: "#db4a39",
   lightGray: "#999999",
-  sky: "#40BFFF",
   dfdede: "#DFDEDE",
+
+  sky: "#40BFFF",
+  lightSky: '#92DAFF',
 };

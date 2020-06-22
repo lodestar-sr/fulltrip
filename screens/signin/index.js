@@ -18,7 +18,7 @@ import { StyleSheet, ScrollView, StatusBar } from "react-native";
 import {errorMessageFR, signInUser, toastShow} from "../../services/authentification";
 import validate from "../../validation_wrapper";
 import { connect } from "react-redux";
-import { getCurrentUser } from "../../actions/index";
+import { getCurrentUser } from "../../actions/user";
 import { COLORS } from "../../styles/colors";
 
 class SignIn extends React.Component {
