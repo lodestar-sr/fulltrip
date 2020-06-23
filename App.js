@@ -19,6 +19,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import Home from "./screens/home";
 import LotFilters from "./screens/lot-filters";
 import LotSearch from "./screens/lot-search";
+import LotDetails from "./screens/lot-details";
 
 if (!global.btoa) {
   global.btoa = encode
@@ -33,7 +34,13 @@ const HomeStack = createStackNavigator();
 
 function HomeStackScreen() {
   return <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home}/>
+    <HomeStack.Screen
+      name="LotSearch"
+      component={LotSearch}
+      options={{
+        headerShown: false,
+      }}
+    />
     <HomeStack.Screen
       name="LotFilters"
       component={LotFilters}
@@ -42,8 +49,8 @@ function HomeStackScreen() {
       }}
     />
     <HomeStack.Screen
-      name="LotSearch"
-      component={LotSearch}
+      name="LotDetails"
+      component={LotDetails}
       options={{
         headerShown: false,
       }}
@@ -148,8 +155,7 @@ export default class App extends React.Component {
                                   borderWidth: 4,
                                   borderColor: 'white',
                                   width: 60, height: 60,
-                                  borderRadius: 30,
-                                  marginBottom: 15
+                                  borderRadius: 30
                                 }}
                         >
                           <Icon name="add" style={{fontSize: 30, color: 'white'}}/>
@@ -179,8 +185,7 @@ export default class App extends React.Component {
 
                       return <Text style={{
                         color: color,
-                        fontSize: 10,
-                        marginBottom: 20
+                        fontSize: 10
                       }}>{label}</Text>
                     }
                   }
@@ -189,9 +194,8 @@ export default class App extends React.Component {
                   activeTintColor: COLORS.sky,
                   inactiveTintColor: COLORS.lightGray,
                   style: {
-                    height: 80,
+                    height: 100,
                     paddingTop: 12,
-                    padding: 0,
                   }
                 }}
               >

@@ -7,9 +7,9 @@ import {COLORS} from "../../styles/colors.js";
 import {Button, Form, Header, Icon, Item, Label, Picker, Text, Title} from "native-base";
 import GooglePlacesAutocomplete from "react-native-google-places-autocomplete";
 import Select from "../../components/common/Select";
+import RangePicker from "../../components/common/range-picker";
 
 import * as TripAction from "../../actions/trip";
-import RangePicker from "../../components/common/RangePicker";
 
 const LotFilters = ({
   navigation, filter, setFilter,
@@ -17,13 +17,19 @@ const LotFilters = ({
   const [currentFilter, setCurrentFilter] = useState({});
 
   useEffect(() => {
-    const newFilter = Object.assign({
-      minPrice: 0,
-      maxPrice: 100,
-      departureAddress: 'Paris',
+    const newFilter = {
+      minPrice: 100,
+      maxPrice: 10000,
+      departureAddress: '',
       arrivalAddress: '',
       service: '',
-    }, filter);
+      size: 100,
+      ...filter,
+    };
+    if (filter && filter.price) {
+      newFilter.minPrice = filter.price.min;
+      newFilter.maxPrice = filter.price.max;
+    }
     setCurrentFilter(newFilter);
   }, [filter]);
 
@@ -34,13 +40,27 @@ const LotFilters = ({
     });
   };
 
+  const onPriceChange = (value) => {
+    setCurrentFilter({
+      ...currentFilter,
+      minPrice: value.start,
+      maxPrice: value.end,
+    });
+  };
+
   const onApplyFilter = () => {
-    setFilter(currentFilter);
-    navigation.navigate("LotSearch");
+    setFilter({
+      ...currentFilter,
+      price: {
+        min: currentFilter.minPrice,
+        max: currentFilter.maxPrice,
+      },
+    });
+    navigation.pop();
   };
 
   return (
-    <View style={{backgroundColor: "#FFF", height: '100%', display: 'flex', flexDirection: 'column'}}>
+    <View style={{backgroundColor: "#FFF", height: '100%'}}>
       <Header
         androidStatusBarColor={COLORS.primary_white}
         style={{
@@ -75,10 +95,24 @@ const LotFilters = ({
         <Form style={{paddingTop: 40, paddingLeft: 30, paddingRight: 30}}>
           <View style={{ marginBottom: 20 }}>
             <Label style={{ color: COLORS.black_text, marginBottom: 20 }}>Échelle des prix</Label>
-            <RangePicker min={100} max={1000} value={{ start: 300, end: 700 }} unit="€" />
+            <RangePicker
+              min={100}
+              max={10000}
+              value={{start: currentFilter.minPrice, end: currentFilter.maxPrice}}
+              unit="€"
+              onChange={onPriceChange}
+            />
           </View>
-          <View>
-            <Label>Quantité</Label>
+          <View style={{ marginBottom: 20 }}>
+            <Label style={{ color: COLORS.black_text, marginBottom: 20 }}>Quantité</Label>
+            <RangePicker
+              min={5}
+              max={100}
+              value={{end: currentFilter.size}}
+              unit="m³"
+              labelSuffix="m³"
+              onChange={(value) => onInputChange('size', value.end)}
+            />
           </View>
           <View style={{marginTop: 20}}>
             <Label style={{ color: COLORS.black_text }}>Adresse de départ</Label>
@@ -86,12 +120,13 @@ const LotFilters = ({
               <GooglePlacesAutocomplete
                 placeholder="Entrez s'il vous plait"
                 placeholderTextColor="#999"
+                text={currentFilter.departureAddress}
                 minLength={2}
                 autoFocus={false}
                 fetchDetails={true}
                 listViewDisplayed={false}
                 onPress={(data, details = null) => {
-                  onInputChange("starting_address", data);
+                  onInputChange("departureAddress", data);
                 }}
                 query={{
                   key: 'AIzaSyAviivTDt0XzleVXCCrY3TDqeHZkaEjB4U',
@@ -130,7 +165,7 @@ const LotFilters = ({
                 fetchDetails={true}
                 listViewDisplayed={false}
                 onPress={(data, details = null) => {
-                  onInputChange("starting_address", data);
+                  onInputChange("arrivalAddress", data);
                 }}
                 query={{
                   key: 'AIzaSyAviivTDt0XzleVXCCrY3TDqeHZkaEjB4U',
@@ -181,13 +216,13 @@ const LotFilters = ({
                 </Picker>
               </Item>
             </View>
-            <Select
+            {/* <Select
               label="Un service"
               options={['Luxe', 'Standard', 'Économique']}
               placeholder="Choisissez votre service"
               value={currentFilter.service}
               onChange={(value) => onInputChange('service', value)}
-            />
+            /> */}
           </View>
         </Form>
       </ScrollView>

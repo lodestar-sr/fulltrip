@@ -1,7 +1,7 @@
 import { TRIP_ACTION } from "../actions/action-types";
 
 const initialState = {
-  filter: {},
+  filter: null,
 };
 
 export default (state = initialState, action) => {

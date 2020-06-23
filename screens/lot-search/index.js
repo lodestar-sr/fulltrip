@@ -2,18 +2,41 @@ import React from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux"
 import {ScrollView, StyleSheet, View} from "react-native";
+import { LOT_DETAILS } from "../../mock.js";
 
 import { COLORS } from "../../styles/colors.js";
-import {Button, Form, Header, Icon, Item, Label, Picker, Text, Title} from "native-base";
-import {Feather, FontAwesome, Ionicons} from "@expo/vector-icons";
+import { Button, Icon, Label, Text } from "native-base";
 import * as TripAction from "../../actions/trip";
-import GooglePlacesAutocomplete from "react-native-google-places-autocomplete";
+import LotFilterBar from "../../components/lot-filter-bar";
+import LotSearchCard from "../../components/lot-search-card";
 
 const LotSearch = ({
   navigation, filter, setFilter,
 }) => {
+  const onGoFilterPage = () => {
+    navigation.navigate("LotFilters");
+  };
+
+  const onCardClick = (travel) => {
+    navigation.navigate("LotDetails", { travel });
+  };
+
+  const travels = filter
+    ? (
+      LOT_DETAILS.data.filter((travel) => {
+        if (filter.departureAddress && filter.departureAddress.toLowerCase() !== travel.lot.starting_city.toLowerCase())
+          return false;
+        if (filter.price && (filter.price.min > travel.price || filter.price.max < travel.price))
+          return false;
+        if (filter.service && filter.service !== travel.service)
+          return false;
+        return !(filter.size && filter.size < travel.lot.size);
+      })
+    )
+    : LOT_DETAILS.data;
+
   return (
-    <View style={{ backgroundColor: COLORS.primary_white, padding: 20 }}>
+    <View style={{ backgroundColor: COLORS.primary_white, padding: 20, height: '100%' }}>
       <View style={{ flexDirection: 'row', marginBottom: 20 }}>
         <Button
           block
@@ -24,48 +47,64 @@ const LotSearch = ({
             borderRadius: 7,
             height: 40,
           }}
+          onPress={onGoFilterPage}
         >
           <Icon type="Ionicons" name="options" style={{ color: COLORS.sky, fontSize: 22 }} />
           <Label style={{ color: COLORS.lightGray, marginRight: 15, fontSize: 18 }}>Filtres</Label>
         </Button>
-        <Button
-          block
-          transparent
-          style={{
-            borderRadius: 7,
-            backgroundColor: COLORS.sky,
-            height: 40,
-            marginLeft: 10,
-          }}
-        >
-          <Icon type="FontAwesome" name="location-arrow" style={{ color: 'white', fontSize: 22 }} />
-          <Label style={{ color: 'white', marginRight: 15, fontSize: 16, fontWeight: 'bold' }}>Voyage proches de moi</Label>
-        </Button>
+        {
+          filter && !filter.departureAddress
+            ? (
+              <Button
+                block
+                transparent
+                style={{
+                  borderRadius: 7,
+                  backgroundColor: COLORS.sky,
+                  height: 40,
+                  marginLeft: 10,
+                }}
+              >
+                <Icon type="FontAwesome" name="location-arrow" style={{ color: 'white', fontSize: 22 }} />
+                <Label style={{ color: 'white', marginRight: 15, fontSize: 16, fontWeight: 'bold' }}>Voyage proches de moi</Label>
+              </Button>
+            )
+            : null
+        }
       </View>
 
-      <ScrollView horizontal style={{ flexDirection: 'row' }}>
-        <Button block transparent style={style.filterBtn}>
-          <Icon type="Foundation" name="marker" style={{ color: '#D2D2D2', fontSize: 22, marginLeft: 5, marginRight: 10 }} />
-          <Label style={style.filterText}>Paris</Label>
-        </Button>
-        <Button block transparent style={style.filterBtn}>
-          <Label style={{ ...style.filterText, fontWeight: 'bold' }}>600€-700€</Label>
-          <Button block transparent>
-            <Icon type="Ionicons" name="close" style={{ color: COLORS.lightGray, fontSize: 24, marginBottom: 25, marginLeft: 15, marginRight: 0 }} />
-          </Button>
-        </Button>
-        <Button block transparent style={style.filterBtn}>
-          <Label style={style.filterText}>Luxe</Label>
-        </Button>
-        <Button block transparent style={style.filterBtn}>
-          <Label style={style.filterText}>53m³</Label>
-        </Button>
-      </ScrollView>
+      {
+        filter
+          ? <LotFilterBar />
+          : null
+      }
 
-      <View style={{ flexDirection: 'row-reverse' }}>
-        <Button block transparent>
-          <Label style={{ color: COLORS.sky, fontSize: 20, fontStyle: 'bold' }}>Réinitialiser</Label>
-        </Button>
+      <View style={{ flex: 1, backgroundColor: COLORS.primary_white, marginTop: 10 }}>
+        {
+          travels.length
+            ? (
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {
+                  travels.map((travel) => <LotSearchCard key={travel.travel_id} travel={travel} onClick={onCardClick} />)
+                }
+              </ScrollView>
+            )
+            : (
+              <Text
+                style={{
+                  color: COLORS.lightGray,
+                  fontSize: 20,
+                  lineHeight: 40,
+                  textAlign: 'center',
+                  padding: 20,
+                  paddingLeft: 30,
+                  paddingRight: 30,
+                }}
+              >
+                Désolé, la recherche n'a donné aucun résultat. Essayez de sélectionner d'autres fitres.
+              </Text>
+            )
+        }
       </View>
     </View>
   )
