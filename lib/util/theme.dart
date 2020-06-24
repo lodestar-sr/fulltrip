@@ -12,11 +12,24 @@ ThemeData appTheme() {
 
 class AppColors {
   static const primaryColor = Color(0xFF40BFFF);
+  static const greyColor = Color(0xFF999999);
+  static const lightGreyColor = Color(0xFFD2D2D2);
+  static const defaultColor = Color(0xFFABBEFF);
+  static const purpleColor = Color(0xFF7695FF);
+  static const darkColor = Color(0xFF151522);
+  static const whiteColor = Color(0xFFE8F7FF);
+  static const cyanColor = Color(0xFFB3E6FF);
+  static const redColor = Color(0xFFFF0C3E);
+  static const greenColor = Color(0xFF7DFF7A);
+  static const lightGreenColor = Color(0xFFBBFFBA);
 }
 
 class AppStyles {
+  static const navbarInactiveTextStyle = TextStyle(color: AppColors.lightGreyColor, fontSize: 12, fontWeight: FontWeight.normal);
+  static const navbarActiveTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 12, fontWeight: FontWeight.normal);
+  static const blackTextStyle = TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
+  static const greyTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
   static const defaultHintTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 20);
-  static const double gap_16 = 16;
 }
 
 InputDecoration labelDecoration(String text) {
