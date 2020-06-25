@@ -121,7 +121,7 @@ class _HomeState extends State<Home> {
                                   height: 9,
                                   margin: EdgeInsets.only(right: 4),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xFF666666)),
+                                    border: Border.all(color: AppColors.darkGreyColor),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -137,7 +137,7 @@ class _HomeState extends State<Home> {
                                   direction: Axis.vertical,
                                   length: 32,
                                   dashLength: 3,
-                                  dashColor: Color(0xFF666666),
+                                  dashColor: AppColors.darkGreyColor,
                                 )),
                             Row(
                               children: <Widget>[
@@ -146,7 +146,7 @@ class _HomeState extends State<Home> {
                                   height: 9,
                                   margin: EdgeInsets.only(right: 4),
                                   decoration: new BoxDecoration(
-                                    border: Border.all(color: Color(0xFF666666)),
+                                    border: Border.all(color: AppColors.darkGreyColor),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -160,7 +160,7 @@ class _HomeState extends State<Home> {
                         )),
                     Text(
                       this.lots[i]['company'],
-                      style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.bold),
+                      style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                     )
                   ],
                 ),
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         "${this.lots[i]['price'].toString()}€",
-                        style: TextStyle(color: Color(0xFF666666), fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(color: AppColors.darkGreyColor, fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                     ),
                     Container(
@@ -282,7 +282,7 @@ class _HomeState extends State<Home> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         borderSide: BorderSide(color: AppColors.primaryColor),
-                        onPressed: () => {},
+                        onPressed: () => Navigator.of(context).pushNamed('filter'),
                         splashColor: AppColors.cyanColor,
                       ),
                     ),

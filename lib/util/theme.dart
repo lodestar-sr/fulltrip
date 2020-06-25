@@ -13,6 +13,7 @@ ThemeData appTheme() {
 class AppColors {
   static const primaryColor = Color(0xFF40BFFF);
   static const greyColor = Color(0xFF999999);
+  static const darkGreyColor = Color(0xFF666666);
   static const lightGreyColor = Color(0xFFD2D2D2);
   static const defaultColor = Color(0xFFABBEFF);
   static const purpleColor = Color(0xFF7695FF);
@@ -29,11 +30,8 @@ class AppStyles {
   static const navbarActiveTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 12, fontWeight: FontWeight.normal);
   static const blackTextStyle = TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
   static const greyTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const defaultHintTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 20);
-}
-
-InputDecoration labelDecoration(String text) {
-  return InputDecoration(labelText: text, border: InputBorder.none, labelStyle: AppStyles.defaultHintTextStyle, hintStyle: AppStyles.defaultHintTextStyle);
+  static const primaryTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 16, fontWeight: FontWeight.normal);
+  static const defaultHintTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 11);
 }
 
 InputDecoration hintTextDecoration(String text) {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fulltrip/data/models/hex_color.dart';
-import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 
 class AppBarLayout extends AppBar {
@@ -10,15 +8,17 @@ class AppBarLayout extends AppBar {
 
   AppBarLayout({Key key, this.appBarTitle, this.context, this.onBack})
       : super(
-    key: key,
-    title: new Text(appBarTitle, style: TextStyle(fontSize: 20, color: Colors.white)),
-    backgroundColor: AppColors.primaryColor,
-    centerTitle: true,
-    leading: onBack != null ? IconButton(
-      icon: Icon(Icons.navigate_before, color: AppColors.primaryColor),
-      onPressed: onBack,
-    ) : null,
-    automaticallyImplyLeading: false,
-    actions: <Widget>[],
-  );
+          key: key,
+          title: new Text(appBarTitle, style: TextStyle(fontSize: 18, color: AppColors.darkColor)),
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          leading: onBack != null
+              ? IconButton(
+                  icon: Icon(Icons.navigate_before, color: AppColors.darkColor),
+                  onPressed: onBack,
+                )
+              : null,
+          automaticallyImplyLeading: false,
+          actions: <Widget>[],
+        );
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fulltrip/util/theme.dart';
 
 class FormFieldContainer extends StatelessWidget {
   final Widget child;
-  final double bottom;
   final EdgeInsets padding;
   final EdgeInsets margin;
 
@@ -11,9 +11,8 @@ class FormFieldContainer extends StatelessWidget {
   FormFieldContainer({
     Key key,
     this.child,
-    this.bottom = 15,
-    this.padding = const EdgeInsets.fromLTRB(21, 4, 21, 4),
-    this.margin = const EdgeInsets.only(bottom: 15),
+    this.padding = const EdgeInsets.all(0),
+    this.margin = const EdgeInsets.only(top: 8),
   }) : super(key: key);
 
   @override
@@ -22,8 +21,8 @@ class FormFieldContainer extends StatelessWidget {
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6))
       ),
       child: this.child,
     );

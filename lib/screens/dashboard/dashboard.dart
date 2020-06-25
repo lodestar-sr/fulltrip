@@ -12,15 +12,16 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int currentTab = 0;
 
-  Widget currentScreen = Container();
-
   final List<Widget> screens = [
     Home(
       key: PageStorageKey('Page1'),
     ),
-    Container(),
-    Container(),
-    Container(),
+    Container(
+      key: PageStorageKey('Page2'),),
+    Container(
+      key: PageStorageKey('Page3'),),
+    Container(
+      key: PageStorageKey('Page4'),),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
