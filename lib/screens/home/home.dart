@@ -61,7 +61,8 @@ class _HomeState extends State<Home> {
   ];
 
   List<Map> filters = [
-    {'type': 'address', 'value': 'Paris'},
+    {'type': 'start_address', 'value': 'Paris'},
+    {'type': 'arrival_address', 'value': 'Vienne'},
     {'type': 'price', 'lowValue': 30, 'highValue': 70},
     {'type': 'volume', 'value': 16},
     {'type': 'service', 'value': 'Luxe'},
@@ -110,54 +111,45 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 9,
-                                  height: 9,
-                                  margin: EdgeInsets.only(right: 4),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: AppColors.darkGreyColor),
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                Text(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                              Padding(
+                                padding: EdgeInsets.only(left: 4),
+                                child: Text(
                                   this.lots[i]['startAddress'],
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 11),
-                                )
-                              ],
-                            ),
-                            Container(
-                                width: 9,
-                                child: Dash(
-                                  direction: Axis.vertical,
-                                  length: 32,
-                                  dashLength: 3,
-                                  dashColor: AppColors.darkGreyColor,
-                                )),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 9,
-                                  height: 9,
-                                  margin: EdgeInsets.only(right: 4),
-                                  decoration: new BoxDecoration(
-                                    border: Border.all(color: AppColors.darkGreyColor),
-                                    shape: BoxShape.circle,
-                                  ),
                                 ),
-                                Text(
+                              ),
+                            ],
+                          ),
+                          Container(
+                              width: 9,
+                              child: Dash(
+                                direction: Axis.vertical,
+                                length: 32,
+                                dashLength: 3,
+                                dashColor: AppColors.darkGreyColor,
+                              )),
+                          Row(
+                            children: <Widget>[
+                              Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                              Padding(
+                                padding: EdgeInsets.only(left: 4),
+                                child: Text(
                                   this.lots[i]['arrivalAddress'],
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 11),
-                                )
-                              ],
-                            ),
-                          ],
-                        )),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                     Text(
                       this.lots[i]['company'],
                       style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
@@ -196,17 +188,17 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        onTap: () => Navigator.of(context).pushNamed(''),
+        onTap: () => Navigator.of(context).pushNamed('lot-details'),
       ));
     }
 
     if (list.length == 0) {
       list.add(Container(
-        padding: EdgeInsets.only(left: 32, right: 32),
+        padding: EdgeInsets.only(left: 32, right: 32, top: 48),
         child: Center(
           child: Text(
             'Désolé, la recherche n\'a donné aucun résultat. Essayez de sélectionner d\'autres filtres.',
-            style: TextStyle(color: AppColors.greyColor, fontSize: 18, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -228,10 +220,16 @@ class _HomeState extends State<Home> {
         ),
         child: Row(
           children: <Widget>[
-            filters[i]['type'] == 'address'
+            filters[i]['type'] == 'start_address'
                 ? Container(
                     margin: EdgeInsets.only(right: 8),
-                    child: Icon(Entypo.location_pin, size: 12, color: AppColors.lightGreyColor),
+                    child: Image.asset('assets/images/start.png', width: 16, height: 16),
+                  )
+                : Container(),
+            filters[i]['type'] == 'arrival_address'
+                ? Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: Image.asset('assets/images/arrive.png', width: 16, height: 16),
                   )
                 : Container(),
             Text(
@@ -242,7 +240,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12),
+                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
               ),
               onTap: () => {},
             )
@@ -283,30 +281,20 @@ class _HomeState extends State<Home> {
                         ),
                         borderSide: BorderSide(color: AppColors.primaryColor),
                         onPressed: () => Navigator.of(context).pushNamed('filter'),
-                        splashColor: AppColors.cyanColor,
+                        splashColor: AppColors.lightBlueColor,
                       ),
                     ),
-                    geoLocation
-                        ? RaisedButton.icon(
-                            icon: Icon(Entypo.direction, size: 14),
-                            label: Text('Autour de moi', style: TextStyle(fontSize: 12)),
-                            color: AppColors.primaryColor,
-                            textColor: Colors.white,
-                            onPressed: toggleLocation,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          )
-                        : OutlineButton.icon(
-                            icon: Icon(Entypo.direction, size: 14, color: AppColors.greyColor),
-                            label: Text('Autour de moi', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            borderSide: BorderSide(color: AppColors.primaryColor),
-                            onPressed: toggleLocation,
-                            splashColor: AppColors.cyanColor,
-                          ),
+                    RaisedButton.icon(
+                      icon: Icon(Entypo.direction, size: 14),
+                      label: Text('Autour de moi', style: TextStyle(fontSize: 12)),
+                      color: geoLocation ? AppColors.primaryColor : AppColors.lightBlueColor,
+                      textColor: Colors.white,
+                      onPressed: toggleLocation,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: BorderSide(color: AppColors.primaryColor),
+                      ),
+                    ),
                   ],
                 ),
               ),

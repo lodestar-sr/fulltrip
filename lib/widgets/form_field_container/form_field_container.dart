@@ -22,7 +22,7 @@ class FormFieldContainer extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6))
+        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
       ),
       child: this.child,
     );

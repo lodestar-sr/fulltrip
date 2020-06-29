@@ -77,7 +77,7 @@ class _FilterState extends State<Filter> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 16),
+                            margin: EdgeInsets.only(bottom: 24),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[

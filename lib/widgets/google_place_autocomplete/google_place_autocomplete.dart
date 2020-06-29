@@ -2,13 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/util/constants.dart';
 import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:google_maps_webservice/places.dart';
 
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: Constants.googleAPIKey);
+//GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: Constants.googleAPIKey);
 
 class GooglePlacesAutocomplete extends StatefulWidget {
   final mode;
@@ -34,68 +32,46 @@ class GooglePlacesAutocomplete extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _GooglePlacesAutocompleteState(prefixIcon, mode, language, components, initialValue, validator, onSelect, onChanged, onSaved);
+  State<StatefulWidget> createState() => _GooglePlacesAutocompleteState();
 }
 
 class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
   TextEditingController textEditingController = TextEditingController();
 
-  Mode mode;
-  String language;
-  List<dynamic> components;
-  String initialValue;
-  FormFieldValidator<String> validator;
-  ValueChanged<String> onSelect;
-  ValueChanged<String> onChanged;
-  ValueChanged<String> onSaved;
-  EdgeInsets margin;
-  EdgeInsets padding;
-  Icon prefixIcon;
-
-  _GooglePlacesAutocompleteState(Icon prefixIcon, Mode mode, String language, List<dynamic> components, String initialValue, FormFieldValidator<String> validator, ValueChanged<String> onSelect, ValueChanged<String> onChanged, ValueChanged<String> onSaved) {
-    this.mode = mode;
-    this.language = language;
-    this.components = components;
-    this.initialValue = initialValue;
-    this.validator = validator;
-    this.onSelect = onSelect;
-    this.onChanged = onChanged;
-    this.onSaved = onSaved;
-    this.prefixIcon = prefixIcon;
-
-    if (initialValue != null) {
-      textEditingController.text = initialValue;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) {
+      textEditingController.text = widget.initialValue;
     }
   }
 
   Future<Null> displayPrediction(Prediction p) async {
     if (p != null) {
       // get detail (lat/lng)
-      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
-      final lat = detail.result.geometry.location.lat;
-      final lng = detail.result.geometry.location.lng;
-      final formattedAddress = detail.result.formattedAddress;
+//      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+//      final lat = detail.result.geometry.location.lat;
+//      final lng = detail.result.geometry.location.lng;
+//      final formattedAddress = detail.result.formattedAddress;
 
       setState(() {
-        textEditingController.text = formattedAddress;
+        textEditingController.text = p.description;
       });
-      this.onSelect(formattedAddress);
+      widget.onSelect(p.description);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormFieldContainer(
-      child: TextFormField(
-        onTap: _handlePressButton,
-        validator: validator,
-        controller: textEditingController,
-        onChanged: onChanged,
-        onSaved: onSaved,
-        readOnly: true,
-        decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: prefixIcon),
-        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
-      ),
+    return TextFormField(
+      onTap: _handlePressButton,
+      validator: widget.validator,
+      controller: textEditingController,
+      onChanged: widget.onChanged,
+      onSaved: widget.onSaved,
+      readOnly: true,
+      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15)),
+      style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }
 
@@ -106,9 +82,9 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       context: context,
       apiKey: Constants.googleAPIKey,
       onError: onError,
-      mode: mode,
-      language: language,
-      components: components ?? [Component(Component.country, "fr")],
+      mode: widget.mode,
+      language: widget.language,
+      components: widget.components ?? [Component(Component.country, "fr")],
     );
 
     displayPrediction(p);
