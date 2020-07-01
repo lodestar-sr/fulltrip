@@ -1,29 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 import 'package:fulltrip/util/validators/validators.dart';
 import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
+class Register extends StatefulWidget {
+  Register({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LoginState();
+  State<StatefulWidget> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
-  final loginFormKey = GlobalKey<FormState>();
+class _RegisterState extends State<Register> {
+  final registerFormKey = GlobalKey<FormState>();
 
   String _email;
   String _password;
 
   onSubmit() {
-    if (loginFormKey.currentState.validate()) {
-      final form = loginFormKey.currentState;
+    if (registerFormKey.currentState.validate()) {
+      final form = registerFormKey.currentState;
       form.save();
-      Navigator.of(context).pushNamed('dashboard');
+
+      Navigator.of(context).pushNamed('verify-sms');
     }
   }
 
@@ -52,21 +54,14 @@ class _LoginState extends State<Login> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 8),
+                          margin: EdgeInsets.only(bottom: 54),
                           width: double.infinity,
                           child: Center(
-                            child: Text('Bienvenue sur Full Trip', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.greyDarkColor)),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 28),
-                          width: double.infinity,
-                          child: Center(
-                            child: Text('Connectez-vous pour continuer', style: TextStyle(fontSize: 12, color: AppColors.greyColor)),
+                            child: Text('Commençons', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.greyDarkColor)),
                           ),
                         ),
                         Form(
-                          key: loginFormKey,
+                          key: registerFormKey,
                           autovalidate: true,
                           child: Column(
                             children: [
@@ -74,7 +69,29 @@ class _LoginState extends State<Login> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Votre email').copyWith(prefixIcon: Icon(Icons.mail_outline)),
+                                  decoration: hintTextDecoration('Nom de l\'entreprise').copyWith(prefixIcon: Icon(Icons.person_outline)),
+                                  validator: (value) => Validators.required(value, errorText: 'Veuillez saisir nom de l\'entreprise'),
+                                  keyboardType: TextInputType.text,
+                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                  onSaved: (val) => setState(() => _email = val),
+                                ),
+                              ),
+                              FormFieldContainer(
+                                padding: EdgeInsets.all(4),
+                                child: TextFormField(
+                                  initialValue: '',
+                                  decoration: hintTextDecoration('Numéro de téléphone').copyWith(prefixIcon: Icon(Feather.smartphone)),
+                                  validator: (value) => Validators.mustNumeric(value, errorText: 'Veuillez saisir un numéro de téléphone valide'),
+                                  keyboardType: TextInputType.phone,
+                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                  onSaved: (val) => setState(() => _email = val),
+                                ),
+                              ),
+                              FormFieldContainer(
+                                padding: EdgeInsets.all(4),
+                                child: TextFormField(
+                                  initialValue: '',
+                                  decoration: hintTextDecoration('Sähköposti').copyWith(prefixIcon: Icon(Icons.mail_outline)),
                                   validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
@@ -93,7 +110,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 16, bottom: 32),
+                                margin: EdgeInsets.only(top: 98, bottom: 32),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(30)),
                                   boxShadow: <BoxShadow>[
@@ -115,51 +132,20 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: Divider(color: AppColors.lightGreyColor),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 24, right: 24),
-                            child: Text("OU", style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
-                          ),
-                          Expanded(
-                            child: Divider(color: AppColors.lightGreyColor),
-                          ),
-                        ]),
-                        Container(
-                          margin: EdgeInsets.only(top: 24),
-                          child: Text('Ou connectez-vous avec', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 16, bottom: 24),
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFFDD4B39)),
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                          child: Image.asset('assets/images/google.png', width: 16),
-                        ),
-                        Container(
-                          child: GestureDetector(
-                            child: Text('Mot de passe oublié?', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
-                            onTap: () {},
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Vous n\'avez pas de compte? ', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                              GestureDetector(
-                                child: Text(' Enregistrement', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('register');
-                                },
+                              Container(
+                                margin: EdgeInsets.only(top: 8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Vous avez déjà un compte? ', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                    GestureDetector(
+                                      child: Text(' Se connecter', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
