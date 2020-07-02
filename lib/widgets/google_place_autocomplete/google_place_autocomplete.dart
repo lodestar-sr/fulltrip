@@ -85,6 +85,7 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       mode: widget.mode,
       language: widget.language,
       components: widget.components ?? [Component(Component.country, "fr")],
+      logo: Container(height: 0),
     );
 
     displayPrediction(p);
