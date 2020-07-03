@@ -17,11 +17,14 @@ class _DashboardState extends State<Dashboard> {
       key: PageStorageKey('Page1'),
     ),
     Container(
-      key: PageStorageKey('Page2'),),
+      key: PageStorageKey('Page2'),
+    ),
     Container(
-      key: PageStorageKey('Page3'),),
+      key: PageStorageKey('Page3'),
+    ),
     Container(
-      key: PageStorageKey('Page4'),),
+      key: PageStorageKey('Page4'),
+    ),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -109,8 +112,9 @@ class _DashboardState extends State<Dashboard> {
                             color: AppColors.primaryColor,
                             shape: BoxShape.circle,
                           ),
+                          child: Icon(Icons.add, size: 32, color: Colors.white),
                         ),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).pushNamed('propose-lot'),
                       ),
                     ),
                   ),

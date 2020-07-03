@@ -3,9 +3,10 @@ import 'package:fulltrip/screens/auth/login.dart';
 import 'package:fulltrip/screens/auth/register.dart';
 import 'package:fulltrip/screens/auth/verify_sms.dart';
 import 'package:fulltrip/screens/dashboard/dashboard.dart';
-import 'package:fulltrip/screens/filter/filter.dart';
+import 'package:fulltrip/screens/home/filter/filter.dart';
 import 'package:fulltrip/screens/home/home.dart';
-import 'package:fulltrip/screens/lot_details/lot_details.dart';
+import 'package:fulltrip/screens/home/lot_details/lot_details.dart';
+import 'package:fulltrip/screens/home/propose_lot/propose_lot.dart';
 import 'package:fulltrip/screens/splash/splash.dart';
 
 import 'util/theme.dart';
@@ -20,6 +21,7 @@ class Routes {
     'home': (BuildContext context) => Home(),
     'filter': (BuildContext context) => Filter(),
     'lot-details': (BuildContext context) => LotDetails(),
+    'propose-lot': (BuildContext context) => ProposeLot(),
   };
 
   Routes() {
