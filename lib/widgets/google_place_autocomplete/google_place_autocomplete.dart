@@ -41,9 +41,6 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialValue != null) {
-      textEditingController.text = widget.initialValue;
-    }
   }
 
   Future<Null> displayPrediction(Prediction p) async {
@@ -63,6 +60,9 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.initialValue != null) {
+      textEditingController.text = widget.initialValue;
+    }
     return TextFormField(
       onTap: _handlePressButton,
       validator: widget.validator,
@@ -70,7 +70,9 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       readOnly: true,
-      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15)),
+      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(
+          prefixIcon: widget.prefixIcon,
+          contentPadding: EdgeInsets.only(top: 15)),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

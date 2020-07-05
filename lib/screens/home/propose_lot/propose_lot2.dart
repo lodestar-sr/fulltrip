@@ -1,33 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fulltrip/util/SizeConfig.dart';
-import 'package:fulltrip/util/UserCurretnLocation.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/util/validators/validators.dart';
 import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
+import 'package:fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
 import 'package:location/location.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
+import 'package:fulltrip/util/validators/validators.dart';
 
-class ProposeLot extends StatefulWidget {
-  ProposeLot({Key key}) : super(key: key);
+class ProposeLot2 extends StatefulWidget {
+  ProposeLot2({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ProposeLotState();
+  State<StatefulWidget> createState() => _ProposeLot2State();
 }
 
-class _ProposeLotState extends State<ProposeLot> {
+class _ProposeLot2State extends State<ProposeLot2> {
   int counter = 0;
-  String arrivalAddress = '';
+  String arrival_location_type = '';
   final _formKey = GlobalKey<FormState>();
   String starting_location_type = '';
   String starting_floors = '';
-  bool starting_furniture_lift = false;
-  bool starting_dismantling_furniture = false;
+  bool arrival_furniture_lift = false;
+  bool arrival_reassembly_furniture = false;
   Location location = new Location();
-  bool _serviceEnabled;
-  bool checkquantity = false;
+  bool economique = true;
+  bool standard = false;
+  bool luxe = false;
+  String selectedDelivery = 'Economique';
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -49,7 +51,7 @@ class _ProposeLotState extends State<ProposeLot> {
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
-              new Text('Au départ',
+              new Text("A l'arrivée",
                   style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
@@ -66,7 +68,6 @@ class _ProposeLotState extends State<ProposeLot> {
           backgroundColor: Colors.white,
           centerTitle: true,
           automaticallyImplyLeading: false,
-          actions: <Widget>[],
         ),
         body: GestureDetector(
           onTap: () {
@@ -92,7 +93,7 @@ class _ProposeLotState extends State<ProposeLot> {
                         children: [
                           RichText(
                             text: TextSpan(
-                              text: 'Adresse de départ',
+                              text: "Adresse d'arrivée",
                               style: TextStyle(
                                   fontSize: 15,
                                   color: AppColors.darkColor,
@@ -109,65 +110,20 @@ class _ProposeLotState extends State<ProposeLot> {
                           FormFieldContainer(
                             padding: EdgeInsets.only(right: 16),
                             child: GooglePlacesAutocomplete(
-                              initialValue: arrivalAddress,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.all(13.0),
-                                child: Image.asset(
-                                  'assets/images/locationDeparture.png',
-                                  width: 16,
-                                  height: 16,
-                                  color: AppColors.greyColor,
-                                ),
-                              ),
+                              //initialValue: '',
                               validator: (value) => Validators.required(value,
                                   errorText:
                                       'Veuillez saisir votre mot de passe'),
-                              onSelect: (val) =>
-                                  this.setState(() => arrivalAddress = val),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8),
-                            child: GestureDetector(
-                              onTap: () async {
-                                _serviceEnabled =
-                                    await location.serviceEnabled();
-                                if (!_serviceEnabled) {
-                                  _serviceEnabled =
-                                      await location.requestService();
-
-                                  if (!_serviceEnabled) {
-                                    return UserCurrentLocation
-                                        .checkpermissionstatus();
-                                  }
-                                } else {
-                                  UserCurrentLocation.getCurrentLocation()
-                                      .then((value) {
-                                    setState(() {
-                                      arrivalAddress = Global.address;
-                                      print(arrivalAddress);
-                                    });
-                                  });
-                                }
-                              },
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_searching,
-                                    color: AppColors.primaryColor,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Utilise ma location',
-                                    style: TextStyle(
-                                        color: AppColors.primaryColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ],
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: Image.asset(
+                                  'assets/images/locationArrival.png',
+                                  width: 16,
+                                  height: 16,
+                                ),
                               ),
+                              onSelect: (val) => this
+                                  .setState(() => arrival_location_type = val),
                             ),
                           ),
                           Padding(
@@ -325,10 +281,10 @@ class _ProposeLotState extends State<ProposeLot> {
                                 ),
                                 CupertinoSwitch(
                                   activeColor: AppColors.primaryColor,
-                                  value: starting_furniture_lift,
+                                  value: arrival_furniture_lift,
                                   onChanged: (bool value) {
                                     setState(() {
-                                      starting_furniture_lift = value;
+                                      arrival_furniture_lift = value;
                                     });
                                   },
                                 ),
@@ -348,11 +304,11 @@ class _ProposeLotState extends State<ProposeLot> {
                                     fontSize: 14),
                               ),
                               CupertinoSwitch(
-                                value: starting_dismantling_furniture,
+                                value: arrival_reassembly_furniture,
                                 activeColor: AppColors.primaryColor,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    starting_dismantling_furniture = value;
+                                    arrival_reassembly_furniture = value;
                                   });
                                 },
                               )
@@ -362,91 +318,162 @@ class _ProposeLotState extends State<ProposeLot> {
                           Divider(
                             color: Color(0xffE4E4E4),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: SizeConfig.safeBlockVertical * 2),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: 'Quantité en m3',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: AppColors.darkColor,
-                                        fontWeight: FontWeight.w500),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: ' *',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: AppColors.redColor)),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: AppColors.whiteColor,
-                                    border: Border.all(
-                                        color: AppColors.lightBlueColor)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(8),
-                                              bottomLeft: Radius.circular(8)),
-                                          color: Colors.white),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.remove,
-                                            color: AppColors.greyColor,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              if (counter > 0) {
-                                                counter -= 1;
-                                              }
-                                            });
-                                          }),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      child: Center(child: Text('$counter')),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(8),
-                                            bottomRight: Radius.circular(8)),
-                                        color: Colors.white,
-                                      ),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            color: AppColors.greyColor,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              counter += 1;
-                                            });
-                                          }),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Visibility(
-                              visible: checkquantity,
-                              child: Text(
-                                'Quantity Required',
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Prestation',
                                 style: TextStyle(
-                                    color: AppColors.redColor, fontSize: 12),
-                              )),
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              '''Lorem ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.''',
+                              style: TextStyle(
+                                  color: AppColors.greyColor, fontSize: 12),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Material(
+                                  child: new InkWell(
+                                    onTap: () {
+                                      print("tapped");
+                                      setState(() {
+                                        economique = !economique;
+                                        standard = false;
+                                        luxe = false;
+                                        selectedDelivery = 'Economique';
+                                      });
+                                    },
+                                    child: new Container(
+                                      padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 20,
+                                          bottom: 20),
+                                      decoration: BoxDecoration(
+                                          color: economique
+                                              ? AppColors.whiteColor
+                                              : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: economique
+                                                  ? AppColors.whiteColor
+                                                  : AppColors.lightGreyColor)),
+                                      child: Center(
+                                          child: Text(
+                                        'Economique',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: economique
+                                                ? AppColors.primaryColor
+                                                : AppColors.mediumGreyColor),
+                                      )),
+                                    ),
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                Material(
+                                  child: new InkWell(
+                                    onTap: () {
+                                      print("tapped");
+                                      setState(() {
+                                        standard = !standard;
+                                        economique = false;
+                                        luxe = false;
+                                        selectedDelivery = 'Standard';
+                                      });
+                                    },
+                                    child: new Container(
+                                      padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 20,
+                                          bottom: 20),
+                                      decoration: BoxDecoration(
+                                          color: standard
+                                              ? AppColors.whiteColor
+                                              : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: standard
+                                                  ? AppColors.whiteColor
+                                                  : AppColors.lightGreyColor)),
+                                      child: Center(
+                                          child: Text(
+                                        'Standard',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: standard
+                                                ? AppColors.primaryColor
+                                                : AppColors.mediumGreyColor),
+                                      )),
+                                    ),
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                                Material(
+                                  child: new InkWell(
+                                    onTap: () {
+                                      print("tapped");
+                                      setState(() {
+                                        luxe = !luxe;
+                                        economique = false;
+                                        standard = false;
+                                        selectedDelivery = 'Luxe';
+                                      });
+                                    },
+                                    child: new Container(
+                                      padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 20,
+                                          bottom: 20),
+                                      decoration: BoxDecoration(
+                                          color: luxe
+                                              ? AppColors.whiteColor
+                                              : Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                              color: luxe
+                                                  ? AppColors.whiteColor
+                                                  : AppColors.lightGreyColor)),
+                                      child: Center(
+                                          child: Text(
+                                        'Luxe',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: luxe
+                                                ? AppColors.primaryColor
+                                                : AppColors.mediumGreyColor),
+                                      )),
+                                    ),
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                              ],
+                            ),
+                          ),
 
                           ///BottomButton
                           Padding(
@@ -475,17 +502,9 @@ class _ProposeLotState extends State<ProposeLot> {
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: () {
-                                    if (_formKey.currentState.validate() &&
-                                        counter != 0) {
-                                      setState(() {
-                                        checkquantity = false;
-                                      });
+                                    if (_formKey.currentState.validate()) {
                                       Navigator.of(context)
-                                          .pushNamed('ProposeLot2');
-                                    } else if (counter == 0) {
-                                      setState(() {
-                                        checkquantity = true;
-                                      });
+                                          .pushNamed('ProposeLot3');
                                     }
                                   },
                                   shape: RoundedRectangleBorder(

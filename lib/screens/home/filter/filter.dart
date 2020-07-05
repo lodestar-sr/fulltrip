@@ -33,14 +33,16 @@ class _FilterState extends State<Filter> {
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(
-          title: new Text('Filtres', style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+          title: new Text('Filtres',
+              style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
             child: Center(
               child: Container(
                 margin: EdgeInsets.only(left: 12),
-                child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                child: Text('Annuler',
+                    style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
               ),
             ),
             onTap: () => Navigator.of(context).pop(),
@@ -51,19 +53,22 @@ class _FilterState extends State<Filter> {
               child: Center(
                 child: Container(
                   margin: EdgeInsets.only(right: 12),
-                  child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
+                  child: Text('Réinitialiser',
+                      style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
                 ),
               ),
               onTap: () => {},
             )
           ],
         ),
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -81,13 +86,24 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse de départ', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Adresse de départ',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
-                                    initialValue: '',
-                                    prefixIcon: Icon(Entypo.location_pin, color: AppColors.greenColor),
-                                    onSelect: (val) => this.setState(() => startAddress = val),
+                                    //initialValue: '',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(13.0),
+                                      child: Image.asset(
+                                        'assets/images/locationDeparture.png',
+                                        width: 16,
+                                        height: 16,
+                                      ),
+                                    ),
+                                    onSelect: (val) =>
+                                        this.setState(() => startAddress = val),
                                   ),
                                 ),
                               ],
@@ -98,13 +114,24 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse d\'arrivée', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Adresse d\'arrivée',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
-                                    initialValue: '',
-                                    prefixIcon: Icon(Entypo.location_pin, color: AppColors.purpleColor),
-                                    onSelect: (val) => this.setState(() => arrivalAddress = val),
+                                    //initialValue: '',
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.all(13.0),
+                                      child: Image.asset(
+                                        'assets/images/locationArrival.png',
+                                        width: 16,
+                                        height: 16,
+                                      ),
+                                    ),
+                                    onSelect: (val) => this
+                                        .setState(() => arrivalAddress = val),
                                   ),
                                 ),
                               ],
@@ -119,7 +146,10 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Prix', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Prix',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
@@ -129,7 +159,8 @@ class _FilterState extends State<Filter> {
                                     rangeSlider: true,
                                     step: FlutterSliderStep(step: 1),
                                     selectByTap: true,
-                                    onDragging: (handlerIndex, lowerValue, upperValue) {
+                                    onDragging:
+                                        (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
                                         price = [lowerValue, upperValue];
                                       });
@@ -146,7 +177,8 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check, color: Colors.white, size: 12),
+                                        child: Icon(Icons.check,
+                                            color: Colors.white, size: 12),
                                       ),
                                     ),
                                     rightHandler: FlutterSliderHandler(
@@ -159,23 +191,39 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check, color: Colors.white, size: 12),
+                                        child: Icon(Icons.check,
+                                            color: Colors.white, size: 12),
                                       ),
                                     ),
                                     trackBar: FlutterSliderTrackBar(
                                       activeTrackBarHeight: 5,
                                       inactiveTrackBarHeight: 5,
-                                      activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
-                                      inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
+                                      activeTrackBar: BoxDecoration(
+                                          color: AppColors.primaryColor),
+                                      inactiveTrackBar: BoxDecoration(
+                                          color: AppColors.lightGreyColor),
                                     ),
                                     tooltip: FlutterSliderTooltip(
-                                      positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
+                                      positionOffset:
+                                          FlutterSliderTooltipPositionOffset(
+                                              top: -5),
                                       alwaysShowTooltip: true,
-                                      custom: (value) => Text('${value.toString()}€', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                      custom: (value) => Text(
+                                          '${value.toString()}€',
+                                          style: AppStyles.greyTextStyle
+                                              .copyWith(fontSize: 12)),
                                     ),
                                     hatchMark: FlutterSliderHatchMark(labels: [
-                                      FlutterSliderHatchMarkLabel(percent: 0, label: Text('100', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
-                                      FlutterSliderHatchMarkLabel(percent: 100, label: Text('10000', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(
+                                          percent: 0,
+                                          label: Text('100',
+                                              style: AppStyles.greyTextStyle
+                                                  .copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(
+                                          percent: 100,
+                                          label: Text('10000',
+                                              style: AppStyles.greyTextStyle
+                                                  .copyWith(fontSize: 12))),
                                     ], labelsDistanceFromTrackBar: 30),
                                   ),
                                 ),
@@ -187,7 +235,10 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Quantité', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Quantité',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
@@ -196,7 +247,8 @@ class _FilterState extends State<Filter> {
                                     values: volume,
                                     step: FlutterSliderStep(step: 1),
                                     selectByTap: true,
-                                    onDragging: (handlerIndex, lowerValue, upperValue) {
+                                    onDragging:
+                                        (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
                                         volume = [lowerValue, upperValue];
                                       });
@@ -213,23 +265,39 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check, color: Colors.white, size: 12),
+                                        child: Icon(Icons.check,
+                                            color: Colors.white, size: 12),
                                       ),
                                     ),
                                     trackBar: FlutterSliderTrackBar(
                                       activeTrackBarHeight: 5,
                                       inactiveTrackBarHeight: 5,
-                                      activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
-                                      inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
+                                      activeTrackBar: BoxDecoration(
+                                          color: AppColors.primaryColor),
+                                      inactiveTrackBar: BoxDecoration(
+                                          color: AppColors.lightGreyColor),
                                     ),
                                     tooltip: FlutterSliderTooltip(
-                                      positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
+                                      positionOffset:
+                                          FlutterSliderTooltipPositionOffset(
+                                              top: -5),
                                       alwaysShowTooltip: true,
-                                      custom: (value) => Text('${value.toString()}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                      custom: (value) => Text(
+                                          '${value.toString()}m³',
+                                          style: AppStyles.greyTextStyle
+                                              .copyWith(fontSize: 12)),
                                     ),
                                     hatchMark: FlutterSliderHatchMark(labels: [
-                                      FlutterSliderHatchMarkLabel(percent: 0, label: Text('5m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
-                                      FlutterSliderHatchMarkLabel(percent: 100, label: Text('100m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(
+                                          percent: 0,
+                                          label: Text('5m³',
+                                              style: AppStyles.greyTextStyle
+                                                  .copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(
+                                          percent: 100,
+                                          label: Text('100m³',
+                                              style: AppStyles.greyTextStyle
+                                                  .copyWith(fontSize: 12))),
                                     ], labelsDistanceFromTrackBar: 30),
                                   ),
                                 ),
@@ -257,7 +325,11 @@ class _FilterState extends State<Filter> {
                               items: Constants.services.entries.map((itm) {
                                 return DropdownMenuItem(
                                   value: itm.key,
-                                  child: Text(itm.value, style: AppStyles.blackTextStyle.copyWith(fontSize: 14),),
+                                  child: Text(
+                                    itm.value,
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontSize: 14),
+                                  ),
                                 );
                               }).toList(),
                               value: unservice,
@@ -266,27 +338,32 @@ class _FilterState extends State<Filter> {
                                   unservice = val;
                                 });
                               },
-                              decoration: hintTextDecoration('Choisissez votre service'),
+                              decoration: hintTextDecoration(
+                                  'Choisissez votre service'),
                               onSaved: (val) => setState(() => unservice = val),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 64),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
-                                  color: AppColors.primaryColor.withOpacity(0.24),
-                                  blurRadius: 16,
-                                  spreadRadius: 4
-                                ),
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.24),
+                                    blurRadius: 16,
+                                    spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 60,
                               child: RaisedButton(
-                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                child: Text('Appliquer les filtres',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: () {},

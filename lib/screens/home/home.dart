@@ -15,7 +15,8 @@ class _HomeState extends State<Home> {
   List<Map> lots = [
     {
       'company': 'Nom de la compagnie',
-      'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+      'photo':
+          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
       'price': 700,
       'volume': 53,
       'startAddress': 'Paris',
@@ -24,7 +25,8 @@ class _HomeState extends State<Home> {
     },
     {
       'company': 'Nom de la compagnie',
-      'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+      'photo':
+          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
       'price': 700,
       'volume': 53,
       'startAddress': 'Paris',
@@ -33,7 +35,8 @@ class _HomeState extends State<Home> {
     },
     {
       'company': 'Nom de la compagnie',
-      'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+      'photo':
+          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
       'price': 700,
       'volume': 53,
       'startAddress': 'Paris',
@@ -42,7 +45,8 @@ class _HomeState extends State<Home> {
     },
     {
       'company': 'Nom de la compagnie',
-      'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+      'photo':
+          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
       'price': 700,
       'volume': 53,
       'startAddress': 'Paris',
@@ -51,7 +55,8 @@ class _HomeState extends State<Home> {
     },
     {
       'company': 'Nom de la compagnie',
-      'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+      'photo':
+          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
       'price': 700,
       'volume': 53,
       'startAddress': 'Paris',
@@ -117,12 +122,14 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                              Icon(Entypo.circle,
+                                  size: 9, color: AppColors.darkGreyColor),
                               Padding(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
                                   this.lots[i]['startAddress'],
-                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 11),
+                                  style: AppStyles.blackTextStyle
+                                      .copyWith(fontSize: 11),
                                 ),
                               ),
                             ],
@@ -137,12 +144,14 @@ class _HomeState extends State<Home> {
                               )),
                           Row(
                             children: <Widget>[
-                              Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                              Icon(Entypo.circle,
+                                  size: 9, color: AppColors.darkGreyColor),
                               Padding(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
                                   this.lots[i]['arrivalAddress'],
-                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 11),
+                                  style: AppStyles.blackTextStyle
+                                      .copyWith(fontSize: 11),
                                 ),
                               ),
                             ],
@@ -152,7 +161,8 @@ class _HomeState extends State<Home> {
                     ),
                     Text(
                       this.lots[i]['company'],
-                      style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+                      style: AppStyles.blackTextStyle
+                          .copyWith(fontWeight: FontWeight.w500),
                     )
                   ],
                 ),
@@ -165,21 +175,26 @@ class _HomeState extends State<Home> {
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         "${this.lots[i]['price'].toString()}€",
-                        style: TextStyle(color: AppColors.darkGreyColor, fontSize: 18, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            color: AppColors.darkGreyColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         this.lots[i]['service'],
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         "${this.lots[i]['volume'].toString()}m³",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
                     ),
                   ],
@@ -198,7 +213,8 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Text(
             'Désolé, la recherche n\'a donné aucun résultat. Essayez de sélectionner d\'autres filtres.',
-            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(
+                color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -223,17 +239,27 @@ class _HomeState extends State<Home> {
             filters[i]['type'] == 'start_address'
                 ? Container(
                     margin: EdgeInsets.only(right: 8),
-                    child: Image.asset('assets/images/start.png', width: 16, height: 16),
+                    child: Image.asset(
+                      'assets/images/locationDeparture.png',
+                      width: 16,
+                      height: 16,
+                    ),
                   )
                 : Container(),
             filters[i]['type'] == 'arrival_address'
                 ? Container(
                     margin: EdgeInsets.only(right: 8),
-                    child: Image.asset('assets/images/arrive.png', width: 16, height: 16),
+                    child: Image.asset(
+                      'assets/images/locationArrival.png',
+                      width: 16,
+                      height: 16,
+                    ),
                   )
                 : Container(),
             Text(
-              (filters[i]['type'] == 'price' ? "${filters[i]['lowValue'].toString()}€ - ${filters[i]['highValue'].toString()}€" : filters[i]['value'].toString()) +
+              (filters[i]['type'] == 'price'
+                      ? "${filters[i]['lowValue'].toString()}€ - ${filters[i]['highValue'].toString()}€"
+                      : filters[i]['value'].toString()) +
                   (filters[i]['type'] == 'volume' ? "m³" : ""),
               style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
             ),
@@ -261,7 +287,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
         return Container(
           width: double.infinity,
           padding: EdgeInsets.only(left: 16, right: 16),
@@ -274,20 +301,27 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: EdgeInsets.only(right: 14),
                       child: OutlineButton.icon(
-                        icon: Icon(Octicons.settings, size: 14, color: AppColors.primaryColor),
-                        label: Text('Filtres', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
+                        icon: Icon(Octicons.settings,
+                            size: 14, color: AppColors.primaryColor),
+                        label: Text('Filtres',
+                            style:
+                                AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
                         borderSide: BorderSide(color: AppColors.primaryColor),
-                        onPressed: () => Navigator.of(context).pushNamed('filter'),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed('filter'),
                         splashColor: AppColors.lightBlueColor,
                       ),
                     ),
                     RaisedButton.icon(
                       icon: Icon(Entypo.direction, size: 14),
-                      label: Text('Autour de moi', style: TextStyle(fontSize: 12)),
-                      color: geoLocation ? AppColors.primaryColor : AppColors.lightBlueColor,
+                      label:
+                          Text('Autour de moi', style: TextStyle(fontSize: 12)),
+                      color: geoLocation
+                          ? AppColors.primaryColor
+                          : AppColors.lightBlueColor,
                       textColor: Colors.white,
                       onPressed: toggleLocation,
                       shape: RoundedRectangleBorder(

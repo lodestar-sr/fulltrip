@@ -23,16 +23,32 @@ class AppColors {
   static const greenColor = Color(0xFF7DFF7A);
   static const lightGreenColor = Color(0xFFBBFFBA);
   static const greyDarkColor = Color(0xFF202E58);
+  static const mediumGreyColor = Color(0xFF9098B1);
 }
 
 class AppStyles {
-  static const navbarInactiveTextStyle = TextStyle(color: AppColors.lightGreyColor, fontSize: 12, fontWeight: FontWeight.normal);
-  static const navbarActiveTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 12, fontWeight: FontWeight.normal);
-  static const blackTextStyle = TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
-  static const greyTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const darkGreyTextStyle = TextStyle(color: AppColors.darkGreyColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const primaryTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const defaultHintTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 11);
+  static const navbarInactiveTextStyle = TextStyle(
+      color: AppColors.lightGreyColor,
+      fontSize: 12,
+      fontWeight: FontWeight.normal);
+  static const navbarActiveTextStyle = TextStyle(
+      color: AppColors.primaryColor,
+      fontSize: 12,
+      fontWeight: FontWeight.normal);
+  static const blackTextStyle = TextStyle(
+      color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
+  static const greyTextStyle = TextStyle(
+      color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
+  static const darkGreyTextStyle = TextStyle(
+      color: AppColors.darkGreyColor,
+      fontSize: 16,
+      fontWeight: FontWeight.normal);
+  static const primaryTextStyle = TextStyle(
+      color: AppColors.primaryColor,
+      fontSize: 16,
+      fontWeight: FontWeight.normal);
+  static const defaultHintTextStyle =
+      TextStyle(color: AppColors.greyColor, fontSize: 11);
 }
 
 InputDecoration hintTextDecoration(String text) {
