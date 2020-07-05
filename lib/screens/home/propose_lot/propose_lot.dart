@@ -67,6 +67,7 @@ class _ProposeLotState extends State<ProposeLot> {
   bool starting_dismantling_furniture = false;
   Location location = new Location();
   bool _serviceEnabled;
+  bool checkquantity = false;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -344,36 +345,53 @@ class _ProposeLotState extends State<ProposeLot> {
                                   setState(() => starting_location_type = val),
                             ),
                           ),
-
-                          SwitchListTile(
-                            title: const Text(
-                              'Monte meuble nécessaire',
-                              style: TextStyle(
-                                  color: AppColors.darkGreyColor, fontSize: 14),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Monte meuble nécessaire',
+                                  style: TextStyle(
+                                      color: AppColors.darkGreyColor,
+                                      fontSize: 14),
+                                ),
+                                CupertinoSwitch(
+                                  activeColor: AppColors.primaryColor,
+                                  value: starting_furniture_lift,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      starting_furniture_lift = value;
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                            value: starting_furniture_lift,
-                            onChanged: (bool value) {
-                              setState(() {
-                                starting_furniture_lift = value;
-                              });
-                            },
                           ),
                           Divider(
                             color: Color(0xffE4E4E4),
                           ),
-                          SwitchListTile(
-                            title: const Text(
-                              'Démontage des meubles ?',
-                              style: TextStyle(
-                                  color: AppColors.darkGreyColor, fontSize: 14),
-                            ),
-                            value: starting_dismantling_furniture,
-                            onChanged: (bool value) {
-                              setState(() {
-                                starting_dismantling_furniture = value;
-                              });
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Démontage des meubles ?',
+                                style: TextStyle(
+                                    color: AppColors.darkGreyColor,
+                                    fontSize: 14),
+                              ),
+                              CupertinoSwitch(
+                                value: starting_dismantling_furniture,
+                                activeColor: AppColors.primaryColor,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    starting_dismantling_furniture = value;
+                                  });
+                                },
+                              )
+                            ],
                           ),
+
                           Divider(
                             color: Color(0xffE4E4E4),
                           ),
@@ -455,6 +473,13 @@ class _ProposeLotState extends State<ProposeLot> {
                               )
                             ],
                           ),
+                          Visibility(
+                              visible: checkquantity,
+                              child: Text(
+                                'Quantity Required',
+                                style: TextStyle(
+                                    color: AppColors.redColor, fontSize: 12),
+                              )),
 
                           ///BottomButton
                           Padding(
@@ -483,7 +508,16 @@ class _ProposeLotState extends State<ProposeLot> {
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: () {
-                                    if (_formKey.currentState.validate()) {}
+                                    if (_formKey.currentState.validate() ||
+                                        counter != 0) {
+                                      setState(() {
+                                        checkquantity = false;
+                                      });
+                                    } else if (counter == 0) {
+                                      setState(() {
+                                        checkquantity = !checkquantity;
+                                      });
+                                    }
                                   },
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
