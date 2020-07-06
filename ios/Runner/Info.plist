@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSCameraUsageDescription</key>
+	<string>Charity App requires permission to use camera in order to let you upload Documents from the camera.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location to show the Request according to your Location.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Charity App requires permission to use photo library in order to let you upload Documents from photo library.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to location when open.</string>
 	<key>CFBundleDevelopmentRegion</key>
