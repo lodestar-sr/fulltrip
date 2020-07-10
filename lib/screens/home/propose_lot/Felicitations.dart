@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/SizeConfig.dart';
+import 'package:fulltrip/util/size_config.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -24,7 +24,7 @@ class _FelicitationsState extends State<Felicitations> {
     SizeConfig().init(context);
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
-      color: AppColors.greenColor,
+      color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         body: GestureDetector(

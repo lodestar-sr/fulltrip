@@ -34,7 +34,7 @@ class _LotDetailsState extends State<LotDetails> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
-      color: AppColors.greenColor,
+      color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(

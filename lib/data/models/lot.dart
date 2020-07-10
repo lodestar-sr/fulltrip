@@ -1,53 +1,91 @@
 class Lot {
   int id;
-  String name;
-  String startAddress;
+  String startingAddress;
+  String startingLocationType;
+  String startingAccessType;
+  String startingFloors;
+  String startingFurnitureLift;
+  String startingDismantlingFurniture;
+  int quantity;
+
   String arrivalAddress;
+  String arrivalLocationType;
+  String arrivalAccessType;
+  String arrivalFloors;
+  String arrivalFurnitureLift;
+  String arrivalReassemblyFurniture;
+  String delivery;
+
   double price;
-  double volume;
   String photo;
+  String description;
   DateTime date;
-  String company;
-  String service;
 
   Lot({
     this.id,
-    this.name,
-    this.startAddress,
-    this.arrivalAddress,
+    this.startingAddress = '',
+    this.startingLocationType = 'Immeuble',
+    this.startingAccessType = 'Plein',
+    this.startingFloors = 'RDC',
+    this.startingFurnitureLift = 'Non',
+    this.startingDismantlingFurniture = 'Non',
+    this.quantity = 0,
+    this.arrivalAddress = '',
+    this.arrivalLocationType = 'Immeuble',
+    this.arrivalAccessType = 'Plein',
+    this.arrivalFloors = 'RDC',
+    this.arrivalFurnitureLift = 'Non',
+    this.arrivalReassemblyFurniture = 'Non',
+    this.delivery = '',
     this.price,
-    this.volume,
-    this.photo,
+    this.photo = '',
+    this.description = '',
     this.date,
-    this.company,
-    this.service,
   });
 
   factory Lot.fromJson(Map<String, dynamic> json) =>
     Lot(
       id: json["id"],
-      name: json["name"],
-      startAddress: json["startAddress"],
-      arrivalAddress: json["arrivalAddress"],
+      startingAddress: json["starting_address"],
+      startingLocationType: json["starting_location_type"],
+      startingAccessType: json["starting_access_type"],
+      startingFloors: json["starting_floors"],
+      startingFurnitureLift: json["starting_furniture_lift"],
+      startingDismantlingFurniture: json["starting_dismantling_furniture"],
+      quantity: json["quantity"],
+      arrivalAddress: json["arrival_address"],
+      arrivalLocationType: json["arrival_location_type"],
+      arrivalAccessType: json["arrival_access_type"],
+      arrivalFloors: json["arrival_floors"],
+      arrivalFurnitureLift: json["arrival_furniture_lift"],
+      arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
+      delivery: json["delivery"],
       price: json["price"],
-      volume: json["volume"],
       photo: json["photo"],
+      description: json["description"],
       date: json["date"],
-      company: json["company"],
-      service: json["service"],
     );
 
   Map<String, dynamic> toJson() =>
     {
       "id": id,
-      "name": name,
-      "startAddress": startAddress,
-      "arrivalAddress": arrivalAddress,
+      "starting_address": startingAddress,
+      "starting_location_type": startingLocationType,
+      "starting_access_type": startingAccessType,
+      "starting_floors": startingFloors,
+      "starting_furniture_lift": startingFurnitureLift,
+      "starting_dismantling_furniture": startingDismantlingFurniture,
+      "quantity": quantity,
+      "arrival_address": arrivalAddress,
+      "arrival_location_type": arrivalLocationType,
+      "arrival_access_type": arrivalAccessType,
+      "arrival_floors": arrivalFloors,
+      "arrival_furniture_lift": arrivalFurnitureLift,
+      "arrival_reassembly_furniture": arrivalReassemblyFurniture,
+      "delivery": delivery,
       "price": price,
-      "volume": volume,
       "photo": photo,
+      "description": description,
       "date": date,
-      "company": company,
-      "service": service,
     };
 }

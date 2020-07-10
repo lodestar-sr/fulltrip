@@ -28,7 +28,7 @@ class _VerifySMSState extends State<VerifySMS> {
     BoxDecoration pinPutDecoration = BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.lightGreyColor));
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
-      color: AppColors.greenColor,
+      color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {

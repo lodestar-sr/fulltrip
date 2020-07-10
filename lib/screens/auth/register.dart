@@ -33,7 +33,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
-      color: AppColors.greenColor,
+      color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {

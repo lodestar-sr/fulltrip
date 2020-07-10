@@ -8,7 +8,7 @@
 PRODUCT_NAME = fulltrip
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.fulltrip
+PRODUCT_BUNDLE_IDENTIFIER = com.groweb.fulltrip
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2020 com.example. All rights reserved.

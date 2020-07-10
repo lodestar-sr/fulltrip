@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fulltrip/screens/auth/login.dart';
 import 'package:fulltrip/screens/auth/register.dart';
@@ -8,6 +9,7 @@ import 'package:fulltrip/screens/home/home.dart';
 import 'package:fulltrip/screens/home/lot_details/lot_details.dart';
 import 'package:fulltrip/screens/home/propose_lot/propose_lot.dart';
 import 'package:fulltrip/screens/splash/splash.dart';
+import 'package:fulltrip/util/global.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
@@ -29,7 +31,8 @@ class Routes {
     'Felicitations': (BuildContext context) => Felicitations(),
   };
 
-  Routes() {
+  Routes({FirebaseStorage storage}) {
+    Global.storage = storage;
     runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Abonnements',

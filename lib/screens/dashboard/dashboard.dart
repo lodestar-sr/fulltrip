@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fulltrip/data/models/lot.dart';
 import 'package:fulltrip/screens/home/home.dart';
+import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 
 class Dashboard extends StatefulWidget {
@@ -114,7 +116,10 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           child: Icon(Icons.add, size: 32, color: Colors.white),
                         ),
-                        onTap: () => Navigator.of(context).pushNamed('propose-lot'),
+                        onTap: () {
+                          Global.lotForm = Lot();
+                          Navigator.of(context).pushNamed('propose-lot');
+                        },
                       ),
                     ),
                   ),

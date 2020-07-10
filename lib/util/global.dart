@@ -1,6 +1,11 @@
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fulltrip/data/models/lot.dart';
+
 class Global {
   static bool isLoading = false;
   static String address = '';
+  static FirebaseStorage storage;
+  static Lot lotForm;
 
   static List<String> typedelieu = [
     'Immeuble',
