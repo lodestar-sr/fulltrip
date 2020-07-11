@@ -52,20 +52,23 @@ class _ProposeLotState extends State<ProposeLot> {
               GestureDetector(
                 child: Center(
                   child: Container(
-                    child: Text('Précédent', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Précédent',
+                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
-              new Text('Au départ', style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+              new Text('Au départ',
+                  style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(right: 12),
-                    child: Text('Fermer', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Fermer',
+                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
-                onTap: () => {},
+                onTap: () => Navigator.of(context).popAndPushNamed('dashboard'),
               )
             ],
           ),
@@ -78,7 +81,8 @@ class _ProposeLotState extends State<ProposeLot> {
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstraints) {
             return Form(
               key: _formKey,
               autovalidate: true,
@@ -99,9 +103,16 @@ class _ProposeLotState extends State<ProposeLot> {
                           RichText(
                             text: TextSpan(
                               text: 'Adresse de départ',
-                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500),
                               children: <TextSpan>[
-                                TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                TextSpan(
+                                    text: ' *',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.redColor)),
                               ],
                             ),
                           ),
@@ -110,7 +121,8 @@ class _ProposeLotState extends State<ProposeLot> {
                             child: GooglePlacesAutocomplete(
                               initialValue: Global.lotForm.startingAddress,
                               prefixIcon: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 13, 26, 13),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 13, 26, 13),
                                 child: Image.asset(
                                   'assets/images/locationDeparture.png',
                                   width: 13,
@@ -118,25 +130,32 @@ class _ProposeLotState extends State<ProposeLot> {
                                   color: AppColors.greyColor,
                                 ),
                               ),
-                              validator: (value) => Validators.required(value, errorText: 'Adresse de départ est requis'),
-                              onSelect: (val) => this.setState(() => Global.lotForm.startingAddress = val),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Adresse de départ est requis'),
+                              onSelect: (val) => this.setState(
+                                  () => Global.lotForm.startingAddress = val),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 8),
                             child: GestureDetector(
                               onTap: () async {
-                                _serviceEnabled = await location.serviceEnabled();
+                                _serviceEnabled =
+                                    await location.serviceEnabled();
                                 if (!_serviceEnabled) {
-                                  _serviceEnabled = await location.requestService();
+                                  _serviceEnabled =
+                                      await location.requestService();
 
                                   if (!_serviceEnabled) {
-                                    return UserCurrentLocation.checkpermissionstatus();
+                                    return UserCurrentLocation
+                                        .checkpermissionstatus();
                                   }
                                 } else {
-                                  UserCurrentLocation.getCurrentLocation().then((value) {
+                                  UserCurrentLocation.getCurrentLocation()
+                                      .then((value) {
                                     setState(() {
-                                      Global.lotForm.startingAddress = Global.address;
+                                      Global.lotForm.startingAddress =
+                                          Global.address;
                                     });
                                   });
                                 }
@@ -152,20 +171,31 @@ class _ProposeLotState extends State<ProposeLot> {
                                   ),
                                   Text(
                                     'Utilise ma location',
-                                    style: TextStyle(color: AppColors.primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
                                   )
                                 ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Type de lieu',
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -180,11 +210,13 @@ class _ProposeLotState extends State<ProposeLot> {
                                   value: itm,
                                   child: Text(
                                     itm,
-                                    style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontSize: 14),
                                   ),
                                 );
                               }).toList(),
-                              validator: (value) => Validators.required(value, errorText: 'Type de lieu est requis'),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Type de lieu est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.startingLocationType = val;
@@ -192,17 +224,26 @@ class _ProposeLotState extends State<ProposeLot> {
                               },
                               value: Global.lotForm.startingLocationType,
                               decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingLocationType = val),
+                              onSaved: (val) => setState(() =>
+                                  Global.lotForm.startingLocationType = val),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: "Type d'accès",
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -217,11 +258,13 @@ class _ProposeLotState extends State<ProposeLot> {
                                   value: itm,
                                   child: Text(
                                     itm,
-                                    style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontSize: 14),
                                   ),
                                 );
                               }).toList(),
-                              validator: (value) => Validators.required(value, errorText: 'Type d\'accès est requis'),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Type d\'accès est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.startingAccessType = val;
@@ -229,17 +272,26 @@ class _ProposeLotState extends State<ProposeLot> {
                               },
                               value: Global.lotForm.startingAccessType,
                               decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingAccessType = val),
+                              onSaved: (val) => setState(() =>
+                                  Global.lotForm.startingAccessType = val),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Etages',
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -254,12 +306,14 @@ class _ProposeLotState extends State<ProposeLot> {
                                   value: itm,
                                   child: Text(
                                     itm,
-                                    style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontSize: 14),
                                   ),
                                 );
                               }).toList(),
                               //value: starting_location_type,
-                              validator: (value) => Validators.required(value, errorText: 'Etages est requis'),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Etages est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.startingFloors = val;
@@ -267,7 +321,8 @@ class _ProposeLotState extends State<ProposeLot> {
                               },
                               value: Global.lotForm.startingFloors,
                               decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingFloors = val),
+                              onSaved: (val) => setState(
+                                  () => Global.lotForm.startingFloors = val),
                             ),
                           ),
                           Padding(
@@ -277,13 +332,18 @@ class _ProposeLotState extends State<ProposeLot> {
                               children: [
                                 Text(
                                   'Monte meuble nécessaire',
-                                  style: TextStyle(color: AppColors.darkGreyColor, fontSize: 14),
+                                  style: TextStyle(
+                                      color: AppColors.darkGreyColor,
+                                      fontSize: 14),
                                 ),
                                 CupertinoSwitch(
                                   activeColor: AppColors.primaryColor,
-                                  value: Global.lotForm.startingFurnitureLift == 'Oui',
+                                  value: Global.lotForm.startingFurnitureLift ==
+                                      'Oui',
                                   onChanged: (bool value) {
-                                    setState(() => Global.lotForm.startingFurnitureLift = value ? 'Oui' : 'Non');
+                                    setState(() =>
+                                        Global.lotForm.startingFurnitureLift =
+                                            value ? 'Oui' : 'Non');
                                   },
                                 ),
                               ],
@@ -297,13 +357,19 @@ class _ProposeLotState extends State<ProposeLot> {
                             children: [
                               Text(
                                 'Démontage des meubles ?',
-                                style: TextStyle(color: AppColors.darkGreyColor, fontSize: 14),
+                                style: TextStyle(
+                                    color: AppColors.darkGreyColor,
+                                    fontSize: 14),
                               ),
                               CupertinoSwitch(
-                                value: Global.lotForm.startingDismantlingFurniture == 'Oui',
+                                value: Global
+                                        .lotForm.startingDismantlingFurniture ==
+                                    'Oui',
                                 activeColor: AppColors.primaryColor,
                                 onChanged: (bool value) {
-                                  setState(() => Global.lotForm.startingDismantlingFurniture = value ? 'Oui' : 'Non');
+                                  setState(() => Global.lotForm
+                                          .startingDismantlingFurniture =
+                                      value ? 'Oui' : 'Non');
                                 },
                               )
                             ],
@@ -316,24 +382,40 @@ class _ProposeLotState extends State<ProposeLot> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                                padding: EdgeInsets.only(
+                                    top: SizeConfig.safeBlockVertical * 2),
                                 child: RichText(
                                   text: TextSpan(
                                     text: 'Quantité en m3',
-                                    style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.darkColor,
+                                        fontWeight: FontWeight.w500),
                                     children: <TextSpan>[
-                                      TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                      TextSpan(
+                                          text: ' *',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.redColor)),
                                     ],
                                   ),
                                 ),
                               ),
                               Container(
                                 height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.whiteColor, border: Border.all(color: AppColors.lightBlueColor)),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: AppColors.whiteColor,
+                                    border: Border.all(
+                                        color: AppColors.lightBlueColor)),
                                 child: Row(
                                   children: [
                                     Container(
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)), color: Colors.white),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              bottomLeft: Radius.circular(8)),
+                                          color: Colors.white),
                                       child: IconButton(
                                           icon: Icon(
                                             Icons.remove,
@@ -344,7 +426,8 @@ class _ProposeLotState extends State<ProposeLot> {
                                               if (Global.lotForm.quantity > 0) {
                                                 Global.lotForm.quantity -= 1;
                                               }
-                                              if (Global.lotForm.quantity != 0) {
+                                              if (Global.lotForm.quantity !=
+                                                  0) {
                                                 checkquantity = false;
                                               }
                                             });
@@ -352,11 +435,15 @@ class _ProposeLotState extends State<ProposeLot> {
                                     ),
                                     Container(
                                       width: 50,
-                                      child: Center(child: Text('${Global.lotForm.quantity}')),
+                                      child: Center(
+                                          child: Text(
+                                              '${Global.lotForm.quantity}')),
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(8),
+                                            bottomRight: Radius.circular(8)),
                                         color: Colors.white,
                                       ),
                                       child: IconButton(
@@ -367,7 +454,8 @@ class _ProposeLotState extends State<ProposeLot> {
                                           onPressed: () {
                                             setState(() {
                                               Global.lotForm.quantity += 1;
-                                              if (Global.lotForm.quantity != 0) {
+                                              if (Global.lotForm.quantity !=
+                                                  0) {
                                                 checkquantity = false;
                                               }
                                             });
@@ -380,24 +468,35 @@ class _ProposeLotState extends State<ProposeLot> {
                           ),
                           Visibility(
                             visible: checkquantity,
-                            child: Text('Quantity Required', style: TextStyle(color: AppColors.redColor, fontSize: 12)),
+                            child: Text('Quantity Required',
+                                style: TextStyle(
+                                    color: AppColors.redColor, fontSize: 12)),
                           ),
 
                           ///BottomButton
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 4),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 4),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(30)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
                                 boxShadow: <BoxShadow>[
-                                  BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                  BoxShadow(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.24),
+                                      blurRadius: 16,
+                                      spreadRadius: 4),
                                 ],
                               ),
                               child: ButtonTheme(
                                 minWidth: double.infinity,
                                 height: 60,
                                 child: RaisedButton(
-                                  child: Text('Suivant', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                  child: Text('Suivant',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: goToNext,

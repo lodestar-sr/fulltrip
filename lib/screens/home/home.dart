@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fulltrip/data/models/lot.dart';
+import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 
 class Home extends StatefulWidget {
@@ -12,58 +14,59 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Map> lots = [
-    {
-      'company': 'Nom de la compagnie',
-      'photo':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-      'price': 700,
-      'volume': 53,
-      'startAddress': 'Paris',
-      'arrivalAddress': 'Vienne',
-      'service': 'Luxe',
-    },
-    {
-      'company': 'Nom de la compagnie',
-      'photo':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-      'price': 700,
-      'volume': 53,
-      'startAddress': 'Paris',
-      'arrivalAddress': 'Vienne',
-      'service': 'Luxe',
-    },
-    {
-      'company': 'Nom de la compagnie',
-      'photo':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-      'price': 700,
-      'volume': 53,
-      'startAddress': 'Paris',
-      'arrivalAddress': 'Vienne',
-      'service': 'Luxe',
-    },
-    {
-      'company': 'Nom de la compagnie',
-      'photo':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-      'price': 700,
-      'volume': 53,
-      'startAddress': 'Paris',
-      'arrivalAddress': 'Vienne',
-      'service': 'Luxe',
-    },
-    {
-      'company': 'Nom de la compagnie',
-      'photo':
-          'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-      'price': 700,
-      'volume': 53,
-      'startAddress': 'Paris',
-      'arrivalAddress': 'Vienne',
-      'service': 'Luxe',
-    },
-  ];
+  List<Map> lots = [];
+  // List<Map> lots = [
+  //   {
+  //     'company': 'Nom de la compagnie',
+  //     'photo':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+  //     'price': 700,
+  //     'volume': 53,
+  //     'startAddress': 'Paris',
+  //     'arrivalAddress': 'Vienne',
+  //     'service': 'Luxe',
+  //   },
+  //   {
+  //     'company': 'Nom de la compagnie',
+  //     'photo':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+  //     'price': 700,
+  //     'volume': 53,
+  //     'startAddress': 'Paris',
+  //     'arrivalAddress': 'Vienne',
+  //     'service': 'Luxe',
+  //   },
+  //   {
+  //     'company': 'Nom de la compagnie',
+  //     'photo':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+  //     'price': 700,
+  //     'volume': 53,
+  //     'startAddress': 'Paris',
+  //     'arrivalAddress': 'Vienne',
+  //     'service': 'Luxe',
+  //   },
+  //   {
+  //     'company': 'Nom de la compagnie',
+  //     'photo':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+  //     'price': 700,
+  //     'volume': 53,
+  //     'startAddress': 'Paris',
+  //     'arrivalAddress': 'Vienne',
+  //     'service': 'Luxe',
+  //   },
+  //   {
+  //     'company': 'Nom de la compagnie',
+  //     'photo':
+  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
+  //     'price': 700,
+  //     'volume': 53,
+  //     'startAddress': 'Paris',
+  //     'arrivalAddress': 'Vienne',
+  //     'service': 'Luxe',
+  //   },
+  // ];
 
   List<Map> filters = [
     {'type': 'start_address', 'value': 'Paris'},
@@ -78,6 +81,11 @@ class _HomeState extends State<Home> {
   List<Widget> getLots() {
     List<Widget> list = [];
     for (int i = 0; i < this.lots.length; i++) {
+      var startingaddress =
+          this.lots[i]['starting_address'].toString().split(',');
+      var arrivaladdress =
+          this.lots[i]['arrival_address'].toString().split(',');
+
       list.add(GestureDetector(
         child: Container(
           margin: EdgeInsets.only(bottom: 8),
@@ -103,8 +111,8 @@ class _HomeState extends State<Home> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   image: DecorationImage(
-                    image: NetworkImage(this.lots[i]['photo']),
-                    fit: BoxFit.fitHeight,
+                    image: NetworkImage(this.lots[i]['photo'] ?? ""),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -124,12 +132,19 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Icon(Entypo.circle,
                                   size: 9, color: AppColors.darkGreyColor),
-                              Padding(
-                                padding: EdgeInsets.only(left: 4),
-                                child: Text(
-                                  this.lots[i]['startAddress'],
-                                  style: AppStyles.blackTextStyle
-                                      .copyWith(fontSize: 11),
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}" ??
+                                          "",
+                                      style: AppStyles.blackTextStyle
+                                          .copyWith(fontSize: 11),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -146,12 +161,19 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               Icon(Entypo.circle,
                                   size: 9, color: AppColors.darkGreyColor),
-                              Padding(
-                                padding: EdgeInsets.only(left: 4),
-                                child: Text(
-                                  this.lots[i]['arrivalAddress'],
-                                  style: AppStyles.blackTextStyle
-                                      .copyWith(fontSize: 11),
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}" ??
+                                          "",
+                                      style: AppStyles.blackTextStyle
+                                          .copyWith(fontSize: 11),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
@@ -160,7 +182,7 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Text(
-                      this.lots[i]['company'],
+                      this.lots[i]['company'] ?? "",
                       style: AppStyles.blackTextStyle
                           .copyWith(fontWeight: FontWeight.w500),
                     )
@@ -174,7 +196,7 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
-                        "${this.lots[i]['price'].toString()}€",
+                        "${this.lots[i]['price'].toString()}€" ?? "",
                         style: TextStyle(
                             color: AppColors.darkGreyColor,
                             fontSize: 18,
@@ -184,7 +206,7 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
-                        this.lots[i]['service'],
+                        this.lots[i]['delivery'] ?? "",
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
@@ -192,7 +214,7 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
-                        "${this.lots[i]['volume'].toString()}m³",
+                        "${this.lots[i]['quantity'].toString()}m³" ?? "",
                         style:
                             TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
@@ -281,6 +303,23 @@ class _HomeState extends State<Home> {
   toggleLocation() {
     setState(() {
       geoLocation = !geoLocation;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataFromFirestore();
+  }
+
+  getDataFromFirestore() {
+    Global.firestore.collection('lots').getDocuments().then((querySnapshot) {
+      querySnapshot.documents.forEach((element) {
+        print(element.data);
+        setState(() {
+          lots.add(element.data);
+        });
+      });
     });
   }
 
