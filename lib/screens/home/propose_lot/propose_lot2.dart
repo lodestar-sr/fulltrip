@@ -518,7 +518,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   textColor: Colors.white,
                                   onPressed: () {
                                     if (_formKey.currentState.validate() &&
-                                        selectedDelivery == false) {
+                                        Global.lotForm.delivery != '' ) {
                                       Navigator.of(context)
                                           .pushNamed('ProposeLot3');
                                     } else if (Global.lotForm.delivery == '') {
