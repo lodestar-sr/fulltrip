@@ -37,7 +37,7 @@ class Lot {
     this.arrivalFurnitureLift = 'Non',
     this.arrivalReassemblyFurniture = 'Non',
     this.delivery = '',
-    this.price,
+    this.price = 0,
     this.photo = '',
     this.description = '',
     this.date,
