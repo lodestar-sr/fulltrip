@@ -1,5 +1,7 @@
+import 'package:fulltrip/util/uuid.dart';
+
 class Lot {
-  int id;
+  String id;
   String startingAddress;
   String startingLocationType;
   String startingAccessType;
@@ -37,11 +39,15 @@ class Lot {
     this.arrivalFurnitureLift = 'Non',
     this.arrivalReassemblyFurniture = 'Non',
     this.delivery = '',
-    this.price = 0,
+    this.price,
     this.photo = '',
     this.description = '',
     this.date,
-  });
+  }) {
+    if (id == null) {
+      id = Uuid().generateV4();
+    }
+  }
 
   factory Lot.fromJson(Map<String, dynamic> json) => Lot(
         id: json["id"],
@@ -62,7 +68,7 @@ class Lot {
         price: json["price"],
         photo: json["photo"],
         description: json["description"],
-        date: json["date"],
+        date: DateTime.parse(json["date"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -84,6 +90,6 @@ class Lot {
         "price": price,
         "photo": photo,
         "description": description,
-        "date": date,
+        "date": date.toIso8601String(),
       };
 }

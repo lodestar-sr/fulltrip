@@ -2,23 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/size_config.dart';
 import 'package:fulltrip/util/global.dart';
+import 'package:fulltrip/util/size_config.dart';
 import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Felicitations extends StatefulWidget {
   Felicitations({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _FelicitationsState();
 }
 
 class _FelicitationsState extends State<Felicitations> {
   _FelicitationsState() {
-    Timer.periodic(const Duration(seconds: 3), (timer) {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.of(context).popAndPushNamed('dashboard');
     });
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -31,8 +33,7 @@ class _FelicitationsState extends State<Felicitations> {
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
+          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
             return Container(
               width: double.infinity,
               child: SingleChildScrollView(
@@ -63,8 +64,7 @@ class _FelicitationsState extends State<Felicitations> {
                           padding: EdgeInsets.only(top: 10),
                           child: Text(
                             'Votre lot a été ajouté!',
-                            style: TextStyle(
-                                fontSize: 13, color: AppColors.greyColor),
+                            style: TextStyle(fontSize: 13, color: AppColors.greyColor),
                           ),
                         ),
                       ],

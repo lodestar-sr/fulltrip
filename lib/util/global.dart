@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fulltrip/data/models/lot.dart';
 
@@ -5,6 +6,7 @@ class Global {
   static bool isLoading = false;
   static String address = '';
   static FirebaseStorage storage;
+  static Firestore firestore;
   static Lot lotForm;
 
   static List<String> typedelieu = [
@@ -12,13 +14,13 @@ class Global {
     'Maison',
     'Garde-meubles',
     'Entrepôt',
-    'Magasin'
+    'Magasin',
   ];
   static List<String> typedeacces = [
     'Plein',
     'pieds',
     'Ascenseur',
-    'Escaliers'
+    'Escaliers',
   ];
   static List<String> etages = [
     'RDC',
@@ -33,6 +35,6 @@ class Global {
     '9',
     '10',
     '11',
-    '12'
+    '12',
   ];
 }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -24,6 +25,7 @@ void main() async {
   );
 
   final FirebaseStorage storage = FirebaseStorage(app: app, storageBucket: 'gs://fulltrip.appspot.com');
+  final Firestore firestore = Firestore(app: app);
 
-  new Routes(storage: storage);
+  new Routes(storage: storage, firestore: firestore);
 }

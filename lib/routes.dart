@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fulltrip/screens/auth/login.dart';
@@ -31,8 +32,9 @@ class Routes {
     'Felicitations': (BuildContext context) => Felicitations(),
   };
 
-  Routes({FirebaseStorage storage}) {
+  Routes({FirebaseStorage storage, Firestore firestore}) {
     Global.storage = storage;
+    Global.firestore = firestore;
     runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Abonnements',
