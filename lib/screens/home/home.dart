@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/data/models/lot.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -15,59 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Map> lots = [];
-  // List<Map> lots = [
-  //   {
-  //     'company': 'Nom de la compagnie',
-  //     'photo':
-  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-  //     'price': 700,
-  //     'volume': 53,
-  //     'startAddress': 'Paris',
-  //     'arrivalAddress': 'Vienne',
-  //     'service': 'Luxe',
-  //   },
-  //   {
-  //     'company': 'Nom de la compagnie',
-  //     'photo':
-  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-  //     'price': 700,
-  //     'volume': 53,
-  //     'startAddress': 'Paris',
-  //     'arrivalAddress': 'Vienne',
-  //     'service': 'Luxe',
-  //   },
-  //   {
-  //     'company': 'Nom de la compagnie',
-  //     'photo':
-  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-  //     'price': 700,
-  //     'volume': 53,
-  //     'startAddress': 'Paris',
-  //     'arrivalAddress': 'Vienne',
-  //     'service': 'Luxe',
-  //   },
-  //   {
-  //     'company': 'Nom de la compagnie',
-  //     'photo':
-  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-  //     'price': 700,
-  //     'volume': 53,
-  //     'startAddress': 'Paris',
-  //     'arrivalAddress': 'Vienne',
-  //     'service': 'Luxe',
-  //   },
-  //   {
-  //     'company': 'Nom de la compagnie',
-  //     'photo':
-  //         'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-  //     'price': 700,
-  //     'volume': 53,
-  //     'startAddress': 'Paris',
-  //     'arrivalAddress': 'Vienne',
-  //     'service': 'Luxe',
-  //   },
-  // ];
-
+  List<Map> filteredlots = [];
   List<Map> filters = [
     {'type': 'start_address', 'value': 'Paris'},
     {'type': 'arrival_address', 'value': 'Vienne'},
@@ -77,10 +26,46 @@ class _HomeState extends State<Home> {
   ];
 
   bool geoLocation = false;
+  filteredLots() {
+    filteredlots.clear();
+
+    lots.forEach((element) {
+      Global.filterdata.forEach((filterelement) {
+        if (filterelement['type'] == 'starting_address') {
+          if (element['starting_address'] == filterelement['value']) {
+            filteredlots.add(element);
+          }
+        }
+        if (filterelement['type'] == 'arrival_address') {
+          if (element['arrival_address'] == filterelement['value']) {
+            filteredlots.add(element);
+          }
+        }
+        if (filterelement['type'] == 'price') {
+          if (element['price'] >= filterelement['lowValue'] &&
+              element['price'] <= filterelement['highValue']) {
+            filteredlots.add(element);
+          }
+        }
+        if (filterelement['type'] == 'volume') {
+          if (element['quantity'] == filterelement['value']) {
+            filteredlots.add(element);
+          }
+        }
+        if (filterelement['type'] == 'service') {
+          if (element['delivery'] == filterelement['value']) {
+            filteredlots.add(element);
+          }
+        }
+      });
+    });
+  }
 
   List<Widget> getLots() {
     List<Widget> list = [];
+    print(this.lots.length);
     for (int i = 0; i < this.lots.length; i++) {
+      print(i);
       var startingaddress =
           this.lots[i]['starting_address'].toString().split(',');
       var arrivaladdress =
@@ -138,7 +123,7 @@ class _HomeState extends State<Home> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
-                                      "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}" ??
+                                      "${startingaddress[startingaddress.length - 1]}" ??
                                           "",
                                       style: AppStyles.blackTextStyle
                                           .copyWith(fontSize: 11),
@@ -167,7 +152,7 @@ class _HomeState extends State<Home> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Text(
-                                      "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}" ??
+                                      "${arrivaladdress[arrivaladdress.length - 1]}" ??
                                           "",
                                       style: AppStyles.blackTextStyle
                                           .copyWith(fontSize: 11),
@@ -228,6 +213,174 @@ class _HomeState extends State<Home> {
         onTap: () => Navigator.of(context).pushNamed('lot-details'),
       ));
     }
+    print(list.length);
+    if (list.length == 0) {
+      list.add(Container(
+        padding: EdgeInsets.only(left: 32, right: 32, top: 48),
+        child: Center(
+          child: Text(
+            'Désolé, la recherche n\'a donné aucun résultat. Essayez de sélectionner d\'autres filtres.',
+            style: TextStyle(
+                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ));
+    }
+    return list;
+  }
+
+  List<Widget> getFilteredLots() {
+    List<Widget> list = [];
+    for (int i = 0; i < this.filteredlots.length; i++) {
+      var startingaddress =
+          this.filteredlots[i]['starting_address'].toString().split(',');
+      var arrivaladdress =
+          this.filteredlots[i]['arrival_address'].toString().split(',');
+
+      list.add(GestureDetector(
+        child: Container(
+          margin: EdgeInsets.only(bottom: 8),
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.lightGreyColor.withOpacity(0.25),
+                spreadRadius: 2,
+                blurRadius: 4,
+              )
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 88,
+                height: 96,
+                margin: EdgeInsets.only(right: 14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  image: DecorationImage(
+                    image: NetworkImage(this.filteredlots[i]['photo'] ?? ""),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                height: 96,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Icon(Entypo.circle,
+                                  size: 9, color: AppColors.darkGreyColor),
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      "${startingaddress[startingaddress.length - 1]}" ??
+                                          "",
+                                      style: AppStyles.blackTextStyle
+                                          .copyWith(fontSize: 11),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                              width: 9,
+                              child: Dash(
+                                direction: Axis.vertical,
+                                length: 32,
+                                dashLength: 3,
+                                dashColor: AppColors.darkGreyColor,
+                              )),
+                          Row(
+                            children: <Widget>[
+                              Icon(Entypo.circle,
+                                  size: 9, color: AppColors.darkGreyColor),
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 4),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      "${arrivaladdress[arrivaladdress.length - 1]}" ??
+                                          "",
+                                      style: AppStyles.blackTextStyle
+                                          .copyWith(fontSize: 11),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      this.filteredlots[i]['company'] ?? "",
+                      style: AppStyles.blackTextStyle
+                          .copyWith(fontWeight: FontWeight.w500),
+                    )
+                  ],
+                ),
+              )),
+              Container(
+                margin: EdgeInsets.only(left: 8),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        "${this.filteredlots[i]['price'].toString()}€" ?? "",
+                        style: TextStyle(
+                            color: AppColors.darkGreyColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        this.filteredlots[i]['delivery'] ?? "",
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 14),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        "${this.filteredlots[i]['quantity'].toString()}m³" ??
+                            "",
+                        style:
+                            TextStyle(color: AppColors.greyColor, fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        onTap: () => Navigator.of(context).pushNamed('lot-details'),
+      ));
+    }
 
     if (list.length == 0) {
       list.add(Container(
@@ -248,53 +401,60 @@ class _HomeState extends State<Home> {
   List<Widget> getFilters() {
     List<Widget> list = [];
 
-    for (int i = 0; i < this.filters.length; i++) {
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
-        child: Row(
-          children: <Widget>[
-            filters[i]['type'] == 'start_address'
-                ? Container(
-                    margin: EdgeInsets.only(right: 8),
-                    child: Image.asset(
-                      'assets/images/locationDeparture.png',
-                      width: 16,
-                      height: 16,
-                    ),
-                  )
-                : Container(),
-            filters[i]['type'] == 'arrival_address'
-                ? Container(
-                    margin: EdgeInsets.only(right: 8),
-                    child: Image.asset(
-                      'assets/images/locationArrival.png',
-                      width: 16,
-                      height: 16,
-                    ),
-                  )
-                : Container(),
-            Text(
-              (filters[i]['type'] == 'price'
-                      ? "${filters[i]['lowValue'].toString()}€ - ${filters[i]['highValue'].toString()}€"
-                      : filters[i]['value'].toString()) +
-                  (filters[i]['type'] == 'volume' ? "m³" : ""),
-              style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
-            ),
-            GestureDetector(
-              child: Container(
-                margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+    for (int i = 0; i < Global.filterdata.length; i++) {
+      Global.filterdata.isNotEmpty
+          ? list.add(Container(
+              margin: EdgeInsets.only(right: 8),
+              padding: EdgeInsets.only(right: 12, left: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.all(color: AppColors.lightGreyColor),
               ),
-              onTap: () => {},
-            )
-          ],
-        ),
-      ));
+              child: Row(
+                children: <Widget>[
+                  Global.filterdata[i]['type'] == 'start_address'
+                      ? Container(
+                          margin: EdgeInsets.only(right: 8),
+                          child: Image.asset(
+                            'assets/images/locationDeparture.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                        )
+                      : Container(),
+                  Global.filterdata[i]['type'] == 'arrival_address'
+                      ? Container(
+                          margin: EdgeInsets.only(right: 8),
+                          child: Image.asset(
+                            'assets/images/locationArrival.png',
+                            width: 16,
+                            height: 16,
+                          ),
+                        )
+                      : Container(),
+                  Text(
+                    (Global.filterdata[i]['type'] == 'price'
+                            ? "${Global.filterdata[i]['lowValue'].toString()}€ - ${Global.filterdata[i]['highValue'].toString()}€"
+                            : Global.filterdata[i]['value'].toString()) +
+                        (Global.filterdata[i]['type'] == 'volume' ? "m³" : ""),
+                    style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 8),
+                      child: Icon(Icons.close,
+                          size: 12, color: AppColors.redColor),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        Global.filterdata.removeAt(i);
+                      });
+                    },
+                  )
+                ],
+              ),
+            ))
+          : list.add(Container());
     }
 
     return list;
@@ -309,11 +469,17 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      Global.isLoading = true;
+    });
     getDataFromFirestore();
   }
 
   getDataFromFirestore() {
     Global.firestore.collection('lots').getDocuments().then((querySnapshot) {
+      setState(() {
+        Global.isLoading = false;
+      });
       querySnapshot.documents.forEach((element) {
         print(element.data);
         setState(() {
@@ -325,70 +491,83 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 60, bottom: 16),
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(right: 14),
-                      child: OutlineButton.icon(
-                        icon: Icon(Octicons.settings,
-                            size: 14, color: AppColors.primaryColor),
-                        label: Text('Filtres',
-                            style:
-                                AppStyles.greyTextStyle.copyWith(fontSize: 14)),
+    if (Global.filterdata.isNotEmpty) {
+      setState(() {
+        filteredLots();
+      });
+    }
+
+    return ModalProgressHUD(
+      inAsyncCall: Global.isLoading,
+      color: AppColors.primaryColor,
+      progressIndicator: CircularProgressIndicator(),
+      child: Scaffold(
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 60, bottom: 16),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 14),
+                        child: OutlineButton.icon(
+                          icon: Icon(Octicons.settings,
+                              size: 14, color: AppColors.primaryColor),
+                          label: Text('Filtres',
+                              style: AppStyles.greyTextStyle
+                                  .copyWith(fontSize: 14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          borderSide: BorderSide(color: AppColors.primaryColor),
+                          onPressed: () =>
+                              Navigator.of(context).pushNamed('filter'),
+                          splashColor: AppColors.lightBlueColor,
+                        ),
+                      ),
+                      RaisedButton.icon(
+                        icon: Icon(Entypo.direction, size: 14),
+                        label: Text('Autour de moi',
+                            style: TextStyle(fontSize: 12)),
+                        color: geoLocation
+                            ? AppColors.primaryColor
+                            : AppColors.lightBlueColor,
+                        textColor: Colors.white,
+                        onPressed: toggleLocation,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(color: AppColors.primaryColor),
                         ),
-                        borderSide: BorderSide(color: AppColors.primaryColor),
-                        onPressed: () =>
-                            Navigator.of(context).pushNamed('filter'),
-                        splashColor: AppColors.lightBlueColor,
                       ),
-                    ),
-                    RaisedButton.icon(
-                      icon: Icon(Entypo.direction, size: 14),
-                      label:
-                          Text('Autour de moi', style: TextStyle(fontSize: 12)),
-                      color: geoLocation
-                          ? AppColors.primaryColor
-                          : AppColors.lightBlueColor,
-                      textColor: Colors.white,
-                      onPressed: toggleLocation,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        side: BorderSide(color: AppColors.primaryColor),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 16),
-                height: 24,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: getFilters(),
+                Container(
+                  margin: EdgeInsets.only(bottom: 16),
+                  height: 24,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: getFilters(),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.only(left: 4, right: 4),
-                  children: getLots(),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.only(left: 4, right: 4),
+                    children: Global.filterdata.isEmpty
+                        ? getLots()
+                        : getFilteredLots(),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      }),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

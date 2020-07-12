@@ -8,7 +8,7 @@ class Global {
   static FirebaseStorage storage;
   static Firestore firestore;
   static Lot lotForm;
-
+  static List<Map> filterdata = [];
   static List<String> typedelieu = [
     'Immeuble',
     'Maison',

@@ -24,6 +24,44 @@ class _FilterState extends State<Filter> {
   bool disAssemble = false;
   bool reAssemble = false;
   String unservice;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setvaluesfromData();
+  }
+
+  setvaluesfromData() {
+    if (Global.filterdata.isNotEmpty) {
+      Global.filterdata.forEach((element) {
+        if (element['type'] == 'start_address') {
+          setState(() {
+            startAddress = element['value'];
+          });
+        }
+        if (element['type'] == 'arrival_address') {
+          setState(() {
+            arrivalAddress = element['value'];
+          });
+        }
+        if (element['type'] == 'price') {
+          setState(() {
+            price = [element['lowValue'], element['highValue']];
+          });
+        }
+        if (element['type'] == 'volume') {
+          setState(() {
+            volume = [element['value']];
+          });
+        }
+        if (element['type'] == 'service') {
+          setState(() {
+            unservice = element['value'];
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +131,7 @@ class _FilterState extends State<Filter> {
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
-                                    //initialValue: '',
+                                    initialValue: startAddress,
                                     prefixIcon: Padding(
                                       padding: const EdgeInsets.all(13.0),
                                       child: Image.asset(
@@ -121,7 +159,7 @@ class _FilterState extends State<Filter> {
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
-                                    //initialValue: '',
+                                    initialValue: arrivalAddress,
                                     prefixIcon: Padding(
                                       padding: const EdgeInsets.all(13.0),
                                       child: Image.asset(
@@ -163,6 +201,8 @@ class _FilterState extends State<Filter> {
                                         (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
                                         price = [lowerValue, upperValue];
+                                        print('lowervalue : $lowerValue');
+                                        print('uppervalue : $upperValue');
                                       });
                                     },
                                     handlerWidth: 24,
@@ -242,7 +282,7 @@ class _FilterState extends State<Filter> {
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
-                                    min: 5,
+                                    min: 1,
                                     max: 100,
                                     values: volume,
                                     step: FlutterSliderStep(step: 1),
@@ -250,7 +290,7 @@ class _FilterState extends State<Filter> {
                                     onDragging:
                                         (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
-                                        volume = [lowerValue, upperValue];
+                                        volume = [lowerValue];
                                       });
                                     },
                                     handlerWidth: 24,
@@ -366,7 +406,7 @@ class _FilterState extends State<Filter> {
                                         fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
-                                onPressed: () {},
+                                onPressed: () => saveFilter(),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
@@ -385,5 +425,99 @@ class _FilterState extends State<Filter> {
         }),
       ),
     );
+  }
+
+  saveFilter() {
+    bool startaddresscheck = false;
+    bool arrivaladdresscheck = false;
+    bool volumecheck = false;
+    bool pricecheck = false;
+    bool servicecheck = false;
+    if (Global.filterdata.isNotEmpty) {
+      for (int i = 0; i < Global.filterdata.length; i++) {
+        if (startAddress != '') {
+          if (Global.filterdata[i]['type'] == 'start_address') {
+            Global.filterdata[i].update('value', (value) => startAddress);
+            startaddresscheck = true;
+          }
+        }
+        if (arrivalAddress != '') {
+          if (Global.filterdata[i]['type'] == 'arrival_address') {
+            Global.filterdata[i].update('value', (value) => arrivalAddress);
+            arrivaladdresscheck = true;
+          }
+        }
+
+        if (volume.isNotEmpty) {
+          if (Global.filterdata[i]['type'] == 'volume') {
+            Global.filterdata[i].update('value', (value) => volume[0]);
+            volumecheck = true;
+          }
+        }
+
+        if (unservice != null) {
+          if (Global.filterdata[i]['type'] == 'service') {
+            Global.filterdata[i].update('value', (value) => unservice);
+            servicecheck = true;
+          }
+        }
+
+        if (price.isNotEmpty) {
+          if (Global.filterdata[i]['type'] == 'price') {
+            Global.filterdata[i].update('lowValue', (value) => price[0]);
+            Global.filterdata[i].update('highValue', (value) => price[1]);
+            pricecheck = true;
+          }
+        }
+      }
+      if (!startaddresscheck) {
+        if (startAddress != '') {
+          Global.filterdata
+              .add({"type": 'start_address', "value": startAddress});
+        }
+      }
+      if (!arrivaladdresscheck) {
+        if (arrivalAddress != '') {
+          Global.filterdata
+              .add({"type": 'arrival_address', "value": arrivalAddress});
+        }
+      }
+      if (!volumecheck) {
+        if (volume.isNotEmpty) {
+          Global.filterdata.add({'type': 'volume', 'value': volume[0]});
+        }
+      }
+      if (!servicecheck) {
+        if (unservice != null) {
+          Global.filterdata.add({'type': 'service', 'value': unservice});
+        }
+      }
+      if (!pricecheck) {
+        if (price.isNotEmpty) {
+          Global.filterdata.add(
+              {'type': 'price', 'lowValue': price[0], 'highValue': price[1]});
+        }
+      }
+    } else {
+      if (startAddress != '') {
+        Global.filterdata.add({"type": 'start_address', "value": startAddress});
+      }
+      if (arrivalAddress != '') {
+        Global.filterdata
+            .add({"type": 'arrival_address', "value": arrivalAddress});
+      }
+      if (price.isNotEmpty) {
+        Global.filterdata.add(
+            {'type': 'price', 'lowValue': price[0], 'highValue': price[1]});
+      }
+      if (volume.isNotEmpty) {
+        Global.filterdata.add({'type': 'volume', 'value': volume[0]});
+      }
+      if (unservice != null) {
+        Global.filterdata.add({'type': 'service', 'value': unservice});
+      }
+      Navigator.of(context).popAndPushNamed('dashboard');
+    }
+    Navigator.of(context).popAndPushNamed('dashboard');
   }
 }
