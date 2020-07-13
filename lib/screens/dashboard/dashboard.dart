@@ -44,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
         child: Container(
             height: 72,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 // Left Tab icons
                 Row(
@@ -57,9 +57,16 @@ class _DashboardState extends State<Dashboard> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.home, color: currentTab == 0 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                            child: Icon(Feather.home,
+                                color: currentTab == 0
+                                    ? AppColors.primaryColor
+                                    : AppColors.lightGreyColor,
+                                size: 18),
                           ),
-                          Text('Home', style: currentTab == 0 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                          Text('Home',
+                              style: currentTab == 0
+                                  ? AppStyles.navbarActiveTextStyle
+                                  : AppStyles.navbarInactiveTextStyle),
                         ],
                       ),
                       onPressed: () {
@@ -75,9 +82,16 @@ class _DashboardState extends State<Dashboard> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.search, color: currentTab == 1 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                            child: Icon(Feather.search,
+                                color: currentTab == 1
+                                    ? AppColors.primaryColor
+                                    : AppColors.lightGreyColor,
+                                size: 18),
                           ),
-                          Text('Search', style: currentTab == 1 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                          Text('Search',
+                              style: currentTab == 1
+                                  ? AppStyles.navbarActiveTextStyle
+                                  : AppStyles.navbarInactiveTextStyle),
                         ],
                       ),
                       onPressed: () {
@@ -136,9 +150,16 @@ class _DashboardState extends State<Dashboard> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.message_square, color: currentTab == 2 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                            child: Icon(Feather.message_square,
+                                color: currentTab == 2
+                                    ? AppColors.primaryColor
+                                    : AppColors.lightGreyColor,
+                                size: 18),
                           ),
-                          Text('Message', style: currentTab == 2 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                          Text('Message',
+                              style: currentTab == 2
+                                  ? AppStyles.navbarActiveTextStyle
+                                  : AppStyles.navbarInactiveTextStyle),
                         ],
                       ),
                       onPressed: () {
@@ -154,9 +175,16 @@ class _DashboardState extends State<Dashboard> {
                         children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(FontAwesome.user_o, color: currentTab == 3 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                            child: Icon(FontAwesome.user_o,
+                                color: currentTab == 3
+                                    ? AppColors.primaryColor
+                                    : AppColors.lightGreyColor,
+                                size: 18),
                           ),
-                          Text('Profil', style: currentTab == 3 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                          Text('Profil',
+                              style: currentTab == 3
+                                  ? AppStyles.navbarActiveTextStyle
+                                  : AppStyles.navbarInactiveTextStyle),
                         ],
                       ),
                       onPressed: () {

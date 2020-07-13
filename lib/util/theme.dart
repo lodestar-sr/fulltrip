@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    primaryColor: AppColors.primaryColor,
-    cursorColor: AppColors.primaryColor,
-    accentColor: AppColors.primaryColor,
-    fontFamily: 'Roboto',
-  );
+      primaryColor: AppColors.primaryColor,
+      cursorColor: AppColors.primaryColor,
+      accentColor: AppColors.primaryColor,
+      fontFamily: 'Roboto',
+      scaffoldBackgroundColor: Colors.white);
 }
 
 class AppColors {

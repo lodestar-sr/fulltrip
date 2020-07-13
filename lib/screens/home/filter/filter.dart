@@ -71,6 +71,7 @@ class _FilterState extends State<Filter> {
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: new Text('Filtres',
               style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
           backgroundColor: Colors.white,

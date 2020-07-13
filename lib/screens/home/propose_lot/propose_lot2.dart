@@ -38,6 +38,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

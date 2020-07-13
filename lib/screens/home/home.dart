@@ -17,13 +17,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Map> lots = [];
   List<Map> filteredlots = [];
-  List<Map> filters = [
-    {'type': 'start_address', 'value': 'Paris'},
-    {'type': 'arrival_address', 'value': 'Vienne'},
-    {'type': 'price', 'lowValue': 30, 'highValue': 70},
-    {'type': 'volume', 'value': 16},
-    {'type': 'service', 'value': 'Luxe'},
-  ];
 
   bool geoLocation = false;
   filteredLots() {
@@ -33,28 +26,58 @@ class _HomeState extends State<Home> {
       Global.filterdata.forEach((filterelement) {
         if (filterelement['type'] == 'starting_address') {
           if (element['starting_address'] == filterelement['value']) {
-            filteredlots.add(element);
+            var a = false;
+            filteredlots.forEach((felement) {
+              if (felement['id'] == element['id']) {
+                a = true;
+              }
+            });
+            if (!a) filteredlots.add(element);
           }
         }
         if (filterelement['type'] == 'arrival_address') {
           if (element['arrival_address'] == filterelement['value']) {
-            filteredlots.add(element);
+            var a = false;
+            filteredlots.forEach((felement) {
+              if (felement['id'] == element['id']) {
+                a = true;
+              }
+            });
+            if (!a) filteredlots.add(element);
           }
         }
         if (filterelement['type'] == 'price') {
           if (element['price'] >= filterelement['lowValue'] &&
               element['price'] <= filterelement['highValue']) {
-            filteredlots.add(element);
+            var a = false;
+            filteredlots.forEach((felement) {
+              if (felement['id'] == element['id']) {
+                a = true;
+              }
+            });
+            if (!a) filteredlots.add(element);
           }
         }
         if (filterelement['type'] == 'volume') {
           if (element['quantity'] == filterelement['value']) {
-            filteredlots.add(element);
+            var a = false;
+            filteredlots.forEach((felement) {
+              if (felement['id'] == element['id']) {
+                a = true;
+              }
+            });
+            if (!a) filteredlots.add(element);
           }
         }
         if (filterelement['type'] == 'service') {
           if (element['delivery'] == filterelement['value']) {
-            filteredlots.add(element);
+            var a = false;
+            filteredlots.forEach((felement) {
+              if (felement['id'] == element['id']) {
+                a = true;
+              }
+            });
+            if (!a) filteredlots.add(element);
           }
         }
       });
@@ -63,9 +86,8 @@ class _HomeState extends State<Home> {
 
   List<Widget> getLots() {
     List<Widget> list = [];
-    print(this.lots.length);
+
     for (int i = 0; i < this.lots.length; i++) {
-      print(i);
       var startingaddress =
           this.lots[i]['starting_address'].toString().split(',');
       var arrivaladdress =
@@ -95,10 +117,16 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(right: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
-                  image: DecorationImage(
-                    image: NetworkImage(this.lots[i]['photo'] ?? ""),
-                    fit: BoxFit.cover,
-                  ),
+                  image: this.lots[i]['photo'] != ''
+                      ? DecorationImage(
+                          image: NetworkImage(this.lots[i]['photo']),
+                          fit: BoxFit.cover,
+                        )
+                      : DecorationImage(
+                          image: NetworkImage(
+                              'https://i.ya-webdesign.com/images/no-image-available-png-1.png'),
+                          fit: BoxFit.fitWidth,
+                        ),
                 ),
               ),
               Expanded(
@@ -122,13 +150,19 @@ class _HomeState extends State<Home> {
                                   padding: EdgeInsets.only(left: 4),
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      "${startingaddress[startingaddress.length - 1]}" ??
-                                          "",
-                                      style: AppStyles.blackTextStyle
-                                          .copyWith(fontSize: 11),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    child: startingaddress.length >= 2
+                                        ? Text(
+                                            "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        : Text(
+                                            "${startingaddress[startingaddress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -151,13 +185,19 @@ class _HomeState extends State<Home> {
                                   padding: EdgeInsets.only(left: 4),
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      "${arrivaladdress[arrivaladdress.length - 1]}" ??
-                                          "",
-                                      style: AppStyles.blackTextStyle
-                                          .copyWith(fontSize: 11),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    child: arrivaladdress.length >= 2
+                                        ? Text(
+                                            "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        : Text(
+                                            "${arrivaladdress[arrivaladdress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -181,7 +221,7 @@ class _HomeState extends State<Home> {
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
-                        "${this.lots[i]['price'].toString()}€" ?? "",
+                        "${this.lots[i]['price'].toStringAsFixed(0)}€" ?? "",
                         style: TextStyle(
                             color: AppColors.darkGreyColor,
                             fontSize: 18,
@@ -210,10 +250,13 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        onTap: () => Navigator.of(context).pushNamed('lot-details'),
+        onTap: () {
+          Navigator.of(context)
+              .pushNamed('lot-details', arguments: this.lots[i]);
+        },
       ));
     }
-    print(list.length);
+
     if (list.length == 0) {
       list.add(Container(
         padding: EdgeInsets.only(left: 32, right: 32, top: 48),
@@ -262,10 +305,16 @@ class _HomeState extends State<Home> {
                 margin: EdgeInsets.only(right: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
-                  image: DecorationImage(
-                    image: NetworkImage(this.filteredlots[i]['photo'] ?? ""),
-                    fit: BoxFit.cover,
-                  ),
+                  image: this.filteredlots[i]['photo'] != ''
+                      ? DecorationImage(
+                          image: NetworkImage(this.filteredlots[i]['photo']),
+                          fit: BoxFit.cover,
+                        )
+                      : DecorationImage(
+                          image: NetworkImage(
+                              'https://i.ya-webdesign.com/images/no-image-available-png-1.png'),
+                          fit: BoxFit.fitWidth,
+                        ),
                 ),
               ),
               Expanded(
@@ -289,13 +338,19 @@ class _HomeState extends State<Home> {
                                   padding: EdgeInsets.only(left: 4),
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      "${startingaddress[startingaddress.length - 1]}" ??
-                                          "",
-                                      style: AppStyles.blackTextStyle
-                                          .copyWith(fontSize: 11),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    child: startingaddress.length >= 2
+                                        ? Text(
+                                            "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        : Text(
+                                            "${startingaddress[startingaddress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -318,13 +373,19 @@ class _HomeState extends State<Home> {
                                   padding: EdgeInsets.only(left: 4),
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
-                                    child: Text(
-                                      "${arrivaladdress[arrivaladdress.length - 1]}" ??
-                                          "",
-                                      style: AppStyles.blackTextStyle
-                                          .copyWith(fontSize: 11),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                    child: arrivaladdress.length >= 2
+                                        ? Text(
+                                            "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        : Text(
+                                            "${arrivaladdress[arrivaladdress.length - 1]}",
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(fontSize: 11),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                   ),
                                 ),
                               ),
@@ -378,7 +439,8 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        onTap: () => Navigator.of(context).pushNamed('lot-details'),
+        onTap: () => Navigator.of(context)
+            .pushNamed('lot-details', arguments: this.filteredlots[i]),
       ));
     }
 
@@ -481,7 +543,6 @@ class _HomeState extends State<Home> {
         Global.isLoading = false;
       });
       querySnapshot.documents.forEach((element) {
-        print(element.data);
         setState(() {
           lots.add(element.data);
         });

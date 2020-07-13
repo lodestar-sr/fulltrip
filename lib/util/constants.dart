@@ -4,6 +4,6 @@ class Constants {
   static final Map<String, String> services = {
     'Luxe': 'Luxe',
     'Standard': 'Standard',
-    'Économique': 'Économique',
+    'Economique': 'Economique',
   };
 }

@@ -180,6 +180,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

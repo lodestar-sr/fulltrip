@@ -1,3 +1,6 @@
+import 'package:fulltrip/data/models/DistanceTimeModel.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -15,23 +18,77 @@ class LotDetails extends StatefulWidget {
 }
 
 class _LotDetailsState extends State<LotDetails> {
-  Map lot = {
-    'company': 'Nom de la compagnie',
-    'photo': 'https://www.fedex.com/content/dam/fedex/us-united-states/FedEx-Office/images/2020/Q3/FED03799_TrackingLPUpdate_ConsumerGroundShipPod_727x463_888131779.jpg',
-    'price': 700,
-    'volume': 53,
-    'startAddress': 'Paris, France',
-    'arrivalAddress': 'Vienne, Autriche',
-    'service': 'Luxe',
-    'date': '12/12/1222',
-    'distance': 1236,
-    'period': '12 h. 13 min.',
-    'description':
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip',
-  };
+  var myFormat = DateFormat('d-MM-yyyy');
+  Map lotData;
+  var startingaddress = [];
+  var arrivaladdress = [];
+  List startinglatlong = [];
+  List arrivallatlong = [];
+  double distanceinKm = 0.0;
+  String time = '';
+  Future<DistanceTimeModel> distanceTimeModel;
+  bool loadonce = false;
+
+  calculateDistance() async {
+    //Start
+    List<Placemark> startingAddresplacemark =
+        await Geolocator().placemarkFromAddress(lotData['starting_address']);
+    Placemark startingplace = startingAddresplacemark[0];
+    startinglatlong = [
+      startingplace.position.latitude,
+      startingplace.position.longitude
+    ];
+    //Arrival
+    List<Placemark> arrivalAddresplacemark =
+        await Geolocator().placemarkFromAddress(lotData['arrival_address']);
+    Placemark arrivalplace = arrivalAddresplacemark[0];
+    arrivallatlong = [
+      arrivalplace.position.latitude,
+      arrivalplace.position.longitude
+    ];
+
+    fetchRequestGoogleApi(startinglatlong[0], startinglatlong[1],
+            arrivallatlong[0], arrivallatlong[1])
+        .then((value) {
+      var rows = value.rows;
+      rows.forEach((element) {
+        var elements = element.elements;
+        elements.forEach((innerelement) {
+          int distanceinM = innerelement.distance.value;
+          if (mounted) {
+            setState(() {
+              Global.isLoading = false;
+              distanceinKm = (distanceinM / 1000);
+              time = innerelement.duration.text;
+            });
+          }
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      Global.isLoading = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      lotData = args;
+      startingaddress = this.lotData['starting_address'].toString().split(',');
+      arrivaladdress = this.lotData['arrival_address'].toString().split(',');
+    });
+    if (!loadonce) {
+      loadonce = true;
+      calculateDistance();
+    }
+
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
       color: AppColors.primaryColor,
@@ -40,12 +97,14 @@ class _LotDetailsState extends State<LotDetails> {
         appBar: AppBar(
           backgroundColor: Colors.white,
         ),
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -63,18 +122,34 @@ class _LotDetailsState extends State<LotDetails> {
                             height: 146,
                             margin: EdgeInsets.only(right: 14),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(4)),
-                              image: DecorationImage(image: NetworkImage(lot['photo']), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              image: lotData['photo'] != ''
+                                  ? DecorationImage(
+                                      image: NetworkImage(lotData['photo']),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : DecorationImage(
+                                      image: this.lotData['photo'] != ''
+                                          ? NetworkImage(lotData['photo'])
+                                          : NetworkImage(
+                                              'https://i.ya-webdesign.com/images/no-image-available-png-1.png'),
+                                      fit: BoxFit.contain,
+                                    ),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 16, bottom: 32),
                             child: Row(
                               children: [
-                                Icon(AntDesign.calendar, size: 14, color: AppColors.greyColor),
+                                Icon(AntDesign.calendar,
+                                    size: 14, color: AppColors.greyColor),
                                 Padding(
                                   padding: EdgeInsets.only(left: 8),
-                                  child: Text('Publié le ${lot['date']}', style: AppStyles.blackTextStyle.copyWith(fontSize: 14)),
+                                  child: Text(
+                                      'Publié le ${myFormat.format(DateTime.parse(lotData['date']))}',
+                                      style: AppStyles.blackTextStyle
+                                          .copyWith(fontSize: 14)),
                                 ),
                               ],
                             ),
@@ -87,9 +162,12 @@ class _LotDetailsState extends State<LotDetails> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4, right: 8),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                                      Icon(Entypo.circle,
+                                          size: 9,
+                                          color: AppColors.darkGreyColor),
                                       Dash(
                                         direction: Axis.vertical,
                                         length: 48,
@@ -99,25 +177,46 @@ class _LotDetailsState extends State<LotDetails> {
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      lot['startAddress'],
-                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      '40 Avenue Leon Blum',
-                                      style: AppStyles.greyTextStyle.copyWith(fontSize: 12),
-                                    ),
-                                  ],
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      startingaddress.length >= 2
+                                          ? Text(
+                                              "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}",
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            )
+                                          : Text(
+                                              "${startingaddress[startingaddress.length - 1]}",
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            ),
+                                      Container(
+                                        child: Text(
+                                          this.lotData['starting_address'],
+                                          style: AppStyles.greyTextStyle
+                                              .copyWith(fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 16, top: 16),
-                            child: Text('${lot['period']}  (${lot['distance'].toString()} km)', style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
+                            child: Text('$time  ($distanceinKm km)',
+                                style: AppStyles.blackTextStyle
+                                    .copyWith(fontSize: 12)),
                           ),
                           Container(
                             width: double.infinity,
@@ -127,7 +226,8 @@ class _LotDetailsState extends State<LotDetails> {
                                 Container(
                                   margin: EdgeInsets.only(right: 8),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Dash(
                                         direction: Axis.vertical,
@@ -135,22 +235,43 @@ class _LotDetailsState extends State<LotDetails> {
                                         dashLength: 3,
                                         dashColor: AppColors.darkGreyColor,
                                       ),
-                                      Icon(Entypo.circle, size: 9, color: AppColors.darkGreyColor),
+                                      Icon(Entypo.circle,
+                                          size: 9,
+                                          color: AppColors.darkGreyColor),
                                     ],
                                   ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      lot['startAddress'],
-                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      '40 Avenue Leon Blum',
-                                      style: AppStyles.greyTextStyle.copyWith(fontSize: 12),
-                                    ),
-                                  ],
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      arrivaladdress.length >= 2
+                                          ? Text(
+                                              "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}",
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            )
+                                          : Text(
+                                              "${arrivaladdress[arrivaladdress.length - 1]}",
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                            ),
+                                      Container(
+                                        child: Text(
+                                          this.lotData['arrival_address'],
+                                          style: AppStyles.greyTextStyle
+                                              .copyWith(fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -163,9 +284,13 @@ class _LotDetailsState extends State<LotDetails> {
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 4),
-                            child: Text('Prestation', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 12)),
+                            child: Text('Prestation',
+                                style: AppStyles.blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w500, fontSize: 12)),
                           ),
-                          Text(lot['service'], style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 18)),
+                          Text(lotData['delivery'],
+                              style: AppStyles.greyTextStyle.copyWith(
+                                  fontWeight: FontWeight.w500, fontSize: 18)),
                           Container(
                             margin: EdgeInsets.only(bottom: 8),
                             child: Divider(
@@ -174,13 +299,21 @@ class _LotDetailsState extends State<LotDetails> {
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 4),
-                            child: Text('La description', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
+                            child: Text('La description',
+                                style: AppStyles.blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w500, fontSize: 14)),
                           ),
                           DescriptionText(
-                            text: lot['description'],
+                            text: lotData['description'],
                             minLength: 140,
-                            textStyle: AppStyles.greyTextStyle.copyWith(fontSize: 10, fontWeight: FontWeight.w300, height: 1.3),
-                            moreTextStyle: AppStyles.primaryTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 10, height: 1.4),
+                            textStyle: AppStyles.greyTextStyle.copyWith(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w300,
+                                height: 1.3),
+                            moreTextStyle: AppStyles.primaryTextStyle.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 10,
+                                height: 1.4),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 8, bottom: 4),
@@ -191,10 +324,15 @@ class _LotDetailsState extends State<LotDetails> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('Prix de l\'expédition', style: AppStyles.blackTextStyle.copyWith(fontSize: 18)),
+                              Text('Prix de l\'expédition',
+                                  style: AppStyles.blackTextStyle
+                                      .copyWith(fontSize: 18)),
                               Container(
                                 margin: EdgeInsets.only(left: 24),
-                                child: Text('${lot['price']}€', style: AppStyles.darkGreyTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 24)),
+                                child: Text('${lotData['price']}€',
+                                    style: AppStyles.darkGreyTextStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 24)),
                               ),
                             ],
                           ),
@@ -206,17 +344,22 @@ class _LotDetailsState extends State<LotDetails> {
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 4),
-                            child: Text('NOM DE LA COMPAGNIE', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 14)),
+                            child: Text('NOM DE LA COMPAGNIE',
+                                style: AppStyles.blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w500, fontSize: 14)),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 8, bottom: 24),
                             child: GestureDetector(
                               child: Row(
                                 children: [
-                                  Icon(Feather.message_square, size: 18, color: AppColors.primaryColor),
+                                  Icon(Feather.message_square,
+                                      size: 18, color: AppColors.primaryColor),
                                   Padding(
                                     padding: EdgeInsets.only(left: 8),
-                                    child: Text('Contacter l\'entreprise', style: AppStyles.primaryTextStyle.copyWith(fontSize: 14)),
+                                    child: Text('Contacter l\'entreprise',
+                                        style: AppStyles.primaryTextStyle
+                                            .copyWith(fontSize: 14)),
                                   ),
                                 ],
                               ),
@@ -224,16 +367,24 @@ class _LotDetailsState extends State<LotDetails> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                BoxShadow(
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.24),
+                                    blurRadius: 16,
+                                    spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 60,
                               child: RaisedButton(
-                                child: Text('Réservez cet article', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                child: Text('Réservez cet article',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: () {},

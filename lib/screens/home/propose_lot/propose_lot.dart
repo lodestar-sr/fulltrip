@@ -46,6 +46,7 @@ class _ProposeLotState extends State<ProposeLot> {
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
