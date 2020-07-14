@@ -39,11 +39,13 @@ class _FilterState extends State<Filter> {
         if (element['type'] == 'start_address') {
           setState(() {
             startAddress = element['value'];
+            startcity = element['value'];
           });
         }
         if (element['type'] == 'arrival_address') {
           setState(() {
             arrivalAddress = element['value'];
+            arrivalcity = element['value'];
           });
         }
         if (element['type'] == 'price') {
