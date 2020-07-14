@@ -17,10 +17,12 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
-  List<double> price = [500, 3500];
+  List<double> price = [0, 10000];
   List<double> volume = [16];
   String startAddress = '';
   String arrivalAddress = '';
+  String startcity = '';
+  String arrivalcity = '';
   bool disAssemble = false;
   bool reAssemble = false;
   String unservice;
@@ -96,7 +98,7 @@ class _FilterState extends State<Filter> {
                       style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
                 ),
               ),
-              onTap: () => {},
+              onTap: () => setState(() => Global.filterdata.clear()),
             )
           ],
         ),
@@ -141,8 +143,14 @@ class _FilterState extends State<Filter> {
                                         height: 16,
                                       ),
                                     ),
-                                    onSelect: (val) =>
-                                        this.setState(() => startAddress = val),
+                                    onSelect: (val) => this.setState(() {
+                                      startAddress = val;
+                                      var fullstart = val.toString().split(",");
+                                      startcity = fullstart.length >= 2
+                                          ? fullstart[fullstart.length - 2]
+                                          : fullstart[fullstart.length - 1];
+                                      print(startcity);
+                                    }),
                                   ),
                                 ),
                               ],
@@ -169,8 +177,15 @@ class _FilterState extends State<Filter> {
                                         height: 16,
                                       ),
                                     ),
-                                    onSelect: (val) => this
-                                        .setState(() => arrivalAddress = val),
+                                    onSelect: (val) => this.setState(() {
+                                      arrivalAddress = val;
+                                      var fullarrival =
+                                          val.toString().split(",");
+                                      arrivalcity = fullarrival.length >= 2
+                                          ? fullarrival[fullarrival.length - 2]
+                                          : fullarrival[fullarrival.length - 1];
+                                      print(arrivalcity);
+                                    }),
                                   ),
                                 ),
                               ],
@@ -192,7 +207,7 @@ class _FilterState extends State<Filter> {
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
-                                    min: 100,
+                                    min: 0,
                                     max: 10000,
                                     values: price,
                                     rangeSlider: true,
@@ -438,13 +453,13 @@ class _FilterState extends State<Filter> {
       for (int i = 0; i < Global.filterdata.length; i++) {
         if (startAddress != '') {
           if (Global.filterdata[i]['type'] == 'start_address') {
-            Global.filterdata[i].update('value', (value) => startAddress);
+            Global.filterdata[i].update('value', (value) => startcity);
             startaddresscheck = true;
           }
         }
         if (arrivalAddress != '') {
           if (Global.filterdata[i]['type'] == 'arrival_address') {
-            Global.filterdata[i].update('value', (value) => arrivalAddress);
+            Global.filterdata[i].update('value', (value) => arrivalcity);
             arrivaladdresscheck = true;
           }
         }
@@ -473,14 +488,13 @@ class _FilterState extends State<Filter> {
       }
       if (!startaddresscheck) {
         if (startAddress != '') {
-          Global.filterdata
-              .add({"type": 'start_address', "value": startAddress});
+          Global.filterdata.add({"type": 'start_address', "value": startcity});
         }
       }
       if (!arrivaladdresscheck) {
         if (arrivalAddress != '') {
           Global.filterdata
-              .add({"type": 'arrival_address', "value": arrivalAddress});
+              .add({"type": 'arrival_address', "value": arrivalcity});
         }
       }
       if (!volumecheck) {
@@ -501,11 +515,11 @@ class _FilterState extends State<Filter> {
       }
     } else {
       if (startAddress != '') {
-        Global.filterdata.add({"type": 'start_address', "value": startAddress});
+        Global.filterdata.add({"type": 'start_address', "value": startcity});
       }
       if (arrivalAddress != '') {
         Global.filterdata
-            .add({"type": 'arrival_address', "value": arrivalAddress});
+            .add({"type": 'arrival_address', "value": arrivalcity});
       }
       if (price.isNotEmpty) {
         Global.filterdata.add(

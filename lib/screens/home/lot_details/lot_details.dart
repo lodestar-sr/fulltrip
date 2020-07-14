@@ -95,6 +95,7 @@ class _LotDetailsState extends State<LotDetails> {
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: Colors.white,
         ),
         body: LayoutBuilder(builder:
@@ -329,7 +330,8 @@ class _LotDetailsState extends State<LotDetails> {
                                       .copyWith(fontSize: 18)),
                               Container(
                                 margin: EdgeInsets.only(left: 24),
-                                child: Text('${lotData['price']}€',
+                                child: Text(
+                                    '${lotData['price'].toStringAsFixed(0)}€',
                                     style: AppStyles.darkGreyTextStyle.copyWith(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 24)),

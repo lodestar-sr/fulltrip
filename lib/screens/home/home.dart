@@ -23,9 +23,23 @@ class _HomeState extends State<Home> {
     filteredlots.clear();
 
     lots.forEach((element) {
+      print(Global.filterdata);
       Global.filterdata.forEach((filterelement) {
-        if (filterelement['type'] == 'starting_address') {
-          if (element['starting_address'] == filterelement['value']) {
+        //Start Add
+        var startadd = element['starting_address'].toString().split(",");
+        var startcity = startadd.length >= 2
+            ? startadd[startadd.length - 2].trim()
+            : startadd[startadd.length - 1].trim();
+        print(startcity);
+        //Arrival Add
+        var arrivaladd = element['arrival_address'].toString().split(",");
+        var arrivalcity = arrivaladd.length >= 2
+            ? arrivaladd[arrivaladd.length - 2].trim()
+            : arrivaladd[arrivaladd.length - 1].trim();
+
+        if (filterelement['type'] == 'start_address') {
+          print(filterelement['value']);
+          if (startcity == filterelement['value']) {
             var a = false;
             filteredlots.forEach((felement) {
               if (felement['id'] == element['id']) {
@@ -36,7 +50,7 @@ class _HomeState extends State<Home> {
           }
         }
         if (filterelement['type'] == 'arrival_address') {
-          if (element['arrival_address'] == filterelement['value']) {
+          if (arrivalcity == filterelement['value']) {
             var a = false;
             filteredlots.forEach((felement) {
               if (felement['id'] == element['id']) {
@@ -123,8 +137,7 @@ class _HomeState extends State<Home> {
                           fit: BoxFit.cover,
                         )
                       : DecorationImage(
-                          image: NetworkImage(
-                              'https://i.ya-webdesign.com/images/no-image-available-png-1.png'),
+                          image: ExactAssetImage('assets/images/noimage.png'),
                           fit: BoxFit.fitWidth,
                         ),
                 ),
@@ -152,7 +165,7 @@ class _HomeState extends State<Home> {
                                     scrollDirection: Axis.horizontal,
                                     child: startingaddress.length >= 2
                                         ? Text(
-                                            "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}",
+                                            "${startingaddress[startingaddress.length - 2]}",
                                             style: AppStyles.blackTextStyle
                                                 .copyWith(fontSize: 11),
                                             overflow: TextOverflow.ellipsis,
@@ -187,7 +200,7 @@ class _HomeState extends State<Home> {
                                     scrollDirection: Axis.horizontal,
                                     child: arrivaladdress.length >= 2
                                         ? Text(
-                                            "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}",
+                                            "${arrivaladdress[arrivaladdress.length - 2]}",
                                             style: AppStyles.blackTextStyle
                                                 .copyWith(fontSize: 11),
                                             overflow: TextOverflow.ellipsis,
@@ -311,8 +324,7 @@ class _HomeState extends State<Home> {
                           fit: BoxFit.cover,
                         )
                       : DecorationImage(
-                          image: NetworkImage(
-                              'https://i.ya-webdesign.com/images/no-image-available-png-1.png'),
+                          image: ExactAssetImage('assets/images/noimage.png'),
                           fit: BoxFit.fitWidth,
                         ),
                 ),
@@ -340,7 +352,7 @@ class _HomeState extends State<Home> {
                                     scrollDirection: Axis.horizontal,
                                     child: startingaddress.length >= 2
                                         ? Text(
-                                            "${startingaddress[startingaddress.length - 2]},${startingaddress[startingaddress.length - 1]}",
+                                            "${startingaddress[startingaddress.length - 2]}",
                                             style: AppStyles.blackTextStyle
                                                 .copyWith(fontSize: 11),
                                             overflow: TextOverflow.ellipsis,
@@ -375,7 +387,7 @@ class _HomeState extends State<Home> {
                                     scrollDirection: Axis.horizontal,
                                     child: arrivaladdress.length >= 2
                                         ? Text(
-                                            "${arrivaladdress[arrivaladdress.length - 2]},${arrivaladdress[arrivaladdress.length - 1]}",
+                                            "${arrivaladdress[arrivaladdress.length - 2]}",
                                             style: AppStyles.blackTextStyle
                                                 .copyWith(fontSize: 11),
                                             overflow: TextOverflow.ellipsis,
@@ -464,58 +476,68 @@ class _HomeState extends State<Home> {
     List<Widget> list = [];
 
     for (int i = 0; i < Global.filterdata.length; i++) {
+      bool checkhighvalue = false;
+      if (Global.filterdata[i]['type'] == 'price') {
+        if (Global.filterdata[i]['highValue'] == 10000.0) {
+          checkhighvalue = true;
+        }
+      }
       Global.filterdata.isNotEmpty
-          ? list.add(Container(
-              margin: EdgeInsets.only(right: 8),
-              padding: EdgeInsets.only(right: 12, left: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: AppColors.lightGreyColor),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Global.filterdata[i]['type'] == 'start_address'
-                      ? Container(
-                          margin: EdgeInsets.only(right: 8),
-                          child: Image.asset(
-                            'assets/images/locationDeparture.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                        )
-                      : Container(),
-                  Global.filterdata[i]['type'] == 'arrival_address'
-                      ? Container(
-                          margin: EdgeInsets.only(right: 8),
-                          child: Image.asset(
-                            'assets/images/locationArrival.png',
-                            width: 16,
-                            height: 16,
-                          ),
-                        )
-                      : Container(),
-                  Text(
-                    (Global.filterdata[i]['type'] == 'price'
-                            ? "${Global.filterdata[i]['lowValue'].toString()}€ - ${Global.filterdata[i]['highValue'].toString()}€"
-                            : Global.filterdata[i]['value'].toString()) +
-                        (Global.filterdata[i]['type'] == 'volume' ? "m³" : ""),
-                    style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
+          ? checkhighvalue
+              ? list.add(Container())
+              : list.add(Container(
+                  margin: EdgeInsets.only(right: 8),
+                  padding: EdgeInsets.only(right: 12, left: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: AppColors.lightGreyColor),
                   ),
-                  GestureDetector(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 8),
-                      child: Icon(Icons.close,
-                          size: 12, color: AppColors.redColor),
-                    ),
-                    onTap: () {
-                      setState(() {
-                        Global.filterdata.removeAt(i);
-                      });
-                    },
-                  )
-                ],
-              ),
-            ))
+                  child: Row(
+                    children: <Widget>[
+                      Global.filterdata[i]['type'] == 'start_address'
+                          ? Container(
+                              margin: EdgeInsets.only(right: 8),
+                              child: Image.asset(
+                                'assets/images/locationDeparture.png',
+                                width: 16,
+                                height: 16,
+                              ),
+                            )
+                          : Container(),
+                      Global.filterdata[i]['type'] == 'arrival_address'
+                          ? Container(
+                              margin: EdgeInsets.only(right: 8),
+                              child: Image.asset(
+                                'assets/images/locationArrival.png',
+                                width: 16,
+                                height: 16,
+                              ),
+                            )
+                          : Container(),
+                      Text(
+                        (Global.filterdata[i]['type'] == 'price'
+                                ? "${Global.filterdata[i]['lowValue'].toString()}€ - ${Global.filterdata[i]['highValue'].toString()}€"
+                                : Global.filterdata[i]['value'].toString()) +
+                            (Global.filterdata[i]['type'] == 'volume'
+                                ? "m³"
+                                : ""),
+                        style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
+                      ),
+                      GestureDetector(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 8),
+                          child: Icon(Icons.close,
+                              size: 12, color: AppColors.redColor),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            Global.filterdata.removeAt(i);
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                ))
           : list.add(Container());
     }
 

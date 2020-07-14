@@ -128,7 +128,7 @@ class _ProposeLotState extends State<ProposeLot> {
                                   'assets/images/locationDeparture.png',
                                   width: 13,
                                   height: 13,
-                                  color: AppColors.greyColor,
+                                  //color: AppColors.greyColor,
                                 ),
                               ),
                               validator: (value) => Validators.required(value,
