@@ -478,7 +478,8 @@ class _HomeState extends State<Home> {
     for (int i = 0; i < Global.filterdata.length; i++) {
       bool checkhighvalue = false;
       if (Global.filterdata[i]['type'] == 'price') {
-        if (Global.filterdata[i]['highValue'] == 10000.0) {
+        if (Global.filterdata[i]['highValue'] == 10000.0 &&
+            Global.filterdata[i]['lowValue'] == 0) {
           checkhighvalue = true;
         }
       }
