@@ -68,7 +68,7 @@ class _RaisonSocialeState extends State<RaisonSociale> {
                                                       prefixIcon: Icon(
                                                           Icons.mail_outline)),
                                               validator: (value) =>
-                                                  Validators.mustEmail(value,
+                                                  Validators.required(value,
                                                       errorText:
                                                           'Veuillez saisir une raison sociale'),
                                               keyboardType: TextInputType.text,

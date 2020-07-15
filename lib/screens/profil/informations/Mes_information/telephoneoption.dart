@@ -68,7 +68,7 @@ class _TelephoneOptionState extends State<TelephoneOption> {
                                                       prefixIcon: Icon(
                                                           Icons.phone_iphone)),
                                               validator: (value) =>
-                                                  Validators.mustEmail(value,
+                                                  Validators.mustNumeric(value,
                                                       errorText:
                                                           'Veuillez entrer votre numéro de téléphone valide'),
                                               keyboardType: TextInputType.phone,

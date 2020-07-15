@@ -17,6 +17,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final changePasswordFormKey = GlobalKey<FormState>();
   String oldPassword = '';
   String newPassword = '';
+  String retypePassword = '';
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -71,7 +72,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                       prefixIcon: Icon(
                                                           Icons.lock_outline)),
                                               validator: (value) =>
-                                                  Validators.mustEmail(value,
+                                                  Validators.required(value,
                                                       errorText:
                                                           "Veuillez entrer l'ancien mot de passe"),
                                               keyboardType: TextInputType.text,
@@ -98,21 +99,55 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                       prefixIcon: Icon(
                                                           Icons.lock_outline)),
                                               validator: (value) =>
-                                                  Validators.mustEmail(value,
+                                                  Validators.required(value,
                                                       errorText:
                                                           "Veuillez entrer un nouveau mot de passe"),
                                               keyboardType: TextInputType.text,
                                               style: AppStyles.blackTextStyle
                                                   .copyWith(fontSize: 18),
+                                              onChanged: (val) => setState(
+                                                  () => newPassword = val),
                                               onSaved: (val) => setState(
-                                                  () => oldPassword = val),
+                                                  () => newPassword = val),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Retapez le nouveau mot de passe',
+                                            style: AppStyles.blackTextStyle
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                          ),
+                                          FormFieldContainer(
+                                            padding: EdgeInsets.all(4),
+                                            child: TextFormField(
+                                              initialValue: '',
+                                              decoration: hintTextDecoration(
+                                                      "Retapez le nouveau mot de passe")
+                                                  .copyWith(
+                                                      prefixIcon: Icon(
+                                                          Icons.lock_outline)),
+                                              validator: (value) {
+                                                if (value.trim().isEmpty) {
+                                                  return "Veuillez retaper le nouveau mot de passe";
+                                                } else if (newPassword !=
+                                                    value) {
+                                                  return "Les mots de passe ne correspondent pas";
+                                                }
+                                                return null;
+                                              },
+                                              keyboardType: TextInputType.text,
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(fontSize: 18),
+                                              onSaved: (val) => setState(
+                                                  () => retypePassword = val),
                                             ),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 top: SizeConfig
                                                         .safeBlockHorizontal *
-                                                    125),
+                                                    75),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(

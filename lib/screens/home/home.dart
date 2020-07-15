@@ -560,9 +560,8 @@ class _HomeState extends State<Home> {
                 ),
                 AnimatedContainer(
                   duration: Duration(milliseconds: 300),
-                  height: isVisible ? 40.0 : 0.0,
+                  height: isVisible ? 30.0 : 0.0,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 16),
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: getFilters(),
@@ -572,7 +571,7 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: ListView(
                     controller: scrollController,
-                    padding: EdgeInsets.only(left: 4, right: 4),
+                    padding: EdgeInsets.only(left: 4, right: 4, top: 10),
                     children: listLotItems(),
                   ),
                 ),
