@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/data/models/lot.dart';
@@ -21,13 +22,30 @@ class _HomeState extends State<Home> {
   List<Lot> filteredLots = [];
   var myFormat = DateFormat('d/MM');
   LotService _lotService = LotService.getInstance();
-
+  ScrollController scrollController = new ScrollController();
+  bool isVisible = true;
   bool geoLocation = false;
 
   @override
   void initState() {
     super.initState();
     initData();
+    scrollController.addListener(() {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        if (isVisible)
+          setState(() {
+            isVisible = false;
+          });
+      }
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        if (!isVisible)
+          setState(() {
+            isVisible = true;
+          });
+      }
+    });
   }
 
   initData() {
@@ -540,16 +558,20 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 16),
-                  height: 24,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: getFilters(),
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  height: isVisible ? 40.0 : 0.0,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 16),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: getFilters(),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: ListView(
+                    controller: scrollController,
                     padding: EdgeInsets.only(left: 4, right: 4),
                     children: listLotItems(),
                   ),

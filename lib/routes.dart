@@ -9,11 +9,17 @@ import 'package:fulltrip/screens/home/filter/filter.dart';
 import 'package:fulltrip/screens/home/home.dart';
 import 'package:fulltrip/screens/home/lot_details/lot_details.dart';
 import 'package:fulltrip/screens/home/propose_lot/propose_lot.dart';
+import 'package:fulltrip/screens/profil/Profil.dart';
 import 'package:fulltrip/screens/splash/splash.dart';
 import 'package:fulltrip/util/global.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
+import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
+import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
+import 'screens/profil/informations/Mes_information/changePassword.dart';
+import 'screens/profil/informations/Mes_information/emailOption.dart';
+import 'screens/profil/informations/Mes_information/telephoneoption.dart';
 import 'util/theme.dart';
 
 class Routes {
@@ -30,6 +36,12 @@ class Routes {
     'ProposeLot2': (BuildContext context) => ProposeLot2(),
     'ProposeLot3': (BuildContext context) => ProposeLot3(),
     'Felicitations': (BuildContext context) => Felicitations(),
+    'Profil': (BuildContext context) => Profil(),
+    'mes_informations': (BuildContext context) => Mes_Informations(),
+    'raisonsociale': (BuildContext context) => RaisonSociale(),
+    'emailoption': (BuildContext context) => EmailOption(),
+    'telephoneoption': (BuildContext context) => TelephoneOption(),
+    'changepassword': (BuildContext context) => ChangePassword(),
   };
 
   Routes({FirebaseStorage storage, Firestore firestore}) {

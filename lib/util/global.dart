@@ -10,6 +10,14 @@ class Global {
   static Firestore firestore;
   static Lot lotForm;
   static Filter filter = Filter();
+  static List<String> profileoptions = [
+    'Mes informations',
+    'Coordonnées bancaires',
+    'Transaction en cours',
+    'Historique de transport',
+    'Mes factures',
+    'Mes documents'
+  ];
   static List<String> typedelieu = [
     'Immeuble',
     'Maison',

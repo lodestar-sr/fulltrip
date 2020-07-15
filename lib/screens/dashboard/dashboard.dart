@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/data/models/lot.dart';
 import 'package:fulltrip/screens/home/home.dart';
+import 'package:fulltrip/screens/profil/Profil.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 
@@ -24,7 +25,7 @@ class _DashboardState extends State<Dashboard> {
     Container(
       key: PageStorageKey('Page3'),
     ),
-    Container(
+    Profil(
       key: PageStorageKey('Page4'),
     ),
   ];
