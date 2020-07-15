@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fulltrip/data/models/filter.dart';
 import 'package:fulltrip/data/models/lot.dart';
 
 class Global {
@@ -8,7 +9,7 @@ class Global {
   static FirebaseStorage storage;
   static Firestore firestore;
   static Lot lotForm;
-  static List<Map> filterdata = [];
+  static Filter filter = Filter();
   static List<String> typedelieu = [
     'Immeuble',
     'Maison',

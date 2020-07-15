@@ -8,6 +8,8 @@ class Lot {
   String startingFloors;
   String startingFurnitureLift;
   String startingDismantlingFurniture;
+  DateTime pickupDateFrom;
+  DateTime pickupDateTo;
   int quantity;
 
   String arrivalAddress;
@@ -17,6 +19,8 @@ class Lot {
   String arrivalFurnitureLift;
   String arrivalReassemblyFurniture;
   String delivery;
+  DateTime deliveryDateFrom;
+  DateTime deliveryDateTo;
 
   double price;
   String photo;
@@ -31,6 +35,8 @@ class Lot {
     this.startingFloors = 'RDC',
     this.startingFurnitureLift = 'Non',
     this.startingDismantlingFurniture = 'Non',
+    this.pickupDateFrom,
+    this.pickupDateTo,
     this.quantity = 0,
     this.arrivalAddress = '',
     this.arrivalLocationType = 'Immeuble',
@@ -39,6 +45,8 @@ class Lot {
     this.arrivalFurnitureLift = 'Non',
     this.arrivalReassemblyFurniture = 'Non',
     this.delivery = '',
+    this.deliveryDateFrom,
+    this.deliveryDateTo,
     this.price,
     this.photo = '',
     this.description = '',
@@ -57,6 +65,8 @@ class Lot {
         startingFloors: json["starting_floors"],
         startingFurnitureLift: json["starting_furniture_lift"],
         startingDismantlingFurniture: json["starting_dismantling_furniture"],
+        pickupDateFrom: json["pickup_date_from"] != null ? DateTime.parse(json["pickup_date_from"]) : null,
+        pickupDateTo: json["pickup_date_to"] != null ? DateTime.parse(json["pickup_date_to"]) : null,
         quantity: json["quantity"],
         arrivalAddress: json["arrival_address"],
         arrivalLocationType: json["arrival_location_type"],
@@ -65,6 +75,8 @@ class Lot {
         arrivalFurnitureLift: json["arrival_furniture_lift"],
         arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
         delivery: json["delivery"],
+        deliveryDateFrom: json["delivery_date_from"] != null ? DateTime.parse(json["delivery_date_from"]) : null,
+        deliveryDateTo: json["delivery_date_to"] != null ? DateTime.parse(json["delivery_date_to"]) : null,
         price: json["price"],
         photo: json["photo"],
         description: json["description"],
@@ -79,6 +91,8 @@ class Lot {
         "starting_floors": startingFloors,
         "starting_furniture_lift": startingFurnitureLift,
         "starting_dismantling_furniture": startingDismantlingFurniture,
+        "pickup_date_from": pickupDateFrom.toIso8601String(),
+        "pickup_date_to": pickupDateTo.toIso8601String(),
         "quantity": quantity,
         "arrival_address": arrivalAddress,
         "arrival_location_type": arrivalLocationType,
@@ -87,6 +101,8 @@ class Lot {
         "arrival_furniture_lift": arrivalFurnitureLift,
         "arrival_reassembly_furniture": arrivalReassemblyFurniture,
         "delivery": delivery,
+        "delivery_date_from": deliveryDateFrom.toIso8601String(),
+        "delivery_date_to": deliveryDateTo.toIso8601String(),
         "price": price,
         "photo": photo,
         "description": description,

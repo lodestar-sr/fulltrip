@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:fulltrip/util/constants.dart';
 import 'package:fulltrip/util/global.dart';
@@ -17,54 +16,64 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
-  List<double> price = [0, 10000];
-  List<double> volume = [16];
-  String startAddress = '';
+  List<int> price = [0, 10000];
+  List<int> quantity = [0];
+  String startingAddress = '';
   String arrivalAddress = '';
-  String startcity = '';
-  String arrivalcity = '';
-  bool disAssemble = false;
-  bool reAssemble = false;
-  String unservice;
+  String delivery = '';
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    setvaluesfromData();
+    initFilter();
   }
 
-  setvaluesfromData() {
-    if (Global.filterdata.isNotEmpty) {
-      Global.filterdata.forEach((element) {
-        if (element['type'] == 'start_address') {
-          setState(() {
-            startAddress = element['value'];
-            startcity = element['value'];
-          });
-        }
-        if (element['type'] == 'arrival_address') {
-          setState(() {
-            arrivalAddress = element['value'];
-            arrivalcity = element['value'];
-          });
-        }
-        if (element['type'] == 'price') {
-          setState(() {
-            price = [element['lowValue'], element['highValue']];
-          });
-        }
-        if (element['type'] == 'volume') {
-          setState(() {
-            volume = [element['value']];
-          });
-        }
-        if (element['type'] == 'service') {
-          setState(() {
-            unservice = element['value'];
-          });
-        }
-      });
+  initFilter() {
+    setState(() {
+      startingAddress = Global.filter.startingAddress;
+      arrivalAddress = Global.filter.arrivalAddress;
+      quantity = [Global.filter.quantity];
+      price = [Global.filter.lowPrice, Global.filter.highPrice];
+      delivery = Global.filter.delivery;
+    });
+  }
+
+  resetFilter() {
+    setState(() {
+      price = [0, 10000];
+      quantity = [0];
+      startingAddress = '';
+      arrivalAddress = '';
+      delivery = '';
+    });
+  }
+
+  saveFilter() {
+    if (startingAddress != '') {
+      setState(() => Global.filter.startingAddress = startingAddress);
     }
+
+    if (arrivalAddress != '') {
+      setState(() => Global.filter.arrivalAddress = startingAddress);
+    }
+
+    if (quantity[0] != 0) {
+      setState(() => Global.filter.quantity = quantity[0]);
+    }
+
+    if (delivery != '') {
+      setState(() => Global.filter.delivery = delivery);
+    }
+
+    if (price[0] != 0) {
+      setState(() => Global.filter.lowPrice = price[0]);
+    }
+
+    if (price[0] != 10000) {
+      setState(() => Global.filter.highPrice = price[1]);
+    }
+
+    Navigator.of(context).popAndPushNamed('dashboard');
   }
 
   @override
@@ -76,16 +85,14 @@ class _FilterState extends State<Filter> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: new Text('Filtres',
-              style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+          title: new Text('Filtres', style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
           backgroundColor: Colors.white,
           centerTitle: true,
           leading: GestureDetector(
             child: Center(
               child: Container(
                 margin: EdgeInsets.only(left: 12),
-                child: Text('Annuler',
-                    style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
               ),
             ),
             onTap: () => Navigator.of(context).pop(),
@@ -96,22 +103,19 @@ class _FilterState extends State<Filter> {
               child: Center(
                 child: Container(
                   margin: EdgeInsets.only(right: 12),
-                  child: Text('Réinitialiser',
-                      style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
+                  child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
                 ),
               ),
-              onTap: () => setState(() => Global.filterdata.clear()),
+              onTap: resetFilter,
             )
           ],
         ),
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -129,30 +133,16 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse de départ',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Adresse de départ', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
-                                    initialValue: startAddress,
+                                    initialValue: startingAddress,
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.all(13.0),
-                                      child: Image.asset(
-                                        'assets/images/locationDeparture.png',
-                                        width: 16,
-                                        height: 16,
-                                      ),
+                                      padding: EdgeInsets.all(13.0),
+                                      child: Image.asset('assets/images/locationDeparture.png', width: 16, height: 16),
                                     ),
-                                    onSelect: (val) => this.setState(() {
-                                      startAddress = val;
-                                      var fullstart = val.toString().split(",");
-                                      startcity = fullstart.length >= 2
-                                          ? fullstart[fullstart.length - 2]
-                                          : fullstart[fullstart.length - 1];
-                                      print(startcity);
-                                    }),
+                                    onSelect: (val) => setState(() => startingAddress = val),
                                   ),
                                 ),
                               ],
@@ -163,31 +153,16 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse d\'arrivée',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Adresse d\'arrivée', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
                                     initialValue: arrivalAddress,
                                     prefixIcon: Padding(
-                                      padding: const EdgeInsets.all(13.0),
-                                      child: Image.asset(
-                                        'assets/images/locationArrival.png',
-                                        width: 16,
-                                        height: 16,
-                                      ),
+                                      padding: EdgeInsets.all(13.0),
+                                      child: Image.asset('assets/images/locationArrival.png', width: 16, height: 16),
                                     ),
-                                    onSelect: (val) => this.setState(() {
-                                      arrivalAddress = val;
-                                      var fullarrival =
-                                          val.toString().split(",");
-                                      arrivalcity = fullarrival.length >= 2
-                                          ? fullarrival[fullarrival.length - 2]
-                                          : fullarrival[fullarrival.length - 1];
-                                      print(arrivalcity);
-                                    }),
+                                    onSelect: (val) => setState(() => arrivalAddress = val),
                                   ),
                                 ),
                               ],
@@ -202,25 +177,19 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Prix',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Prix', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
                                     min: 0,
                                     max: 10000,
-                                    values: price,
+                                    values: price.map((i) => i.toDouble()).toList(),
                                     rangeSlider: true,
                                     step: FlutterSliderStep(step: 1),
                                     selectByTap: true,
-                                    onDragging:
-                                        (handlerIndex, lowerValue, upperValue) {
+                                    onDragging: (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
-                                        price = [lowerValue, upperValue];
-                                        print('lowervalue : $lowerValue');
-                                        print('uppervalue : $upperValue');
+                                        price = [lowerValue.toInt(), upperValue.toInt()];
                                       });
                                     },
                                     handlerWidth: 24,
@@ -235,8 +204,7 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check,
-                                            color: Colors.white, size: 12),
+                                        child: Icon(Icons.check, color: Colors.white, size: 12),
                                       ),
                                     ),
                                     rightHandler: FlutterSliderHandler(
@@ -249,39 +217,23 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check,
-                                            color: Colors.white, size: 12),
+                                        child: Icon(Icons.check, color: Colors.white, size: 12),
                                       ),
                                     ),
                                     trackBar: FlutterSliderTrackBar(
                                       activeTrackBarHeight: 5,
                                       inactiveTrackBarHeight: 5,
-                                      activeTrackBar: BoxDecoration(
-                                          color: AppColors.primaryColor),
-                                      inactiveTrackBar: BoxDecoration(
-                                          color: AppColors.lightGreyColor),
+                                      activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
+                                      inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
                                     ),
                                     tooltip: FlutterSliderTooltip(
-                                      positionOffset:
-                                          FlutterSliderTooltipPositionOffset(
-                                              top: -5),
+                                      positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
                                       alwaysShowTooltip: true,
-                                      custom: (value) => Text(
-                                          '${value.toString()}€',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      custom: (value) => Text('${value.toString()}€', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     ),
                                     hatchMark: FlutterSliderHatchMark(labels: [
-                                      FlutterSliderHatchMarkLabel(
-                                          percent: 0,
-                                          label: Text('100',
-                                              style: AppStyles.greyTextStyle
-                                                  .copyWith(fontSize: 12))),
-                                      FlutterSliderHatchMarkLabel(
-                                          percent: 100,
-                                          label: Text('10000',
-                                              style: AppStyles.greyTextStyle
-                                                  .copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(percent: 0, label: Text('100', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(percent: 100, label: Text('10000', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
                                     ], labelsDistanceFromTrackBar: 30),
                                   ),
                                 ),
@@ -293,22 +245,18 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Quantité',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Quantité', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
-                                    min: 1,
+                                    min: 0,
                                     max: 100,
-                                    values: volume,
+                                    values: quantity.map((i) => i.toDouble()).toList(),
                                     step: FlutterSliderStep(step: 1),
                                     selectByTap: true,
-                                    onDragging:
-                                        (handlerIndex, lowerValue, upperValue) {
+                                    onDragging: (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
-                                        volume = [lowerValue];
+                                        quantity = [lowerValue.toInt()];
                                       });
                                     },
                                     handlerWidth: 24,
@@ -323,105 +271,75 @@ class _FilterState extends State<Filter> {
                                           ]),
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.check,
-                                            color: Colors.white, size: 12),
+                                        child: Icon(Icons.check, color: Colors.white, size: 12),
                                       ),
                                     ),
                                     trackBar: FlutterSliderTrackBar(
                                       activeTrackBarHeight: 5,
                                       inactiveTrackBarHeight: 5,
-                                      activeTrackBar: BoxDecoration(
-                                          color: AppColors.primaryColor),
-                                      inactiveTrackBar: BoxDecoration(
-                                          color: AppColors.lightGreyColor),
+                                      activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
+                                      inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
                                     ),
                                     tooltip: FlutterSliderTooltip(
-                                      positionOffset:
-                                          FlutterSliderTooltipPositionOffset(
-                                              top: -5),
+                                      positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
                                       alwaysShowTooltip: true,
-                                      custom: (value) => Text(
-                                          '${value.toString()}m³',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      custom: (value) => Text('${value.toString()}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     ),
                                     hatchMark: FlutterSliderHatchMark(labels: [
-                                      FlutterSliderHatchMarkLabel(
-                                          percent: 0,
-                                          label: Text('5m³',
-                                              style: AppStyles.greyTextStyle
-                                                  .copyWith(fontSize: 12))),
-                                      FlutterSliderHatchMarkLabel(
-                                          percent: 100,
-                                          label: Text('100m³',
-                                              style: AppStyles.greyTextStyle
-                                                  .copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(percent: 0, label: Text('5m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
+                                      FlutterSliderHatchMarkLabel(percent: 100, label: Text('100m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
                                     ], labelsDistanceFromTrackBar: 30),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-//                          Container(
-//                              child: SwitchListTile(
-//                            title: Text('Démontage des meubles ?', style: AppStyles.greyTextStyle.copyWith(color: AppColors.darkGreyColor, fontSize: 13)),
-//                            value: disAssemble,
-//                            onChanged: (val) => this.setState(() => disAssemble = val),
-//                          )),
-//                          Container(
-//                            child: SwitchListTile(
-//                              title: Text('Remontage des meubles ?', style: AppStyles.greyTextStyle.copyWith(color: AppColors.darkGreyColor, fontSize: 13)),
-//                              value: reAssemble,
-//                              onChanged: (val) => this.setState(() => reAssemble = val),
-//                            ),
-//                          ),
                           FormFieldContainer(
                             margin: EdgeInsets.only(top: 16),
                             padding: EdgeInsets.only(left: 20),
                             child: DropdownButtonFormField(
                               isExpanded: true,
-                              items: Constants.services.entries.map((itm) {
-                                return DropdownMenuItem(
-                                  value: itm.key,
-                                  child: Text(
-                                    itm.value,
-                                    style: AppStyles.blackTextStyle
-                                        .copyWith(fontSize: 14),
-                                  ),
-                                );
-                              }).toList(),
-                              value: unservice,
+                              items: [
+                                    DropdownMenuItem(
+                                      value: '',
+                                      child: Text(
+                                        '',
+                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                      ),
+                                    )
+                                  ] +
+                                  Constants.services.entries.map((itm) {
+                                    return DropdownMenuItem(
+                                      value: itm.key,
+                                      child: Text(
+                                        itm.value,
+                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                      ),
+                                    );
+                                  }).toList(),
+                              value: delivery,
                               onChanged: (val) {
                                 setState(() {
-                                  unservice = val;
+                                  delivery = val;
                                 });
                               },
-                              decoration: hintTextDecoration(
-                                  'Choisissez votre service'),
-                              onSaved: (val) => setState(() => unservice = val),
+                              decoration: hintTextDecoration('Choisissez votre service'),
+                              onSaved: (val) => setState(() => delivery = val),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 64),
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
                               boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.24),
-                                    blurRadius: 16,
-                                    spreadRadius: 4),
+                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 60,
                               child: RaisedButton(
-                                child: Text('Appliquer les filtres',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: () => saveFilter(),
@@ -443,98 +361,5 @@ class _FilterState extends State<Filter> {
         }),
       ),
     );
-  }
-
-  saveFilter() {
-    bool startaddresscheck = false;
-    bool arrivaladdresscheck = false;
-    bool volumecheck = false;
-    bool pricecheck = false;
-    bool servicecheck = false;
-    if (Global.filterdata.isNotEmpty) {
-      for (int i = 0; i < Global.filterdata.length; i++) {
-        if (startAddress != '') {
-          if (Global.filterdata[i]['type'] == 'start_address') {
-            Global.filterdata[i].update('value', (value) => startcity);
-            startaddresscheck = true;
-          }
-        }
-        if (arrivalAddress != '') {
-          if (Global.filterdata[i]['type'] == 'arrival_address') {
-            Global.filterdata[i].update('value', (value) => arrivalcity);
-            arrivaladdresscheck = true;
-          }
-        }
-
-        if (volume.isNotEmpty) {
-          if (Global.filterdata[i]['type'] == 'volume') {
-            Global.filterdata[i].update('value', (value) => volume[0]);
-            volumecheck = true;
-          }
-        }
-
-        if (unservice != null) {
-          if (Global.filterdata[i]['type'] == 'service') {
-            Global.filterdata[i].update('value', (value) => unservice);
-            servicecheck = true;
-          }
-        }
-
-        if (price.isNotEmpty) {
-          if (Global.filterdata[i]['type'] == 'price') {
-            Global.filterdata[i].update('lowValue', (value) => price[0]);
-            Global.filterdata[i].update('highValue', (value) => price[1]);
-            pricecheck = true;
-          }
-        }
-      }
-      if (!startaddresscheck) {
-        if (startAddress != '') {
-          Global.filterdata.add({"type": 'start_address', "value": startcity});
-        }
-      }
-      if (!arrivaladdresscheck) {
-        if (arrivalAddress != '') {
-          Global.filterdata
-              .add({"type": 'arrival_address', "value": arrivalcity});
-        }
-      }
-      if (!volumecheck) {
-        if (volume.isNotEmpty) {
-          Global.filterdata.add({'type': 'volume', 'value': volume[0]});
-        }
-      }
-      if (!servicecheck) {
-        if (unservice != null) {
-          Global.filterdata.add({'type': 'service', 'value': unservice});
-        }
-      }
-      if (!pricecheck) {
-        if (price.isNotEmpty) {
-          Global.filterdata.add(
-              {'type': 'price', 'lowValue': price[0], 'highValue': price[1]});
-        }
-      }
-    } else {
-      if (startAddress != '') {
-        Global.filterdata.add({"type": 'start_address', "value": startcity});
-      }
-      if (arrivalAddress != '') {
-        Global.filterdata
-            .add({"type": 'arrival_address', "value": arrivalcity});
-      }
-      if (price.isNotEmpty) {
-        Global.filterdata.add(
-            {'type': 'price', 'lowValue': price[0], 'highValue': price[1]});
-      }
-      if (volume.isNotEmpty) {
-        Global.filterdata.add({'type': 'volume', 'value': volume[0]});
-      }
-      if (unservice != null) {
-        Global.filterdata.add({'type': 'service', 'value': unservice});
-      }
-      Navigator.of(context).popAndPushNamed('dashboard');
-    }
-    Navigator.of(context).popAndPushNamed('dashboard');
   }
 }
