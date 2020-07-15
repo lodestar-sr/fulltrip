@@ -150,8 +150,8 @@ class _LotDetailsState extends State<LotDetails> {
                             margin: EdgeInsets.only(top: 16, bottom: 32),
                             child: Row(
                               children: [
-                                Icon(AntDesign.calendar,
-                                    size: 14, color: AppColors.greyColor),
+                                Icon(MaterialCommunityIcons.calendar_range,
+                                    size: 16, color: AppColors.primaryColor),
                                 Padding(
                                   padding: EdgeInsets.only(left: 8),
                                   child: Text(
@@ -180,8 +180,8 @@ class _LotDetailsState extends State<LotDetails> {
                                           width: 9,
                                           child: Dash(
                                             direction: Axis.vertical,
-                                            length: 32,
-                                            dashLength: 32,
+                                            length: 48,
+                                            dashLength: 48,
                                             dashColor: AppColors.darkGreyColor,
                                           )),
                                     ],
@@ -260,8 +260,8 @@ class _LotDetailsState extends State<LotDetails> {
                                           width: 9,
                                           child: Dash(
                                             direction: Axis.vertical,
-                                            length: 32,
-                                            dashLength: 32,
+                                            length: 48,
+                                            dashLength: 48,
                                             dashColor: AppColors.darkGreyColor,
                                           )),
                                       Image.asset('assets/images/triangle.png',
@@ -327,15 +327,40 @@ class _LotDetailsState extends State<LotDetails> {
                               color: AppColors.lightGreyColor,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 4),
-                            child: Text('Prestation',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 4, top: 4),
+                                child: Text('Prestation',
+                                  style: AppStyles.blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w400, fontSize: 14)),
+                              ),
+                              Text(lot.delivery,
                                 style: AppStyles.blackTextStyle.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 12)),
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                            ],
                           ),
-                          Text(lot.delivery,
-                              style: AppStyles.greyTextStyle.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 18)),
+                          Container(
+                            margin: EdgeInsets.only(bottom: 8),
+                            child: Divider(
+                              color: AppColors.lightGreyColor,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 4, top: 4),
+                                child: Text('Quantité',
+                                  style: AppStyles.blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w400, fontSize: 14)),
+                              ),
+                              Text('${lot.quantity}m³',
+                                style: AppStyles.blackTextStyle.copyWith(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                            ],
+                          ),
                           Container(
                             margin: EdgeInsets.only(bottom: 8),
                             child: Divider(
@@ -394,7 +419,7 @@ class _LotDetailsState extends State<LotDetails> {
                                     fontWeight: FontWeight.w500, fontSize: 14)),
                           ),
                           Container(
-                            margin: EdgeInsets.only(top: 8, bottom: 24),
+                            margin: EdgeInsets.only(top: 8, bottom: 48),
                             child: GestureDetector(
                               child: Row(
                                 children: [

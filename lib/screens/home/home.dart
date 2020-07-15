@@ -7,8 +7,8 @@ import 'package:fulltrip/data/models/lot.dart';
 import 'package:fulltrip/services/lot.service.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -26,20 +26,19 @@ class _HomeState extends State<Home> {
   bool isVisible = true;
   bool geoLocation = false;
   bool checkfilter = false;
+
   @override
   void initState() {
     super.initState();
     initData();
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (isVisible)
           setState(() {
             isVisible = false;
           });
       }
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
         if (!isVisible)
           setState(() {
             isVisible = true;
@@ -85,23 +84,15 @@ class _HomeState extends State<Home> {
     }
 
     if (Global.filter.quantity != 0) {
-      filteredLots = filteredLots
-          .where((lot) => lot.quantity == Global.filter.quantity)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.quantity <= Global.filter.quantity).toList();
     }
 
     if (Global.filter.delivery != '') {
-      filteredLots = filteredLots
-          .where((lot) => lot.delivery == Global.filter.delivery)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.delivery == Global.filter.delivery).toList();
     }
 
     if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 0) {
-      filteredLots = filteredLots
-          .where((lot) =>
-              lot.price >= Global.filter.lowPrice &&
-              lot.price <= Global.filter.highPrice)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.price >= Global.filter.lowPrice && lot.price <= Global.filter.highPrice).toList();
     }
   }
 
@@ -114,16 +105,14 @@ class _HomeState extends State<Home> {
 
       String startCity = '';
       if (startingaddress.length >= 2) {
-        startCity =
-            startingaddress[startingaddress.length - 2].toString().trim();
+        startCity = startingaddress[startingaddress.length - 2].toString().trim();
       } else {
         startCity = startingaddress[0].toString().trim();
       }
 
       String arriveCity = '';
       if (arrivaladdress.length >= 2) {
-        arriveCity =
-            arrivaladdress[arrivaladdress.length - 2].toString().trim();
+        arriveCity = arrivaladdress[arrivaladdress.length - 2].toString().trim();
       } else {
         arriveCity = arrivaladdress[0].toString().trim();
       }
@@ -178,11 +167,9 @@ class _HomeState extends State<Home> {
                           Row(
                             children: <Widget>[
                               Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset('assets/images/circle.png',
-                                      width: 9, height: 9),
+                                  Image.asset('assets/images/circle.png', width: 9, height: 9),
                                   Container(
                                       width: 9,
                                       child: Dash(
@@ -191,18 +178,15 @@ class _HomeState extends State<Home> {
                                         dashLength: 60,
                                         dashColor: AppColors.darkGreyColor,
                                       )),
-                                  Image.asset('assets/images/triangle.png',
-                                      width: 9, height: 9),
+                                  Image.asset('assets/images/triangle.png', width: 9, height: 9),
                                 ],
                               ),
                               Expanded(
                                 child: Container(
                                   height: 80,
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.only(left: 4),
@@ -210,33 +194,19 @@ class _HomeState extends State<Home> {
                                           child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   startCity,
-                                                  style: AppStyles
-                                                      .blackTextStyle
-                                                      .copyWith(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                                 lot.pickupDateFrom != null
                                                     ? Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 5.0),
+                                                        padding: EdgeInsets.only(top: 5.0),
                                                         child: Text(
                                                           'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                          style: AppStyles
-                                                              .navbarInactiveTextStyle
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .mediumGreyColor,
-                                                                  fontSize: 11),
+                                                          style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                         ),
                                                       )
                                                     : Container()
@@ -251,33 +221,19 @@ class _HomeState extends State<Home> {
                                           child: SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   arriveCity,
-                                                  style: AppStyles
-                                                      .blackTextStyle
-                                                      .copyWith(
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                  overflow: TextOverflow.ellipsis,
                                                 ),
                                                 lot.deliveryDateFrom != null
                                                     ? Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 5.0),
+                                                        padding: EdgeInsets.only(top: 5.0),
                                                         child: Text(
                                                           'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                          style: AppStyles
-                                                              .navbarInactiveTextStyle
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .mediumGreyColor,
-                                                                  fontSize: 11),
+                                                          style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                         ),
                                                       )
                                                     : Container()
@@ -297,8 +253,7 @@ class _HomeState extends State<Home> {
                     ),
                     Text(
                       "Raison social",
-                      style: AppStyles.blackTextStyle
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                     )
                   ],
                 ),
@@ -306,31 +261,27 @@ class _HomeState extends State<Home> {
               Container(
                 margin: EdgeInsets.only(left: 8),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         "${lot.price.toStringAsFixed(0)}€" ?? "",
-                        style: TextStyle(
-                            color: AppColors.darkGreyColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
+                        style: TextStyle(color: AppColors.darkGreyColor, fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         lot.delivery ?? "",
-                        style:
-                            TextStyle(color: AppColors.greyColor, fontSize: 14),
+                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 6),
                       child: Text(
                         "${lot.quantity.toString()}m³" ?? "",
-                        style:
-                            TextStyle(color: AppColors.greyColor, fontSize: 14),
+                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                       ),
                     ),
                   ],
@@ -340,8 +291,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         onTap: () {
-          Navigator.of(context)
-              .pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
+          Navigator.of(context).pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
         },
       ));
     });
@@ -352,8 +302,7 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Text(
             'Désolé, la recherche n\'a donné aucun résultat. Essayez de sélectionner d\'autres filtres.',
-            style: TextStyle(
-                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -374,19 +323,12 @@ class _HomeState extends State<Home> {
         startCity = startingaddress[0];
       }
 
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
+      list.add(card(
         child: Row(
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 8),
-              child: Image.asset('assets/images/locationDeparture.png',
-                  width: 16, height: 16),
+              child: Image.asset('assets/images/locationDeparture.png', width: 16, height: 16),
             ),
             Text(
               startCity,
@@ -417,19 +359,12 @@ class _HomeState extends State<Home> {
       } else {
         arriveCity = arrivaladdress[0];
       }
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
+      list.add(card(
         child: Row(
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 8),
-              child: Image.asset('assets/images/locationArrival.png',
-                  width: 16, height: 16),
+              child: Image.asset('assets/images/locationArrival.png', width: 16, height: 16),
             ),
             Text(
               arriveCity,
@@ -449,18 +384,12 @@ class _HomeState extends State<Home> {
       ));
     }
 
-    if (Global.filter.quantity != 0) {
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
+    if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 10000) {
+      list.add(card(
         child: Row(
           children: <Widget>[
             Text(
-              "${Global.filter.quantity}m³",
+              "${Global.filter.lowPrice}€ - ${Global.filter.highPrice}€",
               style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
             ),
             GestureDetector(
@@ -469,7 +398,7 @@ class _HomeState extends State<Home> {
                 child: Icon(Icons.close, size: 12, color: AppColors.redColor),
               ),
               onTap: () {
-                setState(() => Global.filter.resetQuantity());
+                setState(() => Global.filter.resetPrice());
               },
             )
           ],
@@ -478,13 +407,7 @@ class _HomeState extends State<Home> {
     }
 
     if (Global.filter.delivery != '') {
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
+      list.add(card(
         child: Row(
           children: <Widget>[
             Text(
@@ -505,18 +428,12 @@ class _HomeState extends State<Home> {
       ));
     }
 
-    if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 10000) {
-      list.add(Container(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.only(right: 12, left: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.lightGreyColor),
-        ),
+    if (Global.filter.quantity != 0) {
+      list.add(card(
         child: Row(
           children: <Widget>[
             Text(
-              "${Global.filter.lowPrice}€ - ${Global.filter.highPrice}€",
+              "≤${Global.filter.quantity}m³",
               style: AppStyles.greyTextStyle.copyWith(fontSize: 10),
             ),
             GestureDetector(
@@ -525,15 +442,28 @@ class _HomeState extends State<Home> {
                 child: Icon(Icons.close, size: 12, color: AppColors.redColor),
               ),
               onTap: () {
-                setState(() => Global.filter.resetPrice());
+                setState(() => Global.filter.resetQuantity());
               },
             )
           ],
         ),
       ));
     }
+
     list.isEmpty ? checkfilter = true : checkfilter = false;
     return list;
+  }
+
+  card({Widget child}) {
+    return Container(
+      margin: EdgeInsets.only(right: 8),
+      padding: EdgeInsets.only(right: 8, left: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: AppColors.lightGreyColor),
+      ),
+      child: child,
+    );
   }
 
   toggleLocation() {
@@ -551,46 +481,37 @@ class _HomeState extends State<Home> {
       color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 60, bottom: 16),
+                  margin: EdgeInsets.only(top: 36, bottom: 16),
                   child: Row(
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 14),
                         child: OutlineButton.icon(
-                          icon: Icon(Octicons.settings,
-                              size: 14, color: AppColors.primaryColor),
-                          label: Text('Filtres',
-                              style: AppStyles.greyTextStyle
-                                  .copyWith(fontSize: 14)),
+                          icon: Icon(Octicons.settings, size: 14, color: AppColors.primaryColor),
+                          label: Text('Filtres', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                           borderSide: BorderSide(color: AppColors.primaryColor),
-                          onPressed: () =>
-                              Navigator.of(context).pushNamed('filter'),
+                          onPressed: () => Navigator.of(context).pushNamed('filter'),
                           splashColor: AppColors.lightBlueColor,
                         ),
                       ),
                       RaisedButton.icon(
-                        icon: Icon(Entypo.direction, size: 14),
-                        label: Text('Autour de moi',
-                            style: TextStyle(fontSize: 12)),
-                        color: geoLocation
-                            ? AppColors.primaryColor
-                            : AppColors.lightBlueColor,
+                        icon: Icon(MaterialCommunityIcons.target, size: 18),
+                        label: Text('Autour de moi', style: TextStyle(fontSize: 12)),
+                        color: geoLocation ? AppColors.primaryColor : AppColors.lightBlueColor,
                         textColor: Colors.white,
                         onPressed: toggleLocation,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(color: AppColors.primaryColor),
                         ),
                       ),
                     ],

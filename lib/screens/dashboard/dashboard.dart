@@ -64,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
                                     : AppColors.lightGreyColor,
                                 size: 18),
                           ),
-                          Text('Home',
+                          Text('Recherche',
                               style: currentTab == 0
                                   ? AppStyles.navbarActiveTextStyle
                                   : AppStyles.navbarInactiveTextStyle),
@@ -89,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
                                     : AppColors.lightGreyColor,
                                 size: 18),
                           ),
-                          Text('Search',
+                          Text('Chercher',
                               style: currentTab == 1
                                   ? AppStyles.navbarActiveTextStyle
                                   : AppStyles.navbarInactiveTextStyle),
@@ -110,7 +110,7 @@ class _DashboardState extends State<Dashboard> {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.lightGreyColor,
+                        color: AppColors.lightGreyColor.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 3,
                       ),

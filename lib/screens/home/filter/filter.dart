@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:fulltrip/util/constants.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/theme.dart';
 import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Filter extends StatefulWidget {
@@ -16,6 +19,10 @@ class Filter extends StatefulWidget {
 }
 
 class _FilterState extends State<Filter> {
+  final pickupDateController = TextEditingController();
+  final deliveryDateController = TextEditingController();
+  final dateFormat = DateFormat('MM/dd/yyyy');
+
   List<int> price = [0, 10000];
   List<int> quantity = [0];
   String startingAddress = '';
@@ -54,7 +61,7 @@ class _FilterState extends State<Filter> {
     }
 
     if (arrivalAddress != '') {
-      setState(() => Global.filter.arrivalAddress = startingAddress);
+      setState(() => Global.filter.arrivalAddress = arrivalAddress);
     }
 
     if (quantity[0] != 0) {
@@ -85,30 +92,29 @@ class _FilterState extends State<Filter> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: new Text('Filtres', style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              GestureDetector(
+                child: Center(
+                  child: Container(child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
+                ),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              Text('Filtres', style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              GestureDetector(
+                child: Center(
+                  child: Container(child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 14))),
+                ),
+                onTap: resetFilter,
+              ),
+            ],
+          ),
           backgroundColor: Colors.white,
           centerTitle: true,
-          leading: GestureDetector(
-            child: Center(
-              child: Container(
-                margin: EdgeInsets.only(left: 12),
-                child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-              ),
-            ),
-            onTap: () => Navigator.of(context).pop(),
-          ),
           automaticallyImplyLeading: false,
-          actions: <Widget>[
-            GestureDetector(
-              child: Center(
-                child: Container(
-                  margin: EdgeInsets.only(right: 12),
-                  child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12)),
-                ),
-              ),
-              onTap: resetFilter,
-            )
-          ],
+          actions: <Widget>[],
         ),
         body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
@@ -122,7 +128,7 @@ class _FilterState extends State<Filter> {
                   ),
                   child: IntrinsicHeight(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +191,7 @@ class _FilterState extends State<Filter> {
                                     max: 10000,
                                     values: price.map((i) => i.toDouble()).toList(),
                                     rangeSlider: true,
-                                    step: FlutterSliderStep(step: 1),
+                                    step: FlutterSliderStep(step: 100),
                                     selectByTap: true,
                                     onDragging: (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
@@ -245,14 +251,14 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Quantité', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Quantité maximum', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: FlutterSlider(
                                     min: 0,
                                     max: 100,
                                     values: quantity.map((i) => i.toDouble()).toList(),
-                                    step: FlutterSliderStep(step: 1),
+                                    step: FlutterSliderStep(step: 5),
                                     selectByTap: true,
                                     onDragging: (handlerIndex, lowerValue, upperValue) {
                                       setState(() {
@@ -283,7 +289,7 @@ class _FilterState extends State<Filter> {
                                     tooltip: FlutterSliderTooltip(
                                       positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
                                       alwaysShowTooltip: true,
-                                      custom: (value) => Text('${value.toString()}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                      custom: (value) => Text('≤${value.toString()}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     ),
                                     hatchMark: FlutterSliderHatchMark(labels: [
                                       FlutterSliderHatchMarkLabel(percent: 0, label: Text('5m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))),
@@ -294,37 +300,101 @@ class _FilterState extends State<Filter> {
                               ],
                             ),
                           ),
+//                          FormFieldContainer(
+//                            margin: EdgeInsets.only(top: 16),
+//                            padding: EdgeInsets.only(left: 20),
+//                            child: DropdownButtonFormField(
+//                              isExpanded: true,
+//                              items: [
+//                                    DropdownMenuItem(
+//                                      value: '',
+//                                      child: Text(
+//                                        '',
+//                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+//                                      ),
+//                                    )
+//                                  ] +
+//                                  Constants.services.entries.map((itm) {
+//                                    return DropdownMenuItem(
+//                                      value: itm.key,
+//                                      child: Text(
+//                                        itm.value,
+//                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+//                                      ),
+//                                    );
+//                                  }).toList(),
+//                              value: delivery,
+//                              onChanged: (val) {
+//                                setState(() {
+//                                  delivery = val;
+//                                });
+//                              },
+//                              decoration: hintTextDecoration('Choisissez votre service'),
+//                              onSaved: (val) => setState(() => delivery = val),
+//                            ),
+//                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 24),
+                            child: Text(
+                              'Période d\'enlèvement',
+                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                            ),
+                          ),
                           FormFieldContainer(
-                            margin: EdgeInsets.only(top: 16),
-                            padding: EdgeInsets.only(left: 20),
-                            child: DropdownButtonFormField(
-                              isExpanded: true,
-                              items: [
-                                    DropdownMenuItem(
-                                      value: '',
-                                      child: Text(
-                                        '',
-                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
-                                      ),
-                                    )
-                                  ] +
-                                  Constants.services.entries.map((itm) {
-                                    return DropdownMenuItem(
-                                      value: itm.key,
-                                      child: Text(
-                                        itm.value,
-                                        style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
-                                      ),
-                                    );
-                                  }).toList(),
-                              value: delivery,
-                              onChanged: (val) {
-                                setState(() {
-                                  delivery = val;
-                                });
+                            margin: EdgeInsets.only(top: 10, bottom: 16),
+                            child: TextFormField(
+                              readOnly: true,
+                              controller: pickupDateController,
+                              decoration: hintTextDecoration('Période d\'enlèvement').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  showTitleActions: true,
+                                  minTime: DateTime.now(),
+                                  maxTime: DateTime.now().add(
+                                    Duration(days: 90),
+                                  ),
+                                  onConfirm: (date) {
+                                    setState(() => Global.filter.pickUpDate = date);
+                                    pickupDateController.text = dateFormat.format(Global.filter.pickUpDate);
+                                  },
+                                  currentTime: Global.filter.pickUpDate == null ? DateTime.now() : Global.filter.pickUpDate,
+                                  locale: LocaleType.fr,
+                                );
                               },
-                              decoration: hintTextDecoration('Choisissez votre service'),
-                              onSaved: (val) => setState(() => delivery = val),
+                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 8),
+                            child: Text(
+                              'Période de livraison',
+                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          FormFieldContainer(
+                            margin: EdgeInsets.only(top: 10, bottom: 16),
+                            child: TextFormField(
+                              readOnly: true,
+                              controller: deliveryDateController,
+                              decoration: hintTextDecoration('Période de livraison').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
+                              onTap: () {
+                                DatePicker.showDatePicker(
+                                  context,
+                                  showTitleActions: true,
+                                  minTime: DateTime.now(),
+                                  maxTime: DateTime.now().add(
+                                    Duration(days: 90),
+                                  ),
+                                  onConfirm: (date) {
+                                    setState(() => Global.filter.deliveryDate = date);
+                                    deliveryDateController.text = dateFormat.format(Global.filter.deliveryDate);
+                                  },
+                                  currentTime: Global.filter.deliveryDate == null ? DateTime.now() : Global.filter.deliveryDate,
+                                  locale: LocaleType.fr,
+                                );
+                              },
+                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                             ),
                           ),
                           Container(

@@ -7,6 +7,8 @@ class Filter {
   int lowPrice;
   int highPrice;
   String delivery;
+  DateTime pickUpDate;
+  DateTime deliveryDate;
 
   Filter({
     this.startingAddress = '',
@@ -15,15 +17,19 @@ class Filter {
     this.delivery = '',
     this.lowPrice = 0,
     this.highPrice = 10000,
+    this.pickUpDate,
+    this.deliveryDate,
   });
 
-  clear() {
+  reset() {
     this.startingAddress = '';
     this.arrivalAddress = '';
     this.quantity = 0;
     this.delivery = '';
     this.lowPrice = 0;
     this.highPrice = 10000;
+    this.pickUpDate = null;
+    this.deliveryDate = null;
   }
 
   resetStartingAddress() {
@@ -45,5 +51,13 @@ class Filter {
   resetPrice() {
     this.lowPrice = 0;
     this.highPrice = 10000;
+  }
+
+  resetPickUpDate() {
+    this.pickUpDate = null;
+  }
+
+  resetDeliveryDate() {
+    this.deliveryDate = null;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fulltrip/util/global.dart';
 import 'package:fulltrip/util/size_config.dart';
 import 'package:fulltrip/util/theme.dart';
@@ -65,24 +66,25 @@ class _ProposeLotState extends State<ProposeLot> {
           elevation: 0,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               GestureDetector(
                 child: Center(
                   child: Container(
                       child: Text('Précédent',
                           style:
-                              AppStyles.greyTextStyle.copyWith(fontSize: 12))),
+                              AppStyles.greyTextStyle.copyWith(fontSize: 14))),
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
               Text('Au départ',
-                  style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(right: 12),
                     child: Text('Fermer',
-                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                        style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                   ),
                 ),
                 onTap: () => Navigator.of(context).popAndPushNamed('dashboard'),
@@ -406,7 +408,7 @@ class _ProposeLotState extends State<ProposeLot> {
                                     decoration: hintTextDecoration('entre le')
                                         .copyWith(
                                             prefixIcon:
-                                                Icon(Icons.calendar_today)),
+                                                Icon(MaterialCommunityIcons.calendar_range)),
                                     onTap: () {
                                       DatePicker.showDatePicker(
                                         context,
@@ -444,7 +446,7 @@ class _ProposeLotState extends State<ProposeLot> {
                                     decoration: hintTextDecoration('et le')
                                         .copyWith(
                                             prefixIcon:
-                                                Icon(Icons.calendar_today)),
+                                                Icon(MaterialCommunityIcons.calendar_range)),
                                     onTap: () {
                                       DatePicker.showDatePicker(
                                         context,
