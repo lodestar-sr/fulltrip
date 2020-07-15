@@ -50,141 +50,162 @@ class _ChangePasswordState extends State<ChangePassword> {
                                         EdgeInsets.fromLTRB(16, 30, 16, 40),
                                     child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Text(
-                                            'Ancien mot de passe',
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                          ),
-                                          FormFieldContainer(
-                                            padding: EdgeInsets.all(4),
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration(
-                                                      "Entrez l'ancien mot de passe")
-                                                  .copyWith(
-                                                      prefixIcon: Icon(
-                                                          Icons.lock_outline)),
-                                              validator: (value) =>
-                                                  Validators.required(value,
-                                                      errorText:
-                                                          "Veuillez entrer l'ancien mot de passe"),
-                                              keyboardType: TextInputType.text,
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(fontSize: 18),
-                                              onSaved: (val) => setState(
-                                                  () => oldPassword = val),
-                                            ),
-                                          ),
-                                          Text(
-                                            'Nouveau mot de passe',
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                          ),
-                                          FormFieldContainer(
-                                            padding: EdgeInsets.all(4),
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration(
-                                                      "Entrez un nouveau mot de passe")
-                                                  .copyWith(
-                                                      prefixIcon: Icon(
-                                                          Icons.lock_outline)),
-                                              validator: (value) =>
-                                                  Validators.required(value,
-                                                      errorText:
-                                                          "Veuillez entrer un nouveau mot de passe"),
-                                              keyboardType: TextInputType.text,
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(fontSize: 18),
-                                              onChanged: (val) => setState(
-                                                  () => newPassword = val),
-                                              onSaved: (val) => setState(
-                                                  () => newPassword = val),
-                                            ),
-                                          ),
-                                          Text(
-                                            'Retapez le nouveau mot de passe',
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                          ),
-                                          FormFieldContainer(
-                                            padding: EdgeInsets.all(4),
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration(
-                                                      "Retapez le nouveau mot de passe")
-                                                  .copyWith(
-                                                      prefixIcon: Icon(
-                                                          Icons.lock_outline)),
-                                              validator: (value) {
-                                                if (value.trim().isEmpty) {
-                                                  return "Veuillez retaper le nouveau mot de passe";
-                                                } else if (newPassword !=
-                                                    value) {
-                                                  return "Les mots de passe ne correspondent pas";
-                                                }
-                                                return null;
-                                              },
-                                              keyboardType: TextInputType.text,
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(fontSize: 18),
-                                              onSaved: (val) => setState(
-                                                  () => retypePassword = val),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: SizeConfig
-                                                        .safeBlockHorizontal *
-                                                    75),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(30)),
-                                                boxShadow: <BoxShadow>[
-                                                  BoxShadow(
-                                                      color: AppColors
-                                                          .whiteColor
-                                                          .withOpacity(0.3),
-                                                      blurRadius: 16,
-                                                      spreadRadius: 4),
-                                                ],
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Ancien mot de passe',
+                                                style: AppStyles.blackTextStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w500),
                                               ),
-                                              child: ButtonTheme(
-                                                minWidth: double.infinity,
-                                                height: 60,
-                                                child: RaisedButton(
-                                                  child: Text('Sauvegarder',
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white)),
-                                                  color: AppColors.primaryColor,
-                                                  textColor: Color(0xFF343434),
-                                                  onPressed: () {
-                                                    changePasswordFormKey
-                                                        .currentState
-                                                        .validate();
-                                                  },
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
+                                                child: FormFieldContainer(
+                                                  padding: EdgeInsets.all(4),
+                                                  child: TextFormField(
+                                                    initialValue: '',
+                                                    decoration: hintTextDecoration(
+                                                            "Entrez l'ancien mot de passe")
+                                                        .copyWith(
+                                                            prefixIcon: Icon(Icons
+                                                                .lock_outline)),
+                                                    validator: (value) =>
+                                                        Validators.required(
+                                                            value,
+                                                            errorText:
+                                                                "Veuillez entrer l'ancien mot de passe"),
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    style: AppStyles
+                                                        .blackTextStyle
+                                                        .copyWith(fontSize: 18),
+                                                    onSaved: (val) => setState(
+                                                        () =>
+                                                            oldPassword = val),
                                                   ),
-                                                  elevation: 0,
                                                 ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
+                                                child: Text(
+                                                  'Nouveau mot de passe',
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                              FormFieldContainer(
+                                                padding: EdgeInsets.all(4),
+                                                child: TextFormField(
+                                                  initialValue: '',
+                                                  decoration: hintTextDecoration(
+                                                          "Entrez un nouveau mot de passe")
+                                                      .copyWith(
+                                                          prefixIcon: Icon(Icons
+                                                              .lock_outline)),
+                                                  validator: (value) =>
+                                                      Validators.required(value,
+                                                          errorText:
+                                                              "Veuillez entrer un nouveau mot de passe"),
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(fontSize: 18),
+                                                  onChanged: (val) => setState(
+                                                      () => newPassword = val),
+                                                  onSaved: (val) => setState(
+                                                      () => newPassword = val),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
+                                                child: Text(
+                                                  'Retapez le nouveau mot de passe',
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                              FormFieldContainer(
+                                                padding: EdgeInsets.all(4),
+                                                child: TextFormField(
+                                                  initialValue: '',
+                                                  decoration: hintTextDecoration(
+                                                          "Retapez le nouveau mot de passe")
+                                                      .copyWith(
+                                                          prefixIcon: Icon(Icons
+                                                              .lock_outline)),
+                                                  validator: (value) {
+                                                    if (value.trim().isEmpty) {
+                                                      return "Veuillez retaper le nouveau mot de passe";
+                                                    } else if (newPassword !=
+                                                        value) {
+                                                      return "Les mots de passe ne correspondent pas";
+                                                    }
+                                                    return null;
+                                                  },
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(fontSize: 18),
+                                                  onSaved: (val) => setState(
+                                                      () =>
+                                                          retypePassword = val),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30)),
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: AppColors.whiteColor
+                                                        .withOpacity(0.3),
+                                                    blurRadius: 16,
+                                                    spreadRadius: 4),
+                                              ],
+                                            ),
+                                            child: ButtonTheme(
+                                              minWidth: double.infinity,
+                                              height: 60,
+                                              child: RaisedButton(
+                                                child: Text('Sauvegarder',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white)),
+                                                color: AppColors.primaryColor,
+                                                textColor: Color(0xFF343434),
+                                                onPressed: () {
+                                                  changePasswordFormKey
+                                                      .currentState
+                                                      .validate();
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                elevation: 0,
                                               ),
                                             ),
                                           ),

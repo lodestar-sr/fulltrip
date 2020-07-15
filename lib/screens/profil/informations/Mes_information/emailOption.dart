@@ -45,87 +45,92 @@ class _EmailOptionState extends State<EmailOption> {
                                   padding: EdgeInsets.fromLTRB(16, 30, 16, 40),
                                   child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text(
-                                          'Change Email',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
-                                        ),
-                                        Form(
-                                          key: emailFormKey,
-                                          child: FormFieldContainer(
-                                            padding: EdgeInsets.all(4),
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration(
-                                                      '@xyz.com')
-                                                  .copyWith(
-                                                      prefixIcon: Icon(
-                                                          Icons.mail_outline)),
-                                              validator: (value) =>
-                                                  Validators.mustEmail(value,
-                                                      errorText:
-                                                          'Veuillez saisir votre email valide'),
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Change Email',
                                               style: AppStyles.blackTextStyle
-                                                  .copyWith(fontSize: 18),
-                                              onSaved: (val) =>
-                                                  setState(() => _email = val),
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                             ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 8.0),
-                                          child: Text(
-                                              'We Will Send verification to your New Email',
-                                              style: AppStyles.primaryTextStyle
-                                                  .copyWith(fontSize: 15)),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: SizeConfig
-                                                      .safeBlockHorizontal *
-                                                  120),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30)),
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: AppColors.whiteColor
-                                                        .withOpacity(0.3),
-                                                    blurRadius: 16,
-                                                    spreadRadius: 4),
-                                              ],
-                                            ),
-                                            child: ButtonTheme(
-                                              minWidth: double.infinity,
-                                              height: 60,
-                                              child: RaisedButton(
-                                                child: Text('Sauvegarder',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white)),
-                                                color: AppColors.primaryColor,
-                                                textColor: Color(0xFF343434),
-                                                onPressed: () {
-                                                  emailFormKey.currentState
-                                                      .validate();
-                                                },
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
+                                            Form(
+                                              key: emailFormKey,
+                                              child: FormFieldContainer(
+                                                padding: EdgeInsets.all(4),
+                                                child: TextFormField(
+                                                  initialValue: '',
+                                                  decoration: hintTextDecoration(
+                                                          '@xyz.com')
+                                                      .copyWith(
+                                                          prefixIcon: Icon(Icons
+                                                              .mail_outline)),
+                                                  validator: (value) =>
+                                                      Validators.mustEmail(
+                                                          value,
+                                                          errorText:
+                                                              'Veuillez saisir votre email valide'),
+                                                  keyboardType: TextInputType
+                                                      .emailAddress,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(fontSize: 18),
+                                                  onSaved: (val) => setState(
+                                                      () => _email = val),
                                                 ),
-                                                elevation: 0,
                                               ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: 8.0),
+                                              child: Text(
+                                                  'We Will Send verification to your New Email',
+                                                  style: AppStyles
+                                                      .primaryTextStyle
+                                                      .copyWith(fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppColors.whiteColor
+                                                      .withOpacity(0.3),
+                                                  blurRadius: 16,
+                                                  spreadRadius: 4),
+                                            ],
+                                          ),
+                                          child: ButtonTheme(
+                                            minWidth: double.infinity,
+                                            height: 60,
+                                            child: RaisedButton(
+                                              child: Text('Sauvegarder',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white)),
+                                              color: AppColors.primaryColor,
+                                              textColor: Color(0xFF343434),
+                                              onPressed: () {
+                                                emailFormKey.currentState
+                                                    .validate();
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              elevation: 0,
                                             ),
                                           ),
                                         ),

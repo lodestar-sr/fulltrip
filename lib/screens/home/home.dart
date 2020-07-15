@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   ScrollController scrollController = new ScrollController();
   bool isVisible = true;
   bool geoLocation = false;
-
+  bool checkfilter = false;
   @override
   void initState() {
     super.initState();
@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
               ),
               Expanded(
                   child: Container(
-                height: 105,
+                height: 107,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,84 +177,119 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Image.asset('assets/images/circle.png',
-                                  width: 9, height: 9),
-                              Flexible(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          startCity,
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(fontSize: 11),
-                                          overflow: TextOverflow.ellipsis,
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset('assets/images/circle.png',
+                                      width: 9, height: 9),
+                                  Container(
+                                      width: 9,
+                                      child: Dash(
+                                        direction: Axis.vertical,
+                                        length: 32,
+                                        dashLength: 60,
+                                        dashColor: AppColors.darkGreyColor,
+                                      )),
+                                  Image.asset('assets/images/triangle.png',
+                                      width: 9, height: 9),
+                                ],
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 80,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 4),
+                                        child: Flexible(
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  startCity,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                lot.pickupDateFrom != null
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 5.0),
+                                                        child: Text(
+                                                          'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
+                                                          style: AppStyles
+                                                              .navbarInactiveTextStyle
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .mediumGreyColor,
+                                                                  fontSize: 11),
+                                                        ),
+                                                      )
+                                                    : Container()
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                        lot.pickupDateFrom != null
-                                            ? Text(
-                                                'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .mediumGreyColor,
-                                                        fontSize: 11),
-                                              )
-                                            : Container()
-                                      ],
-                                    ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 4),
+                                        child: Flexible(
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  arriveCity,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                lot.deliveryDateFrom != null
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 5.0),
+                                                        child: Text(
+                                                          'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
+                                                          style: AppStyles
+                                                              .navbarInactiveTextStyle
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .mediumGreyColor,
+                                                                  fontSize: 11),
+                                                        ),
+                                                      )
+                                                    : Container()
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                              width: 9,
-                              child: Dash(
-                                direction: Axis.vertical,
-                                length: 32,
-                                dashLength: 32,
-                                dashColor: AppColors.darkGreyColor,
-                              )),
-                          Row(
-                            children: <Widget>[
-                              Image.asset('assets/images/triangle.png',
-                                  width: 9, height: 9),
-                              Flexible(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 4),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          arriveCity,
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(fontSize: 11),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        lot.deliveryDateFrom != null
-                                            ? Text(
-                                                'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .mediumGreyColor,
-                                                        fontSize: 11),
-                                              )
-                                            : Container()
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              )
                             ],
                           ),
                         ],
@@ -363,7 +398,10 @@ class _HomeState extends State<Home> {
                 child: Icon(Icons.close, size: 12, color: AppColors.redColor),
               ),
               onTap: () {
-                setState(() => Global.filter.resetStartingAddress());
+                setState(() {
+                  checkfilter = true;
+                  Global.filter.resetStartingAddress();
+                });
               },
             )
           ],
@@ -494,7 +532,7 @@ class _HomeState extends State<Home> {
         ),
       ));
     }
-
+    list.isEmpty ? checkfilter = true : checkfilter = false;
     return list;
   }
 
@@ -558,16 +596,18 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  height: isVisible ? 30.0 : 0.0,
-                  child: Container(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: getFilters(),
-                    ),
-                  ),
-                ),
+                checkfilter
+                    ? Container()
+                    : AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        height: isVisible ? 30.0 : 0.0,
+                        child: Container(
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: getFilters(),
+                          ),
+                        ),
+                      ),
                 Expanded(
                   child: ListView(
                     controller: scrollController,

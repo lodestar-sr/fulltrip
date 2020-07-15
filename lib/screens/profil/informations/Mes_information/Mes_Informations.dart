@@ -165,39 +165,44 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(top: 30.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.location_on,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                    size: 30,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Text(
-                                                    'Adresse du siège',
-                                                    style: AppStyles
-                                                        .blackTextStyle
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                ],
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                color:
-                                                    AppColors.mediumGreyColor,
-                                                size: 20,
-                                              )
-                                            ],
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .pushNamed('adressedusiege'),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.location_on,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Adresse du siège',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color:
+                                                      AppColors.mediumGreyColor,
+                                                  size: 20,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         Padding(

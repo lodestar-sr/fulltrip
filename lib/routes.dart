@@ -15,6 +15,7 @@ import 'package:fulltrip/util/global.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
+import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
 import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
 import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
 import 'screens/profil/informations/Mes_information/changePassword.dart';
@@ -42,6 +43,7 @@ class Routes {
     'emailoption': (BuildContext context) => EmailOption(),
     'telephoneoption': (BuildContext context) => TelephoneOption(),
     'changepassword': (BuildContext context) => ChangePassword(),
+    'adressedusiege': (BuildContext context) => AdresseDuSiege(),
   };
 
   Routes({FirebaseStorage storage, Firestore firestore}) {

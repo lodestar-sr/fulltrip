@@ -16,6 +16,7 @@ class AdresseDuSiege extends StatefulWidget {
 
 class _AdresseDuSiegeState extends State<AdresseDuSiege> {
   String headQAdd = '';
+  final headQFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -45,33 +46,75 @@ class _AdresseDuSiegeState extends State<AdresseDuSiege> {
                                   padding: EdgeInsets.fromLTRB(16, 30, 16, 40),
                                   child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text('Adresse du siège'),
-                                        FormFieldContainer(
-                                          padding: EdgeInsets.only(
-                                              right: 16, left: 16),
-                                          child: GooglePlacesAutocomplete(
-                                            initialValue:
-                                                Global.lotForm.startingAddress,
-                                            prefixIcon: Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 13, 26, 13),
-                                              child: Image.asset(
-                                                  'assets/images/locationDeparture.png',
-                                                  width: 13,
-                                                  height: 13),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Adresse du siège',
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                             ),
-                                            validator: (value) =>
-                                                Validators.required(value,
-                                                    errorText:
-                                                        'Adresse de départ est requis'),
-                                            onSelect: (val) => this
-                                                .setState(() => headQAdd = val),
+                                            Form(
+                                              key: headQFormKey,
+                                              child: FormFieldContainer(
+                                                padding: EdgeInsets.only(
+                                                    right: 16, left: 16),
+                                                child: GooglePlacesAutocomplete(
+                                                  initialValue: headQAdd,
+                                                  validator: (value) =>
+                                                      Validators.required(value,
+                                                          errorText:
+                                                              "Veuillez saisir l'adresse du siège"),
+                                                  onSelect: (val) => this
+                                                      .setState(
+                                                          () => headQAdd = val),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppColors.whiteColor
+                                                      .withOpacity(0.3),
+                                                  blurRadius: 16,
+                                                  spreadRadius: 4),
+                                            ],
+                                          ),
+                                          child: ButtonTheme(
+                                            minWidth: double.infinity,
+                                            height: 60,
+                                            child: RaisedButton(
+                                              child: Text('Sauvegarder',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white)),
+                                              color: AppColors.primaryColor,
+                                              textColor: Color(0xFF343434),
+                                              onPressed: () {
+                                                headQFormKey.currentState
+                                                    .validate();
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              elevation: 0,
+                                            ),
                                           ),
                                         ),
                                       ]))))));

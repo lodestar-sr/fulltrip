@@ -45,79 +45,83 @@ class _TelephoneOptionState extends State<TelephoneOption> {
                                   padding: EdgeInsets.fromLTRB(16, 30, 16, 40),
                                   child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Text(
-                                          'Phone Number',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
-                                        ),
-                                        Form(
-                                          key: telephoneFormKey,
-                                          child: FormFieldContainer(
-                                            padding: EdgeInsets.all(4),
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration(
-                                                      'Enter Phone Number')
-                                                  .copyWith(
-                                                      prefixIcon: Icon(
-                                                          Icons.phone_iphone)),
-                                              validator: (value) =>
-                                                  Validators.mustNumeric(value,
-                                                      errorText:
-                                                          'Veuillez entrer votre numéro de téléphone valide'),
-                                              keyboardType: TextInputType.phone,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Phone Number',
                                               style: AppStyles.blackTextStyle
-                                                  .copyWith(fontSize: 18),
-                                              onSaved: (val) => setState(
-                                                  () => _phoneno = val),
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                             ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: SizeConfig
-                                                      .safeBlockHorizontal *
-                                                  120),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(30)),
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: AppColors.whiteColor
-                                                        .withOpacity(0.3),
-                                                    blurRadius: 16,
-                                                    spreadRadius: 4),
-                                              ],
-                                            ),
-                                            child: ButtonTheme(
-                                              minWidth: double.infinity,
-                                              height: 60,
-                                              child: RaisedButton(
-                                                child: Text('Sauvegarder',
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white)),
-                                                color: AppColors.primaryColor,
-                                                textColor: Color(0xFF343434),
-                                                onPressed: () {
-                                                  telephoneFormKey.currentState
-                                                      .validate();
-                                                },
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
+                                            Form(
+                                              key: telephoneFormKey,
+                                              child: FormFieldContainer(
+                                                padding: EdgeInsets.all(4),
+                                                child: TextFormField(
+                                                  initialValue: '',
+                                                  decoration: hintTextDecoration(
+                                                          'Enter Phone Number')
+                                                      .copyWith(
+                                                          prefixIcon: Icon(Icons
+                                                              .phone_iphone)),
+                                                  validator: (value) =>
+                                                      Validators.mustNumeric(
+                                                          value,
+                                                          errorText:
+                                                              'Veuillez entrer votre numéro de téléphone valide'),
+                                                  keyboardType:
+                                                      TextInputType.phone,
+                                                  style: AppStyles
+                                                      .blackTextStyle
+                                                      .copyWith(fontSize: 18),
+                                                  onSaved: (val) => setState(
+                                                      () => _phoneno = val),
                                                 ),
-                                                elevation: 0,
                                               ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(30)),
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: AppColors.whiteColor
+                                                      .withOpacity(0.3),
+                                                  blurRadius: 16,
+                                                  spreadRadius: 4),
+                                            ],
+                                          ),
+                                          child: ButtonTheme(
+                                            minWidth: double.infinity,
+                                            height: 60,
+                                            child: RaisedButton(
+                                              child: Text('Sauvegarder',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white)),
+                                              color: AppColors.primaryColor,
+                                              textColor: Color(0xFF343434),
+                                              onPressed: () {
+                                                telephoneFormKey.currentState
+                                                    .validate();
+                                              },
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              elevation: 0,
                                             ),
                                           ),
                                         ),
