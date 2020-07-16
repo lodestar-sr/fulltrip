@@ -45,156 +45,157 @@ class _DashboardState extends State<Dashboard> {
         child: Container(
             height: 72,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 // Left Tab icons
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 64,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.home,
-                                color: currentTab == 0
-                                    ? AppColors.primaryColor
-                                    : AppColors.lightGreyColor,
-                                size: 18),
-                          ),
-                          Text('Recherche',
-                              style: currentTab == 0
-                                  ? AppStyles.navbarActiveTextStyle
-                                  : AppStyles.navbarInactiveTextStyle),
-                        ],
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          currentTab = 0;
-                        });
-                      },
+                Expanded(
+                  child: MaterialButton(
+                    minWidth: 55,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6, top: 20),
+                          child: Icon(Feather.home,
+                              color: currentTab == 0
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
+                        ),
+                        Text('Recherche',
+                            style: currentTab == 0
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
+                      ],
                     ),
-                    MaterialButton(
-                      minWidth: 64,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.search,
-                                color: currentTab == 1
-                                    ? AppColors.primaryColor
-                                    : AppColors.lightGreyColor,
-                                size: 18),
-                          ),
-                          Text('Chercher',
-                              style: currentTab == 1
-                                  ? AppStyles.navbarActiveTextStyle
-                                  : AppStyles.navbarInactiveTextStyle),
-                        ],
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          currentTab = 1;
-                        });
-                      },
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 0;
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: MaterialButton(
+                    minWidth: 55,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6, top: 20),
+                          child: Icon(Feather.search,
+                              color: currentTab == 1
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
+                        ),
+                        Text('Chercher',
+                            style: currentTab == 1
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
+                      ],
                     ),
-                  ],
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 1;
+                      });
+                    },
+                  ),
                 ),
 
-                Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.lightGreyColor.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                      ),
-                    ],
-                  ),
-                  child: ClipOval(
-                    child: Material(
-                      color: Colors.white, // button color
-                      child: InkWell(
-                        splashColor: Colors.white70, // inkwell color
-                        child: Container(
-                          width: 48,
-                          height: 48,
-                          margin: EdgeInsets.all(6),
-                          decoration: new BoxDecoration(
-                            color: AppColors.primaryColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.add, size: 32, color: Colors.white),
+                Expanded(
+                  child: Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.lightGreyColor.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
                         ),
-                        onTap: () {
-                          Global.lotForm = Lot();
-                          Navigator.of(context).pushNamed('propose-lot');
-                        },
+                      ],
+                    ),
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.white, // button color
+                        child: InkWell(
+                          splashColor: Colors.white70, // inkwell color
+                          child: Container(
+                            width: 48,
+                            height: 48,
+                            margin: EdgeInsets.all(6),
+                            decoration: new BoxDecoration(
+                              color: AppColors.primaryColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child:
+                                Icon(Icons.add, size: 32, color: Colors.white),
+                          ),
+                          onTap: () {
+                            Global.lotForm = Lot();
+                            Navigator.of(context).pushNamed('propose-lot');
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
 
                 // Right Tab icons
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 64,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(Feather.message_square,
-                                color: currentTab == 2
-                                    ? AppColors.primaryColor
-                                    : AppColors.lightGreyColor,
-                                size: 18),
-                          ),
-                          Text('Message',
-                              style: currentTab == 2
-                                  ? AppStyles.navbarActiveTextStyle
-                                  : AppStyles.navbarInactiveTextStyle),
-                        ],
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          currentTab = 2;
-                        });
-                      },
+                Expanded(
+                  child: MaterialButton(
+                    minWidth: 55,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6, top: 20),
+                          child: Icon(Feather.message_square,
+                              color: currentTab == 2
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
+                        ),
+                        Text('Message',
+                            style: currentTab == 2
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
+                      ],
                     ),
-                    MaterialButton(
-                      minWidth: 64,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(bottom: 6, top: 20),
-                            child: Icon(FontAwesome.user_o,
-                                color: currentTab == 3
-                                    ? AppColors.primaryColor
-                                    : AppColors.lightGreyColor,
-                                size: 18),
-                          ),
-                          Text('Profil',
-                              style: currentTab == 3
-                                  ? AppStyles.navbarActiveTextStyle
-                                  : AppStyles.navbarInactiveTextStyle),
-                        ],
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          currentTab = 3;
-                        });
-                      },
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 2;
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: MaterialButton(
+                    minWidth: 55,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6, top: 20),
+                          child: Icon(FontAwesome.user_o,
+                              color: currentTab == 3
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
+                        ),
+                        Text('Profil',
+                            style: currentTab == 3
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
+                      ],
                     ),
-                  ],
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 3;
+                      });
+                    },
+                  ),
                 ),
               ],
             )),

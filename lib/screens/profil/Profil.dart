@@ -81,7 +81,11 @@ class _ProfilState extends State<Profil> {
                                                             .pushNamed(
                                                                 'mes_informations')
                                                         : null;
-                                                    index == 1 ? null : null;
+                                                    index == 1
+                                                        ? Navigator.of(context)
+                                                            .pushNamed(
+                                                                'CoordonneesBancaries')
+                                                        : null;
                                                     index == 2 ? null : null;
                                                     index == 3 ? null : null;
                                                     index == 4 ? null : null;

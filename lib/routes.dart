@@ -15,6 +15,7 @@ import 'package:fulltrip/util/global.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
+import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
 import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
 import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
 import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
@@ -44,6 +45,7 @@ class Routes {
     'telephoneoption': (BuildContext context) => TelephoneOption(),
     'changepassword': (BuildContext context) => ChangePassword(),
     'adressedusiege': (BuildContext context) => AdresseDuSiege(),
+    'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
   };
 
   Routes({FirebaseStorage storage, Firestore firestore}) {
