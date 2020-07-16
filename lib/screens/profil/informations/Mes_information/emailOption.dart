@@ -68,7 +68,7 @@ class _EmailOptionState extends State<EmailOption> {
                                                 child: TextFormField(
                                                   initialValue: '',
                                                   decoration: hintTextDecoration(
-                                                          '@xyz.com')
+                                                          'Enter')
                                                       .copyWith(
                                                           prefixIcon: Icon(Icons
                                                               .mail_outline)),
@@ -79,8 +79,7 @@ class _EmailOptionState extends State<EmailOption> {
                                                               'Veuillez saisir votre email valide'),
                                                   keyboardType: TextInputType
                                                       .emailAddress,
-                                                  style: AppStyles
-                                                      .blackTextStyle
+                                                  style: AppStyles.greyTextStyle
                                                       .copyWith(fontSize: 18),
                                                   onSaved: (val) => setState(
                                                       () => _email = val),

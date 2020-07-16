@@ -76,8 +76,7 @@ class _RaisonSocialeState extends State<RaisonSociale> {
                                                               'Veuillez saisir une raison sociale'),
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  style: AppStyles
-                                                      .blackTextStyle
+                                                  style: AppStyles.greyTextStyle
                                                       .copyWith(fontSize: 18),
                                                   onSaved: (val) => setState(
                                                       () =>

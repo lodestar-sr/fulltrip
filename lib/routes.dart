@@ -15,13 +15,19 @@ import 'package:fulltrip/util/global.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
+import 'screens/profil/MesDocuments/Mes_Documents.dart';
 import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
+import 'screens/profil/informations/HelpCenter/CentreDaide.dart';
 import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
 import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
 import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
 import 'screens/profil/informations/Mes_information/changePassword.dart';
 import 'screens/profil/informations/Mes_information/emailOption.dart';
 import 'screens/profil/informations/Mes_information/telephoneoption.dart';
+import 'screens/profil/informations/TransactionEnCours/TransactionEnCours.dart';
+import 'screens/profil/informations/TransactionEnCours/TransactionInformation.dart';
+import 'screens/profil/informations/Transport history/DetailsDuVoyage.dart';
+import 'screens/profil/informations/Transport history/HistoriqueTransport.dart';
 import 'util/theme.dart';
 
 class Routes {
@@ -46,6 +52,13 @@ class Routes {
     'changepassword': (BuildContext context) => ChangePassword(),
     'adressedusiege': (BuildContext context) => AdresseDuSiege(),
     'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
+    'transactionencours': (BuildContext context) => TransactionEnCours(),
+    'transactioninformation': (BuildContext context) =>
+        TransactionInformation(),
+    'centredaide': (BuildContext context) => CentreDaide(),
+    'historiqueinformation': (BuildContext context) => HistoriqueInformation(),
+    'detailsduvage': (BuildContext context) => DetailsDuVage(),
+    'mesdocuments': (BuildContext context) => MesDocuments(),
   };
 
   Routes({FirebaseStorage storage, Firestore firestore}) {

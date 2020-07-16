@@ -79,8 +79,7 @@ class _TelephoneOptionState extends State<TelephoneOption> {
                                                               'Veuillez entrer votre numéro de téléphone valide'),
                                                   keyboardType:
                                                       TextInputType.phone,
-                                                  style: AppStyles
-                                                      .blackTextStyle
+                                                  style: AppStyles.greyTextStyle
                                                       .copyWith(fontSize: 18),
                                                   onSaved: (val) => setState(
                                                       () => _phoneno = val),

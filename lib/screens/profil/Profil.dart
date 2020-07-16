@@ -86,10 +86,22 @@ class _ProfilState extends State<Profil> {
                                                             .pushNamed(
                                                                 'CoordonneesBancaries')
                                                         : null;
-                                                    index == 2 ? null : null;
-                                                    index == 3 ? null : null;
+                                                    index == 2
+                                                        ? Navigator.of(context)
+                                                            .pushNamed(
+                                                                'transactionencours')
+                                                        : null;
+                                                    index == 3
+                                                        ? Navigator.of(context)
+                                                            .pushNamed(
+                                                                'historiqueinformation')
+                                                        : null;
                                                     index == 4 ? null : null;
-                                                    index == 5 ? null : null;
+                                                    index == 5
+                                                        ? Navigator.of(context)
+                                                            .pushNamed(
+                                                                'mesdocuments')
+                                                        : null;
                                                   },
                                                 );
                                               }),
@@ -100,6 +112,8 @@ class _ProfilState extends State<Profil> {
                                                   SizeConfig.safeBlockVertical *
                                                       20),
                                           child: ListTile(
+                                            onTap: () => Navigator.of(context)
+                                                .pushNamed('centredaide'),
                                             contentPadding:
                                                 EdgeInsets.symmetric(
                                                     horizontal: 0.0),
@@ -110,9 +124,6 @@ class _ProfilState extends State<Profil> {
                                             ),
                                             title: Text(
                                               "Centre d'aide",
-                                              style: TextStyle(
-                                                  color: AppColors.darkColor,
-                                                  fontWeight: FontWeight.w400),
                                             ),
                                           ),
                                         )

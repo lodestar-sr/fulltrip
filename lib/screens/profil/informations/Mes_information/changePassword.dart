@@ -86,7 +86,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                     keyboardType:
                                                         TextInputType.text,
                                                     style: AppStyles
-                                                        .blackTextStyle
+                                                        .greyTextStyle
                                                         .copyWith(fontSize: 18),
                                                     onSaved: (val) => setState(
                                                         () =>
@@ -121,8 +121,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                               "Veuillez entrer un nouveau mot de passe"),
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  style: AppStyles
-                                                      .blackTextStyle
+                                                  style: AppStyles.greyTextStyle
                                                       .copyWith(fontSize: 18),
                                                   onChanged: (val) => setState(
                                                       () => newPassword = val),
@@ -162,8 +161,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                   },
                                                   keyboardType:
                                                       TextInputType.text,
-                                                  style: AppStyles
-                                                      .blackTextStyle
+                                                  style: AppStyles.greyTextStyle
                                                       .copyWith(fontSize: 18),
                                                   onSaved: (val) => setState(
                                                       () =>

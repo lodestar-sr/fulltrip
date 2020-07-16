@@ -10,6 +10,134 @@ class Global {
   static Firestore firestore;
   static Lot lotForm;
   static Filter filter = Filter();
+  static List<Map> transportHistory = [
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "500"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "500"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "400"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "300"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "600"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "600"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "600"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "600"
+    },
+    {
+      "date": "30 juin 2020",
+      "startcity": "Paris",
+      "arrivalcity": "Nice",
+      "price": "600"
+    },
+  ];
+  static List<Map> demoData = [
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    },
+    {
+      "companyname": "Company name",
+      "startcity": "Paris,France",
+      "startAdd": "40 Avenue Leon Blum",
+      "arrivalcity": "Nice,France",
+      "arrivalAdd": "2-6 Rue Joseph d'Arbuad",
+      "price": "500",
+      "delivery": "Luxe",
+      "volume": "50"
+    }
+  ];
   static List<String> profileoptions = [
     'Mes informations',
     'Coordonnées bancaires',
