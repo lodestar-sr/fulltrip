@@ -93,7 +93,7 @@ class Routes {
         title: 'Fulltrip',
         theme: appTheme(),
         routes: routes,
-        home: Dashboard(),
+        home: Login(),
       ),
     ));
   }
