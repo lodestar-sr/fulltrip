@@ -57,26 +57,23 @@ class _ChatMessagesState extends State<ChatMessages> {
   Widget builMessageTextField() {
     return Column(
       children: [
-        Visibility(
-          visible: emojis,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: AnimatedContainer(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: kElevationToShadow[4],
-              ),
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              height: 150,
-              duration: Duration(milliseconds: 500),
-              child: Text('Here are the emojis'),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: AnimatedContainer(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: kElevationToShadow[4],
             ),
+            width: emojis ? SizeConfig.screenWidth : 0,
+            padding: EdgeInsets.all(10),
+            height: emojis ? 150 : 0,
+            duration: Duration(milliseconds: 250),
+            child: Text('Here are the emojis'),
           ),
         ),
         Container(
-          height: SizeConfig.blockSizeVertical * 10,
+          height: 70,
           decoration: BoxDecoration(
             boxShadow: kElevationToShadow[4],
             color: Colors.white,
@@ -99,6 +96,9 @@ class _ChatMessagesState extends State<ChatMessages> {
                             Duration(milliseconds: 300),
                             () => _controller
                                 .jumpTo(_controller.position.maxScrollExtent));
+                        setState(() {
+                          emojis = false;
+                        });
                       },
                       onSubmitted: (value) {
                         addNewMessage();
@@ -112,7 +112,10 @@ class _ChatMessagesState extends State<ChatMessages> {
                   Icons.sentiment_satisfied,
                   color: AppColors.mediumGreyColor,
                 ),
-                onPressed: () => setState(() => emojis = !emojis),
+                onPressed: () => setState(() {
+                  FocusScope.of(context).unfocus();
+                  emojis = !emojis;
+                }),
               ),
               IconButton(
                 icon: Icon(
@@ -159,15 +162,14 @@ class _ChatMessagesState extends State<ChatMessages> {
             child: GestureDetector(
                 onTap: () =>
                     FocusScope.of(context).requestFocus(new FocusNode()),
-                child: Container(
-                    child: Stack(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisSize: MainAxisSize.max,
-                        children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        child: Stack(children: [
                       Container(
                         height: SizeConfig.safeBlockVertical * 92,
-                        padding: EdgeInsets.fromLTRB(16, 10, 16, 15),
+                        padding: EdgeInsets.fromLTRB(16, 10, 16, 80),
                         child: ListView(
                             // reverse: true,
                             controller: _controller,
@@ -179,7 +181,9 @@ class _ChatMessagesState extends State<ChatMessages> {
                           left: 0,
                           right: 0,
                           child: builMessageTextField())
-                    ]))),
+                    ])),
+                  ],
+                )),
           ),
         ));
   }
