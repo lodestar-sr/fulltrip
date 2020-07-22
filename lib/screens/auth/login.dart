@@ -1,10 +1,12 @@
+import 'package:Fulltrip/services/firebase_auth.service.dart';
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/util/validators/validators.dart';
+import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/util/validators/validators.dart';
-import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -23,7 +25,32 @@ class _LoginState extends State<Login> {
     if (loginFormKey.currentState.validate()) {
       final form = loginFormKey.currentState;
       form.save();
-      Navigator.of(context).pushNamed('dashboard');
+      setState(() => Global.isLoading = true);
+      context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((user) {
+        setState(() => Global.isLoading = false);
+        if (user.isEmailVerified) {
+          Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('Email is not activated. Please verify your email'),
+              );
+            },
+          );
+        }
+      }).catchError((error) {
+        setState(() => Global.isLoading = false);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(error.message),
+            );
+          },
+        );
+      });
     }
   }
 
@@ -45,14 +72,17 @@ class _LoginState extends State<Login> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(16, 60, 16, 40),
+                    padding: EdgeInsets.fromLTRB(16, 32, 16, 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 8),
+                          child: Image.asset('assets/images/icon.png', width: 98),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 8, top: 32),
                           width: double.infinity,
                           child: Center(
                             child: Text('Bienvenue sur Full Trip', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.greyDarkColor)),
@@ -134,14 +164,25 @@ class _LoginState extends State<Login> {
                           margin: EdgeInsets.only(top: 24),
                           child: Text('Ou connectez-vous avec', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 16, bottom: 24),
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFFDD4B39)),
-                            borderRadius: BorderRadius.circular(3),
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 16, bottom: 24),
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFFDD4B39)),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: Image.asset('assets/images/google.png', width: 16),
                           ),
-                          child: Image.asset('assets/images/google.png', width: 16),
+                          onTap: () {
+                            setState(() => Global.isLoading = true);
+                            context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
+                              setState(() => Global.isLoading = false);
+                              Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+                            }).catchError((error) {
+                              setState(() => Global.isLoading = false);
+                            });
+                          },
                         ),
                         Container(
                           child: GestureDetector(

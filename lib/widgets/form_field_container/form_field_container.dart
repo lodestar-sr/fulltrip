@@ -1,6 +1,6 @@
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/theme.dart';
 
 class FormFieldContainer extends StatelessWidget {
   final Widget child;

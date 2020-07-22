@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/size_config.dart';
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/size_config.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Felicitations extends StatefulWidget {
@@ -17,7 +17,7 @@ class Felicitations extends StatefulWidget {
 class _FelicitationsState extends State<Felicitations> {
   _FelicitationsState() {
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).popAndPushNamed('dashboard');
+      Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
     });
   }
 
@@ -42,7 +42,7 @@ class _FelicitationsState extends State<Felicitations> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
+                    padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

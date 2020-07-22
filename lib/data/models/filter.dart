@@ -1,4 +1,4 @@
-import 'package:fulltrip/util/uuid.dart';
+
 
 class Filter {
   String startingAddress;

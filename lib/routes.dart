@@ -1,20 +1,25 @@
+import 'package:Fulltrip/screens/auth/login.dart';
+import 'package:Fulltrip/screens/auth/register.dart';
+import 'package:Fulltrip/screens/auth/verify_sms.dart';
+import 'package:Fulltrip/screens/dashboard/dashboard.dart';
+import 'package:Fulltrip/screens/home/filter/filter.dart';
+import 'package:Fulltrip/screens/home/home.dart';
+import 'package:Fulltrip/screens/home/lot_details/lot_details.dart';
+import 'package:Fulltrip/screens/home/propose_lot/propose_lot.dart';
+import 'package:Fulltrip/screens/profil/Profil.dart';
+import 'package:Fulltrip/screens/splash/splash.dart';
+import 'package:Fulltrip/services/firebase_auth.service.dart';
+import 'package:Fulltrip/util/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/screens/auth/login.dart';
-import 'package:fulltrip/screens/auth/register.dart';
-import 'package:fulltrip/screens/auth/verify_sms.dart';
-import 'package:fulltrip/screens/dashboard/dashboard.dart';
-import 'package:fulltrip/screens/home/filter/filter.dart';
-import 'package:fulltrip/screens/home/home.dart';
-import 'package:fulltrip/screens/home/lot_details/lot_details.dart';
-import 'package:fulltrip/screens/home/propose_lot/propose_lot.dart';
-import 'package:fulltrip/screens/profil/Profil.dart';
-import 'package:fulltrip/screens/splash/splash.dart';
-import 'package:fulltrip/util/global.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+
 import 'screens/home/propose_lot/Felicitations.dart';
-import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
+import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/profil/MesDocuments/Mes_Documents.dart';
 import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
 import 'screens/profil/informations/HelpCenter/CentreDaide.dart';
@@ -53,23 +58,34 @@ class Routes {
     'adressedusiege': (BuildContext context) => AdresseDuSiege(),
     'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
     'transactionencours': (BuildContext context) => TransactionEnCours(),
-    'transactioninformation': (BuildContext context) =>
-        TransactionInformation(),
+    'transactioninformation': (BuildContext context) => TransactionInformation(),
     'centredaide': (BuildContext context) => CentreDaide(),
     'historiqueinformation': (BuildContext context) => HistoriqueInformation(),
     'detailsduvage': (BuildContext context) => DetailsDuVage(),
     'mesdocuments': (BuildContext context) => MesDocuments(),
   };
 
-  Routes({FirebaseStorage storage, Firestore firestore}) {
+  Routes({FirebaseStorage storage, Firestore firestore, FirebaseAuth auth, GoogleSignIn googleSignIn}) {
     Global.storage = storage;
     Global.firestore = firestore;
-    runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Abonnements',
-      theme: appTheme(),
-      routes: routes,
-      home: Splash(),
+    Global.googleSignIn = googleSignIn;
+    Global.auth = auth;
+    runApp(MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => FirebaseAuthService(),
+        ),
+        StreamProvider(
+          create: (context) => context.read<FirebaseAuthService>().onAuthStateChanged,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Fulltrip',
+        theme: appTheme(),
+        routes: routes,
+        home: Login(),
+      ),
     ));
   }
 }

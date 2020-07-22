@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 
 class AppService {
-
   static AppService _appService;
 
   static AppService getInstance() {

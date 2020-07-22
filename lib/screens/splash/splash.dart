@@ -1,6 +1,6 @@
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/theme.dart';
 
 class Splash extends StatefulWidget {
   Splash({Key key}) : super(key: key);

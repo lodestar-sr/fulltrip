@@ -1,7 +1,7 @@
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/size_config.dart';
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/size_config.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class CentreDaide extends StatefulWidget {
@@ -25,92 +25,59 @@ class _CentreDaideState extends State<CentreDaide> {
               backgroundColor: Colors.white,
               title: Text(
                 "Centre d'aide",
-                style: AppStyles.blackTextStyle
-                    .copyWith(fontWeight: FontWeight.w600, fontSize: 17),
+                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 17),
               ),
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        ListTile(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 0.0),
-                                          leading: Icon(
-                                            Icons.help_outline,
-                                            color: AppColors.mediumGreyColor,
-                                            size: 25,
-                                          ),
-                                          title: Text(
-                                            "Comment ça fonctionne ?",
-                                            style: AppStyles
-                                                .navbarActiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 0.0),
-                                          leading: Icon(
-                                            Icons.help_outline,
-                                            color: AppColors.mediumGreyColor,
-                                            size: 25,
-                                          ),
-                                          title: Text(
-                                            "Questions et réponses",
-                                            style: AppStyles
-                                                .navbarActiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 0.0),
-                                          leading: Icon(
-                                            Icons.help_outline,
-                                            color: Colors.transparent,
-                                            size: 25,
-                                          ),
-                                          title: Text(
-                                            "Nous contacter",
-                                            style: AppStyles
-                                                .navbarActiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                          ),
-                                        ),
-                                      ]))))));
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                      leading: Icon(
+                                        Icons.help_outline,
+                                        color: AppColors.mediumGreyColor,
+                                        size: 25,
+                                      ),
+                                      title: Text(
+                                        "Comment ça fonctionne ?",
+                                        style: AppStyles.navbarActiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 14, fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                      leading: Icon(
+                                        Icons.help_outline,
+                                        color: AppColors.mediumGreyColor,
+                                        size: 25,
+                                      ),
+                                      title: Text(
+                                        "Questions et réponses",
+                                        style: AppStyles.navbarActiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 14, fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                      leading: Icon(
+                                        Icons.help_outline,
+                                        color: Colors.transparent,
+                                        size: 25,
+                                      ),
+                                      title: Text(
+                                        "Nous contacter",
+                                        style: AppStyles.navbarActiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 14, fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ]))))));
             })));
   }
 }

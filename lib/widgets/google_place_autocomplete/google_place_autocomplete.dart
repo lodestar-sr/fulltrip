@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:Fulltrip/util/constants.dart';
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:fulltrip/util/constants.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:google_maps_webservice/places.dart';
 
 //GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: Constants.googleAPIKey);
@@ -70,9 +70,7 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       readOnly: true,
-      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(
-          prefixIcon: widget.prefixIcon,
-          contentPadding: EdgeInsets.only(top: 15)),
+      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15)),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

@@ -1,8 +1,8 @@
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/size_config.dart';
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/size_config.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class TransactionEnCours extends StatefulWidget {
@@ -47,8 +47,7 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Image.asset('assets/images/circle.png',
-                                  width: 9, height: 9),
+                              Image.asset('assets/images/circle.png', width: 9, height: 9),
                               Container(
                                   width: 9,
                                   child: Dash(
@@ -57,16 +56,14 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                                     dashLength: 60,
                                     dashColor: AppColors.darkGreyColor,
                                   )),
-                              Image.asset('assets/images/triangle.png',
-                                  width: 9, height: 9),
+                              Image.asset('assets/images/triangle.png', width: 9, height: 9),
                             ],
                           ),
                           Expanded(
                             child: Container(
                               height: 80,
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
@@ -74,28 +71,18 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             element['startcity'],
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(top: 2.0),
                                             child: Text(
                                               element['startAdd'],
-                                              style: AppStyles
-                                                  .navbarInactiveTextStyle
-                                                  .copyWith(
-                                                      color: AppColors
-                                                          .mediumGreyColor,
-                                                      fontSize: 11),
+                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                             ),
                                           )
                                         ],
@@ -107,28 +94,18 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             element['arrivalcity'],
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.only(top: 2.0),
                                             child: Text(
                                               element['arrivalAdd'],
-                                              style: AppStyles
-                                                  .navbarInactiveTextStyle
-                                                  .copyWith(
-                                                      color: AppColors
-                                                          .mediumGreyColor,
-                                                      fontSize: 11),
+                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                             ),
                                           )
                                         ],
@@ -148,28 +125,21 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                                   margin: EdgeInsets.only(bottom: 6),
                                   child: Text(
                                     "${element['price']}€",
-                                    style: TextStyle(
-                                        color: AppColors.darkGreyColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500),
+                                    style: TextStyle(color: AppColors.darkGreyColor, fontSize: 18, fontWeight: FontWeight.w500),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(bottom: 6),
                                   child: Text(
                                     element['delivery'],
-                                    style: TextStyle(
-                                        color: AppColors.greyColor,
-                                        fontSize: 14),
+                                    style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(bottom: 6),
                                   child: Text(
                                     "${element['volume']}m³" ?? "",
-                                    style: TextStyle(
-                                        color: AppColors.greyColor,
-                                        fontSize: 14),
+                                    style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                                   ),
                                 ),
                               ],
@@ -183,8 +153,7 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
                 Divider(),
                 Text(
                   element['companyname'],
-                  style: AppStyles.blackTextStyle
-                      .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+                  style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15),
                 )
               ],
             ),
@@ -201,8 +170,7 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(
-                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -224,39 +192,28 @@ class _TransactionEnCoursState extends State<TransactionEnCours> {
               backgroundColor: Colors.white,
               title: Text('Transaction en cours'),
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          height:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  172,
-                                          child: ListView(
-                                            shrinkWrap: true,
-                                            padding: EdgeInsets.only(
-                                                left: 4, right: 4, top: 10),
-                                            children: transactionsList(),
-                                          ),
-                                        )
-                                      ]))))));
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    Container(
+                                      height: SizeConfig.safeBlockHorizontal * 172,
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(left: 4, right: 4, top: 10),
+                                        children: transactionsList(),
+                                      ),
+                                    )
+                                  ]))))));
             })));
   }
 }

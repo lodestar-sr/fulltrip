@@ -1,11 +1,14 @@
+import 'package:Fulltrip/data/models/user.dart';
+import 'package:Fulltrip/services/firebase_auth.service.dart';
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/util/validators/validators.dart';
+import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/util/validators/validators.dart';
-import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
   Register({Key key}) : super(key: key);
@@ -19,13 +22,29 @@ class _RegisterState extends State<Register> {
 
   String _email;
   String _password;
+  String _name;
+  String _phone;
 
   onSubmit() {
     if (registerFormKey.currentState.validate()) {
       final form = registerFormKey.currentState;
       form.save();
 
-      Navigator.of(context).pushNamed('verify-sms');
+      setState(() => Global.isLoading = true);
+      context.read<FirebaseAuthService>().createWithEmailAndPassword(email: _email, password: _password, name: _name, phone: _phone).then((user) {
+        setState(() => Global.isLoading = false);
+        Navigator.of(context).pushNamed('verify-sms', arguments: <String, User>{'user': user});
+      }).catchError((error) {
+        setState(() => Global.isLoading = false);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(error.message),
+            );
+          },
+        );
+      });
     }
   }
 
@@ -73,7 +92,7 @@ class _RegisterState extends State<Register> {
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir nom de l\'entreprise'),
                                   keyboardType: TextInputType.text,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                  onSaved: (val) => setState(() => _email = val),
+                                  onSaved: (val) => setState(() => _name = val),
                                 ),
                               ),
                               FormFieldContainer(
@@ -84,7 +103,7 @@ class _RegisterState extends State<Register> {
                                   validator: (value) => Validators.mustNumeric(value, errorText: 'Veuillez saisir un numéro de téléphone valide'),
                                   keyboardType: TextInputType.phone,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                  onSaved: (val) => setState(() => _email = val),
+                                  onSaved: (val) => setState(() => _phone = val),
                                 ),
                               ),
                               FormFieldContainer(

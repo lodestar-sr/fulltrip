@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'package:fulltrip/data/models/lot.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:http/http.dart' as http;
+import 'package:Fulltrip/data/models/lot.dart';
+import 'package:Fulltrip/util/global.dart';
 
 class LotService {
-
   static LotService _lotService;
 
   static LotService getInstance() {

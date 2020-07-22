@@ -1,13 +1,12 @@
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
+import 'package:Fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:fulltrip/util/constants.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/widgets/form_field_container/form_field_container.dart';
-import 'package:fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -28,6 +27,8 @@ class _FilterState extends State<Filter> {
   String startingAddress = '';
   String arrivalAddress = '';
   String delivery = '';
+  DateTime pickUpDate;
+  DateTime deliveryDate;
 
   @override
   void initState() {
@@ -42,6 +43,10 @@ class _FilterState extends State<Filter> {
       quantity = [Global.filter.quantity];
       price = [Global.filter.lowPrice, Global.filter.highPrice];
       delivery = Global.filter.delivery;
+      pickUpDate = Global.filter.pickUpDate;
+      deliveryDate = Global.filter.deliveryDate;
+      pickupDateController.text = pickUpDate != null ? dateFormat.format(pickUpDate) : '';
+      deliveryDateController.text = deliveryDate != null ? dateFormat.format(deliveryDate) : '';
     });
   }
 
@@ -52,35 +57,26 @@ class _FilterState extends State<Filter> {
       startingAddress = '';
       arrivalAddress = '';
       delivery = '';
+      pickupDateController.text = '';
+      deliveryDateController.text = '';
+      pickUpDate = null;
+      deliveryDate = null;
     });
   }
 
   saveFilter() {
-    if (startingAddress != '') {
-      setState(() => Global.filter.startingAddress = startingAddress);
-    }
+    setState(() {
+      Global.filter.startingAddress = startingAddress;
+      Global.filter.arrivalAddress = arrivalAddress;
+      Global.filter.quantity = quantity[0];
+      Global.filter.delivery = delivery;
+      Global.filter.lowPrice = price[0];
+      Global.filter.highPrice = price[1];
+      Global.filter.pickUpDate = pickUpDate;
+      Global.filter.deliveryDate = deliveryDate;
+    });
 
-    if (arrivalAddress != '') {
-      setState(() => Global.filter.arrivalAddress = arrivalAddress);
-    }
-
-    if (quantity[0] != 0) {
-      setState(() => Global.filter.quantity = quantity[0]);
-    }
-
-    if (delivery != '') {
-      setState(() => Global.filter.delivery = delivery);
-    }
-
-    if (price[0] != 0) {
-      setState(() => Global.filter.lowPrice = price[0]);
-    }
-
-    if (price[0] != 10000) {
-      setState(() => Global.filter.highPrice = price[1]);
-    }
-
-    Navigator.of(context).popAndPushNamed('dashboard');
+    Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
   }
 
   @override
@@ -98,21 +94,14 @@ class _FilterState extends State<Filter> {
             children: [
               GestureDetector(
                 child: Center(
-                  child: Container(
-                      child: Text('Annuler',
-                          style:
-                              AppStyles.greyTextStyle.copyWith(fontSize: 14))),
+                  child: Container(child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
-              Text('Filtres',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              Text('Filtres', style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
-                  child: Container(
-                      child: Text('Réinitialiser',
-                          style: AppStyles.primaryTextStyle
-                              .copyWith(fontSize: 14))),
+                  child: Container(child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 14))),
                 ),
                 onTap: resetFilter,
               ),
@@ -123,14 +112,12 @@ class _FilterState extends State<Filter> {
           automaticallyImplyLeading: false,
           actions: <Widget>[],
         ),
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -148,23 +135,16 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse de départ',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Adresse de départ', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
                                     initialValue: startingAddress,
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.all(13.0),
-                                      child: Image.asset(
-                                          'assets/images/locationDeparture.png',
-                                          width: 16,
-                                          height: 16),
+                                      child: Image.asset('assets/images/locationDeparture.png', width: 16, height: 16),
                                     ),
-                                    onSelect: (val) =>
-                                        setState(() => startingAddress = val),
+                                    onSelect: (val) => setState(() => startingAddress = val),
                                   ),
                                 ),
                               ],
@@ -175,23 +155,16 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse d\'arrivée',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Adresse d\'arrivée', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
                                   child: GooglePlacesAutocomplete(
                                     initialValue: arrivalAddress,
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.all(13.0),
-                                      child: Image.asset(
-                                          'assets/images/locationArrival.png',
-                                          width: 16,
-                                          height: 16),
+                                      child: Image.asset('assets/images/locationArrival.png', width: 16, height: 16),
                                     ),
-                                    onSelect: (val) =>
-                                        setState(() => arrivalAddress = val),
+                                    onSelect: (val) => setState(() => arrivalAddress = val),
                                   ),
                                 ),
                               ],
@@ -206,17 +179,12 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Prix',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Prix', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 Row(
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('100',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      child: Text('100', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -224,19 +192,13 @@ class _FilterState extends State<Filter> {
                                         child: FlutterSlider(
                                           min: 0,
                                           max: 10000,
-                                          values: price
-                                              .map((i) => i.toDouble())
-                                              .toList(),
+                                          values: price.map((i) => i.toDouble()).toList(),
                                           rangeSlider: true,
                                           step: FlutterSliderStep(step: 100),
                                           selectByTap: true,
-                                          onDragging: (handlerIndex, lowerValue,
-                                              upperValue) {
+                                          onDragging: (handlerIndex, lowerValue, upperValue) {
                                             setState(() {
-                                              price = [
-                                                lowerValue.toInt(),
-                                                upperValue.toInt()
-                                              ];
+                                              price = [lowerValue.toInt(), upperValue.toInt()];
                                             });
                                           },
                                           handlerWidth: 24,
@@ -245,52 +207,38 @@ class _FilterState extends State<Filter> {
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
+                                                gradient: LinearGradient(colors: [
                                                   AppColors.primaryColor,
                                                   AppColors.whiteColor,
                                                 ]),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check,
-                                                  color: Colors.white,
-                                                  size: 12),
+                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           rightHandler: FlutterSliderHandler(
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
+                                                gradient: LinearGradient(colors: [
                                                   AppColors.primaryColor,
                                                   AppColors.whiteColor,
                                                 ]),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check,
-                                                  color: Colors.white,
-                                                  size: 12),
+                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           trackBar: FlutterSliderTrackBar(
                                             activeTrackBarHeight: 5,
                                             inactiveTrackBarHeight: 5,
-                                            activeTrackBar: BoxDecoration(
-                                                color: AppColors.primaryColor),
-                                            inactiveTrackBar: BoxDecoration(
-                                                color:
-                                                    AppColors.lightGreyColor),
+                                            activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
+                                            inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
                                           ),
                                           tooltip: FlutterSliderTooltip(
-                                            positionOffset:
-                                                FlutterSliderTooltipPositionOffset(
-                                                    top: -5),
+                                            positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
                                             alwaysShowTooltip: true,
-                                            custom: (value) => Text(
-                                                '${value.toStringAsFixed(0)}€',
-                                                style: AppStyles.greyTextStyle
-                                                    .copyWith(fontSize: 12)),
+                                            custom: (value) => Text('${value.toStringAsFixed(0)}€', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                           ),
                                           // hatchMark: FlutterSliderHatchMark(
                                           //     linesAlignment:
@@ -318,9 +266,7 @@ class _FilterState extends State<Filter> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('10000',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      child: Text('10000', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     )
                                   ],
                                 ),
@@ -332,17 +278,12 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Quantité maximum',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                Text('Quantité maximum', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
                                 Row(
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('5m³',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      child: Text('5m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     ),
                                     Expanded(
                                       child: Container(
@@ -350,13 +291,10 @@ class _FilterState extends State<Filter> {
                                         child: FlutterSlider(
                                           min: 0,
                                           max: 100,
-                                          values: quantity
-                                              .map((i) => i.toDouble())
-                                              .toList(),
+                                          values: quantity.map((i) => i.toDouble()).toList(),
                                           step: FlutterSliderStep(step: 5),
                                           selectByTap: true,
-                                          onDragging: (handlerIndex, lowerValue,
-                                              upperValue) {
+                                          onDragging: (handlerIndex, lowerValue, upperValue) {
                                             setState(() {
                                               quantity = [lowerValue.toInt()];
                                             });
@@ -367,45 +305,32 @@ class _FilterState extends State<Filter> {
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
+                                                gradient: LinearGradient(colors: [
                                                   AppColors.primaryColor,
                                                   AppColors.whiteColor,
                                                 ]),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check,
-                                                  color: Colors.white,
-                                                  size: 12),
+                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           trackBar: FlutterSliderTrackBar(
                                             activeTrackBarHeight: 5,
                                             inactiveTrackBarHeight: 5,
-                                            activeTrackBar: BoxDecoration(
-                                                color: AppColors.primaryColor),
-                                            inactiveTrackBar: BoxDecoration(
-                                                color:
-                                                    AppColors.lightGreyColor),
+                                            activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
+                                            inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
                                           ),
                                           tooltip: FlutterSliderTooltip(
-                                            positionOffset:
-                                                FlutterSliderTooltipPositionOffset(
-                                                    top: -5),
+                                            positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
                                             alwaysShowTooltip: true,
-                                            custom: (value) => Text(
-                                                '≤${value.toStringAsFixed(0)}m³',
-                                                style: AppStyles.greyTextStyle
-                                                    .copyWith(fontSize: 12)),
+                                            custom: (value) => Text('≤${value.toStringAsFixed(0)}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                           ),
                                         ),
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('100m³',
-                                          style: AppStyles.greyTextStyle
-                                              .copyWith(fontSize: 12)),
+                                      child: Text('100m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                                     )
                                   ],
                                 ),
@@ -417,10 +342,7 @@ class _FilterState extends State<Filter> {
                             padding: EdgeInsets.only(top: 24),
                             child: Text(
                               'Période d\'enlèvement',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: AppColors.darkColor,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
                             ),
                           ),
                           FormFieldContainer(
@@ -428,12 +350,7 @@ class _FilterState extends State<Filter> {
                             child: TextFormField(
                               readOnly: true,
                               controller: pickupDateController,
-                              decoration: hintTextDecoration(
-                                      'Période d\'enlèvement')
-                                  .copyWith(
-                                      prefixIcon: Icon(MaterialCommunityIcons
-                                          .calendar_range),
-                                      contentPadding: EdgeInsets.only(top: 15)),
+                              decoration: hintTextDecoration('Période d\'enlèvement').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
                               onTap: () {
                                 DatePicker.showDatePicker(
                                   context,
@@ -443,29 +360,21 @@ class _FilterState extends State<Filter> {
                                     Duration(days: 90),
                                   ),
                                   onConfirm: (date) {
-                                    setState(
-                                        () => Global.filter.pickUpDate = date);
-                                    pickupDateController.text = dateFormat
-                                        .format(Global.filter.pickUpDate);
+                                    setState(() => pickUpDate = date);
+                                    pickupDateController.text = dateFormat.format(pickUpDate);
                                   },
-                                  currentTime: Global.filter.pickUpDate == null
-                                      ? DateTime.now()
-                                      : Global.filter.pickUpDate,
+                                  currentTime: pickUpDate == null ? DateTime.now() : pickUpDate,
                                   locale: LocaleType.fr,
                                 );
                               },
-                              style: AppStyles.blackTextStyle
-                                  .copyWith(fontSize: 14),
+                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 8),
                             child: Text(
                               'Période de livraison',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: AppColors.darkColor,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
                             ),
                           ),
                           FormFieldContainer(
@@ -473,12 +382,7 @@ class _FilterState extends State<Filter> {
                             child: TextFormField(
                               readOnly: true,
                               controller: deliveryDateController,
-                              decoration: hintTextDecoration(
-                                      'Période de livraison')
-                                  .copyWith(
-                                      prefixIcon: Icon(MaterialCommunityIcons
-                                          .calendar_range),
-                                      contentPadding: EdgeInsets.only(top: 15)),
+                              decoration: hintTextDecoration('Période de livraison').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
                               onTap: () {
                                 DatePicker.showDatePicker(
                                   context,
@@ -488,43 +392,29 @@ class _FilterState extends State<Filter> {
                                     Duration(days: 90),
                                   ),
                                   onConfirm: (date) {
-                                    setState(() =>
-                                        Global.filter.deliveryDate = date);
-                                    deliveryDateController.text = dateFormat
-                                        .format(Global.filter.deliveryDate);
+                                    setState(() => deliveryDate = date);
+                                    deliveryDateController.text = dateFormat.format(deliveryDate);
                                   },
-                                  currentTime:
-                                      Global.filter.deliveryDate == null
-                                          ? DateTime.now()
-                                          : Global.filter.deliveryDate,
+                                  currentTime: deliveryDate == null ? DateTime.now() : deliveryDate,
                                   locale: LocaleType.fr,
                                 );
                               },
-                              style: AppStyles.blackTextStyle
-                                  .copyWith(fontSize: 14),
+                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 64),
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
                               boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.24),
-                                    blurRadius: 16,
-                                    spreadRadius: 4),
+                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 60,
                               child: RaisedButton(
-                                child: Text('Appliquer les filtres',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
+                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: () => saveFilter(),

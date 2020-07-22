@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:fulltrip/util/constants.dart';
+
+import 'package:Fulltrip/util/constants.dart';
 import 'package:http/http.dart' as http;
 
 class DistanceTimeModel {
@@ -8,11 +9,7 @@ class DistanceTimeModel {
   List<Rows> rows;
   String status;
 
-  DistanceTimeModel(
-      {this.destinationAddresses,
-      this.originAddresses,
-      this.rows,
-      this.status});
+  DistanceTimeModel({this.destinationAddresses, this.originAddresses, this.rows, this.status});
 
   DistanceTimeModel.fromJson(Map<String, dynamic> json) {
     destinationAddresses = json['destination_addresses'].cast<String>();
@@ -69,12 +66,8 @@ class Elements {
   Elements({this.distance, this.duration, this.status});
 
   Elements.fromJson(Map<String, dynamic> json) {
-    distance = json['distance'] != null
-        ? new Distance.fromJson(json['distance'])
-        : null;
-    duration = json['duration'] != null
-        ? new Distance.fromJson(json['duration'])
-        : null;
+    distance = json['distance'] != null ? new Distance.fromJson(json['distance']) : null;
+    duration = json['duration'] != null ? new Distance.fromJson(json['duration']) : null;
     status = json['status'];
   }
 
@@ -111,10 +104,9 @@ class Distance {
 }
 
 /////
-Future<DistanceTimeModel> fetchRequestGoogleApi(double startinglat,
-    double startinglong, double arrivallat, double arrivallong) async {
-  final response = await http.get(
-      'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=$startinglat,$startinglong&destinations=$arrivallat,$arrivallong&key=${Constants.googleAPIKey}');
+Future<DistanceTimeModel> fetchRequestGoogleApi(double startinglat, double startinglong, double arrivallat, double arrivallong) async {
+  final response =
+      await http.get('https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=$startinglat,$startinglong&destinations=$arrivallat,$arrivallong&key=${Constants.googleAPIKey}');
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON

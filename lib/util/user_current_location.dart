@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:location/location.dart';
+import 'package:Fulltrip/util/global.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
 
 class UserCurrentLocation {
   static checkpermissionstatus() async {
@@ -35,8 +34,7 @@ class UserCurrentLocation {
     PermissionStatus _permissionGranted;
     LocationData _locationData;
     _locationData = await location.getLocation();
-    List<Placemark> newPlace = await _geolocator.placemarkFromCoordinates(
-        _locationData.latitude, _locationData.longitude);
+    List<Placemark> newPlace = await _geolocator.placemarkFromCoordinates(_locationData.latitude, _locationData.longitude);
     Placemark placeMark = newPlace[0];
     String name = placeMark.name;
     String subLocality = placeMark.subLocality;
@@ -44,8 +42,7 @@ class UserCurrentLocation {
     String administrativeArea = placeMark.administrativeArea;
     String postalCode = placeMark.postalCode;
     String country = placeMark.country;
-    String address =
-        "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
+    String address = "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
 
     print(address);
     Global.address = address;

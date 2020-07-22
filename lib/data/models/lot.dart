@@ -1,4 +1,4 @@
-import 'package:fulltrip/util/uuid.dart';
+import 'package:Fulltrip/util/uuid.dart';
 
 class Lot {
   String id;
@@ -91,8 +91,8 @@ class Lot {
         "starting_floors": startingFloors,
         "starting_furniture_lift": startingFurnitureLift,
         "starting_dismantling_furniture": startingDismantlingFurniture,
-        "pickup_date_from": pickupDateFrom.toIso8601String(),
-        "pickup_date_to": pickupDateTo.toIso8601String(),
+        "pickup_date_from": pickupDateFrom != null ? pickupDateFrom.toIso8601String() : null,
+        "pickup_date_to": pickupDateTo != null ? pickupDateTo.toIso8601String() : null,
         "quantity": quantity,
         "arrival_address": arrivalAddress,
         "arrival_location_type": arrivalLocationType,
@@ -101,8 +101,8 @@ class Lot {
         "arrival_furniture_lift": arrivalFurnitureLift,
         "arrival_reassembly_furniture": arrivalReassemblyFurniture,
         "delivery": delivery,
-        "delivery_date_from": deliveryDateFrom.toIso8601String(),
-        "delivery_date_to": deliveryDateTo.toIso8601String(),
+        "delivery_date_from": deliveryDateFrom != null ? deliveryDateFrom.toIso8601String() : null,
+        "delivery_date_to": deliveryDateTo != null ? deliveryDateTo.toIso8601String() : null,
         "price": price,
         "photo": photo,
         "description": description,

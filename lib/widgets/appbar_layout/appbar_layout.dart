@@ -1,5 +1,5 @@
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/theme.dart';
 
 class AppBarLayout extends AppBar {
   final String appBarTitle;

@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/size_config.dart';
+import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/util/validators/validators.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/size_config.dart';
-import 'package:fulltrip/util/theme.dart';
-import 'package:fulltrip/util/validators/validators.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -120,7 +120,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
 
         await Global.firestore.collection('lots').add(data);
         setState(() => Global.isLoading = false);
-        Navigator.of(context).pushNamed('Felicitations');
+        Navigator.of(context).pushNamedAndRemoveUntil('Felicitations', (Route<dynamic> route) => false);
       });
     }
   }
@@ -181,7 +181,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
                     child: Text('Fermer', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
-                onTap: () => Navigator.of(context).popAndPushNamed('dashboard'),
+                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false),
               )
             ],
           ),
@@ -204,7 +204,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
                       minHeight: viewportConstraints.maxHeight,
                     ),
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(16, 40, 16, 40),
+                      padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,

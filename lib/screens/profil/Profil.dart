@@ -1,7 +1,7 @@
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/size_config.dart';
+import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/size_config.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Profil extends StatefulWidget {
@@ -27,107 +27,63 @@ class _ProfilState extends State<Profil> {
               title: Text('Profil'),
               centerTitle: true,
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount:
-                                                  Global.profileoptions.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      index) {
-                                                return ListTile(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 0.0),
-                                                  leading: Image.asset(
-                                                    'assets/images/$index.png',
-                                                    height: 30,
-                                                    width: 30,
-                                                  ),
-                                                  title: Text(
-                                                    Global
-                                                        .profileoptions[index],
-                                                    style: TextStyle(
-                                                        color:
-                                                            AppColors.darkColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  onTap: () {
-                                                    print(index);
-                                                    index == 0
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'mes_informations')
-                                                        : null;
-                                                    index == 1
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'CoordonneesBancaries')
-                                                        : null;
-                                                    index == 2
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'transactionencours')
-                                                        : null;
-                                                    index == 3
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'historiqueinformation')
-                                                        : null;
-                                                    index == 4 ? null : null;
-                                                    index == 5
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'mesdocuments')
-                                                        : null;
-                                                  },
-                                                );
-                                              }),
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    Container(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: Global.profileoptions.length,
+                                          itemBuilder: (BuildContext context, index) {
+                                            return ListTile(
+                                              contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                              leading: Image.asset(
+                                                'assets/images/$index.png',
+                                                height: 30,
+                                                width: 30,
+                                              ),
+                                              title: Text(
+                                                Global.profileoptions[index],
+                                                style: TextStyle(color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                              ),
+                                              onTap: () {
+                                                print(index);
+                                                index == 0 ? Navigator.of(context).pushNamed('mes_informations') : null;
+                                                index == 1 ? Navigator.of(context).pushNamed('CoordonneesBancaries') : null;
+                                                index == 2 ? Navigator.of(context).pushNamed('transactionencours') : null;
+                                                index == 3 ? Navigator.of(context).pushNamed('historiqueinformation') : null;
+                                                index == 4 ? null : null;
+                                                index == 5 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                              },
+                                            );
+                                          }),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 20),
+                                      child: ListTile(
+                                        onTap: () => Navigator.of(context).pushNamed('centredaide'),
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                        leading: Icon(
+                                          Icons.error_outline,
+                                          color: AppColors.primaryColor,
+                                          size: 30,
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.safeBlockVertical *
-                                                      20),
-                                          child: ListTile(
-                                            onTap: () => Navigator.of(context)
-                                                .pushNamed('centredaide'),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 0.0),
-                                            leading: Icon(
-                                              Icons.error_outline,
-                                              color: AppColors.primaryColor,
-                                              size: 30,
-                                            ),
-                                            title: Text(
-                                              "Centre d'aide",
-                                            ),
-                                          ),
-                                        )
-                                      ]))))));
+                                        title: Text(
+                                          "Centre d'aide",
+                                        ),
+                                      ),
+                                    )
+                                  ]))))));
             })));
   }
 }

@@ -1,9 +1,15 @@
+import 'dart:collection';
+
+import 'package:Fulltrip/data/models/user.dart';
+import 'package:Fulltrip/services/firebase_auth.service.dart';
+import 'package:Fulltrip/util/global.dart';
+import 'package:Fulltrip/util/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fulltrip/util/global.dart';
-import 'package:fulltrip/util/theme.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:provider/provider.dart';
 
 class VerifySMS extends StatefulWidget {
   VerifySMS({Key key}) : super(key: key);
@@ -16,15 +22,86 @@ class _VerifySMSState extends State<VerifySMS> {
   final TextEditingController _pinPutController = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
 
-  String _email;
-  String _password;
+  User user;
+  String verificationCode;
+  int countTime = 10;
+
+  @override
+  void initState() {
+    updateTime();
+  }
+
+  updateTime() {
+    setState(() {
+      if (countTime > 0) {
+        countTime--;
+      } else {
+        verificationCode = null;
+      }
+    });
+    Future.delayed(Duration(seconds: 1), () {
+      updateTime();
+    });
+  }
+
+  initUser() {
+    final LinkedHashMap<String, User> args = ModalRoute.of(context).settings.arguments;
+    if (args == null) {
+      Navigator.of(context).pop();
+    } else {
+      setState(() => user = args['user']);
+      sendCode();
+    }
+  }
+
+  sendCode() {
+    setState(() {
+      countTime = 10;
+    });
+    context.read<FirebaseAuthService>().verifyPhone(
+      number: '+' + user.phone,
+      onCodeSent: (code) {
+        setState(() {
+          verificationCode = code;
+        });
+      },
+      onCompleted: (authCred) {},
+      onFailed: (err) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(err),
+            );
+          },
+        );
+      },
+    );
+  }
 
   onSubmit() {
-    Navigator.of(context).pushNamed('dashboard');
+    if (verificationCode == _pinPutController.text) {
+      final authCred = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: _pinPutController.text);
+
+      Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Invalid code. Please try again'),
+          );
+        },
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (user == null) {
+      initUser();
+    }
+
     BoxDecoration pinPutDecoration = BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.lightGreyColor));
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
@@ -57,13 +134,13 @@ class _VerifySMSState extends State<VerifySMS> {
                           Container(
                             margin: EdgeInsets.only(bottom: 54),
                             width: double.infinity,
-                            child: Text('Vérifiez votre compte en entrant le code à 4 chiffres envoyé à: + 380 000 00 00', style: AppStyles.greyTextStyle),
+                            child: Text('Vérifiez votre compte en entrant le code à 6 chiffres envoyé à: + ${user != null ? user.phone : ''}', style: AppStyles.greyTextStyle),
                           ),
                           Container(
                             child: PinPut(
-                              eachFieldWidth: 60,
-                              eachFieldHeight: 60,
-                              fieldsCount: 4,
+                              eachFieldWidth: 40,
+                              eachFieldHeight: 40,
+                              fieldsCount: 6,
                               focusNode: _pinPutFocusNode,
                               controller: _pinPutController,
                               submittedFieldDecoration: pinPutDecoration,
@@ -102,7 +179,20 @@ class _VerifySMSState extends State<VerifySMS> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
-                                  child: Text('Renvoyer le code en 00:12 ', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                  child: countTime > 0
+                                      ? Text('Renvoyer le code en ${(countTime/60).floor()}:${countTime%60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
+                                      : GestureDetector(
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'Renvoyer',
+                                              style: AppStyles.primaryTextStyle.copyWith(fontSize: 12),
+                                              children: <TextSpan>[
+                                                TextSpan(text: ' le code du téléphone', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                              ],
+                                            ),
+                                          ),
+                                          onTap: sendCode,
+                                        ),
                                 ),
                               ],
                             ),
