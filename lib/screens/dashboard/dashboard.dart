@@ -6,6 +6,7 @@ import 'package:Fulltrip/screens/home/home.dart';
 import 'package:Fulltrip/screens/profil/Profil.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/screens/messages/MessagesList.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
     Container(
       key: PageStorageKey('Page2'),
     ),
-    Container(
+    MessageScreen(
       key: PageStorageKey('Page3'),
     ),
     Profil(
@@ -56,9 +57,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.home, color: currentTab == 0 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.home,
+                              color: currentTab == 0
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Recherche', style: currentTab == 0 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Recherche',
+                            style: currentTab == 0
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -76,9 +84,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.search, color: currentTab == 1 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.search,
+                              color: currentTab == 1
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Chercher', style: currentTab == 1 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Chercher',
+                            style: currentTab == 1
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -115,7 +130,8 @@ class _DashboardState extends State<Dashboard> {
                               color: AppColors.primaryColor,
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(Icons.add, size: 32, color: Colors.white),
+                            child:
+                                Icon(Icons.add, size: 32, color: Colors.white),
                           ),
                           onTap: () {
                             Global.lotForm = Lot();
@@ -136,9 +152,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.message_square, color: currentTab == 2 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.message_square,
+                              color: currentTab == 2
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Message', style: currentTab == 2 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Message',
+                            style: currentTab == 2
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -156,9 +179,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(FontAwesome.user_o, color: currentTab == 3 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(FontAwesome.user_o,
+                              color: currentTab == 3
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Profil', style: currentTab == 3 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Profil',
+                            style: currentTab == 3
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
