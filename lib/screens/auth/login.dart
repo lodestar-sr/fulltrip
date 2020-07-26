@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
       setState(() => Global.isLoading = true);
       context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((user) {
         setState(() => Global.isLoading = false);
-        if (user.isEmailVerified) {
+        if (user.isEmailVerified != null && user.isEmailVerified) {
           Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
         } else {
           showDialog(

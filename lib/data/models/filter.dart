@@ -1,5 +1,3 @@
-
-
 class Filter {
   String startingAddress;
   String arrivalAddress;

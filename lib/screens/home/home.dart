@@ -64,9 +64,6 @@ class _HomeState extends State<Home> {
   }
 
   filterLots() {
-    filteredLots.clear();
-    filteredLots = lots;
-
     if (Global.filter.startingAddress != '') {
       filteredLots = filteredLots.where((lot) {
         final parts = lot.startingAddress.split(',');
@@ -555,21 +552,51 @@ class _HomeState extends State<Home> {
         setState(() => Global.isLoading = true);
         UserCurrentLocation.getCurrentLocation().then((value) {
           setState(() {
-            Global.filter.startingAddress = Global.address;
             checkfilter = false;
+            Global.isLoading = false;
           });
+          filterNearMe(Global.address);
+        }).catchError((err) {
           setState(() => Global.isLoading = false);
+          print(err.message);
         });
       } else {
         setState(() {
-          Global.filter.startingAddress = '';
+          Global.filter.resetStartingAddress();
         });
       }
     }
   }
 
+  filterNearMe(String address) {
+    setState(() => Global.isLoading = true);
+    var futures = lots.map((lot) {
+      return Global.calculateDistance(startingAddress: address, arrivalAddress: lot.startingAddress);
+    }).toList();
+
+    Future.wait(futures).then((List<Map> dist) {
+      setState(() => Global.isLoading = false);
+      if (mounted) {
+        setState(() {
+          filteredLots.clear();
+        });
+        for (int i = 0; i < dist.length; i++) {
+          if (dist[i]['distanceinKm'] > 0 && dist[i]['distanceinKm'] < 20) {
+            setState(() => filteredLots.add(lots[i]));
+          }
+        }
+      }
+    }).catchError((error) => setState(() => Global.isLoading = false));
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!geoLocation) {
+      setState(() {
+        filteredLots.clear();
+        filteredLots = lots;
+      });
+    }
     setState(() => filterLots());
 
     return ModalProgressHUD(

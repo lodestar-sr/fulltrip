@@ -1,4 +1,3 @@
-import 'package:Fulltrip/data/models/user.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -33,7 +32,7 @@ class _RegisterState extends State<Register> {
       setState(() => Global.isLoading = true);
       context.read<FirebaseAuthService>().createWithEmailAndPassword(email: _email, password: _password, name: _name, phone: _phone).then((user) {
         setState(() => Global.isLoading = false);
-        Navigator.of(context).pushNamed('verify-sms', arguments: <String, User>{'user': user});
+        Navigator.of(context).pushNamed('verify-sms', arguments: <String, dynamic>{'user': user, 'password': _password});
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(

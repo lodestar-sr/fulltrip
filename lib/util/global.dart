@@ -1,8 +1,8 @@
+import 'package:Fulltrip/data/models/ChatModel.dart';
 import 'package:Fulltrip/data/models/DistanceTimeModel.dart';
+import 'package:Fulltrip/data/models/Messages.dart';
 import 'package:Fulltrip/data/models/filter.dart';
 import 'package:Fulltrip/data/models/lot.dart';
-import 'package:Fulltrip/data/models/Messages.dart';
-import 'package:Fulltrip/data/models/ChatModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,178 +19,71 @@ class Global {
   static Lot lotForm;
   static Filter filter = Filter();
   static List<ChatModel> chatmessages = [
-    ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
-    ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
-    ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
-    ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
-    ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
-    ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
+    ChatModel(message: 'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?', id: 0),
+    ChatModel(message: 'Hey! Notre entreprise est engagée dans le transport depuis 2001', id: 1),
+    ChatModel(message: 'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?', id: 0),
+    ChatModel(message: 'Hey! Notre entreprise est engagée dans le transport depuis 2001', id: 1),
+    ChatModel(message: 'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?', id: 0),
+    ChatModel(message: 'Hey! Notre entreprise est engagée dans le transport depuis 2001', id: 1),
   ];
   static List<Messages> usermessages = [
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 9,
-        status: 'online',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 3,
-        status: 'online',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 7,
-        status: 'offline',
-        photo: ''),
-    Messages(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 5,
-        status: 'offline',
-        photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 8, status: 'online', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 8, status: 'online', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 8, status: 'online', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 9, status: 'online', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 3, status: 'online', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 7, status: 'offline', photo: ''),
+    Messages(name: 'WCR', message: 'Thank You', time: DateTime(2017, 9, 7, 17, 30), unread: 5, status: 'offline', photo: ''),
   ];
-  static Future<Map> calculateDistance(
-      {String startingAddress, String arrivalAddress}) async {
+
+  static Future<Map> calculateDistance({String startingAddress, String arrivalAddress}) async {
     List startinglatlong = [];
     List arrivallatlong = [];
 
-    //Start
-    List<Placemark> startingAddresplacemark =
-        await Geolocator().placemarkFromAddress(startingAddress);
-    Placemark startingplace = startingAddresplacemark[0];
-    startinglatlong = [
-      startingplace.position.latitude,
-      startingplace.position.longitude
-    ];
-    //Arrival
-    List<Placemark> arrivalAddresplacemark =
-        await Geolocator().placemarkFromAddress(arrivalAddress);
-    Placemark arrivalplace = arrivalAddresplacemark[0];
-    arrivallatlong = [
-      arrivalplace.position.latitude,
-      arrivalplace.position.longitude
-    ];
+    try {
+      //Start
+      List<Placemark> startingAddresplacemark = await Geolocator().placemarkFromAddress(startingAddress);
+      Placemark startingplace = startingAddresplacemark[0];
+      startinglatlong = [startingplace.position.latitude, startingplace.position.longitude];
+      //Arrival
+      List<Placemark> arrivalAddresplacemark = await Geolocator().placemarkFromAddress(arrivalAddress);
+      Placemark arrivalplace = arrivalAddresplacemark[0];
+      arrivallatlong = [arrivalplace.position.latitude, arrivalplace.position.longitude];
 
-    return fetchRequestGoogleApi(startinglatlong[0], startinglatlong[1],
-            arrivallatlong[0], arrivallatlong[1])
-        .then((value) {
-      if (value.status == 'OK') {
-        var rows = value.rows;
-        var element = rows[0].elements[0];
-        return {
-          'distanceinKm': element.distance.value / 1000,
-          'duration': element.duration.text,
-        };
-      } else {
-        return {
-          'distanceinKm': 0,
-          'duration': 'Undefined',
-        };
-      }
-    });
+      return fetchRequestGoogleApi(startinglatlong[0], startinglatlong[1], arrivallatlong[0], arrivallatlong[1]).then((value) {
+        if (value.status == 'OK') {
+          var rows = value.rows;
+          var element = rows[0].elements[0];
+          return {
+            'distanceinKm': element.distance == null ? 0 : element.distance.value / 1000,
+            'duration': element.duration == null ? '' : element.duration.text,
+          };
+        } else {
+          return {
+            'distanceinKm': 0,
+            'duration': 'Undefined',
+          };
+        }
+      });
+    } catch(e) {
+      print(e);
+      return {
+        'distanceinKm': 0,
+        'duration': 'Undefined',
+      };
+    }
   }
 
   static List<Map> transportHistory = [
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "500"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "500"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "400"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "300"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "600"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "600"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "600"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "600"
-    },
-    {
-      "date": "30 juin 2020",
-      "startcity": "Paris",
-      "arrivalcity": "Nice",
-      "price": "600"
-    },
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "500"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "500"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "400"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "300"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "600"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "600"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "600"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "600"},
+    {"date": "30 juin 2020", "startcity": "Paris", "arrivalcity": "Nice", "price": "600"},
   ];
   static List<Map> demoData = [
     {
@@ -233,6 +126,7 @@ class Global {
     'Mes documents',
   ];
   static List<String> typedelieu = [
+    '',
     'Immeuble',
     'Maison',
     'Garde-meubles',
@@ -240,12 +134,13 @@ class Global {
     'Magasin',
   ];
   static List<String> typedeacces = [
-    'Plein',
-    'pieds',
+    '',
+    'Plein pieds',
     'Ascenseur',
     'Escaliers',
   ];
   static List<String> etages = [
+    '',
     'RDC',
     '1',
     '2',

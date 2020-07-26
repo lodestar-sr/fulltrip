@@ -1,12 +1,13 @@
+import 'dart:async';
+
+import 'package:Fulltrip/data/models/ChatModel.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:Fulltrip/widgets/ChatWidgets/ReceivedChatUI.dart';
 import 'package:Fulltrip/widgets/ChatWidgets/SendedChatUI.dart';
-import 'package:Fulltrip/data/models/ChatModel.dart';
-import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ChatMessages extends StatefulWidget {
   ChatMessages({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class _ChatMessagesState extends State<ChatMessages> {
   TextEditingController inputMessage = TextEditingController();
   ScrollController _controller = new ScrollController();
   bool emojis = false;
+
   List<Widget> chatMessages() {
     List<Widget> list = [];
 
@@ -37,8 +39,7 @@ class _ChatMessagesState extends State<ChatMessages> {
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(
-                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -50,8 +51,7 @@ class _ChatMessagesState extends State<ChatMessages> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 200),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 200), () => _controller.jumpTo(_controller.position.maxScrollExtent));
   }
 
   Widget builMessageTextField() {
@@ -77,9 +77,7 @@ class _ChatMessagesState extends State<ChatMessages> {
           decoration: BoxDecoration(
             boxShadow: kElevationToShadow[4],
             color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20.0),
-                topLeft: Radius.circular(20.0)),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0)),
           ),
           child: Row(
             children: [
@@ -89,13 +87,9 @@ class _ChatMessagesState extends State<ChatMessages> {
                   child: SingleChildScrollView(
                     child: TextField(
                       controller: inputMessage,
-                      decoration: InputDecoration(
-                          hintText: 'Écrire …', border: InputBorder.none),
+                      decoration: InputDecoration(hintText: 'Écrire …', border: InputBorder.none),
                       onTap: () {
-                        Timer(
-                            Duration(milliseconds: 300),
-                            () => _controller
-                                .jumpTo(_controller.position.maxScrollExtent));
+                        Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
                         setState(() {
                           emojis = false;
                         });
@@ -140,8 +134,7 @@ class _ChatMessagesState extends State<ChatMessages> {
         inputMessage.text = '';
       });
     }
-    Timer(Duration(milliseconds: 300),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
   }
 
   @override
@@ -160,8 +153,7 @@ class _ChatMessagesState extends State<ChatMessages> {
             inAsyncCall: Global.isLoading,
             color: AppColors.primaryColor,
             child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -176,11 +168,7 @@ class _ChatMessagesState extends State<ChatMessages> {
                             shrinkWrap: true,
                             children: chatMessages()),
                       ),
-                      Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: builMessageTextField())
+                      Positioned(bottom: 0, left: 0, right: 0, child: builMessageTextField())
                     ])),
                   ],
                 )),

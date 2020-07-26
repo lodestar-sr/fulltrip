@@ -1,5 +1,3 @@
-
-
 class AppService {
   static AppService _appService;
 

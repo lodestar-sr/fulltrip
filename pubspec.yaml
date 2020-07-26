@@ -41,6 +41,7 @@ dependencies:
   image_cropper: ^1.2.3
   flutter_native_image: ^0.0.5
   intl: ^0.16.1
+  firebase_core:
   firebase_auth:
   google_sign_in:
   cloud_firestore: ^0.13.7

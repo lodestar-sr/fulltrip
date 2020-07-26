@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "77728748956-0nmli5au84ad00hbtea6m50tn00oa8on.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.groweb.fulltrip",
+            "certificate_hash": "d3ca7da2377d75a5f59d2e1bbf9c5eb855e97a93"
+          }
+        },
+        {
           "client_id": "77728748956-orkbsjitleslij8mg466sq35bgtt51p1.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -1,7 +1,6 @@
 import 'package:Fulltrip/data/models/user.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
@@ -9,8 +8,8 @@ class FirebaseAuthService {
   final GoogleSignIn _googleSignIn;
 
   FirebaseAuthService({FirebaseAuth firebaseAuth, GoogleSignIn googleSignin})
-    : _firebaseAuth = firebaseAuth ?? Global.auth,
-      _googleSignIn = googleSignin ?? Global.googleSignIn;
+      : _firebaseAuth = firebaseAuth ?? Global.auth,
+        _googleSignIn = googleSignin ?? Global.googleSignIn;
 
   User _userFromFirebase(FirebaseUser user) {
     if (user == null) {
@@ -22,6 +21,7 @@ class FirebaseAuthService {
       displayName: user.displayName,
       photoUrl: user.photoUrl,
       phone: user.phoneNumber,
+      isEmailVerified: user.isEmailVerified,
     );
   }
 
@@ -56,20 +56,21 @@ class FirebaseAuthService {
   }
 
   Future<void> verifyPhone({String number, onCompleted, onFailed, onCodeSent}) {
-    return Global.auth.verifyPhoneNumber(phoneNumber: number,
-      timeout: Duration(seconds: 120),
-      verificationCompleted: (AuthCredential phoneAuthCredential) {
-        onCompleted(phoneAuthCredential);
-      },
-      verificationFailed: (AuthException exceptio) {
-        onFailed(exceptio.message);
-      },
-      codeSent: (String verId, [int forceCodeResend]) {
-        onCodeSent(verId);
-      },
-      codeAutoRetrievalTimeout: (String verId) {
-        print('codeAutoRetrievalTimeout: ' + verId);
-      });
+    return Global.auth.verifyPhoneNumber(
+        phoneNumber: number,
+        timeout: Duration(seconds: 120),
+        verificationCompleted: (AuthCredential phoneAuthCredential) {
+          onCompleted(phoneAuthCredential);
+        },
+        verificationFailed: (AuthException exceptio) {
+          onFailed(exceptio.message);
+        },
+        codeSent: (String verId, [int forceCodeResend]) {
+          onCodeSent(verId);
+        },
+        codeAutoRetrievalTimeout: (String verId) {
+          print('codeAutoRetrievalTimeout: ' + verId);
+        });
   }
 
   Future<void> signOut() async {

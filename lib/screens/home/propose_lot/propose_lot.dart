@@ -66,9 +66,9 @@ class _ProposeLotState extends State<ProposeLot> {
             children: [
               GestureDetector(
                 child: Center(
-                  child: Container(child: Text('Précédent', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
+                  child: Container(child: Text('         ', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
                 ),
-                onTap: () => Navigator.of(context).pop(),
+//                onTap: () => Navigator.of(context).pop(),
               ),
               Text('Au départ', style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
               GestureDetector(

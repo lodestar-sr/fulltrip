@@ -24,7 +24,7 @@ class _VerifySMSState extends State<VerifySMS> {
 
   User user;
   String verificationCode;
-  int countTime = 10;
+  int countTime = 120;
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _VerifySMSState extends State<VerifySMS> {
   }
 
   initUser() {
-    final LinkedHashMap<String, User> args = ModalRoute.of(context).settings.arguments;
+    final LinkedHashMap<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     if (args == null) {
       Navigator.of(context).pop();
     } else {
@@ -56,43 +56,53 @@ class _VerifySMSState extends State<VerifySMS> {
 
   sendCode() {
     setState(() {
-      countTime = 10;
+      countTime = 120;
+      _pinPutController.text = '';
     });
-    context.read<FirebaseAuthService>().verifyPhone(
-      number: '+' + user.phone,
-      onCodeSent: (code) {
-        setState(() {
-          verificationCode = code;
-        });
-      },
-      onCompleted: (authCred) {},
-      onFailed: (err) {
+    context.watch<FirebaseAuthService>().verifyPhone(
+          number: '+' + user.phone,
+          onCodeSent: (code) {
+            setState(() {
+              verificationCode = code;
+            });
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text('We sent verification SMS code to your phone. Please input code'),
+                );
+              },
+            );
+          },
+          onCompleted: (authCred) {},
+          onFailed: (err) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Text(err),
+                );
+              },
+            );
+          },
+        );
+  }
+
+  onSubmit() {
+    if (verificationCode != null && _pinPutController.text.isNotEmpty) {
+      final AuthCredential authCred = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: _pinPutController.text);
+      Global.auth.signInWithCredential(authCred).then((value) {
+        Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+      }).catchError((error) {
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              content: Text(err),
+              content: Text(error.message),
             );
           },
         );
-      },
-    );
-  }
-
-  onSubmit() {
-    if (verificationCode == _pinPutController.text) {
-      final authCred = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: _pinPutController.text);
-
-      Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text('Invalid code. Please try again'),
-          );
-        },
-      );
+      });
     }
   }
 
@@ -180,7 +190,7 @@ class _VerifySMSState extends State<VerifySMS> {
                                 Container(
                                   margin: EdgeInsets.only(top: 8),
                                   child: countTime > 0
-                                      ? Text('Renvoyer le code en ${(countTime/60).floor()}:${countTime%60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
+                                      ? Text('Renvoyer le code en ${(countTime / 60).floor()}:${countTime % 60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
                                       : GestureDetector(
                                           child: RichText(
                                             text: TextSpan(
