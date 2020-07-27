@@ -23,11 +23,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Charity App requires permission to use camera in order to let you upload Documents from the camera.</string>
+	<string>Fulltrip App requires permission to use camera in order to let you upload Documents from the camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Charity App requires permission to use photo library in order to let you upload Documents from photo library.</string>
+	<string>Fulltrip App requires permission to use photo library in order to let you upload Documents from photo library.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
