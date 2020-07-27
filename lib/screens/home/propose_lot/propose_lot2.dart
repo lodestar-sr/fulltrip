@@ -25,6 +25,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
   final dateFormat = DateFormat('MM/dd/yyyy');
 
   bool selectedDelivery = false;
+  bool validatearrivingadd = false;
+  bool validatePlace = false;
+  bool validateAccess = false;
+  bool validatefloors = false;
 
   @override
   void initState() {
@@ -132,6 +136,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
                               initialValue: Global.lotForm.arrivalAddress,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Adresse d\'arrivée est requis'),
+                              autovalidate: validatearrivingadd,
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 13, 26, 13),
@@ -141,8 +146,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   height: 13,
                                 ),
                               ),
-                              onSelect: (val) => this.setState(
-                                  () => Global.lotForm.arrivalAddress = val),
+                              onSelect: (val) => this.setState(() {
+                                validatearrivingadd = true;
+                                Global.lotForm.arrivalAddress = val;
+                              }),
                             ),
                           ),
                           Padding(
@@ -182,11 +189,13 @@ class _ProposeLot2State extends State<ProposeLot2> {
                               }).toList(),
                               validator: (value) => Validators.required(value,
                                   errorText: 'Type de lieu est requis'),
+                              autovalidate: validatePlace,
                               value: Global.lotForm.arrivalLocationType != ''
                                   ? Global.lotForm.arrivalLocationType
                                   : null,
                               onChanged: (val) {
                                 setState(() {
+                                  validatePlace = true;
                                   Global.lotForm.arrivalLocationType = val;
                                 });
                               },
@@ -235,8 +244,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   : null,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Type d\'accès est requis'),
+                              autovalidate: validateAccess,
                               onChanged: (val) {
                                 setState(() {
+                                  validateAccess = true;
                                   Global.lotForm.arrivalAccessType = val;
                                 });
                               },

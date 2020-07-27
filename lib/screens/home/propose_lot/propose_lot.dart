@@ -29,6 +29,10 @@ class _ProposeLotState extends State<ProposeLot> {
   Location location = new Location();
   bool _serviceEnabled;
   bool checkquantity = false;
+  bool validatestartingadd = false;
+  bool validatePlace = false;
+  bool validateAccess = false;
+  bool validatefloors = false;
 
   @override
   void initState() {
@@ -147,10 +151,15 @@ class _ProposeLotState extends State<ProposeLot> {
                                     width: 13,
                                     height: 13),
                               ),
+                              autovalidate: validatestartingadd,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Adresse de départ est requis'),
-                              onSelect: (val) => this.setState(
-                                  () => Global.lotForm.startingAddress = val),
+                              onSelect: (val) {
+                                setState(() {
+                                  validatestartingadd = true;
+                                  Global.lotForm.startingAddress = val;
+                                });
+                              },
                             ),
                           ),
                           Padding(
@@ -225,10 +234,12 @@ class _ProposeLotState extends State<ProposeLot> {
                                         style: AppStyles.blackTextStyle
                                             .copyWith(fontSize: 14)));
                               }).toList(),
+                              autovalidate: validatePlace,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Type de lieu est requis'),
                               onChanged: (val) {
                                 setState(() {
+                                  validatePlace = true;
                                   Global.lotForm.startingLocationType = val;
                                 });
                               },
@@ -274,8 +285,10 @@ class _ProposeLotState extends State<ProposeLot> {
                               }).toList(),
                               validator: (value) => Validators.required(value,
                                   errorText: 'Type d\'accès est requis'),
+                              autovalidate: validateAccess,
                               onChanged: (val) {
                                 setState(() {
+                                  validateAccess = true;
                                   Global.lotForm.startingAccessType = val;
                                 });
                               },
@@ -322,8 +335,10 @@ class _ProposeLotState extends State<ProposeLot> {
                               //value: starting_location_type,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Etages est requis'),
+                              autovalidate: validatefloors,
                               onChanged: (val) {
                                 setState(() {
+                                  validatefloors = true;
                                   Global.lotForm.startingFloors = val;
                                 });
                               },
@@ -539,6 +554,7 @@ class _ProposeLotState extends State<ProposeLot> {
                                           onPressed: () {
                                             setState(() {
                                               if (Global.lotForm.quantity > 0) {
+                                                checkquantity = true;
                                                 Global.lotForm.quantity -= 1;
                                               }
                                               if (Global.lotForm.quantity !=

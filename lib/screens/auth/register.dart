@@ -23,6 +23,10 @@ class _RegisterState extends State<Register> {
   String _password;
   String _name;
   String _phone;
+  bool validateCompany = false;
+  bool validatephone = false;
+  bool validateSahkoposti = false;
+  bool validatePassword = false;
 
   onSubmit() {
     if (registerFormKey.currentState.validate()) {
@@ -106,6 +110,12 @@ class _RegisterState extends State<Register> {
                                       value,
                                       errorText:
                                           'Veuillez saisir nom de l\'entreprise'),
+                                  autovalidate: validateCompany,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validateCompany = true;
+                                    });
+                                  },
                                   keyboardType: TextInputType.text,
                                   style: AppStyles.blackTextStyle
                                       .copyWith(fontSize: 18),
@@ -125,6 +135,12 @@ class _RegisterState extends State<Register> {
                                       value,
                                       errorText:
                                           'Veuillez saisir un numéro de téléphone valide'),
+                                  autovalidate: validatephone,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validatephone = true;
+                                    });
+                                  },
                                   keyboardType: TextInputType.phone,
                                   style: AppStyles.blackTextStyle
                                       .copyWith(fontSize: 18),
@@ -143,6 +159,12 @@ class _RegisterState extends State<Register> {
                                       value,
                                       errorText:
                                           'Veuillez saisir votre email valide'),
+                                  autovalidate: validateSahkoposti,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validateSahkoposti = true;
+                                    });
+                                  },
                                   keyboardType: TextInputType.emailAddress,
                                   style: AppStyles.blackTextStyle
                                       .copyWith(fontSize: 18),
@@ -160,6 +182,12 @@ class _RegisterState extends State<Register> {
                                       value,
                                       errorText:
                                           'Veuillez saisir votre mot de passe'),
+                                  autovalidate: validatePassword,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validatePassword = true;
+                                    });
+                                  },
                                   keyboardType: TextInputType.text,
                                   obscureText: true,
                                   style: AppStyles.blackTextStyle

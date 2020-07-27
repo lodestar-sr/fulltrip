@@ -94,7 +94,7 @@ class Routes {
         title: 'Fulltrip',
         theme: appTheme(),
         routes: routes,
-        home: Login(),
+        home: Dashboard(),
       ),
     ));
   }

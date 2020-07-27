@@ -20,6 +20,8 @@ class _LoginState extends State<Login> {
   bool absure = true;
   String _email;
   String _password;
+  bool validateEmail = false;
+  bool validatePassword = false;
 
   onSubmit() {
     if (loginFormKey.currentState.validate()) {
@@ -125,7 +127,13 @@ class _LoginState extends State<Login> {
                                       value,
                                       errorText:
                                           'Veuillez saisir votre email valide'),
+                                  autovalidate: validateEmail,
                                   keyboardType: TextInputType.emailAddress,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validateEmail = true;
+                                    });
+                                  },
                                   style: AppStyles.blackTextStyle
                                       .copyWith(fontSize: 18),
                                   onSaved: (val) =>
@@ -148,6 +156,12 @@ class _LoginState extends State<Login> {
                                       value,
                                       errorText:
                                           'Veuillez saisir votre mot de passe'),
+                                  autovalidate: validatePassword,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      validatePassword = true;
+                                    });
+                                  },
                                   keyboardType: TextInputType.text,
                                   obscureText: absure,
                                   style: AppStyles.blackTextStyle
