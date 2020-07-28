@@ -22,6 +22,8 @@ class _LoginState extends State<Login> {
   String _password;
   bool validateEmail = false;
   bool validatePassword = false;
+  FocusNode emailNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
 
   onSubmit() {
     if (loginFormKey.currentState.validate()) {
@@ -134,6 +136,13 @@ class _LoginState extends State<Login> {
                                       validateEmail = true;
                                     });
                                   },
+                                  focusNode: emailNode,
+                                  onFieldSubmitted: (val) {
+                                    setState(() {
+                                      validateEmail = true;
+                                    });
+                                    passwordNode.requestFocus();
+                                  },
                                   style: AppStyles.blackTextStyle
                                       .copyWith(fontSize: 18),
                                   onSaved: (val) =>
@@ -157,9 +166,21 @@ class _LoginState extends State<Login> {
                                       errorText:
                                           'Veuillez saisir votre mot de passe'),
                                   autovalidate: validatePassword,
+                                  focusNode: passwordNode,
+                                  onFieldSubmitted: (val) {
+                                    setState(() {
+                                      validatePassword = true;
+                                    });
+                                    FocusScope.of(context).unfocus();
+                                  },
                                   onChanged: (val) {
                                     setState(() {
                                       validatePassword = true;
+                                    });
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      validateEmail = true;
                                     });
                                   },
                                   keyboardType: TextInputType.text,

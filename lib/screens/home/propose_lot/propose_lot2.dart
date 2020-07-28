@@ -199,6 +199,11 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   Global.lotForm.arrivalLocationType = val;
                                 });
                               },
+                              onTap: () {
+                                setState(() {
+                                  validatearrivingadd = true;
+                                });
+                              },
                               decoration: hintTextDecoration('Choisissez '),
                               onSaved: (val) => setState(() =>
                                   Global.lotForm.arrivalLocationType = val),
@@ -251,6 +256,12 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   Global.lotForm.arrivalAccessType = val;
                                 });
                               },
+                              onTap: () {
+                                setState(() {
+                                  validatePlace = true;
+                                  validatearrivingadd = true;
+                                });
+                              },
                               decoration: hintTextDecoration('Choisissez '),
                               onSaved: (val) => setState(
                                   () => Global.lotForm.arrivalAccessType = val),
@@ -294,11 +305,20 @@ class _ProposeLot2State extends State<ProposeLot2> {
                               value: Global.lotForm.arrivalFloors != ''
                                   ? Global.lotForm.arrivalFloors
                                   : null,
+                              autovalidate: validatefloors,
                               validator: (value) => Validators.required(value,
                                   errorText: 'Etages est requis'),
                               onChanged: (val) {
                                 setState(() {
+                                  validatefloors = true;
                                   Global.lotForm.arrivalFloors = val;
+                                });
+                              },
+                              onTap: () {
+                                setState(() {
+                                  validateAccess = true;
+                                  validatePlace = true;
+                                  validatearrivingadd = true;
                                 });
                               },
                               decoration: hintTextDecoration('Choisissez '),
@@ -508,6 +528,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                       setState(() {
                                         selectedDelivery = false;
                                         Global.lotForm.delivery = 'Economique';
+                                        validatefloors = true;
+                                        validateAccess = true;
+                                        validatePlace = true;
+                                        validatearrivingadd = true;
                                       });
                                     },
                                     child: new Container(
@@ -548,6 +572,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                       setState(() {
                                         selectedDelivery = false;
                                         Global.lotForm.delivery = 'Standard';
+                                        validatefloors = true;
+                                        validateAccess = true;
+                                        validatePlace = true;
+                                        validatearrivingadd = true;
                                       });
                                     },
                                     child: new Container(
@@ -588,6 +616,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                       setState(() {
                                         selectedDelivery = false;
                                         Global.lotForm.delivery = 'Luxe';
+                                        validatefloors = true;
+                                        validateAccess = true;
+                                        validatePlace = true;
+                                        validatearrivingadd = true;
                                       });
                                     },
                                     child: new Container(

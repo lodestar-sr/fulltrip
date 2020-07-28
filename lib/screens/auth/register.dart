@@ -27,7 +27,10 @@ class _RegisterState extends State<Register> {
   bool validatephone = false;
   bool validateSahkoposti = false;
   bool validatePassword = false;
-
+  FocusNode sahkopostiNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
+  FocusNode companyNode = FocusNode();
+  FocusNode phoneNode = FocusNode();
   onSubmit() {
     if (registerFormKey.currentState.validate()) {
       final form = registerFormKey.currentState;
@@ -111,6 +114,13 @@ class _RegisterState extends State<Register> {
                                       errorText:
                                           'Veuillez saisir nom de l\'entreprise'),
                                   autovalidate: validateCompany,
+                                  focusNode: companyNode,
+                                  onFieldSubmitted: (value) {
+                                    phoneNode.requestFocus();
+                                    setState(() {
+                                      validateCompany = true;
+                                    });
+                                  },
                                   onChanged: (val) {
                                     setState(() {
                                       validateCompany = true;
@@ -136,9 +146,21 @@ class _RegisterState extends State<Register> {
                                       errorText:
                                           'Veuillez saisir un numéro de téléphone valide'),
                                   autovalidate: validatephone,
+                                  focusNode: phoneNode,
+                                  onFieldSubmitted: (value) {
+                                    sahkopostiNode.requestFocus();
+                                    setState(() {
+                                      validatephone = true;
+                                    });
+                                  },
                                   onChanged: (val) {
                                     setState(() {
                                       validatephone = true;
+                                    });
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      validateCompany = true;
                                     });
                                   },
                                   keyboardType: TextInputType.phone,
@@ -160,9 +182,22 @@ class _RegisterState extends State<Register> {
                                       errorText:
                                           'Veuillez saisir votre email valide'),
                                   autovalidate: validateSahkoposti,
+                                  focusNode: sahkopostiNode,
+                                  onFieldSubmitted: (value) {
+                                    passwordNode.requestFocus();
+                                    setState(() {
+                                      validateSahkoposti = true;
+                                    });
+                                  },
                                   onChanged: (val) {
                                     setState(() {
                                       validateSahkoposti = true;
+                                    });
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      validateCompany = true;
+                                      validatephone = true;
                                     });
                                   },
                                   keyboardType: TextInputType.emailAddress,
@@ -183,9 +218,23 @@ class _RegisterState extends State<Register> {
                                       errorText:
                                           'Veuillez saisir votre mot de passe'),
                                   autovalidate: validatePassword,
+                                  focusNode: passwordNode,
+                                  onFieldSubmitted: (value) {
+                                    setState(() {
+                                      validatePassword = true;
+                                    });
+                                    FocusScope.of(context).unfocus();
+                                  },
                                   onChanged: (val) {
                                     setState(() {
                                       validatePassword = true;
+                                    });
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      validateCompany = true;
+                                      validatephone = true;
+                                      validateSahkoposti = true;
                                     });
                                   },
                                   keyboardType: TextInputType.text,

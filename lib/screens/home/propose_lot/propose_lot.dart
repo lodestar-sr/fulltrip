@@ -227,6 +227,11 @@ class _ProposeLotState extends State<ProposeLot> {
                             padding: EdgeInsets.only(left: 16),
                             child: DropdownButtonFormField(
                               isExpanded: true,
+                              onTap: () {
+                                setState(() {
+                                  validatestartingadd = true;
+                                });
+                              },
                               items: Global.typedelieu.map((itm) {
                                 return DropdownMenuItem(
                                     value: itm,
@@ -292,6 +297,12 @@ class _ProposeLotState extends State<ProposeLot> {
                                   Global.lotForm.startingAccessType = val;
                                 });
                               },
+                              onTap: () {
+                                setState(() {
+                                  validatestartingadd = true;
+                                  validatePlace = true;
+                                });
+                              },
                               value: Global.lotForm.startingAccessType != ''
                                   ? Global.lotForm.startingAccessType
                                   : null,
@@ -340,6 +351,13 @@ class _ProposeLotState extends State<ProposeLot> {
                                 setState(() {
                                   validatefloors = true;
                                   Global.lotForm.startingFloors = val;
+                                });
+                              },
+                              onTap: () {
+                                setState(() {
+                                  validatestartingadd = true;
+                                  validatePlace = true;
+                                  validateAccess = true;
                                 });
                               },
                               value: Global.lotForm.startingFloors != ''
@@ -561,6 +579,10 @@ class _ProposeLotState extends State<ProposeLot> {
                                                   0) {
                                                 checkquantity = false;
                                               }
+                                              validatestartingadd = true;
+                                              validatePlace = true;
+                                              validateAccess = true;
+                                              validatefloors = true;
                                             });
                                           }),
                                     ),
@@ -589,6 +611,10 @@ class _ProposeLotState extends State<ProposeLot> {
                                                   0) {
                                                 checkquantity = false;
                                               }
+                                              validatestartingadd = true;
+                                              validatePlace = true;
+                                              validateAccess = true;
+                                              validatefloors = true;
                                             });
                                           }),
                                     ),
