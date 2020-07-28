@@ -20,10 +20,10 @@ class FormFieldContainer extends StatelessWidget {
     return new Container(
       padding: padding,
       margin: margin,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
-      ),
+//      decoration: BoxDecoration(
+//        borderRadius: BorderRadius.circular(5),
+//        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
+//      ),
       child: this.child,
     );
   }

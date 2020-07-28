@@ -28,7 +28,6 @@ class _ProposeLot3State extends State<ProposeLot3> {
   File croppedFile;
   File result;
   bool makeVisible = false;
-  bool validateprice = false;
 
   getImageFile(ImageSource source) async {
     var selectedimage = await ImagePicker.pickImage(source: source);
@@ -36,28 +35,15 @@ class _ProposeLot3State extends State<ProposeLot3> {
     if (selectedimage != null) {
       croppedFile = await ImageCropper.cropImage(
           sourcePath: selectedimage.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9
-          ],
-          androidUiSettings: AndroidUiSettings(
-              toolbarTitle: 'Cropper',
-              toolbarColor: AppColors.primaryColor,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.square,
-              lockAspectRatio: false),
+          aspectRatioPresets: [CropAspectRatioPreset.square, CropAspectRatioPreset.ratio3x2, CropAspectRatioPreset.original, CropAspectRatioPreset.ratio4x3, CropAspectRatioPreset.ratio16x9],
+          androidUiSettings:
+              AndroidUiSettings(toolbarTitle: 'Cropper', toolbarColor: AppColors.primaryColor, toolbarWidgetColor: Colors.white, initAspectRatio: CropAspectRatioPreset.square, lockAspectRatio: false),
           iosUiSettings: IOSUiSettings(
             minimumAspectRatio: 1.0,
           ));
 
       if (croppedFile != null) {
-        File compressedFile = await FlutterNativeImage.compressImage(
-            croppedFile.path,
-            quality: 60,
-            percentage: 50);
+        File compressedFile = await FlutterNativeImage.compressImage(croppedFile.path, quality: 60, percentage: 50);
         print(compressedFile.lengthSync());
         setState(() {
           _image = compressedFile;
@@ -134,8 +120,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
 
         await Global.firestore.collection('lots').add(data);
         setState(() => Global.isLoading = false);
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            'Felicitations', (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil('Felicitations', (Route<dynamic> route) => false);
       });
     }
   }
@@ -144,21 +129,15 @@ class _ProposeLot3State extends State<ProposeLot3> {
   void initState() {
     super.initState();
     description.text = Global.lotForm.description;
-    prix.text =
-        Global.lotForm.price == null ? '' : Global.lotForm.price.toString();
+    prix.text = Global.lotForm.price == null ? '' : Global.lotForm.price.toString();
   }
 
   Future<String> uploadFile() async {
     DateTime now = DateTime.now();
-    String fileName =
-        '${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
+    String fileName = '${now.year}${now.month}${now.day}_${now.hour}${now.minute}${now.second}';
 
     if (croppedFile != null) {
-      StorageTaskSnapshot snapshot = await Global.storage
-          .ref()
-          .child('lots/image_${fileName}')
-          .putFile(croppedFile)
-          .onComplete;
+      StorageTaskSnapshot snapshot = await Global.storage.ref().child('lots/image_${fileName}').putFile(croppedFile).onComplete;
 
       if (snapshot.error == null) {
         String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -189,24 +168,20 @@ class _ProposeLot3State extends State<ProposeLot3> {
               GestureDetector(
                 child: Center(
                   child: Container(
-                    child: Text('Précédent',
-                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Précédent', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
-              new Text("Proposer un lot",
-                  style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+              new Text("Proposer un lot", style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(right: 12),
-                    child: Text('Fermer',
-                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Fermer', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
-                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    'dashboard', (Route<dynamic> route) => false),
+                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false),
               )
             ],
           ),
@@ -218,8 +193,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
+          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
             return Form(
               key: _formKey,
               child: Container(
@@ -245,11 +219,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
                             padding: const EdgeInsets.only(top: 10.0),
                             child: new Center(
                               child: new Container(
-                                decoration: BoxDecoration(
-                                    color: makeVisible
-                                        ? Colors.white
-                                        : AppColors.whiteColor,
-                                    borderRadius: BorderRadius.circular(5)),
+                                decoration: BoxDecoration(color: makeVisible ? Colors.white : AppColors.whiteColor, borderRadius: BorderRadius.circular(5)),
                                 child: new Material(
                                   child: new InkWell(
                                     onTap: () {
@@ -266,10 +236,7 @@ class _ProposeLot3State extends State<ProposeLot3> {
                                                   right: 0,
                                                   top: 0,
                                                   child: IconButton(
-                                                      icon: Icon(Icons.cancel,
-                                                          color: AppColors
-                                                              .redColor,
-                                                          size: 30),
+                                                      icon: Icon(Icons.cancel, color: AppColors.redColor, size: 30),
                                                       onPressed: () {
                                                         setState(() {
                                                           makeVisible = false;
@@ -293,15 +260,11 @@ class _ProposeLot3State extends State<ProposeLot3> {
                           ),
 
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: "Description",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: AppColors.darkColor,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),
@@ -310,47 +273,30 @@ class _ProposeLot3State extends State<ProposeLot3> {
                             child: TextFormField(
                               controller: description,
                               maxLines: 5,
-                              onChanged: (value) =>
-                                  Global.lotForm.description = value,
-                              onSaved: (value) =>
-                                  Global.lotForm.description = value,
+                              onChanged: (value) => Global.lotForm.description = value,
+                              onSaved: (value) => Global.lotForm.description = value,
                               decoration: InputDecoration(
-                                hintText:
-                                    '''conditions de chargement, objets spéciaux, piano, coffre-fort, ...''',
+                                hintText: '''conditions de chargement, objets spéciaux, piano, coffre-fort, ...''',
                                 hintStyle: TextStyle(fontSize: 12),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  borderSide: BorderSide(
-                                      color: AppColors.lightGreyColor
-                                          .withOpacity(0.5)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: AppColors.lightGreyColor.withOpacity(0.5)),
                                 ),
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  borderSide: BorderSide(
-                                      color: AppColors.lightGreyColor
-                                          .withOpacity(0.5)),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: AppColors.lightGreyColor.withOpacity(0.5)),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Prix',
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: AppColors.darkColor,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.redColor)),
+                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -360,25 +306,15 @@ class _ProposeLot3State extends State<ProposeLot3> {
                             child: TextFormField(
                               controller: prix,
                               validator: (val) => Validators.mustNumeric(val),
-                              autovalidate: validateprice,
-                              onChanged: (value) {
-                                setState(() {
-                                  validateprice = true;
-                                  Global.lotForm.price = double.parse(value);
-                                });
-                              },
+                              onChanged: (value) => Global.lotForm.price = double.parse(value),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  borderSide:
-                                      BorderSide(color: AppColors.primaryColor),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: AppColors.primaryColor),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  borderSide:
-                                      BorderSide(color: AppColors.primaryColor),
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: AppColors.primaryColor),
                                 ),
                               ),
                               keyboardType: TextInputType.number,
@@ -387,28 +323,19 @@ class _ProposeLot3State extends State<ProposeLot3> {
 
                           ///BottomButton
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 4),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 4),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
                                 boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.24),
-                                      blurRadius: 16,
-                                      spreadRadius: 4),
+                                  BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                                 ],
                               ),
                               child: ButtonTheme(
                                 minWidth: double.infinity,
                                 height: 60,
                                 child: RaisedButton(
-                                  child: Text('Publier le lot',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  child: Text('Publier le lot', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: onSubmit,

@@ -6,6 +6,7 @@ import 'package:Fulltrip/data/models/lot.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -65,7 +66,7 @@ class Global {
           };
         }
       });
-    } catch(e) {
+    } catch (e) {
       print(e);
       return {
         'distanceinKm': 0,
@@ -117,13 +118,25 @@ class Global {
       "volume": "50"
     },
   ];
-  static List<String> profileoptions = [
+  static List<String> profileOptions = [
     'Mes informations',
     'Coordonnées bancaires',
     'Transaction en cours',
     'Historique de transport',
     'Mes factures',
     'Mes documents',
+    'Nous contacter',
+    'Se déconnecter',
+  ];
+  static List profileIcons = [
+    Feather.user,
+    FontAwesome.window_maximize,
+    Feather.loader,
+    FontAwesome.history,
+    MaterialIcons.euro_symbol,
+    FontAwesome.folder,
+    FontAwesome.envelope,
+    Octicons.sign_out,
   ];
   static List<String> typedelieu = [
     '',

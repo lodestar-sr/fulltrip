@@ -81,4 +81,8 @@ class FirebaseAuthService {
     final user = await _firebaseAuth.currentUser();
     return _userFromFirebase(user);
   }
+
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 }

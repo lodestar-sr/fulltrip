@@ -1,8 +1,10 @@
+import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class Profil extends StatefulWidget {
   Profil({Key key}) : super(key: key);
@@ -12,6 +14,12 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+  signOut() {
+    context.read<FirebaseAuthService>().signOut().then((value) {
+      Navigator.of(context).pushReplacementNamed('login');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -43,27 +51,24 @@ class _ProfilState extends State<Profil> {
                                     Container(
                                       child: ListView.builder(
                                           shrinkWrap: true,
-                                          itemCount: Global.profileoptions.length,
+                                          itemCount: Global.profileOptions.length,
                                           itemBuilder: (BuildContext context, index) {
                                             return ListTile(
                                               contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                                              leading: Image.asset(
-                                                'assets/images/$index.png',
-                                                height: 30,
-                                                width: 30,
-                                              ),
+                                              leading: Icon(Global.profileIcons[index], size: 26, color: AppColors.primaryColor),
                                               title: Text(
-                                                Global.profileoptions[index],
+                                                Global.profileOptions[index],
                                                 style: TextStyle(color: AppColors.darkColor, fontWeight: FontWeight.w500),
                                               ),
                                               onTap: () {
-                                                print(index);
                                                 index == 0 ? Navigator.of(context).pushNamed('mes_informations') : null;
                                                 index == 1 ? Navigator.of(context).pushNamed('CoordonneesBancaries') : null;
                                                 index == 2 ? Navigator.of(context).pushNamed('transactionencours') : null;
                                                 index == 3 ? Navigator.of(context).pushNamed('historiqueinformation') : null;
                                                 index == 4 ? null : null;
                                                 index == 5 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                                index == 6 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                                index == 7 ? signOut() : null;
                                               },
                                             );
                                           }),

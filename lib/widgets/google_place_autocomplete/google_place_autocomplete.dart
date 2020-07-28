@@ -18,7 +18,7 @@ class GooglePlacesAutocomplete extends StatefulWidget {
   final onChanged;
   final onSaved;
   final prefixIcon;
-  final autovalidate;
+
   GooglePlacesAutocomplete({
     this.mode = Mode.overlay,
     this.language = "fr",
@@ -29,7 +29,6 @@ class GooglePlacesAutocomplete extends StatefulWidget {
     this.onChanged,
     this.onSaved,
     this.prefixIcon,
-    this.autovalidate = false,
   });
 
   @override
@@ -70,11 +69,8 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       controller: textEditingController,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
-      autovalidate: widget.autovalidate,
       readOnly: true,
-      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(
-          prefixIcon: widget.prefixIcon,
-          contentPadding: EdgeInsets.only(top: 15)),
+      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15)),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

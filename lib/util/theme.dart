@@ -5,7 +5,7 @@ ThemeData appTheme() {
 }
 
 class AppColors {
-  static const primaryColor = Color(0xFF40BFFF);
+  static const primaryColor = Color(0xFF5A94F7);
   static const greyColor = Color(0xFF999999);
   static const darkGreyColor = Color(0xFF666666);
   static const lightGreyColor = Color(0xFFD2D2D2);
@@ -37,7 +37,7 @@ class AppStyles {
 InputDecoration hintTextDecoration(String text) {
   return InputDecoration(
     hintText: text,
-    border: InputBorder.none,
+//    border: InputBorder.none,
     labelStyle: AppStyles.defaultHintTextStyle,
     hintStyle: AppStyles.defaultHintTextStyle,
   );
