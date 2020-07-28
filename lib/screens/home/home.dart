@@ -412,7 +412,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() {
@@ -451,7 +453,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetArrivalAddress());
@@ -473,7 +477,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetPrice());
@@ -495,7 +501,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetDelivery());
@@ -517,7 +525,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetQuantity());
@@ -539,7 +549,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetPickUpDate());
@@ -561,7 +573,9 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close, size: 12, color: AppColors.redColor),
+                child: Icon(Icons.close,
+                    size: 12,
+                    color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetDelivery());

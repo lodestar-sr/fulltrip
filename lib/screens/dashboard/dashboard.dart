@@ -57,9 +57,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.home, color: currentTab == 0 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.home,
+                              color: currentTab == 0
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Accueil', style: currentTab == 0 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Accueil',
+                            style: currentTab == 0
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -77,9 +84,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.search, color: currentTab == 1 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.search,
+                              color: currentTab == 1
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Chercher', style: currentTab == 1 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Chercher',
+                            style: currentTab == 1
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -103,27 +117,20 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.white, // button color
-                        child: InkWell(
-                          splashColor: Colors.white70, // inkwell color
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            margin: EdgeInsets.all(6),
-                            decoration: new BoxDecoration(
-                              color: AppColors.primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(Icons.add, size: 32, color: Colors.white),
-                          ),
-                          onTap: () {
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      margin: EdgeInsets.all(6),
+                      decoration: new BoxDecoration(
+                        color: AppColors.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                          icon: Icon(Icons.add, size: 32, color: Colors.white),
+                          onPressed: () {
                             Global.lotForm = Lot();
                             Navigator.of(context).pushNamed('propose-lot');
-                          },
-                        ),
-                      ),
+                          }),
                     ),
                   ),
                 ),
@@ -137,9 +144,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.message_square, color: currentTab == 2 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.message_square,
+                              color: currentTab == 2
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Message', style: currentTab == 2 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Message',
+                            style: currentTab == 2
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -157,9 +171,16 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(FontAwesome.user_o, color: currentTab == 3 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(FontAwesome.user_o,
+                              color: currentTab == 3
+                                  ? AppColors.primaryColor
+                                  : AppColors.lightGreyColor,
+                              size: 18),
                         ),
-                        Text('Profil', style: currentTab == 3 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Profil',
+                            style: currentTab == 3
+                                ? AppStyles.navbarActiveTextStyle
+                                : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -173,5 +194,29 @@ class _DashboardState extends State<Dashboard> {
             )),
       ),
     );
+  }
+}
+
+class CircleRevealClipper extends CustomClipper<Rect> {
+  CircleRevealClipper();
+
+  @override
+  Rect getClip(Size size) {
+    final epicenter = new Offset(size.width, size.height);
+
+    // Calculate distance from epicenter to the top left corner to make sure clip the image into circle.
+
+    final distanceToCorner = epicenter.dy;
+
+    final radius = distanceToCorner;
+    final diameter = radius;
+
+    return new Rect.fromLTWH(
+        epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) {
+    return true;
   }
 }
