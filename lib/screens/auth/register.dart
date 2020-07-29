@@ -1,3 +1,4 @@
+import 'package:Fulltrip/services/auth.service.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -5,7 +6,6 @@ import 'package:Fulltrip/util/validators/validators.dart';
 import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
@@ -21,9 +21,18 @@ class _RegisterState extends State<Register> {
 
   String _email;
   String _password;
+  String _confirmPassword;
   String _name;
   String _phone;
   bool absure = true;
+
+  AuthService _authService;
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = AuthService.getInstance();
+  }
 
   onSubmit() {
     if (registerFormKey.currentState.validate()) {
@@ -33,7 +42,9 @@ class _RegisterState extends State<Register> {
       setState(() => Global.isLoading = true);
       context.read<FirebaseAuthService>().createWithEmailAndPassword(email: _email, password: _password, name: _name, phone: _phone).then((user) {
         setState(() => Global.isLoading = false);
-        Navigator.of(context).pushNamed('verify-sms', arguments: <String, dynamic>{'user': user, 'password': _password});
+        _authService.updateUser(user: user);
+        Navigator.of(context).pushNamed('dashboard');
+//        Navigator.of(context).pushNamed('verify-sms', arguments: <String, dynamic>{'user': user, 'password': _password});
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(
@@ -66,18 +77,21 @@ class _RegisterState extends State<Register> {
                     minHeight: viewportConstraints.maxHeight,
                   ),
                   child: Container(
-                    padding: EdgeInsets.fromLTRB(16, 60, 16, 40),
+                    padding: EdgeInsets.fromLTRB(16, 32, 16, 40),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 54),
+                          margin: EdgeInsets.only(bottom: 8, top: 16),
                           width: double.infinity,
-                          child: Center(
-                            child: Text('Commençons', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.greyDarkColor)),
-                          ),
+                          child: Text('Commençons', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(bottom: 24),
+                          child: Text('Il ne reste plus que quelques pas à faire', style: AppStyles.greyTextStyle),
                         ),
                         Form(
                           key: registerFormKey,
@@ -87,7 +101,7 @@ class _RegisterState extends State<Register> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Nom de l\'entreprise').copyWith(prefixIcon: Icon(Icons.person_outline)),
+                                  decoration: hintTextDecoration('Nom de l\'entreprise'),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir nom de l\'entreprise'),
                                   keyboardType: TextInputType.text,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
@@ -98,7 +112,7 @@ class _RegisterState extends State<Register> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Numéro de téléphone').copyWith(prefixIcon: Icon(Feather.smartphone)),
+                                  decoration: hintTextDecoration('Numéro de téléphone'),
                                   validator: (value) => Validators.mustNumeric(value, errorText: 'Veuillez saisir un numéro de téléphone valide'),
                                   keyboardType: TextInputType.phone,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
@@ -109,7 +123,7 @@ class _RegisterState extends State<Register> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Email').copyWith(prefixIcon: Icon(Icons.mail_outline)),
+                                  decoration: hintTextDecoration('Email'),
                                   validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
@@ -120,7 +134,6 @@ class _RegisterState extends State<Register> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   decoration: hintTextDecoration('Mot de passe').copyWith(
-                                    prefixIcon: Icon(Icons.lock_outline),
                                     suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure)),
                                   ),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
@@ -130,8 +143,19 @@ class _RegisterState extends State<Register> {
                                   onSaved: (val) => setState(() => _password = val),
                                 ),
                               ),
+                              FormFieldContainer(
+                                padding: EdgeInsets.all(4),
+                                child: TextFormField(
+                                  decoration: hintTextDecoration('Répéter mot de passe'),
+                                  validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
+                                  keyboardType: TextInputType.text,
+                                  obscureText: absure,
+                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                  onSaved: (val) => setState(() => _confirmPassword = val),
+                                ),
+                              ),
                               Container(
-                                margin: EdgeInsets.only(top: 98, bottom: 32),
+                                margin: EdgeInsets.only(top: 24, bottom: 98),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(30)),
                                   boxShadow: <BoxShadow>[
@@ -142,12 +166,12 @@ class _RegisterState extends State<Register> {
                                   minWidth: double.infinity,
                                   height: 56,
                                   child: RaisedButton(
-                                    child: Text('S\'enregistrer', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                    child: Text('Créer un compte', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                     color: AppColors.primaryColor,
                                     textColor: Colors.white,
                                     onPressed: onSubmit,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                     elevation: 0,
                                   ),
@@ -158,9 +182,9 @@ class _RegisterState extends State<Register> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text('Vous avez déjà un compte? ', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                    Text('Vous avez déjà un compte? ', style: AppStyles.greyTextStyle),
                                     GestureDetector(
-                                      child: Text(' Se connecter', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
+                                      child: Text(' Se connecter', style: AppStyles.primaryTextStyle),
                                       onTap: () {
                                         Navigator.of(context).pop();
                                       },

@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
   static bool isLoading = false;
@@ -19,6 +20,8 @@ class Global {
   static Firestore firestore;
   static Lot lotForm;
   static Filter filter = Filter();
+  static SharedPreferences prefs;
+
   static List<ChatModel> chatmessages = [
     ChatModel(message: 'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?', id: 0),
     ChatModel(message: 'Hey! Notre entreprise est engagée dans le transport depuis 2001', id: 1),

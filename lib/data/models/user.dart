@@ -7,6 +7,7 @@ class User {
   String displayName;
   String phone;
   bool isEmailVerified;
+  bool isPhoneVerified;
 
   User({
     @required this.uid,
@@ -14,7 +15,8 @@ class User {
     this.photoUrl,
     this.displayName,
     this.phone,
-    this.isEmailVerified,
+    this.isEmailVerified = false,
+    this.isPhoneVerified = false,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -23,6 +25,8 @@ class User {
         photoUrl: json["photoUrl"],
         displayName: json["displayName"],
         phone: json["phone"],
+        isEmailVerified: json.containsKey('isEmailVerified') ? json["isEmailVerified"] : false,
+        isPhoneVerified: json.containsKey('isPhoneVerified') ? json["isPhoneVerified"] : false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,5 +35,7 @@ class User {
         "photoUrl": photoUrl,
         "displayName": displayName,
         "phone": phone,
+        "isEmailVerified": isEmailVerified,
+        "isPhoneVerified": isPhoneVerified,
       };
 }

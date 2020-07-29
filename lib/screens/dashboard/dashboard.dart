@@ -44,6 +44,7 @@ class _DashboardState extends State<Dashboard> {
         shape: CircularNotchedRectangle(),
         notchMargin: 0,
         child: Container(
+            color: Color(0xFFF6F6F6),
             height: 72,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,15 +52,15 @@ class _DashboardState extends State<Dashboard> {
                 // Left Tab icons
                 Expanded(
                   child: MaterialButton(
-                    minWidth: 55,
+                    minWidth: 72,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.home, color: currentTab == 0 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.search, color: currentTab == 0 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
                         ),
-                        Text('Accueil', style: currentTab == 0 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
+                        Text('Rechercher', style: currentTab == 0 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
                       ],
                     ),
                     onPressed: () {
@@ -77,7 +78,7 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(Feather.search, color: currentTab == 1 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.plus_square, color: currentTab == 1 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
                         ),
                         Text('Chercher', style: currentTab == 1 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
                       ],
@@ -112,11 +113,11 @@ class _DashboardState extends State<Dashboard> {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        icon: Icon(Icons.add, size: 32, color: Colors.white),
-                        onPressed: () {
-                          Global.lotForm = Lot();
-                          Navigator.of(context).pushNamed('propose-lot');
-                        }),
+                          icon: Icon(Icons.add, size: 32, color: Colors.white),
+                          onPressed: () {
+                            Global.lotForm = Lot();
+                            Navigator.of(context).pushNamed('propose-lot');
+                          }),
                     ),
                   ),
                 ),
@@ -150,7 +151,7 @@ class _DashboardState extends State<Dashboard> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 6, top: 20),
-                          child: Icon(FontAwesome.user_o, color: currentTab == 3 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
+                          child: Icon(Feather.user, color: currentTab == 3 ? AppColors.primaryColor : AppColors.lightGreyColor, size: 18),
                         ),
                         Text('Profil', style: currentTab == 3 ? AppStyles.navbarActiveTextStyle : AppStyles.navbarInactiveTextStyle),
                       ],

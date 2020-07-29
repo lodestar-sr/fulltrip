@@ -1,3 +1,4 @@
+import 'package:Fulltrip/services/auth.service.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
@@ -14,8 +15,17 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
+
+  AuthService _authService;
+
+  @override
+  void initState() {
+    _authService = AuthService.getInstance();
+  }
+
   signOut() {
-    context.read<FirebaseAuthService>().signOut().then((value) {
+    context.read<FirebaseAuthService>().signOut().then((value) async {
+      await _authService.updateUser(user: null);
       Navigator.of(context).pushReplacementNamed('login');
     });
   }

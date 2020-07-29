@@ -46,12 +46,12 @@ class _VerifySMSState extends State<VerifySMS> {
 
   initUser() {
     final LinkedHashMap<String, dynamic> args = ModalRoute.of(context).settings.arguments;
-    if (args == null) {
-      Navigator.of(context).pop();
-    } else {
-      setState(() => user = args['user']);
-      sendCode();
-    }
+//    if (args == null) {
+//      Navigator.of(context).pop();
+//    } else {
+//      setState(() => user = args['user']);
+//      sendCode();
+//    }
   }
 
   sendCode() {
@@ -130,19 +130,19 @@ class _VerifySMSState extends State<VerifySMS> {
                   ),
                   child: IntrinsicHeight(
                     child: Container(
-                      padding: EdgeInsets.fromLTRB(16, 60, 16, 40),
+                      padding: EdgeInsets.fromLTRB(16, 32, 16, 40),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 16),
+                            margin: EdgeInsets.only(bottom: 8, top: 16),
                             width: double.infinity,
-                            child: Text('Vérification code', style: TextStyle(fontSize: 28, color: AppColors.darkColor)),
+                            child: Text('Vérification code', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
                           ),
                           Container(
-                            margin: EdgeInsets.only(bottom: 54),
+                            margin: EdgeInsets.only(bottom: 64),
                             width: double.infinity,
                             child: Text('Vérifiez votre compte en entrant le code à 6 chiffres envoyé à: + ${user != null ? user.phone : ''}', style: AppStyles.greyTextStyle),
                           ),
@@ -161,50 +161,43 @@ class _VerifySMSState extends State<VerifySMS> {
                             ),
                           ),
                           Expanded(
-                            child: Column(
-                              children: [
-                                Expanded(child: Container()),
-                                Container(
-                                  margin: EdgeInsets.only(top: 98, bottom: 32),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
-                                    ],
-                                  ),
-                                  child: ButtonTheme(
-                                    minWidth: double.infinity,
-                                    height: 56,
-                                    child: RaisedButton(
-                                      child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                                      color: AppColors.primaryColor,
-                                      textColor: Colors.white,
-                                      onPressed: onSubmit,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      elevation: 0,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 8),
-                                  child: countTime > 0
-                                      ? Text('Renvoyer le code en ${(countTime / 60).floor()}:${countTime % 60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
-                                      : GestureDetector(
-                                          child: RichText(
-                                            text: TextSpan(
-                                              text: 'Renvoyer',
-                                              style: AppStyles.primaryTextStyle.copyWith(fontSize: 12),
-                                              children: <TextSpan>[
-                                                TextSpan(text: ' le code du téléphone', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                                              ],
-                                            ),
-                                          ),
-                                          onTap: sendCode,
+                            child: Center(
+                              child: countTime > 0
+                                  ? Text('Renvoyer le code en ${(countTime / 60).floor()}:${countTime % 60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
+                                  : GestureDetector(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: 'Renvoyer',
+                                          style: AppStyles.primaryTextStyle.copyWith(fontSize: 12),
+                                          children: <TextSpan>[
+                                            TextSpan(text: ' le code du téléphone', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                          ],
                                         ),
-                                ),
+                                      ),
+                                      onTap: sendCode,
+                                    ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                               ],
+                            ),
+                            child: ButtonTheme(
+                              minWidth: double.infinity,
+                              height: 56,
+                              child: RaisedButton(
+                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                color: AppColors.primaryColor,
+                                textColor: Colors.white,
+                                onPressed: onSubmit,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation: 0,
+                              ),
                             ),
                           ),
                         ],

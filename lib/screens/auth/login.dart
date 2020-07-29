@@ -1,3 +1,4 @@
+import 'package:Fulltrip/services/auth.service.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -5,8 +6,10 @@ import 'package:Fulltrip/util/validators/validators.dart';
 import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -23,6 +26,20 @@ class _LoginState extends State<Login> {
   String _password;
   String _forgotEmail;
 
+  AuthService _authService;
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = AuthService.getInstance();
+    SharedPreferences.getInstance().then((value) {
+      Global.prefs = value;
+      if (_authService.isLoggedIn()) {
+        Navigator.of(context).pushReplacementNamed('dashboard');
+      }
+    });
+  }
+
   onSubmit() {
     if (loginFormKey.currentState.validate()) {
       final form = loginFormKey.currentState;
@@ -30,18 +47,19 @@ class _LoginState extends State<Login> {
       setState(() => Global.isLoading = true);
       context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((user) {
         setState(() => Global.isLoading = false);
-        if (user.isEmailVerified != null && user.isEmailVerified) {
-          Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
-        } else {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: Text('Email is not activated. Please verify your email'),
-              );
-            },
-          );
-        }
+//        if (user.isEmailVerified != null && user.isEmailVerified) {
+        _authService.updateUser(user: user);
+        Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+//        } else {
+//          showDialog(
+//            context: context,
+//            builder: (context) {
+//              return AlertDialog(
+//                content: Text('Email is not activated. Please verify your email'),
+//              );
+//            },
+//          );
+//        }
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(
@@ -112,32 +130,35 @@ class _LoginState extends State<Login> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          child: Image.asset('assets/images/icon.png', width: 98),
+                          margin: EdgeInsets.only(bottom: 8, top: 16),
+                          width: double.infinity,
+                          child: Text('Se connecter', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 8, top: 32),
-                          width: double.infinity,
-                          child: Center(
-                            child: Text('Bienvenue sur Full Trip', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.greyDarkColor)),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 28),
-                          width: double.infinity,
-                          child: Center(
-                            child: Text('Connectez-vous pour continuer', style: TextStyle(fontSize: 12, color: AppColors.greyColor)),
+                          margin: EdgeInsets.only(bottom: 24),
+                          child: Row(
+                            children: [
+                              Text('Vous n\'avez pas de compte? ', style: AppStyles.greyTextStyle),
+                              GestureDetector(
+                                child: Text(' Enregistrement', style: AppStyles.primaryTextStyle),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('register');
+                                },
+                              ),
+                            ],
                           ),
                         ),
                         Form(
                           key: loginFormKey,
                           //autovalidate: true,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Votre email').copyWith(prefixIcon: Icon(Icons.mail_outline)),
+                                  decoration: hintTextDecoration('Votre email').copyWith(suffixIcon: Icon(Icons.check, color: AppColors.primaryColor)),
                                   validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
@@ -148,7 +169,6 @@ class _LoginState extends State<Login> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   decoration: hintTextDecoration('Mot de passe').copyWith(
-                                      prefixIcon: Icon(Icons.lock_outline),
                                       suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure))),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
                                   keyboardType: TextInputType.text,
@@ -158,7 +178,44 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 16, bottom: 32),
+                                margin: EdgeInsets.only(top: 16),
+                                child: GestureDetector(
+                                  child: Text('Mot de passe oublié?', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text('Mot de passe oublié?'),
+                                          content: Form(
+                                            key: forgotFormKey,
+                                            child: FormFieldContainer(
+                                              padding: EdgeInsets.all(4),
+                                              child: TextFormField(
+                                                initialValue: '',
+                                                decoration: hintTextDecoration('Email'),
+                                                validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
+                                                keyboardType: TextInputType.emailAddress,
+                                                style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                                onSaved: (val) => setState(() => _forgotEmail = val),
+                                              ),
+                                            ),
+                                          ),
+                                          actions: [
+                                            RaisedButton(
+                                              child: Text('Envoyer', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                                              color: AppColors.primaryColor,
+                                              onPressed: sendResetEmail,
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 32, bottom: 24),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(30)),
                                   boxShadow: <BoxShadow>[
@@ -183,33 +240,26 @@ class _LoginState extends State<Login> {
                             ],
                           ),
                         ),
-                        Row(children: <Widget>[
-                          Expanded(
-                            child: Divider(color: AppColors.lightGreyColor),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 24, right: 24),
-                            child: Text("OU", style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
-                          ),
-                          Expanded(
-                            child: Divider(color: AppColors.lightGreyColor),
-                          ),
-                        ]),
                         Container(
-                          margin: EdgeInsets.only(top: 24),
-                          child: Text('Ou connectez-vous avec', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
+                          margin: EdgeInsets.only(bottom: 24),
+                          child: Text("OU", style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
                         ),
-                        GestureDetector(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16, bottom: 24),
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFFDD4B39)),
-                              borderRadius: BorderRadius.circular(3),
-                            ),
-                            child: Image.asset('assets/images/google.png', width: 16),
+                        OutlineButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                          padding: EdgeInsets.all(16),
+                          highlightedBorderColor: AppColors.greyColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/google.png', width: 16),
+                              Container(
+                                margin: EdgeInsets.only(left: 8),
+                                child: Text('Se connecter avec Google', style: AppStyles.darkGreyTextStyle.copyWith(fontSize: 14)),
+                              )
+                            ],
                           ),
-                          onTap: () {
+                          onPressed: () {
                             setState(() => Global.isLoading = true);
                             context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
                               setState(() => Global.isLoading = false);
@@ -220,54 +270,54 @@ class _LoginState extends State<Login> {
                           },
                         ),
                         Container(
-                          child: GestureDetector(
-                            child: Text('Mot de passe oublié?', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Mot de passe oublié?'),
-                                    content: Form(
-                                      key: forgotFormKey,
-                                      child: FormFieldContainer(
-                                        padding: EdgeInsets.all(4),
-                                        child: TextFormField(
-                                          initialValue: '',
-                                          decoration: hintTextDecoration('Email').copyWith(prefixIcon: Icon(Icons.mail_outline)),
-                                          validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
-                                          keyboardType: TextInputType.emailAddress,
-                                          style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                          onSaved: (val) => setState(() => _forgotEmail = val),
-                                        ),
-                                      ),
-                                    ),
-                                    actions: [
-                                      RaisedButton(
-                                        child: Text('Envoyer', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                                        color: AppColors.primaryColor,
-                                        onPressed: sendResetEmail,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                          margin: EdgeInsets.only(top: 16, bottom: 64),
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            padding: EdgeInsets.all(16),
+                            color: Colors.black,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(FontAwesome.apple, color: Colors.white, size: 20,),
+                                Container(
+                                  margin: EdgeInsets.only(left: 8),
+                                  child: Text('Se connecter avec Apple', style: AppStyles.darkGreyTextStyle.copyWith(fontSize: 14, color: Colors.white)),
+                                )
+                              ],
+                            ),
+                            onPressed: () {
+                              setState(() => Global.isLoading = true);
+                              context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
+                                setState(() => Global.isLoading = false);
+                                Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+                              }).catchError((error) {
+                                setState(() => Global.isLoading = false);
+                              });
                             },
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Vous n\'avez pas de compte? ', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                              GestureDetector(
-                                child: Text(' Enregistrement', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('register');
-                                },
-                              ),
-                            ],
+                          margin: EdgeInsets.only(bottom: 32),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: 'En vous inscrivant, vous acceptez les règles énoncées dans la ',
+                              style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
+                              children: [
+                                TextSpan(
+                                  text: 'Politique de confidentialité',
+                                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                                ),
+                                TextSpan(
+                                  text: ' et ',
+                                  style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
+                                ),
+                                TextSpan(
+                                  text: 'les règles de service.',
+                                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                                ),
+                              ]
+                            ),
                           ),
                         ),
                       ],

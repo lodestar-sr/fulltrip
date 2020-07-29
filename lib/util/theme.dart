@@ -31,7 +31,7 @@ class AppStyles {
   static const greyTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
   static const darkGreyTextStyle = TextStyle(color: AppColors.darkGreyColor, fontSize: 16, fontWeight: FontWeight.normal);
   static const primaryTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const defaultHintTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 11);
+  static const defaultHintTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 14);
 }
 
 InputDecoration hintTextDecoration(String text) {

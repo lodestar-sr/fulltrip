@@ -161,156 +161,168 @@ class _HomeState extends State<Home> {
               )
             ],
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                width: 88,
-                height: 96,
-                margin: EdgeInsets.only(right: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
-                  image: lot.photo != ''
-                      ? DecorationImage(
-                          image: NetworkImage(lot.photo),
-                          fit: BoxFit.cover,
-                        )
-                      : DecorationImage(
-                          image: ExactAssetImage('assets/images/noimage.png'),
-                          fit: BoxFit.fitWidth,
-                        ),
-                ),
-              ),
-              Expanded(
-                  child: Container(
-                height: 107,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: double.infinity,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 88,
+                    height: 96,
+                    margin: EdgeInsets.only(right: 14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      image: lot.photo != ''
+                        ? DecorationImage(
+                        image: NetworkImage(lot.photo),
+                        fit: BoxFit.cover,
+                      )
+                        : DecorationImage(
+                        image: ExactAssetImage('assets/images/noimage.png'),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset('assets/images/circle.png', width: 9, height: 9),
-                                  Container(
-                                      width: 9,
-                                      child: Dash(
-                                        direction: Axis.vertical,
-                                        length: 32,
-                                        dashLength: 60,
-                                        dashColor: AppColors.darkGreyColor,
-                                      )),
-                                  Image.asset('assets/images/triangle.png', width: 9, height: 9),
-                                ],
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 80,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 4),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                startCity,
-                                                style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              lot.pickupDateFrom != null
-                                                  ? Padding(
+                          Container(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(MaterialCommunityIcons.circle_slice_8, size: 20, color: AppColors.lightGreenColor),
+                                        Container(
+                                          child: Dash(
+                                            direction: Axis.vertical,
+                                            length: 40,
+                                            dashLength: 6,
+                                            dashThickness: 2,
+                                            dashColor: AppColors.greyColor,
+                                          )),
+                                        Icon(Feather.map_pin, size: 20, color: AppColors.redColor),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 96,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 4),
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      startCity,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    lot.pickupDateFrom != null
+                                                      ? Padding(
                                                       padding: EdgeInsets.only(top: 5.0),
                                                       child: Text(
                                                         'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
                                                         style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                       ),
                                                     )
-                                                  : Container()
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 4),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                arriveCity,
-                                                style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-                                                overflow: TextOverflow.ellipsis,
+                                                      : Container()
+                                                  ],
+                                                ),
                                               ),
-                                              lot.deliveryDateFrom != null
-                                                  ? Padding(
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 4),
+                                              child: SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      arriveCity,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    lot.deliveryDateFrom != null
+                                                      ? Padding(
                                                       padding: EdgeInsets.only(top: 5.0),
                                                       child: Text(
                                                         'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
                                                         style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                       ),
                                                     )
-                                                  : Container()
-                                            ],
-                                          ),
+                                                      : Container()
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Text(
-                      "Raison social",
-                      style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-              )),
-              Container(
-                margin: EdgeInsets.only(left: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        "${lot.price.toStringAsFixed(0)}€" ?? "",
-                        style: TextStyle(color: AppColors.darkGreyColor, fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            lot.delivery ?? "",
+                            style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 6),
+                          child: Text(
+                            "${lot.quantity.toString()}m³" ?? "",
+                            style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        lot.delivery ?? "",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
-                      ),
+                  ),
+                ],
+              ),
+              Divider(
+                color: AppColors.greyColor,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Raison social",
+                    style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    child: Text(
+                      "${lot.price.toStringAsFixed(0)}€" ?? "",
+                      style: TextStyle(color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w500),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        "${lot.quantity.toString()}m³" ?? "",
-                        style: TextStyle(color: AppColors.greyColor, fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -531,7 +543,7 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.only(right: 8, left: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: AppColors.lightGreyColor),
+        border: Border.all(color: AppColors.primaryColor),
       ),
       child: child,
     );
