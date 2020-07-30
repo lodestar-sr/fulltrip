@@ -33,6 +33,7 @@ class _DashboardState extends State<Dashboard> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
+
   onTabTapped(int index) {
     setState(() {
       currentTab = index;
@@ -46,69 +47,64 @@ class _DashboardState extends State<Dashboard> {
         child: screens[currentTab],
         bucket: bucket,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          type: BottomNavigationBarType.shifting,
-          onTap: onTabTapped,
-          currentIndex: currentTab,
-          items: [
-            new BottomNavigationBarItem(
-              icon: Icon(
-                Feather.search,
-                color: AppColors.navigationBarInactiveColor,
-              ),
-              title: Text(
-                'Rechercher',
-                style: AppStyles.navbarActiveTextStyle,
-              ),
-              activeIcon: Icon(
-                Feather.search,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            new BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add_box,
-                color: AppColors.navigationBarInactiveColor,
-              ),
-              title: Text(
-                'Publier',
-                style: AppStyles.navbarActiveTextStyle,
-              ),
-              activeIcon: Icon(
-                Icons.add_box,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            new BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat,
-                color: AppColors.navigationBarInactiveColor,
-              ),
-              title: Text(
-                'Messages',
-                style: AppStyles.navbarActiveTextStyle,
-              ),
-              activeIcon: Icon(
-                Icons.chat,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            new BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person_outline,
-                color: AppColors.navigationBarInactiveColor,
-              ),
-              title: Text(
-                'Compte',
-                style: AppStyles.navbarActiveTextStyle,
-              ),
-              activeIcon: Icon(
-                Icons.person_outline,
-                color: AppColors.primaryColor,
-              ),
-            ),
-          ]),
+      bottomNavigationBar: BottomNavigationBar(elevation: 0, type: BottomNavigationBarType.shifting, onTap: onTabTapped, currentIndex: currentTab, items: [
+        new BottomNavigationBarItem(
+          icon: Icon(
+            Feather.search,
+            color: AppColors.navigationBarInactiveColor,
+          ),
+          title: Text(
+            'Rechercher',
+            style: AppStyles.navbarActiveTextStyle,
+          ),
+          activeIcon: Icon(
+            Feather.search,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        new BottomNavigationBarItem(
+          icon: Icon(
+            Feather.plus_square,
+            color: AppColors.navigationBarInactiveColor,
+          ),
+          title: Text(
+            'Publier',
+            style: AppStyles.navbarActiveTextStyle,
+          ),
+          activeIcon: Icon(
+            Feather.plus_square,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        new BottomNavigationBarItem(
+          icon: Icon(
+            Feather.message_square,
+            color: AppColors.navigationBarInactiveColor,
+          ),
+          title: Text(
+            'Messages',
+            style: AppStyles.navbarActiveTextStyle,
+          ),
+          activeIcon: Icon(
+            Feather.message_square,
+            color: AppColors.primaryColor,
+          ),
+        ),
+        new BottomNavigationBarItem(
+          icon: Icon(
+            Icons.person_outline,
+            color: AppColors.navigationBarInactiveColor,
+          ),
+          title: Text(
+            'Compte',
+            style: AppStyles.navbarActiveTextStyle,
+          ),
+          activeIcon: Icon(
+            Icons.person_outline,
+            color: AppColors.primaryColor,
+          ),
+        ),
+      ]),
       // bottomNavigationBar: BottomAppBar(
       //   shape: CircularNotchedRectangle(),
       //   notchMargin: 0,

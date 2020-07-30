@@ -168,8 +168,8 @@ class _LoginState extends State<Login> {
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
-                                  decoration: hintTextDecoration('Mot de passe').copyWith(
-                                      suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure))),
+                                  decoration: hintTextDecoration('Mot de passe')
+                                      .copyWith(suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure))),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
                                   keyboardType: TextInputType.text,
                                   obscureText: absure,
@@ -278,7 +278,11 @@ class _LoginState extends State<Login> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(FontAwesome.apple, color: Colors.white, size: 20,),
+                                Icon(
+                                  FontAwesome.apple,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
                                   child: Text('Se connecter avec Apple', style: AppStyles.darkGreyTextStyle.copyWith(fontSize: 14, color: Colors.white)),
@@ -300,24 +304,20 @@ class _LoginState extends State<Login> {
                           margin: EdgeInsets.only(bottom: 32),
                           child: RichText(
                             textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: 'En vous inscrivant, vous acceptez les règles énoncées dans la ',
-                              style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
-                              children: [
-                                TextSpan(
-                                  text: 'Politique de confidentialité',
-                                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
-                                ),
-                                TextSpan(
-                                  text: ' et ',
-                                  style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
-                                ),
-                                TextSpan(
-                                  text: 'les règles de service.',
-                                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
-                                ),
-                              ]
-                            ),
+                            text: TextSpan(text: 'En vous inscrivant, vous acceptez les règles énoncées dans la ', style: AppStyles.greyTextStyle.copyWith(fontSize: 13), children: [
+                              TextSpan(
+                                text: 'Politique de confidentialité',
+                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                              ),
+                              TextSpan(
+                                text: ' et ',
+                                style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
+                              ),
+                              TextSpan(
+                                text: 'les règles de service.',
+                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                              ),
+                            ]),
                           ),
                         ),
                       ],
