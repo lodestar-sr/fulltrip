@@ -60,7 +60,8 @@ class Routes {
     'adressedusiege': (BuildContext context) => AdresseDuSiege(),
     'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
     'transactionencours': (BuildContext context) => TransactionEnCours(),
-    'transactioninformation': (BuildContext context) => TransactionInformation(),
+    'transactioninformation': (BuildContext context) =>
+        TransactionInformation(),
     'centredaide': (BuildContext context) => CentreDaide(),
     'historiqueinformation': (BuildContext context) => HistoriqueInformation(),
     'detailsduvage': (BuildContext context) => DetailsDuVage(),
@@ -69,7 +70,11 @@ class Routes {
     'ChatMessages': (BuildContext context) => ChatMessages(),
   };
 
-  Routes({FirebaseStorage storage, Firestore firestore, FirebaseAuth auth, GoogleSignIn googleSignIn}) {
+  Routes(
+      {FirebaseStorage storage,
+      Firestore firestore,
+      FirebaseAuth auth,
+      GoogleSignIn googleSignIn}) {
     Global.storage = storage;
     Global.firestore = firestore;
     Global.googleSignIn = googleSignIn;
@@ -80,7 +85,8 @@ class Routes {
           create: (_) => FirebaseAuthService(),
         ),
         StreamProvider(
-          create: (context) => context.read<FirebaseAuthService>().onAuthStateChanged,
+          create: (context) =>
+              context.read<FirebaseAuthService>().onAuthStateChanged,
         ),
       ],
       child: MaterialApp(
@@ -88,7 +94,7 @@ class Routes {
         title: 'Fulltrip',
         theme: appTheme(),
         routes: routes,
-        home: Login(),
+        home: Dashboard(),
       ),
     ));
   }

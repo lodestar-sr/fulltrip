@@ -45,8 +45,10 @@ class _FilterState extends State<Filter> {
       delivery = Global.filter.delivery;
       pickUpDate = Global.filter.pickUpDate;
       deliveryDate = Global.filter.deliveryDate;
-      pickupDateController.text = pickUpDate != null ? dateFormat.format(pickUpDate) : '';
-      deliveryDateController.text = deliveryDate != null ? dateFormat.format(deliveryDate) : '';
+      pickupDateController.text =
+          pickUpDate != null ? dateFormat.format(pickUpDate) : '';
+      deliveryDateController.text =
+          deliveryDate != null ? dateFormat.format(deliveryDate) : '';
     });
   }
 
@@ -76,7 +78,8 @@ class _FilterState extends State<Filter> {
       Global.filter.deliveryDate = deliveryDate;
     });
 
-    Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
   }
 
   @override
@@ -88,36 +91,34 @@ class _FilterState extends State<Filter> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              GestureDetector(
-                child: Center(
-                  child: Container(child: Text('Annuler', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
-                ),
-                onTap: () => Navigator.of(context).pop(),
-              ),
-              Text('Filtres', style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
-              GestureDetector(
-                child: Center(
-                  child: Container(child: Text('Réinitialiser', style: AppStyles.primaryTextStyle.copyWith(fontSize: 14))),
-                ),
-                onTap: resetFilter,
-              ),
-            ],
+          iconTheme: IconThemeData(
+            color: AppColors.backButtonColor, //change your color here
           ),
+          title: Text('Filtrer',
+              style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
           backgroundColor: Colors.white,
           centerTitle: true,
-          automaticallyImplyLeading: false,
-          actions: <Widget>[],
+          actions: <Widget>[
+            GestureDetector(
+              child: Center(
+                child: Container(
+                    padding: EdgeInsets.only(right: 7),
+                    child: Text('Annuler Filtres',
+                        style: AppStyles.primaryTextStyle.copyWith(
+                            fontSize: 14, color: AppColors.resetFilterColors))),
+              ),
+              onTap: resetFilter,
+            ),
+          ],
         ),
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -135,16 +136,31 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse de départ', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Adresse de départ',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        color: AppColors.lightGreyColor
+                                            .withOpacity(0.6)),
+                                  ),
                                   child: GooglePlacesAutocomplete(
                                     initialValue: startingAddress,
+                                    hintText: 'Adresse précise, ville',
+                                    underline: InputBorder.none,
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.all(13.0),
-                                      child: Image.asset('assets/images/locationDeparture.png', width: 16, height: 16),
+                                      child: Icon(
+                                          MaterialCommunityIcons.circle_slice_8,
+                                          size: 16,
+                                          color: AppColors.primaryColor),
                                     ),
-                                    onSelect: (val) => setState(() => startingAddress = val),
+                                    onSelect: (val) =>
+                                        setState(() => startingAddress = val),
                                   ),
                                 ),
                               ],
@@ -155,16 +171,29 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Adresse d\'arrivée', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Adresse d\'arrivée',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 FormFieldContainer(
                                   padding: EdgeInsets.only(right: 16),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        color: AppColors.lightGreyColor
+                                            .withOpacity(0.6)),
+                                  ),
                                   child: GooglePlacesAutocomplete(
                                     initialValue: arrivalAddress,
+                                    hintText: 'Adresse précise, ville',
+                                    underline: InputBorder.none,
                                     prefixIcon: Padding(
                                       padding: EdgeInsets.all(13.0),
-                                      child: Image.asset('assets/images/locationArrival.png', width: 16, height: 16),
+                                      child: Icon(Feather.map_pin,
+                                          size: 16, color: AppColors.redColor),
                                     ),
-                                    onSelect: (val) => setState(() => arrivalAddress = val),
+                                    onSelect: (val) =>
+                                        setState(() => arrivalAddress = val),
                                   ),
                                 ),
                               ],
@@ -179,95 +208,85 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Prix', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Prix',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 Row(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('100', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                                    ),
                                     Expanded(
                                       child: Container(
                                         margin: EdgeInsets.only(top: 8),
                                         child: FlutterSlider(
                                           min: 0,
                                           max: 10000,
-                                          values: price.map((i) => i.toDouble()).toList(),
+                                          values: price
+                                              .map((i) => i.toDouble())
+                                              .toList(),
                                           rangeSlider: true,
                                           step: FlutterSliderStep(step: 100),
                                           selectByTap: true,
-                                          onDragging: (handlerIndex, lowerValue, upperValue) {
+                                          onDragging: (handlerIndex, lowerValue,
+                                              upperValue) {
                                             setState(() {
-                                              price = [lowerValue.toInt(), upperValue.toInt()];
+                                              price = [
+                                                lowerValue.toInt(),
+                                                upperValue.toInt()
+                                              ];
                                             });
                                           },
-                                          handlerWidth: 24,
-                                          handlerHeight: 24,
+                                          handlerWidth: 20,
+                                          handlerHeight: 20,
                                           handler: FlutterSliderHandler(
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient: LinearGradient(colors: [
-                                                  AppColors.primaryColor,
-                                                  AppColors.whiteColor,
-                                                ]),
+                                                border: Border.all(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    width: 2),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           rightHandler: FlutterSliderHandler(
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient: LinearGradient(colors: [
-                                                  AppColors.primaryColor,
-                                                  AppColors.whiteColor,
-                                                ]),
+                                                border: Border.all(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    width: 2),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           trackBar: FlutterSliderTrackBar(
-                                            activeTrackBarHeight: 5,
-                                            inactiveTrackBarHeight: 5,
-                                            activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
-                                            inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
+                                            activeTrackBarHeight: 2,
+                                            inactiveTrackBarHeight: 2,
+                                            activeTrackBar: BoxDecoration(
+                                                color: AppColors.primaryColor),
+                                            inactiveTrackBar: BoxDecoration(
+                                                color:
+                                                    AppColors.lightGreyColor),
                                           ),
                                           tooltip: FlutterSliderTooltip(
-                                            positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
+                                            positionOffset:
+                                                FlutterSliderTooltipPositionOffset(
+                                              top: 35,
+                                            ),
                                             alwaysShowTooltip: true,
-                                            custom: (value) => Text('${value.toStringAsFixed(0)}€', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                            custom: (value) => Text(
+                                                '${value.toStringAsFixed(0)}€',
+                                                style: AppStyles.blackTextStyle
+                                                    .copyWith(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
                                           ),
-                                          // hatchMark: FlutterSliderHatchMark(
-                                          //     linesAlignment:
-                                          //         FlutterSliderHatchMarkAlignment
-                                          //             .right,
-                                          //     labels: [
-                                          //       FlutterSliderHatchMarkLabel(
-                                          //           percent: 0,
-                                          //           label: Text('100',
-                                          //               style: AppStyles
-                                          //                   .greyTextStyle
-                                          //                   .copyWith(
-                                          //                       fontSize: 12))),
-                                          //       FlutterSliderHatchMarkLabel(
-                                          //           percent: 100,
-                                          //           label: Text('10000',
-                                          //               style: AppStyles
-                                          //                   .greyTextStyle
-                                          //                   .copyWith(
-                                          //                       fontSize: 12))),
-                                          //     ],
-                                          //     labelsDistanceFromTrackBar: 30),
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('10000', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                                    )
                                   ],
                                 ),
                               ],
@@ -278,79 +297,101 @@ class _FilterState extends State<Filter> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Quantité maximum', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                Text('Quantité ',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500)),
                                 Row(
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('5m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                                    ),
                                     Expanded(
                                       child: Container(
                                         margin: EdgeInsets.only(top: 8),
                                         child: FlutterSlider(
                                           min: 0,
                                           max: 100,
-                                          values: quantity.map((i) => i.toDouble()).toList(),
+                                          values: quantity
+                                              .map((i) => i.toDouble())
+                                              .toList(),
                                           step: FlutterSliderStep(step: 5),
                                           selectByTap: true,
-                                          onDragging: (handlerIndex, lowerValue, upperValue) {
+                                          onDragging: (handlerIndex, lowerValue,
+                                              upperValue) {
                                             setState(() {
                                               quantity = [lowerValue.toInt()];
                                             });
                                           },
-                                          handlerWidth: 24,
-                                          handlerHeight: 24,
+                                          handlerWidth: 20,
+                                          handlerHeight: 20,
                                           handler: FlutterSliderHandler(
                                             child: Container(
                                               padding: EdgeInsets.all(2),
                                               decoration: new BoxDecoration(
-                                                gradient: LinearGradient(colors: [
-                                                  AppColors.primaryColor,
-                                                  AppColors.whiteColor,
-                                                ]),
+                                                border: Border.all(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    width: 2),
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Icon(Icons.check, color: Colors.white, size: 12),
                                             ),
                                           ),
                                           trackBar: FlutterSliderTrackBar(
-                                            activeTrackBarHeight: 5,
-                                            inactiveTrackBarHeight: 5,
-                                            activeTrackBar: BoxDecoration(color: AppColors.primaryColor),
-                                            inactiveTrackBar: BoxDecoration(color: AppColors.lightGreyColor),
+                                            activeTrackBarHeight: 2,
+                                            inactiveTrackBarHeight: 2,
+                                            activeTrackBar: BoxDecoration(
+                                                color: AppColors.primaryColor),
+                                            inactiveTrackBar: BoxDecoration(
+                                                color:
+                                                    AppColors.lightGreyColor),
                                           ),
                                           tooltip: FlutterSliderTooltip(
-                                            positionOffset: FlutterSliderTooltipPositionOffset(top: -5),
+                                            positionOffset:
+                                                FlutterSliderTooltipPositionOffset(
+                                              top: 35,
+                                            ),
                                             alwaysShowTooltip: true,
-                                            custom: (value) => Text('≤${value.toStringAsFixed(0)}m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                            custom: (value) => Text(
+                                                '≤${value.toStringAsFixed(0)}m³',
+                                                style: AppStyles.blackTextStyle
+                                                    .copyWith(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 6.0),
-                                      child: Text('100m³', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
-                                    )
                                   ],
                                 ),
                               ],
                             ),
                           ),
-//
                           Container(
                             padding: EdgeInsets.only(top: 24),
                             child: Text(
-                              'Période d\'enlèvement',
-                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                              "Période d'enlèvement",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                           FormFieldContainer(
                             margin: EdgeInsets.only(top: 10, bottom: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: AppColors.lightGreyColor
+                                      .withOpacity(0.6)),
+                            ),
                             child: TextFormField(
                               readOnly: true,
                               controller: pickupDateController,
-                              decoration: hintTextDecoration('Période d\'enlèvement').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
+                              decoration: hintTextDecoration('entre le')
+                                  .copyWith(
+                                      prefixIcon: Icon(MaterialCommunityIcons
+                                          .calendar_range),
+                                      contentPadding: EdgeInsets.only(top: 15),
+                                      border: InputBorder.none),
                               onTap: () {
                                 DatePicker.showDatePicker(
                                   context,
@@ -361,28 +402,46 @@ class _FilterState extends State<Filter> {
                                   ),
                                   onConfirm: (date) {
                                     setState(() => pickUpDate = date);
-                                    pickupDateController.text = dateFormat.format(pickUpDate);
+                                    pickupDateController.text =
+                                        dateFormat.format(pickUpDate);
                                   },
-                                  currentTime: pickUpDate == null ? DateTime.now() : pickUpDate,
+                                  currentTime: pickUpDate == null
+                                      ? DateTime.now()
+                                      : pickUpDate,
                                   locale: LocaleType.fr,
                                 );
                               },
-                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                              style: AppStyles.blackTextStyle
+                                  .copyWith(fontSize: 14),
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.only(top: 8),
                             child: Text(
-                              'Période de livraison',
-                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                              'Période de livraison souhaitée',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
                           FormFieldContainer(
                             margin: EdgeInsets.only(top: 10, bottom: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: AppColors.lightGreyColor
+                                      .withOpacity(0.6)),
+                            ),
                             child: TextFormField(
                               readOnly: true,
                               controller: deliveryDateController,
-                              decoration: hintTextDecoration('Période de livraison').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range), contentPadding: EdgeInsets.only(top: 15)),
+                              decoration: hintTextDecoration('entre le')
+                                  .copyWith(
+                                      prefixIcon: Icon(MaterialCommunityIcons
+                                          .calendar_range),
+                                      contentPadding: EdgeInsets.only(top: 15),
+                                      border: InputBorder.none),
                               onTap: () {
                                 DatePicker.showDatePicker(
                                   context,
@@ -393,33 +452,45 @@ class _FilterState extends State<Filter> {
                                   ),
                                   onConfirm: (date) {
                                     setState(() => deliveryDate = date);
-                                    deliveryDateController.text = dateFormat.format(deliveryDate);
+                                    deliveryDateController.text =
+                                        dateFormat.format(deliveryDate);
                                   },
-                                  currentTime: deliveryDate == null ? DateTime.now() : deliveryDate,
+                                  currentTime: deliveryDate == null
+                                      ? DateTime.now()
+                                      : deliveryDate,
                                   locale: LocaleType.fr,
                                 );
                               },
-                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                              style: AppStyles.blackTextStyle
+                                  .copyWith(fontSize: 14),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 64),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                BoxShadow(
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.24),
+                                    blurRadius: 16,
+                                    spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 60,
                               child: RaisedButton(
-                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                child: Text('Afficher les résultats',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: () => saveFilter(),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 elevation: 0,
                               ),

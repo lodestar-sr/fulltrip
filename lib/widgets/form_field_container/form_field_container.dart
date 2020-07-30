@@ -6,11 +6,12 @@ class FormFieldContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsets padding;
   final EdgeInsets margin;
-
+  final BoxDecoration decoration;
   //passing props in react style
   FormFieldContainer({
     Key key,
     this.child,
+    this.decoration,
     this.padding = const EdgeInsets.all(0),
     this.margin = const EdgeInsets.only(top: 8),
   }) : super(key: key);
@@ -20,10 +21,7 @@ class FormFieldContainer extends StatelessWidget {
     return new Container(
       padding: padding,
       margin: margin,
-//      decoration: BoxDecoration(
-//        borderRadius: BorderRadius.circular(5),
-//        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
-//      ),
+      decoration: decoration,
       child: this.child,
     );
   }

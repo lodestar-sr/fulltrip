@@ -18,6 +18,8 @@ class GooglePlacesAutocomplete extends StatefulWidget {
   final onChanged;
   final onSaved;
   final prefixIcon;
+  final underline;
+  final hintText;
 
   GooglePlacesAutocomplete({
     this.mode = Mode.overlay,
@@ -29,6 +31,8 @@ class GooglePlacesAutocomplete extends StatefulWidget {
     this.onChanged,
     this.onSaved,
     this.prefixIcon,
+    this.underline,
+    this.hintText = 'Entrez s\'il vous plait',
   });
 
   @override
@@ -70,7 +74,10 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       readOnly: true,
-      decoration: hintTextDecoration('Entrez s\'il vous plait').copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15)),
+      decoration: hintTextDecoration(widget.hintText).copyWith(
+          prefixIcon: widget.prefixIcon,
+          contentPadding: EdgeInsets.only(top: 15),
+          border: widget.underline),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

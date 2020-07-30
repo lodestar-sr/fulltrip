@@ -12,6 +12,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:Fulltrip/data/models/lot.dart';
 
 class ProposeLot extends StatefulWidget {
   ProposeLot({Key key}) : super(key: key);
@@ -32,9 +33,14 @@ class _ProposeLotState extends State<ProposeLot> {
 
   @override
   void initState() {
+    Global.lotForm = Lot();
     super.initState();
-    pickupDateFromController.text = Global.lotForm.pickupDateFrom != null ? dateFormat.format(Global.lotForm.pickupDateFrom) : '';
-    pickupDateToController.text = Global.lotForm.pickupDateTo != null ? dateFormat.format(Global.lotForm.pickupDateTo) : '';
+    pickupDateFromController.text = Global.lotForm.pickupDateFrom != null
+        ? dateFormat.format(Global.lotForm.pickupDateFrom)
+        : '';
+    pickupDateToController.text = Global.lotForm.pickupDateTo != null
+        ? dateFormat.format(Global.lotForm.pickupDateTo)
+        : '';
   }
 
   goToNext() {
@@ -48,6 +54,13 @@ class _ProposeLotState extends State<ProposeLot> {
         checkquantity = true;
       });
     }
+  }
+
+  String selectedRadio = '';
+  setSelectedRadio(String val) {
+    setState(() {
+      selectedRadio = val;
+    });
   }
 
   @override
@@ -66,19 +79,25 @@ class _ProposeLotState extends State<ProposeLot> {
             children: [
               GestureDetector(
                 child: Center(
-                  child: Container(child: Text('         ', style: AppStyles.greyTextStyle.copyWith(fontSize: 14))),
+                  child: Container(
+                      child: Text('Précédent',
+                          style:
+                              AppStyles.greyTextStyle.copyWith(fontSize: 14))),
                 ),
-//                onTap: () => Navigator.of(context).pop(),
+                onTap: () => Navigator.of(context).pop(),
               ),
-              Text('Au départ', style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              Text('Au départ',
+                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(right: 12),
-                    child: Text('Fermer', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
+                    child: Text('Fermer',
+                        style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                   ),
                 ),
-                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false),
+                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                    'dashboard', (Route<dynamic> route) => false),
               )
             ],
           ),
@@ -91,7 +110,8 @@ class _ProposeLotState extends State<ProposeLot> {
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstraints) {
             return Form(
               key: _formKey,
               child: Container(
@@ -111,63 +131,103 @@ class _ProposeLotState extends State<ProposeLot> {
                           RichText(
                             text: TextSpan(
                               text: 'Adresse de départ',
-                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500),
                               children: <TextSpan>[
-                                TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                TextSpan(
+                                    text: ' *',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.redColor)),
                               ],
                             ),
                           ),
                           FormFieldContainer(
                             padding: EdgeInsets.only(right: 16, left: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: AppColors.lightGreyColor
+                                      .withOpacity(0.6)),
+                            ),
                             child: GooglePlacesAutocomplete(
                               initialValue: Global.lotForm.startingAddress,
+                              underline: InputBorder.none,
                               prefixIcon: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 13, 26, 13),
-                                child: Image.asset('assets/images/locationDeparture.png', width: 13, height: 13),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 13, 26, 13),
+                                child: Icon(
+                                    MaterialCommunityIcons.circle_slice_8,
+                                    size: 16,
+                                    color: AppColors.primaryColor),
                               ),
-                              validator: (value) => Validators.required(value, errorText: 'Adresse de départ est requis'),
-                              onSelect: (val) => this.setState(() => Global.lotForm.startingAddress = val),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Adresse de départ est requis'),
+                              onSelect: (val) => this.setState(
+                                  () => Global.lotForm.startingAddress = val),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 8),
                             child: GestureDetector(
                               onTap: () async {
-                                _serviceEnabled = await location.serviceEnabled();
+                                _serviceEnabled =
+                                    await location.serviceEnabled();
                                 if (!_serviceEnabled) {
-                                  _serviceEnabled = await location.requestService();
+                                  _serviceEnabled =
+                                      await location.requestService();
 
                                   if (!_serviceEnabled) {
-                                    return UserCurrentLocation.checkpermissionstatus();
+                                    return UserCurrentLocation
+                                        .checkpermissionstatus();
                                   }
                                 } else {
-                                  UserCurrentLocation.getCurrentLocation().then((value) {
+                                  UserCurrentLocation.getCurrentLocation()
+                                      .then((value) {
                                     setState(() {
-                                      Global.lotForm.startingAddress = Global.address;
+                                      Global.lotForm.startingAddress =
+                                          Global.address;
                                     });
                                   });
                                 }
                               },
                               child: Row(
                                 children: [
-                                  Icon(Icons.location_searching, color: AppColors.primaryColor),
+                                  Image.asset(
+                                    'assets/images/location.png',
+                                    height: 20,
+                                    width: 20,
+                                  ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Utilise ma location',
-                                    style: TextStyle(color: AppColors.primaryColor, fontSize: 12, fontWeight: FontWeight.w500),
+                                    style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Type de lieu',
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -175,61 +235,173 @@ class _ProposeLotState extends State<ProposeLot> {
                           FormFieldContainer(
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.only(left: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: AppColors.lightGreyColor
+                                      .withOpacity(0.6)),
+                            ),
                             child: DropdownButtonFormField(
                               isExpanded: true,
                               items: Global.typedelieu.map((itm) {
-                                return DropdownMenuItem(value: itm, child: Text(itm, style: AppStyles.blackTextStyle.copyWith(fontSize: 14)));
+                                return DropdownMenuItem(
+                                    value: itm,
+                                    child: Text(itm,
+                                        style: AppStyles.blackTextStyle
+                                            .copyWith(fontSize: 14)));
                               }).toList(),
-                              validator: (value) => Validators.required(value, errorText: 'Type de lieu est requis'),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Type de lieu est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.startingLocationType = val;
                                 });
                               },
-                              value: Global.lotForm.startingLocationType != '' ? Global.lotForm.startingLocationType : null,
-                              decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingLocationType = val),
+                              value: Global.lotForm.startingLocationType != ''
+                                  ? Global.lotForm.startingLocationType
+                                  : null,
+                              decoration:
+                                  hintTextDecoration('Choisissez ').copyWith(
+                                border: InputBorder.none,
+                              ),
+                              onSaved: (val) => setState(() =>
+                                  Global.lotForm.startingLocationType = val),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: "Type d'accès",
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
-                            ),
-                          ),
-                          FormFieldContainer(
-                            margin: EdgeInsets.only(top: 10),
-                            padding: EdgeInsets.only(left: 16),
-                            child: DropdownButtonFormField(
-                              isExpanded: true,
-                              items: Global.typedeacces.map((itm) {
-                                return DropdownMenuItem(value: itm, child: Text(itm, style: AppStyles.blackTextStyle.copyWith(fontSize: 14)));
-                              }).toList(),
-                              validator: (value) => Validators.required(value, errorText: 'Type d\'accès est requis'),
-                              onChanged: (val) {
-                                setState(() {
-                                  Global.lotForm.startingAccessType = val;
-                                });
-                              },
-                              value: Global.lotForm.startingAccessType != '' ? Global.lotForm.startingAccessType : null,
-                              decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingAccessType = val),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: AppColors.primaryColor,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        value: 'Plein pieds',
+                                        groupValue: selectedRadio,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            print(value);
+                                            setSelectedRadio(value);
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'Plein pieds',
+                                        style: AppStyles.blackTextStyle
+                                            .copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color: selectedRadio ==
+                                                        'Plein pieds'
+                                                    ? AppColors.primaryColor
+                                                    : Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        activeColor: AppColors.primaryColor,
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        value: 'Ascenseur',
+                                        groupValue: selectedRadio,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            print(value);
+                                            setSelectedRadio(value);
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'Ascenseur',
+                                        style: AppStyles.blackTextStyle
+                                            .copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    selectedRadio == 'Ascenseur'
+                                                        ? AppColors.primaryColor
+                                                        : Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Radio(
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        activeColor: AppColors.primaryColor,
+                                        value: 'Escaliers',
+                                        groupValue: selectedRadio,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            print(value);
+                                            setSelectedRadio(value);
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'Escaliers',
+                                        style: AppStyles.blackTextStyle
+                                            .copyWith(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    selectedRadio == 'Escaliers'
+                                                        ? AppColors.primaryColor
+                                                        : Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Etages',
-                                style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: AppColors.darkColor,
+                                    fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
+                                  TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -237,21 +409,39 @@ class _ProposeLotState extends State<ProposeLot> {
                           FormFieldContainer(
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.only(left: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: AppColors.lightGreyColor
+                                      .withOpacity(0.6)),
+                            ),
                             child: DropdownButtonFormField(
                               isExpanded: true,
+
                               items: Global.etages.map((itm) {
-                                return DropdownMenuItem(value: itm, child: Text(itm, style: AppStyles.blackTextStyle.copyWith(fontSize: 14)));
+                                return DropdownMenuItem(
+                                    value: itm,
+                                    child: Text(itm,
+                                        style: AppStyles.blackTextStyle
+                                            .copyWith(fontSize: 14)));
                               }).toList(),
                               //value: starting_location_type,
-                              validator: (value) => Validators.required(value, errorText: 'Etages est requis'),
+                              validator: (value) => Validators.required(value,
+                                  errorText: 'Etages est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.startingFloors = val;
                                 });
                               },
-                              value: Global.lotForm.startingFloors != '' ? Global.lotForm.startingFloors : null,
-                              decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() => Global.lotForm.startingFloors = val),
+                              value: Global.lotForm.startingFloors != ''
+                                  ? Global.lotForm.startingFloors
+                                  : null,
+                              decoration:
+                                  hintTextDecoration('Choisissez ').copyWith(
+                                border: InputBorder.none,
+                              ),
+                              onSaved: (val) => setState(
+                                  () => Global.lotForm.startingFloors = val),
                             ),
                           ),
                           Padding(
@@ -259,15 +449,239 @@ class _ProposeLotState extends State<ProposeLot> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: SizeConfig.safeBlockVertical * 2),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'Quantité en m3',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: AppColors.darkColor,
+                                          fontWeight: FontWeight.w500),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: ' *',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.redColor)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            color: AppColors.lightestGreyColor),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (Global.lotForm.quantity > 0) {
+                                                Global.lotForm.quantity -= 1;
+                                              }
+                                              if (Global.lotForm.quantity !=
+                                                  0) {
+                                                checkquantity = false;
+                                              }
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.remove,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        child: Center(
+                                          child: Text(
+                                              '${Global.lotForm.quantity}',
+                                              style: TextStyle(fontSize: 22)),
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                            color: AppColors.lightestGreyColor),
+                                        child: GestureDetector(
+                                            child: Icon(
+                                              Icons.add,
+                                              color: Colors.black,
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                Global.lotForm.quantity += 1;
+                                                if (Global.lotForm.quantity !=
+                                                    0) {
+                                                  checkquantity = false;
+                                                }
+                                              });
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Visibility(
+                            visible: checkquantity,
+                            child: Text('Quantity Required',
+                                style: TextStyle(
+                                    color: AppColors.redColor, fontSize: 12)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 4),
+                            child: Text(
+                              'Période d\'enlèvement',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.darkColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: FormFieldContainer(
+                                    margin: EdgeInsets.only(
+                                        top: 10, bottom: 16, right: 8),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: AppColors.lightGreyColor
+                                                .withOpacity(0.6))),
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      controller: pickupDateFromController,
+                                      decoration: hintTextDecoration('entre le')
+                                          .copyWith(
+                                              prefixIcon: Icon(
+                                                MaterialCommunityIcons
+                                                    .calendar_range,
+                                              ),
+                                              border: InputBorder.none),
+                                      onTap: () {
+                                        DatePicker.showDatePicker(
+                                          context,
+                                          showTitleActions: true,
+                                          minTime: DateTime.now(),
+                                          maxTime: DateTime.now().add(
+                                            Duration(days: 90),
+                                          ),
+                                          onConfirm: (date) {
+                                            setState(() => Global
+                                                .lotForm.pickupDateFrom = date);
+                                            pickupDateFromController.text =
+                                                dateFormat.format(Global
+                                                    .lotForm.pickupDateFrom);
+                                          },
+                                          currentTime: Global
+                                                      .lotForm.pickupDateFrom ==
+                                                  null
+                                              ? DateTime.now()
+                                              : Global.lotForm.pickupDateFrom,
+                                          locale: LocaleType.fr,
+                                        );
+                                      },
+                                      style: AppStyles.blackTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: FormFieldContainer(
+                                    margin:
+                                        EdgeInsets.only(top: 10, bottom: 16),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: AppColors.lightGreyColor
+                                                .withOpacity(0.6))),
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      controller: pickupDateToController,
+                                      decoration: hintTextDecoration('et le')
+                                          .copyWith(
+                                              prefixIcon: Icon(
+                                                  MaterialCommunityIcons
+                                                      .calendar_range),
+                                              border: InputBorder.none),
+                                      onTap: () {
+                                        DatePicker.showDatePicker(
+                                          context,
+                                          showTitleActions: true,
+                                          minTime: Global
+                                                      .lotForm.pickupDateFrom ==
+                                                  null
+                                              ? DateTime.now()
+                                              : Global.lotForm.pickupDateFrom,
+                                          maxTime:
+                                              (Global.lotForm.pickupDateFrom ==
+                                                          null
+                                                      ? DateTime.now()
+                                                      : Global.lotForm
+                                                          .pickupDateFrom)
+                                                  .add(
+                                            Duration(days: 90),
+                                          ),
+                                          onConfirm: (date) {
+                                            setState(() => Global
+                                                .lotForm.pickupDateTo = date);
+                                            pickupDateToController.text =
+                                                dateFormat.format(Global
+                                                    .lotForm.pickupDateTo);
+                                          },
+                                          currentTime:
+                                              Global.lotForm.pickupDateTo ==
+                                                      null
+                                                  ? DateTime.now()
+                                                  : Global.lotForm.pickupDateTo,
+                                          locale: LocaleType.fr,
+                                        );
+                                      },
+                                      style: AppStyles.blackTextStyle,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
                                 Text(
                                   'Monte meuble nécessaire',
-                                  style: TextStyle(color: AppColors.darkGreyColor, fontSize: 14),
+                                  style: TextStyle(
+                                      color: AppColors.darkGreyColor,
+                                      fontSize: 14),
                                 ),
                                 CupertinoSwitch(
                                   activeColor: AppColors.primaryColor,
-                                  value: Global.lotForm.startingFurnitureLift == 'Oui',
+                                  value: Global.lotForm.startingFurnitureLift ==
+                                      'Oui',
                                   onChanged: (bool value) {
-                                    setState(() => Global.lotForm.startingFurnitureLift = value ? 'Oui' : 'Non');
+                                    setState(() =>
+                                        Global.lotForm.startingFurnitureLift =
+                                            value ? 'Oui' : 'Non');
                                   },
                                 ),
                               ],
@@ -281,13 +695,19 @@ class _ProposeLotState extends State<ProposeLot> {
                             children: [
                               Text(
                                 'Démontage des meubles ?',
-                                style: TextStyle(color: AppColors.darkGreyColor, fontSize: 14),
+                                style: TextStyle(
+                                    color: AppColors.darkGreyColor,
+                                    fontSize: 14),
                               ),
                               CupertinoSwitch(
-                                value: Global.lotForm.startingDismantlingFurniture == 'Oui',
+                                value: Global
+                                        .lotForm.startingDismantlingFurniture ==
+                                    'Oui',
                                 activeColor: AppColors.primaryColor,
                                 onChanged: (bool value) {
-                                  setState(() => Global.lotForm.startingDismantlingFurniture = value ? 'Oui' : 'Non');
+                                  setState(() => Global.lotForm
+                                          .startingDismantlingFurniture =
+                                      value ? 'Oui' : 'Non');
                                 },
                               )
                             ],
@@ -297,166 +717,35 @@ class _ProposeLotState extends State<ProposeLot> {
                             color: Color(0xffE4E4E4),
                           ),
 
-                          Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
-                            child: Text(
-                              'Période d\'enlèvement',
-                              style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: FormFieldContainer(
-                                  margin: EdgeInsets.only(top: 10, bottom: 16, right: 8),
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller: pickupDateFromController,
-                                    decoration: hintTextDecoration('entre le').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range)),
-                                    onTap: () {
-                                      DatePicker.showDatePicker(
-                                        context,
-                                        showTitleActions: true,
-                                        minTime: DateTime.now(),
-                                        maxTime: DateTime.now().add(
-                                          Duration(days: 90),
-                                        ),
-                                        onConfirm: (date) {
-                                          setState(() => Global.lotForm.pickupDateFrom = date);
-                                          pickupDateFromController.text = dateFormat.format(Global.lotForm.pickupDateFrom);
-                                        },
-                                        currentTime: Global.lotForm.pickupDateFrom == null ? DateTime.now() : Global.lotForm.pickupDateFrom,
-                                        locale: LocaleType.fr,
-                                      );
-                                    },
-                                    style: AppStyles.blackTextStyle,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: FormFieldContainer(
-                                  margin: EdgeInsets.only(top: 10, bottom: 16),
-                                  child: TextFormField(
-                                    readOnly: true,
-                                    controller: pickupDateToController,
-                                    decoration: hintTextDecoration('et le').copyWith(prefixIcon: Icon(MaterialCommunityIcons.calendar_range)),
-                                    onTap: () {
-                                      DatePicker.showDatePicker(
-                                        context,
-                                        showTitleActions: true,
-                                        minTime: Global.lotForm.pickupDateFrom == null ? DateTime.now() : Global.lotForm.pickupDateFrom,
-                                        maxTime: (Global.lotForm.pickupDateFrom == null ? DateTime.now() : Global.lotForm.pickupDateFrom).add(
-                                          Duration(days: 90),
-                                        ),
-                                        onConfirm: (date) {
-                                          setState(() => Global.lotForm.pickupDateTo = date);
-                                          pickupDateToController.text = dateFormat.format(Global.lotForm.pickupDateTo);
-                                        },
-                                        currentTime: Global.lotForm.pickupDateTo == null ? DateTime.now() : Global.lotForm.pickupDateTo,
-                                        locale: LocaleType.fr,
-                                      );
-                                    },
-                                    style: AppStyles.blackTextStyle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: 'Quantité en m3',
-                                    style: TextStyle(fontSize: 15, color: AppColors.darkColor, fontWeight: FontWeight.w500),
-                                    children: <TextSpan>[
-                                      TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.whiteColor, border: Border.all(color: AppColors.lightBlueColor)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)), color: Colors.white),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.remove,
-                                            color: AppColors.greyColor,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              if (Global.lotForm.quantity > 0) {
-                                                Global.lotForm.quantity -= 1;
-                                              }
-                                              if (Global.lotForm.quantity != 0) {
-                                                checkquantity = false;
-                                              }
-                                            });
-                                          }),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      child: Center(child: Text('${Global.lotForm.quantity}')),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
-                                        color: Colors.white,
-                                      ),
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.add,
-                                            color: AppColors.greyColor,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              Global.lotForm.quantity += 1;
-                                              if (Global.lotForm.quantity != 0) {
-                                                checkquantity = false;
-                                              }
-                                            });
-                                          }),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Visibility(
-                            visible: checkquantity,
-                            child: Text('Quantity Required', style: TextStyle(color: AppColors.redColor, fontSize: 12)),
-                          ),
-
                           ///BottomButton
                           Padding(
-                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 4),
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.safeBlockVertical * 4),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(30)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
                                 boxShadow: <BoxShadow>[
-                                  BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                  BoxShadow(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.24),
+                                      blurRadius: 16,
+                                      spreadRadius: 4),
                                 ],
                               ),
                               child: ButtonTheme(
                                 minWidth: double.infinity,
                                 height: 60,
                                 child: RaisedButton(
-                                  child: Text('Suivant', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                  child: Text('Suivant',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: goToNext,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   elevation: 0,
                                 ),
