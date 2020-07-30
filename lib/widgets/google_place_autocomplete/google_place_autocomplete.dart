@@ -74,10 +74,7 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       readOnly: true,
-      decoration: hintTextDecoration(widget.hintText).copyWith(
-          prefixIcon: widget.prefixIcon,
-          contentPadding: EdgeInsets.only(top: 15),
-          border: widget.underline),
+      decoration: hintTextDecoration(widget.hintText).copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15), border: widget.underline),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

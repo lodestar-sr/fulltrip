@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:Fulltrip/data/models/user.dart';
 import 'package:Fulltrip/util/global.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static AuthService _appService;
@@ -17,7 +16,7 @@ class AuthService {
     return _appService;
   }
 
-  Future updateUser({String key='user', User user}) {
+  Future updateUser({String key = 'user', User user}) {
     if (user != null) {
       this.loggedInUser = user;
       String userJson = json.encode(loggedInUser.toJson());
@@ -26,7 +25,7 @@ class AuthService {
     return Global.prefs.setString(key, null);
   }
 
-  User getData({String key='user'}) {
+  User getData({String key = 'user'}) {
     String userJson = Global.prefs.getString(key);
     if (userJson != null) {
       Map userObj = json.decode(userJson);

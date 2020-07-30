@@ -1,4 +1,3 @@
-import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ class FormFieldContainer extends StatelessWidget {
   final EdgeInsets padding;
   final EdgeInsets margin;
   final BoxDecoration decoration;
+
   //passing props in react style
   FormFieldContainer({
     Key key,

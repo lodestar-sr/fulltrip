@@ -15,7 +15,6 @@ class Profil extends StatefulWidget {
 }
 
 class _ProfilState extends State<Profil> {
-
   AuthService _authService;
 
   @override
