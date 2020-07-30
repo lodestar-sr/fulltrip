@@ -8,6 +8,7 @@ import 'package:Fulltrip/widgets/ChatWidgets/ReceivedChatUI.dart';
 import 'package:Fulltrip/widgets/ChatWidgets/SendedChatUI.dart';
 import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -18,10 +19,13 @@ class ChatMessages extends StatefulWidget {
   _ChatMessagesState createState() => _ChatMessagesState();
 }
 
-class _ChatMessagesState extends State<ChatMessages> {
+class _ChatMessagesState extends State<ChatMessages>
+    with SingleTickerProviderStateMixin {
   TextEditingController inputMessage = TextEditingController();
   ScrollController _controller = new ScrollController();
   bool emojis = false;
+  AnimationController _containerController;
+  bool isVisible = true;
 
   List<Widget> chatMessages() {
     List<Widget> list = [];
@@ -56,11 +60,31 @@ class _ChatMessagesState extends State<ChatMessages> {
     super.initState();
     Timer(Duration(milliseconds: 200),
         () => _controller.jumpTo(_controller.position.maxScrollExtent));
+
+    scrollListner();
+  }
+
+  scrollListner() {
+    _controller.addListener(() {
+      if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+        if (!isVisible)
+          setState(() {
+            isVisible = true;
+          });
+      }
+      if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+        if (isVisible)
+          setState(() {
+            isVisible = false;
+          });
+      }
+    });
   }
 
   Widget builMessageTextField() {
     return Container(
       color: Colors.white,
+      padding: EdgeInsets.only(bottom: 10),
       child: Column(
         children: [
           Container(
@@ -125,11 +149,6 @@ class _ChatMessagesState extends State<ChatMessages> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: AnimatedContainer(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: kElevationToShadow[4],
-              ),
               width: emojis ? SizeConfig.screenWidth : 0,
               padding: EdgeInsets.all(10),
               height: emojis ? 150 : 0,
@@ -179,22 +198,40 @@ class _ChatMessagesState extends State<ChatMessages> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 13.0, bottom: 8.0),
-                      child: Text(
-                        "Nom de l'entreprise",
-                        style: AppStyles.blackTextStyle
-                            .copyWith(fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Divider(),
                     Container(
                         child: Stack(children: [
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: AnimatedSize(
+                          vsync: this,
+                          duration: Duration(milliseconds: 300),
+                          child: Container(
+                            height: isVisible ? 50.0 : 0.0,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 13.0,
+                                  ),
+                                  child: Text(
+                                    "Nom de l'entreprise",
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Divider(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                       Container(
-                        height: SizeConfig.safeBlockVertical * 85,
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 80),
+                        height: SizeConfig.safeBlockVertical * 94,
+                        padding:
+                            EdgeInsets.fromLTRB(16, isVisible ? 40 : 0, 16, 80),
                         child: ListView(
-                            // reverse: true,
                             controller: _controller,
                             shrinkWrap: true,
                             children: chatMessages()),
