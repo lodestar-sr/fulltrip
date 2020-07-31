@@ -47,16 +47,19 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
                       children: [
                         Text(
                           element['date'],
-                          style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor),
+                          style: AppStyles.navbarInactiveTextStyle
+                              .copyWith(color: AppColors.mediumGreyColor),
                         ),
                         Container(
                           height: 43,
                           child: Row(
                             children: <Widget>[
                               Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Image.asset('assets/images/circle.png', width: 9, height: 9),
+                                  Image.asset('assets/images/circle.png',
+                                      width: 9, height: 9),
                                   Container(
                                       width: 9,
                                       child: Dash(
@@ -65,25 +68,29 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
                                         dashLength: 25,
                                         dashColor: AppColors.lightGreyColor,
                                       )),
-                                  Image.asset('assets/images/triangle.png', width: 9, height: 9),
+                                  Image.asset('assets/images/triangle.png',
+                                      width: 9, height: 9),
                                 ],
                               ),
                               Container(
                                 height: 40,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(left: 4),
                                       child: SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               element['startcity'],
-                                              style: AppStyles.blackTextStyle.copyWith(
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
                                                 fontSize: 11,
                                               ),
                                               overflow: TextOverflow.ellipsis,
@@ -97,11 +104,13 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
                                       child: SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               element['arrivalcity'],
-                                              style: AppStyles.blackTextStyle.copyWith(
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
                                                 fontSize: 11,
                                               ),
                                               overflow: TextOverflow.ellipsis,
@@ -122,7 +131,8 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
                 ),
                 Text(
                   '${element['price']}€',
-                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                  style: AppStyles.primaryTextStyle
+                      .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                 )
               ],
             ),
@@ -136,7 +146,8 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(
+                color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -156,15 +167,21 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
             appBar: AppBar(
               elevation: 1,
               backgroundColor: Colors.white,
+              iconTheme: IconThemeData(
+                color: AppColors.backButtonColor, //change your color here
+              ),
               title: Text(
                 'Historique de transport',
+                style: AppStyles.blackTextStyle
+                    .copyWith(fontWeight: FontWeight.w500),
               ),
             ),
             body: SingleChildScrollView(
               child: Container(
                   width: double.infinity,
                   child: GestureDetector(
-                      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                      onTap: () =>
+                          FocusScope.of(context).requestFocus(new FocusNode()),
                       child: Container(
                           padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
                           child: Column(children: [
@@ -172,7 +189,8 @@ class _HistoriqueInformationState extends State<HistoriqueInformation> {
                               height: SizeConfig.safeBlockHorizontal * 172,
                               child: ListView(
                                 shrinkWrap: true,
-                                padding: EdgeInsets.only(left: 4, right: 4, top: 10),
+                                padding:
+                                    EdgeInsets.only(left: 4, right: 4, top: 10),
                                 children: transactionHistory(),
                               ),
                             )

@@ -12,14 +12,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class LotDetails extends StatefulWidget {
-  LotDetails({Key key}) : super(key: key);
+class Propose_lot4 extends StatefulWidget {
+  Propose_lot4({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LotDetailsState();
+  State<StatefulWidget> createState() => _Propose_lot4State();
 }
 
-class _LotDetailsState extends State<LotDetails> {
+class _Propose_lot4State extends State<Propose_lot4> {
   var myFormat = DateFormat('d/MM');
   Lot lot;
   var startingaddress = [];
@@ -74,15 +74,15 @@ class _LotDetailsState extends State<LotDetails> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
+          backgroundColor: Colors.white,
           iconTheme: IconThemeData(
             color: AppColors.backButtonColor, //change your color here
           ),
           title: Text(
-            'Détails du lot',
+            'Validation',
             style:
                 AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
           ),
-          backgroundColor: Colors.white,
         ),
         body: LayoutBuilder(builder:
             (BuildContext context, BoxConstraints viewportConstraints) {
@@ -687,113 +687,109 @@ class _LotDetailsState extends State<LotDetails> {
                               color: AppColors.lightGreyColor,
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 4),
-                            child: Text('La description',
-                                style: AppStyles.blackTextStyle.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 14)),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(bottom: 4, top: 4),
+                                child: Text('Montant à payer',
+                                    style: AppStyles.blackTextStyle.copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15)),
+                              ),
+                              Text('${lot.price}€',
+                                  style: AppStyles.blackTextStyle.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16)),
+                            ],
                           ),
-                          DescriptionText(
-                            text: lot.description,
-                            minLength: 140,
-                            textStyle: AppStyles.greyTextStyle.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.backButtonColor,
-                                height: 1.3),
-                            moreTextStyle: AppStyles.primaryTextStyle.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.backButtonColor,
-                                fontSize: 10,
-                                height: 1.4),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8, bottom: 4),
-                            child: Text(
-                              'Plus',
-                              style: AppStyles.primaryTextStyle
-                                  .copyWith(fontSize: 14),
-                            ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 4),
+                            child: Divider(),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Prix de l\'expédition',
-                                  style: AppStyles.blackTextStyle
-                                      .copyWith(fontSize: 18)),
                               Container(
-                                margin: EdgeInsets.only(left: 24),
-                                child: Text('${lot.price.toStringAsFixed(0)}€',
-                                    style: AppStyles.darkGreyTextStyle.copyWith(
+                                margin: EdgeInsets.only(bottom: 4, top: 4),
+                                child: Text('Paiement',
+                                    style: AppStyles.blackTextStyle.copyWith(
                                         fontWeight: FontWeight.w500,
-                                        color: AppColors.primaryColor,
-                                        fontSize: 24)),
+                                        fontSize: 15)),
                               ),
+                              Text('',
+                                  style: AppStyles.blackTextStyle.copyWith(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16)),
                             ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 8, top: 4),
-                            child: Divider(
-                              color: AppColors.lightGreyColor,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 4),
-                            child: Text('NOM DE LA COMPAGNIE',
-                                style: AppStyles.blackTextStyle.copyWith(
-                                    fontWeight: FontWeight.w500, fontSize: 14)),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8, bottom: 48),
-                            child: GestureDetector(
-                              child: Row(
-                                children: [
-                                  Icon(Feather.message_square,
-                                      size: 18, color: AppColors.primaryColor),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: Text('Contacter l\'entreprise',
-                                        style: AppStyles.primaryTextStyle
-                                            .copyWith(fontSize: 14)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.24),
-                                    blurRadius: 16,
-                                    spreadRadius: 4),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: AppColors.primaryColor,
+                                  size: 27,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Ajouter un mode de paiement",
+                                  style: AppStyles.primaryTextStyle,
+                                )
                               ],
                             ),
-                            child: ButtonTheme(
-                              minWidth: double.infinity,
-                              height: 60,
-                              child: RaisedButton(
-                                child: Text('Réservez cet article',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                                color: AppColors.primaryColor,
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  Navigator.of(context).pushNamedAndRemoveUntil(
-                                      'SuccessScreen',
-                                      (Route<dynamic> route) => false);
-                                },
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          ),
+
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.24),
+                                      blurRadius: 16,
+                                      spreadRadius: 4),
+                                ],
+                              ),
+                              child: ButtonTheme(
+                                minWidth: double.infinity,
+                                height: 60,
+                                child: RaisedButton(
+                                  child: Text('Payez maintenant',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                  color: AppColors.primaryColor,
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            'Felicitations',
+                                            (Route<dynamic> route) => false);
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  elevation: 0,
                                 ),
-                                elevation: 0,
                               ),
                             ),
                           ),
+                          Text(
+                            "En cas de non prise en charge de votre lot, et sur demande de votre part, l'ensemble des frais engagés peuvent être remboursés sans pénalités",
+                            style:
+                                AppStyles.blackTextStyle.copyWith(fontSize: 12),
+                          )
                         ],
                       ),
                     ),

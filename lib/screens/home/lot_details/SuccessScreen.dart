@@ -7,14 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Felicitations extends StatefulWidget {
-  Felicitations({Key key}) : super(key: key);
+class SuccessScreen extends StatefulWidget {
+  SuccessScreen({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _FelicitationsState();
+  State<StatefulWidget> createState() => _SuccessScreenState();
 }
 
-class _FelicitationsState extends State<Felicitations> {
+class _SuccessScreenState extends State<SuccessScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -60,7 +60,8 @@ class _FelicitationsState extends State<Felicitations> {
                           Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              'Lot publié, attendez que le transporteur vous contacte !',
+                              'Le lot a bien été réservé, prenez contact avec votre nouveau collaborateur !',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 13, color: AppColors.greyColor),
                             ),

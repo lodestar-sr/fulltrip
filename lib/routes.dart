@@ -17,15 +17,18 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/home/lot_details/SuccessScreen.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
+import 'screens/home/propose_lot/propose_lot4.dart';
 import 'screens/messages/ChatMessages.dart';
 import 'screens/messages/MessagesList.dart';
 import 'screens/profil/MesDocuments/Mes_Documents.dart';
 import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
 import 'screens/profil/informations/HelpCenter/CentreDaide.dart';
 import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
+import 'screens/profil/informations/Mes_information/Commanditaire.dart';
 import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
 import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
 import 'screens/profil/informations/Mes_information/changePassword.dart';
@@ -47,9 +50,11 @@ class Routes {
     'home': (BuildContext context) => Home(),
     'filter': (BuildContext context) => Filter(),
     'lot-details': (BuildContext context) => LotDetails(),
+    'SuccessScreen': (BuildContext context) => SuccessScreen(),
     'propose-lot': (BuildContext context) => ProposeLot(),
     'ProposeLot2': (BuildContext context) => ProposeLot2(),
     'ProposeLot3': (BuildContext context) => ProposeLot3(),
+    'Propose_lot4': (BuildContext context) => Propose_lot4(),
     'Felicitations': (BuildContext context) => Felicitations(),
     'Profil': (BuildContext context) => Profil(),
     'mes_informations': (BuildContext context) => Mes_Informations(),
@@ -60,16 +65,22 @@ class Routes {
     'adressedusiege': (BuildContext context) => AdresseDuSiege(),
     'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
     'transactionencours': (BuildContext context) => TransactionEnCours(),
-    'transactioninformation': (BuildContext context) => TransactionInformation(),
+    'transactioninformation': (BuildContext context) =>
+        TransactionInformation(),
     'centredaide': (BuildContext context) => CentreDaide(),
     'historiqueinformation': (BuildContext context) => HistoriqueInformation(),
     'detailsduvage': (BuildContext context) => DetailsDuVage(),
     'mesdocuments': (BuildContext context) => MesDocuments(),
     'MessageScreen': (BuildContext context) => MessageScreen(),
     'ChatMessages': (BuildContext context) => ChatMessages(),
+    'Commanditaire': (BuildContext context) => Commanditaire(),
   };
 
-  Routes({FirebaseStorage storage, Firestore firestore, FirebaseAuth auth, GoogleSignIn googleSignIn}) {
+  Routes(
+      {FirebaseStorage storage,
+      Firestore firestore,
+      FirebaseAuth auth,
+      GoogleSignIn googleSignIn}) {
     Global.storage = storage;
     Global.firestore = firestore;
     Global.googleSignIn = googleSignIn;
@@ -80,7 +91,8 @@ class Routes {
           create: (_) => FirebaseAuthService(),
         ),
         StreamProvider(
-          create: (context) => context.read<FirebaseAuthService>().onAuthStateChanged,
+          create: (context) =>
+              context.read<FirebaseAuthService>().onAuthStateChanged,
         ),
       ],
       child: MaterialApp(
