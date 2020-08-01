@@ -31,8 +31,7 @@ class _EmailOptionState extends State<EmailOption> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Email',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Email', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {

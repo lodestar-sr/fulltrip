@@ -31,8 +31,7 @@ class _TelephoneOptionState extends State<TelephoneOption> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Téléphone',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Téléphone', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {

@@ -2,6 +2,7 @@ import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class Mes_Informations extends StatefulWidget {
@@ -29,8 +30,10 @@ class _Mes_InformationsState extends State<Mes_Informations> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Mes informations',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Informations',
+                  style: AppStyles.blackTextStyle
+                      .copyWith(fontSize: 17, fontWeight: FontWeight.w500)),
+              centerTitle: true,
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
@@ -53,63 +56,91 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () => Navigator.of(context)
-                                              .pushNamed('emailoption'),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Icon(
-                                                    Icons.email,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                    size: 30,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Text(
-                                                    'Email',
-                                                    style: AppStyles
-                                                        .blackTextStyle
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                  ),
-                                                ],
-                                              ),
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    email,
-                                                    style: AppStyles
-                                                        .greyTextStyle
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: AppColors
-                                                                .mediumGreyColor),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    size: 20,
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
+                                        Text(
+                                          'Mon identité',
+                                          style: AppStyles.darkGreyTextStyle
+                                              .copyWith(
+                                                  fontSize: 15,
+                                                  color: AppColors
+                                                      .backButtonColor),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 15.0, bottom: 5.0),
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .pushNamed('Commanditaire'),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Feather.user,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Commanditaire',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .pushNamed('emailoption'),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.email_outlined,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Email',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('telephoneoption'),
@@ -133,85 +164,32 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                       'Phone Number',
                                                       style: AppStyles
                                                           .blackTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                          .copyWith(),
                                                     ),
                                                   ],
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      phoneno,
-                                                      style: AppStyles
-                                                          .greyTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Icon(
-                                                      Icons.arrow_forward_ios,
-                                                      color: AppColors
-                                                          .mediumGreyColor,
-                                                      size: 20,
-                                                    )
-                                                  ],
-                                                )
                                               ],
                                             ),
                                           ),
                                         ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.0),
-                                          child: GestureDetector(
-                                            onTap: () => Navigator.of(context)
-                                                .pushNamed('adressedusiege'),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.location_on,
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      size: 30,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    ),
-                                                    Text(
-                                                      'Adresse du siège',
-                                                      style: AppStyles
-                                                          .blackTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color:
-                                                      AppColors.mediumGreyColor,
-                                                  size: 20,
-                                                )
-                                              ],
-                                            ),
+                                          padding:
+                                              const EdgeInsets.only(top: 20.0),
+                                          child: Text(
+                                            'Mon entreprise',
+                                            style: AppStyles.darkGreyTextStyle
+                                                .copyWith(
+                                                    fontSize: 15,
+                                                    color: AppColors
+                                                        .backButtonColor),
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.0),
+                                          padding: EdgeInsets.only(
+                                              top: 15.0, bottom: 5),
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('raisonsociale'),
@@ -223,7 +201,7 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                 Row(
                                                   children: [
                                                     Icon(
-                                                      Icons.people_outline,
+                                                      Feather.shopping_bag,
                                                       color: AppColors
                                                           .primaryColor,
                                                       size: 30,
@@ -235,28 +213,23 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                       'Raison sociale',
                                                       style: AppStyles
                                                           .blackTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                          .copyWith(),
                                                     ),
                                                   ],
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color:
-                                                      AppColors.mediumGreyColor,
-                                                  size: 20,
-                                                )
                                               ],
                                             ),
                                           ),
                                         ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
-                                                .pushNamed('Commanditaire'),
+                                                .pushNamed('adressedusiege'),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -265,7 +238,8 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                 Row(
                                                   children: [
                                                     Icon(
-                                                      Icons.person_outline,
+                                                      Icons
+                                                          .location_on_outlined,
                                                       color: AppColors
                                                           .primaryColor,
                                                       size: 30,
@@ -274,28 +248,93 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                       width: 15,
                                                     ),
                                                     Text(
-                                                      'Commanditaire',
+                                                      'Adresse du siège',
                                                       style: AppStyles
                                                           .blackTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                          .copyWith(),
                                                     ),
                                                   ],
                                                 ),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color:
-                                                      AppColors.mediumGreyColor,
-                                                  size: 20,
-                                                )
                                               ],
                                             ),
                                           ),
                                         ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 30.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: GestureDetector(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.payment_rounded,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Moyen de paiement',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: GestureDetector(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.inventory,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Factures',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('changepassword'),
@@ -319,40 +358,53 @@ class _Mes_InformationsState extends State<Mes_Informations> {
                                                       'Changer le mot de passe',
                                                       style: AppStyles
                                                           .blackTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+                                                          .copyWith(),
                                                     ),
                                                   ],
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '******',
-                                                      style: AppStyles
-                                                          .greyTextStyle
-                                                          .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Icon(
-                                                      Icons.arrow_forward_ios,
-                                                      color: AppColors
-                                                          .mediumGreyColor,
-                                                      size: 20,
-                                                    )
-                                                  ],
-                                                )
                                               ],
                                             ),
                                           ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 5.0, bottom: 5.0),
+                                          child: GestureDetector(
+                                            onTap: () => Navigator.of(context)
+                                                .pushNamed('mesdocuments'),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Feather.file_text,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      'Documents',
+                                                      style: AppStyles
+                                                          .blackTextStyle
+                                                          .copyWith(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Divider(
+                                          thickness: 1,
                                         ),
                                       ]))))));
             })));

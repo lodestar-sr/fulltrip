@@ -42,7 +42,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 color: AppColors.backButtonColor, //change your color here
               ),
               title: Text('Changer le mot de passe',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+                  style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {

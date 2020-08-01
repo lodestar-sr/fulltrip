@@ -18,7 +18,8 @@ class ChatMessages extends StatefulWidget {
   _ChatMessagesState createState() => _ChatMessagesState();
 }
 
-class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderStateMixin {
+class _ChatMessagesState extends State<ChatMessages>
+    with SingleTickerProviderStateMixin {
   TextEditingController inputMessage = TextEditingController();
   ScrollController _controller = new ScrollController();
   bool emojis = false;
@@ -43,7 +44,8 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(
+                color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -55,7 +57,8 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 200), () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 200),
+        () => _controller.jumpTo(_controller.position.maxScrollExtent));
 
     scrollListner();
   }
@@ -98,7 +101,8 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
                     child: FormFieldContainer(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
+                        border: Border.all(
+                            color: AppColors.lightGreyColor.withOpacity(0.6)),
                       ),
                       child: TextField(
                         controller: inputMessage,
@@ -107,9 +111,14 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
                         maxLines: 5,
                         textInputAction: TextInputAction.newline,
                         maxLengthEnforced: true,
-                        decoration: InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.all(5)),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.all(5)),
                         onTap: () {
-                          Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
+                          Timer(
+                              Duration(milliseconds: 300),
+                              () => _controller.jumpTo(
+                                  _controller.position.maxScrollExtent));
                           setState(() {
                             emojis = false;
                           });
@@ -123,8 +132,11 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
                 ),
                 IconButton(
                   icon: Container(
-                    decoration: BoxDecoration(color: AppColors.primaryColor, shape: BoxShape.circle),
-                    child: Center(child: Icon(Icons.arrow_upward, size: 26, color: Colors.white)),
+                    decoration: BoxDecoration(
+                        color: AppColors.primaryColor, shape: BoxShape.circle),
+                    child: Center(
+                        child: Icon(Icons.arrow_upward,
+                            size: 26, color: Colors.white)),
                   ),
                   onPressed: () {
                     addNewMessage();
@@ -155,7 +167,8 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
         inputMessage.text = '';
       });
     }
-    Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 300),
+        () => _controller.jumpTo(_controller.position.maxScrollExtent));
   }
 
   @override
@@ -170,7 +183,8 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
               ),
           title: Text(
             'Messages',
-            style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w400),
+            style:
+                AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w400),
           ),
         ),
         body: SingleChildScrollView(
@@ -178,12 +192,22 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
             inAsyncCall: Global.isLoading,
             color: AppColors.primaryColor,
             child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                         child: Stack(children: [
+                      Container(
+                        height: SizeConfig.safeBlockVertical * 94,
+                        padding: EdgeInsets.fromLTRB(
+                            16, isVisible ? 40 : 15, 16, 90),
+                        child: ListView(
+                            controller: _controller,
+                            shrinkWrap: true,
+                            children: chatMessages()),
+                      ),
                       Positioned(
                         top: 0,
                         left: 0,
@@ -192,30 +216,34 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
                           vsync: this,
                           duration: Duration(milliseconds: 300),
                           child: Container(
-                            height: isVisible ? 50.0 : 0.0,
+                            height: isVisible ? 51.0 : 0.0,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: AppColors.compteDivider))),
                             child: Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    top: 13.0,
+                                    top: 15.0,
                                   ),
                                   child: Text(
                                     "Nom de l'entreprise",
-                                    style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+                                    style: AppStyles.blackTextStyle
+                                        .copyWith(fontWeight: FontWeight.w500),
                                   ),
                                 ),
-                                Divider(),
                               ],
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        height: SizeConfig.safeBlockVertical * 94,
-                        padding: EdgeInsets.fromLTRB(16, isVisible ? 40 : 0, 16, 80),
-                        child: ListView(controller: _controller, shrinkWrap: true, children: chatMessages()),
-                      ),
-                      Positioned(bottom: 0, left: 0, right: 0, child: builMessageTextField())
+                      Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: builMessageTextField())
                     ])),
                   ],
                 )),

@@ -33,7 +33,7 @@ class _CommanditaireState extends State<Commanditaire> {
                 color: AppColors.backButtonColor, //change your color here
               ),
               title: Text('Nom et prénom du commanditaire',
-                  style: TextStyle(fontSize: 16, color: AppColors.darkColor)),
+                  style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {

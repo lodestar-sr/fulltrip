@@ -19,12 +19,15 @@ import 'package:provider/provider.dart';
 
 import 'screens/home/lot_details/SuccessScreen.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
+import 'screens/home/propose_lot/MeansOfPayment/MeansOfPayment.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot4.dart';
 import 'screens/messages/ChatMessages.dart';
 import 'screens/messages/MessagesList.dart';
+import 'screens/profil/Announces/Annonces.dart';
 import 'screens/profil/MesDocuments/Mes_Documents.dart';
+import 'screens/profil/TransPort/TransPort.dart';
 import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
 import 'screens/profil/informations/HelpCenter/CentreDaide.dart';
 import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
@@ -55,8 +58,9 @@ class Routes {
     'ProposeLot2': (BuildContext context) => ProposeLot2(),
     'ProposeLot3': (BuildContext context) => ProposeLot3(),
     'Propose_lot4': (BuildContext context) => Propose_lot4(),
+    'MeansOfPayment': (BuildContext context) => MeansOfPayment(),
     'Felicitations': (BuildContext context) => Felicitations(),
-    'Profil': (BuildContext context) => Profil(),
+    'Profil': (BuildContext context) => Compte(),
     'mes_informations': (BuildContext context) => Mes_Informations(),
     'raisonsociale': (BuildContext context) => RaisonSociale(),
     'emailoption': (BuildContext context) => EmailOption(),
@@ -74,6 +78,8 @@ class Routes {
     'MessageScreen': (BuildContext context) => MessageScreen(),
     'ChatMessages': (BuildContext context) => ChatMessages(),
     'Commanditaire': (BuildContext context) => Commanditaire(),
+    'Announces': (BuildContext context) => Announces(),
+    'TransPort': (BuildContext context) => TransPort(),
   };
 
   Routes(

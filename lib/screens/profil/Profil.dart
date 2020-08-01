@@ -4,17 +4,18 @@ import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
-class Profil extends StatefulWidget {
-  Profil({Key key}) : super(key: key);
+class Compte extends StatefulWidget {
+  Compte({Key key}) : super(key: key);
 
   @override
-  _ProfilState createState() => _ProfilState();
+  _CompteState createState() => _CompteState();
 }
 
-class _ProfilState extends State<Profil> {
+class _CompteState extends State<Compte> {
   AuthService _authService;
 
   @override
@@ -44,120 +45,122 @@ class _ProfilState extends State<Profil> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Profil',
+              title: Text('Compte',
                   style: AppStyles.blackTextStyle
                       .copyWith(fontWeight: FontWeight.w500)),
               centerTitle: true,
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
-              return Container(
-                  width: double.infinity,
-                  child: SingleChildScrollView(
-                      child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
-                          child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: viewportConstraints.maxHeight,
-                              ),
-                              child: Container(
-                                  padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
+            body: Container(
+                width: double.infinity,
+                child: SingleChildScrollView(
+                    child: GestureDetector(
+                        onTap: () => FocusScope.of(context)
+                            .requestFocus(new FocusNode()),
+                        child: Container(
+                            padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: Global.profileOptions.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          return Column(
+                                            children: [
+                                              ListTile(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 0.0),
+                                                leading: Icon(
+                                                    Global.profileIcons[index],
+                                                    size: 26,
+                                                    color:
+                                                        AppColors.primaryColor),
+                                                title: Text(
+                                                  Global.profileOptions[index],
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppColors.darkColor,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                onTap: () {
+                                                  index == 0
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'mes_informations')
+                                                      : null;
+                                                  index == 1
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'Announces')
+                                                      : null;
+                                                  index == 2
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'TransPort')
+                                                      : null;
+                                                  index == 3
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'centredaide')
+                                                      : null;
+                                                  index == 4 ? null : null;
+                                                  index == 5
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'mesdocuments')
+                                                      : null;
+                                                  index == 6
+                                                      ? Navigator.of(context)
+                                                          .pushNamed(
+                                                              'mesdocuments')
+                                                      : null;
+                                                  index == 7 ? null : null;
+                                                },
+                                              ),
+                                              Container(
+                                                color: AppColors.compteDivider,
+                                                height: 1,
+                                              )
+                                            ],
+                                          );
+                                        }),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: SizeConfig.safeBlockVertical * 12),
+                                    child: Column(
                                       children: [
                                         Container(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount:
-                                                  Global.profileOptions.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      index) {
-                                                return ListTile(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 0.0),
-                                                  leading: Icon(
-                                                      Global
-                                                          .profileIcons[index],
-                                                      size: 26,
-                                                      color: AppColors
-                                                          .primaryColor),
-                                                  title: Text(
-                                                    Global
-                                                        .profileOptions[index],
-                                                    style: TextStyle(
-                                                        color:
-                                                            AppColors.darkColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  onTap: () {
-                                                    index == 0
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'mes_informations')
-                                                        : null;
-                                                    index == 1
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'CoordonneesBancaries')
-                                                        : null;
-                                                    index == 2
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'transactionencours')
-                                                        : null;
-                                                    index == 3
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'historiqueinformation')
-                                                        : null;
-                                                    index == 4 ? null : null;
-                                                    index == 5
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'mesdocuments')
-                                                        : null;
-                                                    index == 6
-                                                        ? Navigator.of(context)
-                                                            .pushNamed(
-                                                                'mesdocuments')
-                                                        : null;
-                                                    index == 7
-                                                        ? signOut()
-                                                        : null;
-                                                  },
-                                                );
-                                              }),
+                                          color: AppColors.compteDivider,
+                                          height: 1,
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.safeBlockVertical *
-                                                      20),
-                                          child: ListTile(
-                                            onTap: () => Navigator.of(context)
-                                                .pushNamed('centredaide'),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 0.0),
-                                            leading: Icon(
-                                              Icons.error_outline,
-                                              color: AppColors.primaryColor,
-                                              size: 30,
-                                            ),
-                                            title: Text(
-                                              "Centre d'aide",
-                                            ),
+                                        ListTile(
+                                          onTap: () => signOut(),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              horizontal: 0.0),
+                                          leading: Icon(
+                                            Feather.log_out,
+                                            color: AppColors.redColor,
+                                            size: 30,
                                           ),
+                                          title: Text(
+                                            'Se déconnecter',
+                                          ),
+                                        ),
+                                        Container(
+                                          color: AppColors.compteDivider,
+                                          height: 1,
                                         )
-                                      ]))))));
-            })));
+                                      ],
+                                    ),
+                                  )
+                                ])))))));
   }
 }

@@ -2,6 +2,7 @@ import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class MesDocuments extends StatefulWidget {
@@ -31,8 +32,8 @@ class _MesDocumentsState extends State<MesDocuments> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Mes documents',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Coordonnées bancaires',
+                  style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
@@ -68,65 +69,110 @@ class _MesDocumentsState extends State<MesDocuments> {
                                                     color: AppColors.darkColor,
                                                     fontWeight:
                                                         FontWeight.w500),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text: ' *',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .redColor)),
-                                                ],
+                                                children: <TextSpan>[],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 10.0),
-                                              child: Text(
-                                                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip... ''',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .greyColor),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.file_text,
+                                                color: AppColors.primaryColor,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Visibility(
-                                                visible: insurance,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Fichier sélectionné',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    Text(
-                                                      'Supprimer un fichier',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .redColor),
-                                                    )
-                                                  ],
-                                                ),
-                                                replacement: Text(
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
                                                   'Ajouter un fichier',
                                                   style: AppStyles
-                                                      .navbarInactiveTextStyle
+                                                      .navbarActiveTextStyle
                                                       .copyWith(
-                                                          color: AppColors
-                                                              .primaryColor),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                 ),
                                               ),
+                                            ),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.image,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
+                                                  'Ajouter une photo',
+                                                  style: AppStyles
+                                                      .navbarActiveTextStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                  child: ListTile(
+                                                    dense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0.0),
+                                                    leading: Icon(
+                                                      Feather.edit_3,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                    title: Align(
+                                                      alignment:
+                                                          Alignment(-1.25, 0),
+                                                      child: Text(
+                                                        'Modifier',
+                                                        style: AppStyles
+                                                            .navbarActiveTextStyle
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: AppColors.redColor,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      'Supprimer',
+                                                      style: AppStyles
+                                                          .navbarActiveTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .redColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             Divider(),
 
@@ -140,65 +186,109 @@ class _MesDocumentsState extends State<MesDocuments> {
                                                     color: AppColors.darkColor,
                                                     fontWeight:
                                                         FontWeight.w500),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text: ' *',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .redColor)),
-                                                ],
+                                                children: <TextSpan>[],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 10.0),
-                                              child: Text(
-                                                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip... ''',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .greyColor),
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.file_text,
+                                                color: AppColors.primaryColor,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Visibility(
-                                                visible: transportLicenses,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Fichier sélectionné',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    Text(
-                                                      'Supprimer un fichier',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .redColor),
-                                                    )
-                                                  ],
-                                                ),
-                                                replacement: Text(
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
                                                   'Ajouter un fichier',
                                                   style: AppStyles
-                                                      .navbarInactiveTextStyle
+                                                      .navbarActiveTextStyle
                                                       .copyWith(
-                                                          color: AppColors
-                                                              .primaryColor),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                 ),
                                               ),
+                                            ),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.image,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
+                                                  'Ajouter une photo',
+                                                  style: AppStyles
+                                                      .navbarActiveTextStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                  child: ListTile(
+                                                    dense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0.0),
+                                                    leading: Icon(
+                                                      Feather.edit_3,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                    title: Align(
+                                                      alignment:
+                                                          Alignment(-1.25, 0),
+                                                      child: Text(
+                                                        'Modifier',
+                                                        style: AppStyles
+                                                            .navbarActiveTextStyle
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: AppColors.redColor,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      'Supprimer',
+                                                      style: AppStyles
+                                                          .navbarActiveTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .redColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             Divider(),
                                             ////
@@ -210,65 +300,110 @@ class _MesDocumentsState extends State<MesDocuments> {
                                                     color: AppColors.darkColor,
                                                     fontWeight:
                                                         FontWeight.w500),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text: ' *',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .redColor)),
-                                                ],
+                                                children: <TextSpan>[],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 10.0),
-                                              child: Text(
-                                                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip... ''',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .greyColor),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.file_text,
+                                                color: AppColors.primaryColor,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Visibility(
-                                                visible: kbisdocument,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Fichier sélectionné',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    Text(
-                                                      'Supprimer un fichier',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .redColor),
-                                                    )
-                                                  ],
-                                                ),
-                                                replacement: Text(
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
                                                   'Ajouter un fichier',
                                                   style: AppStyles
-                                                      .navbarInactiveTextStyle
+                                                      .navbarActiveTextStyle
                                                       .copyWith(
-                                                          color: AppColors
-                                                              .primaryColor),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                 ),
                                               ),
+                                            ),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.image,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
+                                                  'Ajouter une photo',
+                                                  style: AppStyles
+                                                      .navbarActiveTextStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                  child: ListTile(
+                                                    dense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0.0),
+                                                    leading: Icon(
+                                                      Feather.edit_3,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                    title: Align(
+                                                      alignment:
+                                                          Alignment(-1.25, 0),
+                                                      child: Text(
+                                                        'Modifier',
+                                                        style: AppStyles
+                                                            .navbarActiveTextStyle
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: AppColors.redColor,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      'Supprimer',
+                                                      style: AppStyles
+                                                          .navbarActiveTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .redColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             Divider(),
                                             ////
@@ -281,105 +416,154 @@ class _MesDocumentsState extends State<MesDocuments> {
                                                     color: AppColors.darkColor,
                                                     fontWeight:
                                                         FontWeight.w500),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text: ' *',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .redColor)),
-                                                ],
+                                                children: <TextSpan>[],
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 5.0),
-                                              child: Text(
-                                                '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip... ''',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .greyColor),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.file_text,
+                                                color: AppColors.primaryColor,
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: Visibility(
-                                                visible: identityCard,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      'Fichier sélectionné',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .mediumGreyColor),
-                                                    ),
-                                                    Text(
-                                                      'Supprimer un fichier',
-                                                      style: AppStyles
-                                                          .navbarInactiveTextStyle
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .redColor),
-                                                    )
-                                                  ],
-                                                ),
-                                                replacement: Text(
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
                                                   'Ajouter un fichier',
                                                   style: AppStyles
-                                                      .navbarInactiveTextStyle
+                                                      .navbarActiveTextStyle
                                                       .copyWith(
-                                                          color: AppColors
-                                                              .primaryColor),
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                 ),
                                               ),
+                                            ),
+
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              leading: Icon(
+                                                Feather.image,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              title: Align(
+                                                alignment: Alignment(-1.25, 0),
+                                                child: Text(
+                                                  'Ajouter une photo',
+                                                  style: AppStyles
+                                                      .navbarActiveTextStyle
+                                                      .copyWith(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                ),
+                                              ),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                  child: ListTile(
+                                                    dense: true,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 0.0),
+                                                    leading: Icon(
+                                                      Feather.edit_3,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                    title: Align(
+                                                      alignment:
+                                                          Alignment(-1.25, 0),
+                                                      child: Text(
+                                                        'Modifier',
+                                                        style: AppStyles
+                                                            .navbarActiveTextStyle
+                                                            .copyWith(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: AppColors.redColor,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      'Supprimer',
+                                                      style: AppStyles
+                                                          .navbarActiveTextStyle
+                                                          .copyWith(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppColors
+                                                                  .redColor),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30)),
-                                            boxShadow: <BoxShadow>[
-                                              BoxShadow(
-                                                  color: AppColors.whiteColor
-                                                      .withOpacity(0.3),
-                                                  blurRadius: 16,
-                                                  spreadRadius: 4),
-                                            ],
-                                          ),
-                                          child: ButtonTheme(
-                                            minWidth: double.infinity,
-                                            height: 60,
-                                            child: RaisedButton(
-                                              child: Text('Sauvegarder',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white)),
-                                              color: AppColors.primaryColor,
-                                              textColor: Color(0xFF343434),
-                                              onPressed: () {
-                                                setState(() {
-                                                  insurance = true;
-                                                  transportLicenses = true;
-                                                  kbisdocument = true;
-                                                  identityCard = true;
-                                                });
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 20.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(30)),
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: AppColors.whiteColor
+                                                        .withOpacity(0.3),
+                                                    blurRadius: 16,
+                                                    spreadRadius: 4),
+                                              ],
+                                            ),
+                                            child: ButtonTheme(
+                                              minWidth: double.infinity,
+                                              height: 60,
+                                              child: RaisedButton(
+                                                child: Text('Sauvegarder',
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white)),
+                                                color: AppColors.primaryColor,
+                                                textColor: Color(0xFF343434),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    insurance = true;
+                                                    transportLicenses = true;
+                                                    kbisdocument = true;
+                                                    identityCard = true;
+                                                  });
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                elevation: 0,
                                               ),
-                                              elevation: 0,
                                             ),
                                           ),
                                         ),

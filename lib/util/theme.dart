@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
-  return ThemeData(primaryColor: AppColors.primaryColor, cursorColor: AppColors.primaryColor, accentColor: AppColors.primaryColor, fontFamily: 'Roboto', scaffoldBackgroundColor: Colors.white);
+  return ThemeData(
+      primaryColor: AppColors.primaryColor,
+      cursorColor: AppColors.primaryColor,
+      accentColor: AppColors.primaryColor,
+      fontFamily: 'Roboto',
+      scaffoldBackgroundColor: Colors.white);
 }
 
 class AppColors {
@@ -27,16 +32,32 @@ class AppColors {
   static const navigationBarInactiveColor = Color(0xFF92979C);
   static const chatIconColor = Color(0xFFC4C4C4);
   static const lightestGreyColor = Color(0xFFF2F2F2);
+  static const compteDivider = Color(0xFFEBF0FF);
 }
 
 class AppStyles {
-  static const navbarInactiveTextStyle = TextStyle(color: AppColors.lightGreyColor, fontSize: 9, fontWeight: FontWeight.normal);
-  static const navbarActiveTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 9, fontWeight: FontWeight.normal);
-  static const blackTextStyle = TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
-  static const greyTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const darkGreyTextStyle = TextStyle(color: AppColors.darkGreyColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const primaryTextStyle = TextStyle(color: AppColors.primaryColor, fontSize: 16, fontWeight: FontWeight.normal);
-  static const defaultHintTextStyle = TextStyle(color: AppColors.greyColor, fontSize: 14);
+  static const navbarInactiveTextStyle = TextStyle(
+      color: AppColors.lightGreyColor,
+      fontSize: 9,
+      fontWeight: FontWeight.normal);
+  static const navbarActiveTextStyle = TextStyle(
+      color: AppColors.primaryColor,
+      fontSize: 9,
+      fontWeight: FontWeight.normal);
+  static const blackTextStyle = TextStyle(
+      color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal);
+  static const greyTextStyle = TextStyle(
+      color: AppColors.greyColor, fontSize: 16, fontWeight: FontWeight.normal);
+  static const darkGreyTextStyle = TextStyle(
+      color: AppColors.darkGreyColor,
+      fontSize: 16,
+      fontWeight: FontWeight.normal);
+  static const primaryTextStyle = TextStyle(
+      color: AppColors.primaryColor,
+      fontSize: 16,
+      fontWeight: FontWeight.normal);
+  static const defaultHintTextStyle =
+      TextStyle(color: AppColors.greyColor, fontSize: 14);
 }
 
 InputDecoration hintTextDecoration(String text) {

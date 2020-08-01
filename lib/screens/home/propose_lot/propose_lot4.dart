@@ -728,21 +728,25 @@ class _Propose_lot4State extends State<Propose_lot4> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  color: AppColors.primaryColor,
-                                  size: 27,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Ajouter un mode de paiement",
-                                  style: AppStyles.primaryTextStyle,
-                                )
-                              ],
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context)
+                                  .pushNamed('MeansOfPayment'),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: AppColors.primaryColor,
+                                    size: 27,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Ajouter un mode de paiement",
+                                    style: AppStyles.primaryTextStyle,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
 

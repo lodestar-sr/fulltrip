@@ -32,8 +32,7 @@ class _AdresseDuSiegeState extends State<AdresseDuSiege> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Adresse du siège',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Adresse du siège', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {

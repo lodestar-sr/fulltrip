@@ -31,8 +31,7 @@ class _RaisonSocialeState extends State<RaisonSociale> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Raison sociale',
-                  style: TextStyle(fontSize: 20, color: AppColors.darkColor)),
+              title: Text('Raison sociale', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
