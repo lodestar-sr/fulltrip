@@ -21,6 +21,7 @@ class _CompteState extends State<Compte> {
   @override
   void initState() {
     _authService = AuthService.getInstance();
+    Global.isLoading = false;
   }
 
   signOut() {
@@ -45,122 +46,78 @@ class _CompteState extends State<Compte> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Compte',
-                  style: AppStyles.blackTextStyle
-                      .copyWith(fontWeight: FontWeight.w500)),
+              title: Text('Compte', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500)),
               centerTitle: true,
             ),
             body: Container(
                 width: double.infinity,
                 child: SingleChildScrollView(
                     child: GestureDetector(
-                        onTap: () => FocusScope.of(context)
-                            .requestFocus(new FocusNode()),
+                        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                         child: Container(
                             padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: Global.profileOptions.length,
-                                        itemBuilder:
-                                            (BuildContext context, index) {
-                                          return Column(
-                                            children: [
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 0.0),
-                                                leading: Icon(
-                                                    Global.profileIcons[index],
-                                                    size: 26,
-                                                    color:
-                                                        AppColors.primaryColor),
-                                                title: Text(
-                                                  Global.profileOptions[index],
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppColors.darkColor,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                onTap: () {
-                                                  index == 0
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mes_informations')
-                                                      : null;
-                                                  index == 1
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'Announces')
-                                                      : null;
-                                                  index == 2
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'TransPort')
-                                                      : null;
-                                                  index == 3
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'centredaide')
-                                                      : null;
-                                                  index == 4 ? null : null;
-                                                  index == 5
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mesdocuments')
-                                                      : null;
-                                                  index == 6
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mesdocuments')
-                                                      : null;
-                                                  index == 7 ? null : null;
-                                                },
-                                              ),
-                                              Container(
-                                                color: AppColors.compteDivider,
-                                                height: 1,
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.safeBlockVertical * 12),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          color: AppColors.compteDivider,
-                                          height: 1,
-                                        ),
-                                        ListTile(
-                                          onTap: () => signOut(),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 0.0),
-                                          leading: Icon(
-                                            Feather.log_out,
-                                            color: AppColors.redColor,
-                                            size: 30,
+                            child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                              Container(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: Global.profileOptions.length,
+                                    itemBuilder: (BuildContext context, index) {
+                                      return Column(
+                                        children: [
+                                          ListTile(
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                            leading: Icon(Global.profileIcons[index], size: 26, color: AppColors.primaryColor),
+                                            title: Text(
+                                              Global.profileOptions[index],
+                                              style: TextStyle(color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                            ),
+                                            onTap: () {
+                                              index == 0 ? Navigator.of(context).pushNamed('mes_informations') : null;
+                                              index == 1 ? Navigator.of(context).pushNamed('Announces') : null;
+                                              index == 2 ? Navigator.of(context).pushNamed('TransPort') : null;
+                                              index == 3 ? Navigator.of(context).pushNamed('centredaide') : null;
+                                              index == 4 ? null : null;
+                                              index == 5 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                              index == 6 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                              index == 7 ? null : null;
+                                            },
                                           ),
-                                          title: Text(
-                                            'Se déconnecter',
-                                          ),
-                                        ),
-                                        Container(
-                                          color: AppColors.compteDivider,
-                                          height: 1,
-                                        )
-                                      ],
+                                          Container(
+                                            color: AppColors.compteDivider,
+                                            height: 1,
+                                          )
+                                        ],
+                                      );
+                                    }),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 12),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      color: AppColors.compteDivider,
+                                      height: 1,
                                     ),
-                                  )
-                                ])))))));
+                                    ListTile(
+                                      onTap: () => signOut(),
+                                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                                      leading: Icon(
+                                        Feather.log_out,
+                                        color: AppColors.redColor,
+                                        size: 30,
+                                      ),
+                                      title: Text(
+                                        'Se déconnecter',
+                                      ),
+                                    ),
+                                    Container(
+                                      color: AppColors.compteDivider,
+                                      height: 1,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ])))))));
   }
 }

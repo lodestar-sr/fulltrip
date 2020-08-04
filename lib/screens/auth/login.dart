@@ -140,7 +140,7 @@ class _LoginState extends State<Login> {
                             children: [
                               Text('Vous n\'avez pas de compte? ', style: AppStyles.greyTextStyle),
                               GestureDetector(
-                                child: Text(' Enregistrement', style: AppStyles.primaryTextStyle),
+                                child: Text(' Créer un compte', style: AppStyles.primaryTextStyle),
                                 onTap: () {
                                   Navigator.of(context).pushNamed('register');
                                 },

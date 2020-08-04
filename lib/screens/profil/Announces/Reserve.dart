@@ -18,6 +18,7 @@ class Reserve extends StatefulWidget {
 class _ReserveState extends State<Reserve> {
   //announcer
   var myFormat = DateFormat('d/MM');
+
   List<Widget> listLotItems() {
     List<Widget> list = [];
 
@@ -30,8 +31,7 @@ class _ReserveState extends State<Reserve> {
         startCity =
             "${startingaddress[startingaddress.length - 3].toString().trim()},${startingaddress[startingaddress.length - 2].toString().trim()},${startingaddress[startingaddress.length - 1].toString().trim()}";
       } else if (startingaddress.length == 3) {
-        startCity =
-            "${startingaddress[startingaddress.length - 2].toString().trim()},${startingaddress[startingaddress.length - 1].toString().trim()}";
+        startCity = "${startingaddress[startingaddress.length - 2].toString().trim()},${startingaddress[startingaddress.length - 1].toString().trim()}";
       } else {
         startCity = startingaddress[0].toString().trim();
       }
@@ -41,8 +41,7 @@ class _ReserveState extends State<Reserve> {
         arriveCity =
             "${arrivaladdress[arrivaladdress.length - 3].toString().trim()},${arrivaladdress[arrivaladdress.length - 2].toString().trim()},${arrivaladdress[arrivaladdress.length - 1].toString().trim()}";
       } else if (arrivaladdress.length == 2) {
-        arriveCity =
-            "${arrivaladdress[arrivaladdress.length - 2].toString().trim()},${arrivaladdress[arrivaladdress.length - 1].toString().trim()}";
+        arriveCity = "${arrivaladdress[arrivaladdress.length - 2].toString().trim()},${arrivaladdress[arrivaladdress.length - 1].toString().trim()}";
       } else {
         arriveCity = arrivaladdress[0].toString().trim();
       }
@@ -82,14 +81,9 @@ class _ReserveState extends State<Reserve> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Icon(
-                                            MaterialCommunityIcons
-                                                .circle_slice_8,
-                                            size: 20,
-                                            color: AppColors.primaryColor),
+                                        Icon(MaterialCommunityIcons.circle_slice_8, size: 20, color: AppColors.primaryColor),
                                         Container(
                                             child: Dash(
                                           direction: Axis.vertical,
@@ -98,56 +92,34 @@ class _ReserveState extends State<Reserve> {
                                           dashThickness: 2,
                                           dashColor: AppColors.greyColor,
                                         )),
-                                        Icon(Feather.map_pin,
-                                            size: 20,
-                                            color: AppColors.redColor),
+                                        Icon(Feather.map_pin, size: 20, color: AppColors.redColor),
                                       ],
                                     ),
                                     Expanded(
                                       child: Container(
                                         height: 90,
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 4, bottom: 5),
+                                              padding: EdgeInsets.only(left: 4, bottom: 5),
                                               child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
+                                                scrollDirection: Axis.horizontal,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       startCity,
-                                                      style: AppStyles
-                                                          .blackTextStyle
-                                                          .copyWith(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                     lot.pickupDateFrom != null
                                                         ? Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5.0),
+                                                            padding: EdgeInsets.only(top: 5.0),
                                                             child: Text(
                                                               'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                              style: AppStyles
-                                                                  .navbarInactiveTextStyle
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .mediumGreyColor,
-                                                                      fontSize:
-                                                                          11),
+                                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                             ),
                                                           )
                                                         : Container()
@@ -156,41 +128,23 @@ class _ReserveState extends State<Reserve> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 4, bottom: 8),
+                                              padding: EdgeInsets.only(left: 4, bottom: 8),
                                               child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
+                                                scrollDirection: Axis.horizontal,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       arriveCity,
-                                                      style: AppStyles
-                                                          .blackTextStyle
-                                                          .copyWith(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                     lot.deliveryDateFrom != null
                                                         ? Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5.0),
+                                                            padding: EdgeInsets.only(top: 5.0),
                                                             child: Text(
                                                               'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                              style: AppStyles
-                                                                  .navbarInactiveTextStyle
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .mediumGreyColor,
-                                                                      fontSize:
-                                                                          11),
+                                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                             ),
                                                           )
                                                         : Container()
@@ -218,16 +172,12 @@ class _ReserveState extends State<Reserve> {
                 children: [
                   Text(
                     "Prix de l'expédition",
-                    style: AppStyles.blackTextStyle
-                        .copyWith(fontWeight: FontWeight.w500),
+                    style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Container(
                     child: Text(
                       "${lot.price.toStringAsFixed(0)}€" ?? "",
-                      style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
@@ -236,8 +186,7 @@ class _ReserveState extends State<Reserve> {
           ),
         ),
         onTap: () {
-          Navigator.of(context)
-              .pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
+          Navigator.of(context).pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
         },
       ));
     });
@@ -252,8 +201,7 @@ class _ReserveState extends State<Reserve> {
                 padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                 child: Text(
                   '''Aucune donnée disponible.''',
-                  style: TextStyle(
-                      color: AppColors.greyColor, fontSize: 14, height: 1.8),
+                  style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -272,39 +220,28 @@ class _ReserveState extends State<Reserve> {
         inAsyncCall: Global.isLoading,
         color: AppColors.primaryColor,
         progressIndicator: CircularProgressIndicator(),
-        child: Scaffold(body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        child: Scaffold(body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
               width: double.infinity,
               child: SingleChildScrollView(
                   child: GestureDetector(
-                      onTap: () =>
-                          FocusScope.of(context).requestFocus(new FocusNode()),
+                      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                       child: ConstrainedBox(
                           constraints: BoxConstraints(
                             minHeight: viewportConstraints.maxHeight,
                           ),
                           child: Container(
                               padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Container(
-                                      height: SizeConfig.safeBlockVertical * 79,
-                                      child: ListView(
-                                        shrinkWrap: true,
-                                        padding: EdgeInsets.only(
-                                            left: 4,
-                                            right: 4,
-                                            top: 10,
-                                            bottom: 40),
-                                        children: listLotItems(),
-                                      ),
-                                    )
-                                  ]))))));
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.max, children: [
+                                Container(
+                                  height: SizeConfig.safeBlockVertical * 79,
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(left: 4, right: 4, top: 10, bottom: 40),
+                                    children: listLotItems(),
+                                  ),
+                                )
+                              ]))))));
         })));
   }
 }

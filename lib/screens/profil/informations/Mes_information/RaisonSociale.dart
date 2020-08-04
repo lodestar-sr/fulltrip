@@ -33,99 +33,66 @@ class _RaisonSocialeState extends State<RaisonSociale> {
               ),
               title: Text('Raison sociale', style: AppStyles.blackTextStyle),
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 30, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Raison sociale',
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                            ),
-                                            Form(
-                                              key: raisonSocialeFormKey,
-                                              child: FormFieldContainer(
-                                                child: TextFormField(
-                                                  initialValue: '',
-                                                  decoration: hintTextDecoration(
-                                                      'Entrer raison sociale'),
-                                                  validator: (value) =>
-                                                      Validators.required(value,
-                                                          errorText:
-                                                              'Veuillez saisir une raison sociale'),
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  style: AppStyles.greyTextStyle
-                                                      .copyWith(fontSize: 18),
-                                                  onSaved: (val) => setState(
-                                                      () =>
-                                                          raisonSociale = val),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                        Text(
+                                          'Raison sociale',
+                                          style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(30)),
-                                            boxShadow: <BoxShadow>[
-                                              BoxShadow(
-                                                  color: AppColors.whiteColor
-                                                      .withOpacity(0.3),
-                                                  blurRadius: 16,
-                                                  spreadRadius: 4),
-                                            ],
-                                          ),
-                                          child: ButtonTheme(
-                                            minWidth: double.infinity,
-                                            height: 60,
-                                            child: RaisedButton(
-                                              child: Text('Sauvegarder',
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white)),
-                                              color: AppColors.primaryColor,
-                                              textColor: Color(0xFF343434),
-                                              onPressed: () {
-                                                raisonSocialeFormKey
-                                                    .currentState
-                                                    .validate();
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              elevation: 0,
+                                        Form(
+                                          key: raisonSocialeFormKey,
+                                          child: FormFieldContainer(
+                                            child: TextFormField(
+                                              initialValue: '',
+                                              decoration: hintTextDecoration('Entrer raison sociale'),
+                                              validator: (value) => Validators.required(value, errorText: 'Veuillez saisir une raison sociale'),
+                                              keyboardType: TextInputType.text,
+                                              style: AppStyles.greyTextStyle.copyWith(fontSize: 18),
+                                              onSaved: (val) => setState(() => raisonSociale = val),
                                             ),
                                           ),
                                         ),
-                                      ]))))));
+                                      ],
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(color: AppColors.whiteColor.withOpacity(0.3), blurRadius: 16, spreadRadius: 4),
+                                        ],
+                                      ),
+                                      child: ButtonTheme(
+                                        minWidth: double.infinity,
+                                        height: 60,
+                                        child: RaisedButton(
+                                          child: Text('Sauvegarder', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                                          color: AppColors.primaryColor,
+                                          textColor: Color(0xFF343434),
+                                          onPressed: () {
+                                            raisonSocialeFormKey.currentState.validate();
+                                          },
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          elevation: 0,
+                                        ),
+                                      ),
+                                    ),
+                                  ]))))));
             })));
   }
 }

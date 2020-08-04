@@ -12,6 +12,13 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    Global.isLoading = false;
+  }
+
   List<Widget> getmessages() {
     List<Widget> list = [];
     Global.usermessages.forEach((element) {

@@ -28,348 +28,218 @@ class _TransactionInformationState extends State<TransactionInformation> {
               ),
               title: Text(
                 'Informations sur les transactions',
-                style: AppStyles.blackTextStyle
-                    .copyWith(fontWeight: FontWeight.w600, fontSize: 17),
+                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 17),
               ),
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 16, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Center(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                'Point de départ',
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .mediumGreyColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 8.0),
-                                                child: Text(
-                                                  'Paris',
-                                                  style: AppStyles
-                                                      .blackTextStyle
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                ),
-                                              )
-                                            ],
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            'Point de départ',
+                                            style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontWeight: FontWeight.w500),
                                           ),
-                                        ),
-                                        Divider(),
-                                        Text(
-                                          'Adresse de départ',
-                                          style: AppStyles
-                                              .navbarInactiveTextStyle
-                                              .copyWith(
-                                                  color:
-                                                      AppColors.mediumGreyColor,
-                                                  fontSize: 13),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text('40 Avenue Leon Blum',
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 15),
-                                          child: Text(
-                                            "Nom de l'entreprise",
-                                            style: AppStyles
-                                                .navbarInactiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 13),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text('40 Avenue Leon Blum',
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 15),
-                                          child: Text(
-                                            "Téléphone",
-                                            style: AppStyles
-                                                .navbarInactiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 13),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text('06 33 01 22 54',
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                        ),
-                                        Divider(),
-                                        Center(
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                "Point d'arrivée",
-                                                style: AppStyles
-                                                    .navbarInactiveTextStyle
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .mediumGreyColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 8.0),
-                                                child: Text(
-                                                  'Nice',
-                                                  style: AppStyles
-                                                      .blackTextStyle
-                                                      .copyWith(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 15),
-                                          child: Text(
-                                            "Adresse (où le colis est livré)",
-                                            style: AppStyles
-                                                .navbarInactiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 13),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text("2-6 Rue Joseph d'Arbaud",
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                        ),
-                                        Divider(),
-                                        Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              'INFORMATIONS SUR LA LIVRAISON',
-                                              style: AppStyles.primaryTextStyle
-                                                  .copyWith(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                              'Paris',
+                                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                                             ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Text(
+                                      'Adresse de départ',
+                                      style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 13),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text('40 Avenue Leon Blum', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 15),
+                                      child: Text(
+                                        "Nom de l'entreprise",
+                                        style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 13),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text('40 Avenue Leon Blum', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 15),
+                                      child: Text(
+                                        "Téléphone",
+                                        style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 13),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text('06 33 01 22 54', style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ),
+                                    Divider(),
+                                    Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "Point d'arrivée",
+                                            style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontWeight: FontWeight.w500),
                                           ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Type d'accès",
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Ascenseur',
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Monte-meubles nécessaire ?",
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Oui',
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Quantité",
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(fontSize: 14),
-                                              ),
-                                              Text(
-                                                '50m3',
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Prestation",
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(fontSize: 14),
-                                              ),
-                                              Text(
-                                                'Luxe',
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text(
-                                            "Description",
-                                            style: AppStyles
-                                                .navbarInactiveTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .mediumGreyColor,
-                                                    fontSize: 13),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
-                                          child: Text(
-                                              "conditions de chargement, objets spéciaux, piano, coffre-fort",
-                                              style: AppStyles.blackTextStyle
-                                                  .copyWith(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500)),
-                                        ),
-                                        Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 8.0),
                                             child: Text(
-                                              'PAIEMENT',
-                                              style: AppStyles.primaryTextStyle
-                                                  .copyWith(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                              'Nice',
+                                              style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                                             ),
-                                          ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 15),
+                                      child: Text(
+                                        "Adresse (où le colis est livré)",
+                                        style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 13),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text("2-6 Rue Joseph d'Arbaud", style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ),
+                                    Divider(),
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'INFORMATIONS SUR LA LIVRAISON',
+                                          style: AppStyles.primaryTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
                                         ),
-                                        Divider(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 5),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Le coût du voyage........................................",
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                              ),
-                                              Text(
-                                                '500€',
-                                                style: AppStyles.blackTextStyle
-                                                    .copyWith(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Type d'accès",
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                                           ),
+                                          Text(
+                                            'Ascenseur',
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Monte-meubles nécessaire ?",
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                          ),
+                                          Text(
+                                            'Oui',
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Quantité",
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                          ),
+                                          Text(
+                                            '50m3',
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Prestation",
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
+                                          ),
+                                          Text(
+                                            'Luxe',
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text(
+                                        "Description",
+                                        style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 13),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Text("conditions de chargement, objets spéciaux, piano, coffre-fort", style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500)),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'PAIEMENT',
+                                          style: AppStyles.primaryTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
                                         ),
-                                      ]))))));
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Le coût du voyage........................................",
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                                          ),
+                                          Text(
+                                            '500€',
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ]))))));
             })));
   }
 }

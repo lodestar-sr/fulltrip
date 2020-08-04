@@ -32,7 +32,7 @@ class GooglePlacesAutocomplete extends StatefulWidget {
     this.onSaved,
     this.prefixIcon,
     this.underline,
-    this.hintText = 'Entrez s\'il vous plait',
+    this.hintText = 'Rechercher une adresse',
   });
 
   @override
@@ -90,6 +90,7 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       language: widget.language,
       components: widget.components ?? [Component(Component.country, "fr")],
       logo: Container(height: 0),
+      hint: 'Rechercher une adresse',
     );
 
     displayPrediction(p);

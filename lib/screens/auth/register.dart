@@ -141,13 +141,22 @@ class _RegisterState extends State<Register> {
                                   obscureText: absure,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
                                   onSaved: (val) => setState(() => _password = val),
+                                  onChanged: (val) => setState(() => _password = val),
                                 ),
                               ),
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   decoration: hintTextDecoration('Répéter mot de passe'),
-                                  validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
+                                  validator: (val) {
+                                    if (val.isEmpty) {
+                                      return 'Veuillez saisir votre mot de passe';
+                                    }
+                                    if (val != _password) {
+                                      return 'Le mot de passe ne correspond pas';
+                                    }
+                                    return null;
+                                  },
                                   keyboardType: TextInputType.text,
                                   obscureText: absure,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),

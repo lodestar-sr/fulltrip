@@ -1,10 +1,7 @@
-import 'dart:collection';
-
 import 'package:Fulltrip/data/models/DistanceTimeModel.dart';
 import 'package:Fulltrip/data/models/lot.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:Fulltrip/widgets/description_text/description_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
@@ -12,14 +9,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Propose_lot4 extends StatefulWidget {
-  Propose_lot4({Key key}) : super(key: key);
+class ProposeLot4 extends StatefulWidget {
+  ProposeLot4({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _Propose_lot4State();
+  State<StatefulWidget> createState() => _ProposeLot4State();
 }
 
-class _Propose_lot4State extends State<Propose_lot4> {
+class _ProposeLot4State extends State<ProposeLot4> {
   var myFormat = DateFormat('d/MM');
   Lot lot;
   var startingaddress = [];
@@ -31,26 +28,15 @@ class _Propose_lot4State extends State<Propose_lot4> {
   @override
   void initState() {
     super.initState();
-  }
 
-  initLot() {
-    final LinkedHashMap<String, Lot> args =
-        ModalRoute.of(context).settings.arguments;
-    if (args == null) {
-      Navigator.of(context).pop();
-    } else {
-      setState(() {
-        lot = args['lot'];
-        startingaddress = lot.startingAddress.split(',');
-        arrivaladdress = lot.arrivalAddress.split(',');
-      });
-    }
+    setState(() {
+      lot = Global.lotForm;
+      startingaddress = lot.startingAddress.split(',');
+      arrivaladdress = lot.arrivalAddress.split(',');
+    });
 
     setState(() => Global.isLoading = true);
-    Global.calculateDistance(
-            startingAddress: lot.startingAddress,
-            arrivalAddress: lot.arrivalAddress)
-        .then((value) {
+    Global.calculateDistance(startingAddress: lot.startingAddress, arrivalAddress: lot.arrivalAddress).then((value) {
       setState(() => Global.isLoading = false);
       if (mounted) {
         setState(() {
@@ -61,12 +47,16 @@ class _Propose_lot4State extends State<Propose_lot4> {
     });
   }
 
+  onSubmit() async {
+    setState(() => Global.isLoading = true);
+    Map data = Global.lotForm.toJson();
+    await Global.firestore.collection('lots').add(data);
+    setState(() => Global.isLoading = false);
+    Navigator.of(context).pushNamedAndRemoveUntil('Felicitations', (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (lot == null) {
-      initLot();
-    }
-
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
       color: AppColors.primaryColor,
@@ -80,18 +70,15 @@ class _Propose_lot4State extends State<Propose_lot4> {
           ),
           title: Text(
             'Validation',
-            style:
-                AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+            style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
           ),
         ),
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -109,18 +96,14 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             height: 146,
                             margin: EdgeInsets.only(right: 14),
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
                               image: lot.photo != ''
                                   ? DecorationImage(
                                       image: NetworkImage(lot.photo),
                                       fit: BoxFit.cover,
                                     )
                                   : DecorationImage(
-                                      image: this.lot.photo != ''
-                                          ? NetworkImage(lot.photo)
-                                          : AssetImage(
-                                              "assets/images/noimage.png"),
+                                      image: this.lot.photo != '' ? NetworkImage(lot.photo) : AssetImage("assets/images/noimage.png"),
                                       fit: BoxFit.contain,
                                     ),
                             ),
@@ -129,14 +112,10 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             margin: EdgeInsets.only(top: 16, bottom: 5),
                             child: Row(
                               children: [
-                                Icon(MaterialCommunityIcons.calendar_range,
-                                    size: 20, color: AppColors.primaryColor),
+                                Icon(MaterialCommunityIcons.calendar_range, size: 20, color: AppColors.primaryColor),
                                 Padding(
                                   padding: EdgeInsets.only(left: 8),
-                                  child: Text(
-                                      'Publié le ${myFormat.format(lot.date)}',
-                                      style: AppStyles.blackTextStyle
-                                          .copyWith(fontSize: 15)),
+                                  child: Text('Publié le ${myFormat.format(lot.date)}', style: AppStyles.blackTextStyle.copyWith(fontSize: 15)),
                                 ),
                               ],
                             ),
@@ -153,13 +132,9 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4, right: 8),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      Icon(
-                                          MaterialCommunityIcons.circle_slice_8,
-                                          size: 20,
-                                          color: AppColors.primaryColor),
+                                      Icon(MaterialCommunityIcons.circle_slice_8, size: 20, color: AppColors.primaryColor),
                                       Container(
                                           padding: EdgeInsets.only(top: 2),
                                           width: 9,
@@ -175,30 +150,21 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 ),
                                 Flexible(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         padding: EdgeInsets.only(top: 3.0),
                                         child: Text(
                                           lot.startingAddress,
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
+                                          style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                                         ),
                                       ),
                                       lot.pickupDateFrom != null
                                           ? Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 5.0),
+                                              padding: EdgeInsets.only(top: 5.0),
                                               child: Text(
                                                 'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                style: AppStyles.greyTextStyle
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 13),
+                                                style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 13),
                                               ),
                                             )
                                           : Container()
@@ -209,11 +175,8 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             ),
                           ),
                           Container(
-                            margin:
-                                EdgeInsets.only(bottom: 16, top: 16, left: 10),
-                            child: Text('$time  ($distanceinKm km)',
-                                style: AppStyles.blackTextStyle
-                                    .copyWith(fontSize: 12)),
+                            margin: EdgeInsets.only(bottom: 16, top: 16, left: 10),
+                            child: Text('$time  ($distanceinKm km)', style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
                           ),
                           Container(
                             width: double.infinity,
@@ -223,8 +186,7 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 Container(
                                   margin: EdgeInsets.only(right: 8),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Container(
                                           width: 9,
@@ -238,34 +200,27 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                       SizedBox(
                                         height: 3,
                                       ),
-                                      Icon(Feather.map_pin,
-                                          size: 20, color: AppColors.redColor),
+                                      Icon(Feather.map_pin, size: 20, color: AppColors.redColor),
                                     ],
                                   ),
                                 ),
                                 Flexible(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         padding: EdgeInsets.only(top: 3.0),
                                         child: Text(
                                           lot.arrivalAddress,
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
+                                          style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                                         ),
                                       ),
                                       lot.deliveryDateFrom != null
                                           ? Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: 5.0),
+                                              padding: EdgeInsets.only(top: 5.0),
                                               child: Text(
                                                 'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                style: AppStyles.greyTextStyle
-                                                    .copyWith(fontSize: 12),
+                                                style: AppStyles.greyTextStyle.copyWith(fontSize: 12),
                                               ),
                                             )
                                           : Container()
@@ -282,48 +237,31 @@ class _Propose_lot4State extends State<Propose_lot4> {
                           //   ),
                           // ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                             child: new ExpansionTile(
-                              tilePadding: EdgeInsets.symmetric(horizontal: 70),
-                              expandedCrossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              expandedAlignment: Alignment.centerLeft,
+//                              tilePadding: EdgeInsets.symmetric(horizontal: 70),
+//                              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+//                              expandedAlignment: Alignment.centerLeft,
                               title: new Text(
                                 "Parcourir les détails",
-                                style: AppStyles.primaryTextStyle
-                                    .copyWith(fontWeight: FontWeight.w500),
+                                style: AppStyles.primaryTextStyle.copyWith(fontWeight: FontWeight.w500),
                               ),
                               children: <Widget>[
                                 new Text(
                                   "Adresse de départ",
-                                  style: AppStyles.navbarInactiveTextStyle
-                                      .copyWith(
-                                          color: AppColors.backButtonColor,
-                                          fontSize: 14),
+                                  style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Type de lieu',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Type de lieu', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingLocationType}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingLocationType}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -333,24 +271,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Type d'accès",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Type d'accès", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingAccessType}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingAccessType}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -360,24 +287,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Etages",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Etages", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingFloors}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingFloors}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -387,26 +303,15 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Période d'enlèvement",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Période d'enlèvement", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
                                     lot.deliveryDateFrom != null
-                                        ? Text(
-                                            '${myFormat.format(lot.pickupDateFrom)} - ${myFormat.format(lot.pickupDateTo)}',
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .backButtonColor,
-                                                    fontSize: 16))
+                                        ? Text('${myFormat.format(lot.pickupDateFrom)} - ${myFormat.format(lot.pickupDateTo)}',
+                                            style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16))
                                         : Container(),
                                   ],
                                 ),
@@ -418,33 +323,19 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 ),
                                 new Text(
                                   "En outre",
-                                  style: AppStyles.navbarInactiveTextStyle
-                                      .copyWith(
-                                          color: AppColors.backButtonColor,
-                                          fontSize: 14),
+                                  style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Monte-meubles nécessaire',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Monte-meubles nécessaire', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingFurnitureLift}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingFurnitureLift}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -454,24 +345,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Remontage des meubles',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Remontage des meubles', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingDismantlingFurniture}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingDismantlingFurniture}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -482,33 +362,19 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 ),
                                 new Text(
                                   "Adresse d'arrivée",
-                                  style: AppStyles.navbarInactiveTextStyle
-                                      .copyWith(
-                                          color: AppColors.backButtonColor,
-                                          fontSize: 14),
+                                  style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Type de lieu',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Type de lieu', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingLocationType}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingLocationType}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -518,24 +384,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Type d'accès",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Type d'accès", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingAccessType}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingAccessType}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -545,24 +400,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Etages",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Etages", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.startingFloors}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.startingFloors}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -572,26 +416,15 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text("Période d'enlèvement",
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text("Période d'enlèvement", style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
                                     lot.deliveryDateFrom != null
-                                        ? Text(
-                                            '${myFormat.format(lot.deliveryDateFrom)} - ${myFormat.format(lot.deliveryDateTo)}',
-                                            style: AppStyles.blackTextStyle
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .backButtonColor,
-                                                    fontSize: 16))
+                                        ? Text('${myFormat.format(lot.deliveryDateFrom)} - ${myFormat.format(lot.deliveryDateTo)}',
+                                            style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16))
                                         : Container(),
                                   ],
                                 ),
@@ -603,33 +436,19 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                 ),
                                 new Text(
                                   "En outre",
-                                  style: AppStyles.navbarInactiveTextStyle
-                                      .copyWith(
-                                          color: AppColors.backButtonColor,
-                                          fontSize: 14),
+                                  style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Monte-meubles nécessaire',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Monte-meubles nécessaire', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.arrivalFurnitureLift}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.arrivalFurnitureLift}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 Container(
@@ -639,24 +458,13 @@ class _Propose_lot4State extends State<Propose_lot4> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      margin:
-                                          EdgeInsets.only(bottom: 4, top: 4),
-                                      child: Text('Remontage des meubles',
-                                          style: AppStyles.blackTextStyle
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 15)),
+                                      margin: EdgeInsets.only(bottom: 4, top: 4),
+                                      child: Text('Remontage des meubles', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                                     ),
-                                    Text('${lot.arrivalReassemblyFurniture}',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                color:
-                                                    AppColors.backButtonColor,
-                                                fontSize: 16)),
+                                    Text('${lot.arrivalReassemblyFurniture}', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                                   ],
                                 ),
                                 SizedBox(
@@ -670,15 +478,9 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 4),
-                                child: Text('Volume',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15)),
+                                child: Text('Volume', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                               ),
-                              Text('${lot.quantity}m³',
-                                  style: AppStyles.blackTextStyle.copyWith(
-                                      color: AppColors.backButtonColor,
-                                      fontSize: 16)),
+                              Text('${lot.quantity}m³', style: AppStyles.blackTextStyle.copyWith(color: AppColors.backButtonColor, fontSize: 16)),
                             ],
                           ),
                           Container(
@@ -693,16 +495,9 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 4),
-                                child: Text('Montant à payer',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15)),
+                                child: Text('Montant à payer', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                               ),
-                              Text('${lot.price}€',
-                                  style: AppStyles.blackTextStyle.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16)),
+                              Text('${lot.price}€', style: AppStyles.blackTextStyle.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w500, fontSize: 16)),
                             ],
                           ),
                           Padding(
@@ -714,23 +509,15 @@ class _Propose_lot4State extends State<Propose_lot4> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 4),
-                                child: Text('Paiement',
-                                    style: AppStyles.blackTextStyle.copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15)),
+                                child: Text('Paiement', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 15)),
                               ),
-                              Text('',
-                                  style: AppStyles.blackTextStyle.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16)),
+                              Text('', style: AppStyles.blackTextStyle.copyWith(color: AppColors.primaryColor, fontWeight: FontWeight.w500, fontSize: 16)),
                             ],
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: GestureDetector(
-                              onTap: () => Navigator.of(context)
-                                  .pushNamed('MeansOfPayment'),
+                              onTap: () => Navigator.of(context).pushNamed('MeansOfPayment'),
                               child: Row(
                                 children: [
                                   Icon(
@@ -751,36 +538,22 @@ class _Propose_lot4State extends State<Propose_lot4> {
                           ),
 
                           Padding(
-                            padding:
-                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.24),
-                                      blurRadius: 16,
-                                      spreadRadius: 4),
+                                  BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                                 ],
                               ),
                               child: ButtonTheme(
                                 minWidth: double.infinity,
                                 height: 60,
                                 child: RaisedButton(
-                                  child: Text('Payez maintenant',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  child: Text('Payez maintenant', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            'Felicitations',
-                                            (Route<dynamic> route) => false);
-                                  },
+                                  onPressed: onSubmit,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -791,8 +564,7 @@ class _Propose_lot4State extends State<Propose_lot4> {
                           ),
                           Text(
                             "En cas de non prise en charge de votre lot, et sur demande de votre part, l'ensemble des frais engagés peuvent être remboursés sans pénalités",
-                            style:
-                                AppStyles.blackTextStyle.copyWith(fontSize: 12),
+                            style: AppStyles.blackTextStyle.copyWith(fontSize: 12),
                           )
                         ],
                       ),

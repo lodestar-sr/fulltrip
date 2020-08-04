@@ -6,14 +6,14 @@ import 'package:Fulltrip/util/validators/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class CoordonneesBancaries extends StatefulWidget {
-  CoordonneesBancaries({Key key}) : super(key: key);
+class PaymentMethod extends StatefulWidget {
+  PaymentMethod({Key key}) : super(key: key);
 
   @override
-  _CoordonneesBancariesState createState() => _CoordonneesBancariesState();
+  _PaymentMethodState createState() => _PaymentMethodState();
 }
 
-class _CoordonneesBancariesState extends State<CoordonneesBancaries> {
+class _PaymentMethodState extends State<PaymentMethod> {
   String firstname = '';
   String iban = '';
   String bic = '';
@@ -34,7 +34,7 @@ class _CoordonneesBancariesState extends State<CoordonneesBancaries> {
                 color: AppColors.backButtonColor, //change your color here
               ),
               title: Text(
-                'Coordonnées bancaires',
+                'Moyens de paiement',
                 style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
               ),
             ),
@@ -89,7 +89,7 @@ class _CoordonneesBancariesState extends State<CoordonneesBancaries> {
                                             initialValue: '',
                                             inputFormatters: [
                                               MaskedTextInputFormatter(
-                                                mask: 'xxxx-xxxx-xxxx-xxxx',
+                                                mask: 'xxxx-xxxx-xxxx-xxxx-xxx',
                                                 separator: '-',
                                               ),
                                             ],

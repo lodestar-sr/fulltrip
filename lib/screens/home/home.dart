@@ -41,15 +41,13 @@ class _HomeState extends State<Home> {
 
   scrollListner() {
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (isVisible)
           setState(() {
             isVisible = false;
           });
       }
-      if (scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
+      if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
         if (!isVisible)
           setState(() {
             isVisible = true;
@@ -92,23 +90,15 @@ class _HomeState extends State<Home> {
     }
 
     if (Global.filter.quantity != 0) {
-      filteredLots = filteredLots
-          .where((lot) => lot.quantity <= Global.filter.quantity)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.quantity <= Global.filter.quantity).toList();
     }
 
     if (Global.filter.delivery != '') {
-      filteredLots = filteredLots
-          .where((lot) => lot.delivery == Global.filter.delivery)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.delivery == Global.filter.delivery).toList();
     }
 
     if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 0) {
-      filteredLots = filteredLots
-          .where((lot) =>
-              lot.price >= Global.filter.lowPrice &&
-              lot.price <= Global.filter.highPrice)
-          .toList();
+      filteredLots = filteredLots.where((lot) => lot.price >= Global.filter.lowPrice && lot.price <= Global.filter.highPrice).toList();
     }
 
     if (Global.filter.pickUpDate != null) {
@@ -116,8 +106,7 @@ class _HomeState extends State<Home> {
         if (lot.pickupDateFrom == null || lot.pickupDateTo == null) {
           return false;
         }
-        if (Global.filter.pickUpDate.isAfter(lot.pickupDateFrom) &&
-            Global.filter.pickUpDate.isBefore(lot.pickupDateTo)) {
+        if (Global.filter.pickUpDate.isAfter(lot.pickupDateFrom) && Global.filter.pickUpDate.isBefore(lot.pickupDateTo)) {
           return true;
         }
         return false;
@@ -129,8 +118,7 @@ class _HomeState extends State<Home> {
         if (lot.deliveryDateFrom == null || lot.deliveryDateTo == null) {
           return false;
         }
-        if (Global.filter.deliveryDate.isAfter(lot.deliveryDateFrom) &&
-            Global.filter.deliveryDate.isBefore(lot.deliveryDateTo)) {
+        if (Global.filter.deliveryDate.isAfter(lot.deliveryDateFrom) && Global.filter.deliveryDate.isBefore(lot.deliveryDateTo)) {
           return true;
         }
         return false;
@@ -147,16 +135,14 @@ class _HomeState extends State<Home> {
 
       String startCity = '';
       if (startingaddress.length >= 2) {
-        startCity =
-            startingaddress[startingaddress.length - 2].toString().trim();
+        startCity = startingaddress[startingaddress.length - 2].toString().trim();
       } else {
         startCity = startingaddress[0].toString().trim();
       }
 
       String arriveCity = '';
       if (arrivaladdress.length >= 2) {
-        arriveCity =
-            arrivaladdress[arrivaladdress.length - 2].toString().trim();
+        arriveCity = arrivaladdress[arrivaladdress.length - 2].toString().trim();
       } else {
         arriveCity = arrivaladdress[0].toString().trim();
       }
@@ -193,8 +179,7 @@ class _HomeState extends State<Home> {
                               fit: BoxFit.cover,
                             )
                           : DecorationImage(
-                              image:
-                                  ExactAssetImage('assets/images/noimage.png'),
+                              image: ExactAssetImage('assets/images/noimage.png'),
                               fit: BoxFit.fitWidth,
                             ),
                     ),
@@ -214,14 +199,9 @@ class _HomeState extends State<Home> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Icon(
-                                            MaterialCommunityIcons
-                                                .circle_slice_8,
-                                            size: 20,
-                                            color: AppColors.primaryColor),
+                                        Icon(MaterialCommunityIcons.circle_slice_8, size: 20, color: AppColors.primaryColor),
                                         Container(
                                             child: Dash(
                                           direction: Axis.vertical,
@@ -230,56 +210,34 @@ class _HomeState extends State<Home> {
                                           dashThickness: 2,
                                           dashColor: AppColors.greyColor,
                                         )),
-                                        Icon(Feather.map_pin,
-                                            size: 20,
-                                            color: AppColors.redColor),
+                                        Icon(Feather.map_pin, size: 20, color: AppColors.redColor),
                                       ],
                                     ),
                                     Expanded(
                                       child: Container(
                                         height: 90,
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 4, bottom: 5),
+                                              padding: EdgeInsets.only(left: 4, bottom: 5),
                                               child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
+                                                scrollDirection: Axis.horizontal,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       startCity,
-                                                      style: AppStyles
-                                                          .blackTextStyle
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                     lot.pickupDateFrom != null
                                                         ? Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5.0),
+                                                            padding: EdgeInsets.only(top: 5.0),
                                                             child: Text(
                                                               'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                              style: AppStyles
-                                                                  .navbarInactiveTextStyle
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .mediumGreyColor,
-                                                                      fontSize:
-                                                                          11),
+                                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                             ),
                                                           )
                                                         : Container()
@@ -288,41 +246,23 @@ class _HomeState extends State<Home> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 4, bottom: 8),
+                                              padding: EdgeInsets.only(left: 4, bottom: 8),
                                               child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
+                                                scrollDirection: Axis.horizontal,
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       arriveCity,
-                                                      style: AppStyles
-                                                          .blackTextStyle
-                                                          .copyWith(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
+                                                      style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+                                                      overflow: TextOverflow.ellipsis,
                                                     ),
                                                     lot.deliveryDateFrom != null
                                                         ? Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5.0),
+                                                            padding: EdgeInsets.only(top: 5.0),
                                                             child: Text(
                                                               'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                              style: AppStyles
-                                                                  .navbarInactiveTextStyle
-                                                                  .copyWith(
-                                                                      color: AppColors
-                                                                          .mediumGreyColor,
-                                                                      fontSize:
-                                                                          11),
+                                                              style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
                                                             ),
                                                           )
                                                         : Container()
@@ -352,16 +292,14 @@ class _HomeState extends State<Home> {
                           margin: EdgeInsets.only(bottom: 6),
                           child: Text(
                             lot.delivery ?? "",
-                            style: TextStyle(
-                                color: AppColors.greyColor, fontSize: 14),
+                            style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 6),
                           child: Text(
                             "${lot.quantity.toString()}m³" ?? "",
-                            style: TextStyle(
-                                color: AppColors.greyColor, fontSize: 14),
+                            style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                           ),
                         ),
                       ],
@@ -377,16 +315,12 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     "Raison social",
-                    style: AppStyles.blackTextStyle
-                        .copyWith(fontWeight: FontWeight.w500),
+                    style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                   ),
                   Container(
                     child: Text(
                       "${lot.price.toStringAsFixed(0)}€" ?? "",
-                      style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
+                      style: TextStyle(color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
@@ -395,8 +329,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         onTap: () {
-          Navigator.of(context)
-              .pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
+          Navigator.of(context).pushNamed('lot-details', arguments: <String, Lot>{'lot': lot});
         },
       ));
     });
@@ -416,16 +349,14 @@ class _HomeState extends State<Home> {
                 padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 3),
                 child: Text(
                   'Aucun résultats correspondants ',
-                  style: AppStyles.primaryTextStyle
-                      .copyWith(fontWeight: FontWeight.w500),
+                  style: AppStyles.primaryTextStyle.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                 child: Text(
                   '''Aucun résultat pour vos paramètres de recherche, veuillez changer vos filtres.''',
-                  style: TextStyle(
-                      color: AppColors.greyColor, fontSize: 14, height: 1.8),
+                  style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -435,23 +366,17 @@ class _HomeState extends State<Home> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                     boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppColors.primaryColor.withOpacity(0.24),
-                          blurRadius: 16,
-                          spreadRadius: 4),
+                      BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                     ],
                   ),
                   child: ButtonTheme(
                     minWidth: SizeConfig.safeBlockHorizontal * 70,
                     height: 50,
                     child: RaisedButton(
-                      child: Text('Modifier les filtres',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      child: Text('Modifier les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       color: AppColors.primaryColor,
                       textColor: Colors.white,
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('filter'),
+                      onPressed: () => Navigator.of(context).pushNamed('filter'),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -485,8 +410,7 @@ class _HomeState extends State<Home> {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 8),
-              child: Icon(MaterialCommunityIcons.circle_slice_8,
-                  size: 15, color: AppColors.primaryColor),
+              child: Icon(MaterialCommunityIcons.circle_slice_8, size: 15, color: AppColors.primaryColor),
             ),
             Text(
               startCity,
@@ -495,9 +419,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() {
@@ -535,9 +457,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetArrivalAddress());
@@ -559,9 +479,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetPrice());
@@ -583,9 +501,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetDelivery());
@@ -607,9 +523,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetQuantity());
@@ -631,9 +545,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetPickUpDate());
@@ -655,9 +567,7 @@ class _HomeState extends State<Home> {
             GestureDetector(
               child: Container(
                 margin: EdgeInsets.only(left: 8),
-                child: Icon(Icons.close,
-                    size: 12,
-                    color: isVisible ? AppColors.redColor : Colors.white),
+                child: Icon(Icons.close, size: 12, color: isVisible ? AppColors.redColor : Colors.white),
               ),
               onTap: () {
                 setState(() => Global.filter.resetDelivery());
@@ -717,8 +627,7 @@ class _HomeState extends State<Home> {
   filterNearMe(String address) {
     setState(() => Global.isLoading = true);
     var futures = lots.map((lot) {
-      return Global.calculateDistance(
-          startingAddress: address, arrivalAddress: lot.startingAddress);
+      return Global.calculateDistance(startingAddress: address, arrivalAddress: lot.startingAddress);
     }).toList();
 
     Future.wait(futures).then((List<Map> dist) {
@@ -752,8 +661,7 @@ class _HomeState extends State<Home> {
       color: AppColors.primaryColor,
       progressIndicator: CircularProgressIndicator(),
       child: Scaffold(
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             padding: EdgeInsets.only(left: 16, right: 16),
@@ -766,27 +674,20 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: EdgeInsets.only(right: 14),
                         child: OutlineButton.icon(
-                          icon: Icon(Octicons.settings,
-                              size: 16, color: AppColors.greyColor),
-                          label: Text('Filtres',
-                              style: AppStyles.greyTextStyle
-                                  .copyWith(fontSize: 14)),
+                          icon: Icon(Octicons.settings, size: 16, color: AppColors.greyColor),
+                          label: Text('Filtres', style: AppStyles.greyTextStyle.copyWith(fontSize: 14)),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                           borderSide: BorderSide(color: AppColors.primaryColor),
-                          onPressed: () =>
-                              Navigator.of(context).pushNamed('filter'),
+                          onPressed: () => Navigator.of(context).pushNamed('filter'),
                           splashColor: AppColors.lightBlueColor,
                         ),
                       ),
                       RaisedButton.icon(
                         icon: Icon(MaterialCommunityIcons.target, size: 18),
-                        label: Text('Autour de moi',
-                            style: TextStyle(fontSize: 12)),
-                        color: geoLocation
-                            ? AppColors.primaryColor
-                            : AppColors.lightBlueColor,
+                        label: Text('Autour de moi', style: TextStyle(fontSize: 12)),
+                        color: geoLocation ? AppColors.primaryColor : AppColors.lightBlueColor,
                         textColor: Colors.white,
                         onPressed: toggleLocation,
                         shape: RoundedRectangleBorder(

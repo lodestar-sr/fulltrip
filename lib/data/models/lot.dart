@@ -65,12 +65,8 @@ class Lot {
         startingFloors: json["starting_floors"],
         startingFurnitureLift: json["starting_furniture_lift"],
         startingDismantlingFurniture: json["starting_dismantling_furniture"],
-        pickupDateFrom: json["pickup_date_from"] != null
-            ? DateTime.parse(json["pickup_date_from"])
-            : null,
-        pickupDateTo: json["pickup_date_to"] != null
-            ? DateTime.parse(json["pickup_date_to"])
-            : null,
+        pickupDateFrom: json["pickup_date_from"] != null ? DateTime.parse(json["pickup_date_from"]) : null,
+        pickupDateTo: json["pickup_date_to"] != null ? DateTime.parse(json["pickup_date_to"]) : null,
         quantity: json["quantity"],
         arrivalAddress: json["arrival_address"],
         arrivalLocationType: json["arrival_location_type"],
@@ -79,12 +75,8 @@ class Lot {
         arrivalFurnitureLift: json["arrival_furniture_lift"],
         arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
         delivery: json["delivery"],
-        deliveryDateFrom: json["delivery_date_from"] != null
-            ? DateTime.parse(json["delivery_date_from"])
-            : null,
-        deliveryDateTo: json["delivery_date_to"] != null
-            ? DateTime.parse(json["delivery_date_to"])
-            : null,
+        deliveryDateFrom: json["delivery_date_from"] != null ? DateTime.parse(json["delivery_date_from"]) : null,
+        deliveryDateTo: json["delivery_date_to"] != null ? DateTime.parse(json["delivery_date_to"]) : null,
         price: json["price"],
         photo: json["photo"],
         description: json["description"],
@@ -99,10 +91,8 @@ class Lot {
         "starting_floors": startingFloors,
         "starting_furniture_lift": startingFurnitureLift,
         "starting_dismantling_furniture": startingDismantlingFurniture,
-        "pickup_date_from":
-            pickupDateFrom != null ? pickupDateFrom.toIso8601String() : null,
-        "pickup_date_to":
-            pickupDateTo != null ? pickupDateTo.toIso8601String() : null,
+        "pickup_date_from": pickupDateFrom != null ? pickupDateFrom.toIso8601String() : null,
+        "pickup_date_to": pickupDateTo != null ? pickupDateTo.toIso8601String() : null,
         "quantity": quantity,
         "arrival_address": arrivalAddress,
         "arrival_location_type": arrivalLocationType,
@@ -111,11 +101,8 @@ class Lot {
         "arrival_furniture_lift": arrivalFurnitureLift,
         "arrival_reassembly_furniture": arrivalReassemblyFurniture,
         "delivery": delivery,
-        "delivery_date_from": deliveryDateFrom != null
-            ? deliveryDateFrom.toIso8601String()
-            : null,
-        "delivery_date_to":
-            deliveryDateTo != null ? deliveryDateTo.toIso8601String() : null,
+        "delivery_date_from": deliveryDateFrom != null ? deliveryDateFrom.toIso8601String() : null,
+        "delivery_date_to": deliveryDateTo != null ? deliveryDateTo.toIso8601String() : null,
         "price": price,
         "photo": photo,
         "description": description,
