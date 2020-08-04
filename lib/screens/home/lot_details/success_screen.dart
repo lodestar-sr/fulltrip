@@ -27,7 +27,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
-            child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            child: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                 width: double.infinity,
                 child: SingleChildScrollView(
@@ -59,18 +60,54 @@ class _SuccessScreenState extends State<SuccessScreen> {
                             child: Text(
                               'Le lot a bien été réservé, prenez contact avec votre nouveau collaborateur !',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 13, color: AppColors.greyColor),
+                              style: TextStyle(
+                                  fontSize: 13, color: AppColors.greyColor),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 40),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.24),
+                                    blurRadius: 16,
+                                    spreadRadius: 4),
+                              ],
+                            ),
+                            child: ButtonTheme(
+                              minWidth: double.infinity,
+                              height: 60,
+                              child: RaisedButton(
+                                child: Text('Contacter [enterprise name]',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
+                                color: AppColors.primaryColor,
+                                textColor: Colors.white,
+                                onPressed: () => null,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 0,
+                              ),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    'dashboard',
+                                    (Route<dynamic> route) => false);
                               },
                               child: Text(
                                 "Page d'accueil",
-                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+                                style: AppStyles.primaryTextStyle.copyWith(
+                                    fontSize: 14,
+                                    color: AppColors.backButtonColor),
                               ),
                             ),
                           ),

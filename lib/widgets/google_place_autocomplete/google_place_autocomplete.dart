@@ -18,6 +18,7 @@ class GooglePlacesAutocomplete extends StatefulWidget {
   final onChanged;
   final onSaved;
   final prefixIcon;
+  final suffixIcon;
   final underline;
   final hintText;
 
@@ -33,6 +34,7 @@ class GooglePlacesAutocomplete extends StatefulWidget {
     this.prefixIcon,
     this.underline,
     this.hintText = 'Rechercher une adresse',
+    this.suffixIcon,
   });
 
   @override
@@ -74,7 +76,11 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       readOnly: true,
-      decoration: hintTextDecoration(widget.hintText).copyWith(prefixIcon: widget.prefixIcon, contentPadding: EdgeInsets.only(top: 15), border: widget.underline),
+      decoration: hintTextDecoration(widget.hintText).copyWith(
+          prefixIcon: widget.prefixIcon,
+          contentPadding: EdgeInsets.only(top: 20),
+          border: widget.underline,
+          suffixIcon: widget.suffixIcon),
       style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
     );
   }

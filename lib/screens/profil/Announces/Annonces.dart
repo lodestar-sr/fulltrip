@@ -13,7 +13,8 @@ class Announces extends StatefulWidget {
   _AnnouncesState createState() => _AnnouncesState();
 }
 
-class _AnnouncesState extends State<Announces> with SingleTickerProviderStateMixin {
+class _AnnouncesState extends State<Announces>
+    with SingleTickerProviderStateMixin {
   int _tabIndex = 0;
   PageController _controller;
 
@@ -52,15 +53,18 @@ class _AnnouncesState extends State<Announces> with SingleTickerProviderStateMix
               backgroundColor: Colors.white,
               title: Text(
                 "Annonces",
-                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 17),
+                style: AppStyles.blackTextStyle
+                    .copyWith(fontWeight: FontWeight.w600, fontSize: 17),
               ),
             ),
-            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context)
+                              .requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
@@ -71,22 +75,37 @@ class _AnnouncesState extends State<Announces> with SingleTickerProviderStateMix
                                     height: 60,
                                     decoration: BoxDecoration(
                                         color: Color(0xFFF1F1F1),
-                                        border: Border(bottom: BorderSide(color: AppColors.lightGreyColor, width: 1), top: BorderSide(color: AppColors.lightGreyColor, width: 1))),
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: AppColors.lightGreyColor,
+                                                width: 1),
+                                            top: BorderSide(
+                                                color: AppColors.lightGreyColor,
+                                                width: 1))),
                                     child: Row(
                                       children: [
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
                                               _tabIndex = 0;
-                                              _controller.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                              _controller.animateToPage(0,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease);
                                             });
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(20),
-                                            color: _tabIndex == 0 ? AppColors.primaryColor : Colors.transparent,
+                                            color: _tabIndex == 0
+                                                ? AppColors.primaryColor
+                                                : Colors.transparent,
                                             child: Text(
-                                              'Publié',
-                                              style: AppStyles.blackTextStyle.copyWith(color: _tabIndex == 0 ? Colors.white : Colors.black),
+                                              'En cours',
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      color: _tabIndex == 0
+                                                          ? Colors.white
+                                                          : Colors.black),
                                             ),
                                           ),
                                         ),
@@ -94,15 +113,24 @@ class _AnnouncesState extends State<Announces> with SingleTickerProviderStateMix
                                           onTap: () {
                                             setState(() {
                                               _tabIndex = 1;
-                                              _controller.animateToPage(1, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                              _controller.animateToPage(1,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease);
                                             });
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(20),
-                                            color: _tabIndex == 1 ? AppColors.primaryColor : Colors.transparent,
+                                            color: _tabIndex == 1
+                                                ? AppColors.primaryColor
+                                                : Colors.transparent,
                                             child: Text(
-                                              'Réservé',
-                                              style: AppStyles.blackTextStyle.copyWith(color: _tabIndex == 1 ? Colors.white : Colors.black),
+                                              'Terminé',
+                                              style: AppStyles.blackTextStyle
+                                                  .copyWith(
+                                                      color: _tabIndex == 1
+                                                          ? Colors.white
+                                                          : Colors.black),
                                             ),
                                           ),
                                         ),
@@ -110,23 +138,30 @@ class _AnnouncesState extends State<Announces> with SingleTickerProviderStateMix
                                     ),
                                   ),
                                   Container(
-                                      child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
-                                    Container(
-                                      height: SizeConfig.safeBlockVertical * 78,
-                                      child: PageView(
-                                        controller: _controller,
-                                        onPageChanged: (index) {
-                                          setState(() {
-                                            _tabIndex = index;
-                                          });
-                                        },
-                                        children: [
-                                          Publie(),
-                                          Reserve(),
-                                        ],
-                                      ),
-                                    )
-                                  ])),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                        Container(
+                                          height:
+                                              SizeConfig.safeBlockVertical * 79,
+                                          child: PageView(
+                                            controller: _controller,
+                                            onPageChanged: (index) {
+                                              setState(() {
+                                                _tabIndex = index;
+                                              });
+                                            },
+                                            children: [
+                                              Publie(),
+                                              Reserve(),
+                                            ],
+                                          ),
+                                        )
+                                      ])),
                                 ],
                               )))));
             })));

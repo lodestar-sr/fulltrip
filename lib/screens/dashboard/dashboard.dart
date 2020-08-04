@@ -45,64 +45,121 @@ class _DashboardState extends State<Dashboard> {
         child: screens[currentTab],
         bucket: bucket,
       ),
-      bottomNavigationBar: BottomNavigationBar(elevation: 0, type: BottomNavigationBarType.shifting, onTap: onTabTapped, currentIndex: currentTab, items: [
-        new BottomNavigationBarItem(
-          icon: Icon(
-            Feather.search,
-            color: AppColors.navigationBarInactiveColor,
-          ),
-          title: Text(
-            'Rechercher',
-            style: AppStyles.navbarActiveTextStyle,
-          ),
-          activeIcon: Icon(
-            Feather.search,
-            color: AppColors.primaryColor,
-          ),
-        ),
-        new BottomNavigationBarItem(
-          icon: Icon(
-            Feather.plus_square,
-            color: AppColors.navigationBarInactiveColor,
-          ),
-          title: Text(
-            'Publier',
-            style: AppStyles.navbarActiveTextStyle,
-          ),
-          activeIcon: Icon(
-            Feather.plus_square,
-            color: AppColors.primaryColor,
-          ),
-        ),
-        new BottomNavigationBarItem(
-          icon: Icon(
-            Feather.message_square,
-            color: AppColors.navigationBarInactiveColor,
-          ),
-          title: Text(
-            'Messages',
-            style: AppStyles.navbarActiveTextStyle,
-          ),
-          activeIcon: Icon(
-            Feather.message_square,
-            color: AppColors.primaryColor,
-          ),
-        ),
-        new BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person_outline,
-            color: AppColors.navigationBarInactiveColor,
-          ),
-          title: Text(
-            'Compte',
-            style: AppStyles.navbarActiveTextStyle,
-          ),
-          activeIcon: Icon(
-            Icons.person_outline,
-            color: AppColors.primaryColor,
-          ),
-        ),
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+          elevation: 0,
+          type: BottomNavigationBarType.shifting,
+          onTap: onTabTapped,
+          currentIndex: currentTab,
+          items: [
+            new BottomNavigationBarItem(
+              icon: Icon(
+                Feather.search,
+                color: AppColors.navigationBarInactiveColor,
+              ),
+              title: Text(
+                'Rechercher',
+                style: AppStyles.navbarActiveTextStyle,
+              ),
+              activeIcon: Icon(
+                Feather.search,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            new BottomNavigationBarItem(
+              icon: Icon(
+                Feather.plus_square,
+                color: AppColors.navigationBarInactiveColor,
+              ),
+              title: Text(
+                'Publier',
+                style: AppStyles.navbarActiveTextStyle,
+              ),
+              activeIcon: Icon(
+                Feather.plus_square,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text(
+                'Messages',
+                style: AppStyles.navbarActiveTextStyle,
+              ),
+              activeIcon: new Stack(
+                children: <Widget>[
+                  Icon(
+                    Feather.message_square,
+                    color: AppColors.primaryColor,
+                  ),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: new Text(
+                        '1',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              icon: new Stack(
+                children: <Widget>[
+                  Icon(
+                    Feather.message_square,
+                    color: AppColors.navigationBarInactiveColor,
+                  ),
+                  new Positioned(
+                    right: 0,
+                    child: new Container(
+                      padding: EdgeInsets.all(1),
+                      decoration: new BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: new Text(
+                        '1',
+                        style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            new BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_outline,
+                color: AppColors.navigationBarInactiveColor,
+              ),
+              title: Text(
+                'Compte',
+                style: AppStyles.navbarActiveTextStyle,
+              ),
+              activeIcon: Icon(
+                Icons.person_outline,
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ]),
     );
   }
 }
