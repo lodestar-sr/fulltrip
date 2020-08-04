@@ -9,7 +9,6 @@ import 'package:Fulltrip/widgets/ChatWidgets/SendedChatUI.dart';
 import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-Design Chnagesimport 'package:flutter_icons/flutter_icons.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class ChatMessages extends StatefulWidget {
