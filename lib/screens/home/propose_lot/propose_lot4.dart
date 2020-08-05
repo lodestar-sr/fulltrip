@@ -280,9 +280,9 @@ class _ProposeLot4State extends State<ProposeLot4> {
                             padding:
                                 const EdgeInsets.only(top: 10.0, bottom: 10.0),
                             child: new ExpansionTile(
-                              tilePadding: EdgeInsets.symmetric(horizontal: 70),
-                              expandedCrossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              // tilePadding: EdgeInsets.symmetric(horizontal: 70),
+                              // expandedCrossAxisAlignment:
+                              //     CrossAxisAlignment.start,
 //                              expandedAlignment: Alignment.centerLeft,
                               title: new Text("Parcourir les détails",
                                   style: AppStyles.primaryTextStyle

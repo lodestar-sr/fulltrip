@@ -289,7 +289,7 @@ class _LotDetailsState extends State<LotDetails> {
                             child: new ExpansionTile(
                               onExpansionChanged: (value) =>
                                   setState(() => collapsed = !collapsed),
-                              tilePadding: EdgeInsets.symmetric(horizontal: 70),
+                              //tilePadding: EdgeInsets.symmetric(horizontal: 70),
 //                              expandedCrossAxisAlignment: CrossAxisAlignment.start,
 //                              expandedAlignment: Alignment.centerLeft,
                               title: new Text("Parcourir les détails",

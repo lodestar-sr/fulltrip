@@ -146,10 +146,10 @@ class _ChatMessagesState extends State<ChatMessages>
                   ),
                   onPressed: () {
                     addNewMessage();
-                    setState(() {
-                      emojis = false;
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    });
+                    // setState(() {
+                    //   emojis = false;
+                    //   FocusScope.of(context).requestFocus(FocusNode());
+                    // });
                   },
                 ),
               ],
