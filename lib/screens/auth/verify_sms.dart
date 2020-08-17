@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:Fulltrip/data/models/user.dart';
+import 'package:Fulltrip/data/models/user.model.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -46,12 +46,12 @@ class _VerifySMSState extends State<VerifySMS> {
 
   initUser() {
     final LinkedHashMap<String, dynamic> args = ModalRoute.of(context).settings.arguments;
-//    if (args == null) {
-//      Navigator.of(context).pop();
-//    } else {
-//      setState(() => user = args['user']);
-//      sendCode();
-//    }
+    if (args == null) {
+      Navigator.of(context).pop();
+    } else {
+      setState(() => user = args['user']);
+      sendCode();
+    }
   }
 
   sendCode() {
@@ -59,40 +59,50 @@ class _VerifySMSState extends State<VerifySMS> {
       countTime = 120;
       _pinPutController.text = '';
     });
-    context.watch<FirebaseAuthService>().verifyPhone(
-          number: '+' + user.phone,
-          onCodeSent: (code) {
-            setState(() {
-              verificationCode = code;
-            });
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text('We sent verification SMS code to your phone. Please input code'),
-                );
-              },
-            );
-          },
-          onCompleted: (authCred) {},
-          onFailed: (err) {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Text(err),
-                );
-              },
-            );
-          },
-        );
+    context.select((FirebaseAuthService fas) {
+      fas.verifyPhone(
+        number: '+' + user.phone,
+        onCodeSent: (code) {
+          setState(() {
+            verificationCode = code;
+          });
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('We sent verification SMS code to your phone. Please input code'),
+              );
+            },
+          );
+        },
+        onCompleted: (authCred) {},
+        onFailed: (err) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(err),
+              );
+            },
+          );
+        },
+      );
+    });
   }
 
   onSubmit() {
     if (verificationCode != null && _pinPutController.text.isNotEmpty) {
       final AuthCredential authCred = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: _pinPutController.text);
       Global.auth.signInWithCredential(authCred).then((value) {
-        Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text('Numéro de téléphone vérifié avec succès'),
+            );
+          },
+        );
+        Navigator.of(context).pop();
       }).catchError((error) {
         showDialog(
           context: context,
@@ -189,7 +199,7 @@ class _VerifySMSState extends State<VerifySMS> {
                               minWidth: double.infinity,
                               height: 56,
                               child: RaisedButton(
-                                child: Text('Appliquer les filtres', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                child: Text('Vérifier', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: onSubmit,

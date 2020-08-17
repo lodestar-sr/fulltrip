@@ -1,22 +1,51 @@
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:Fulltrip/util/validators/validators.dart';
+import 'package:Fulltrip/util/validators/index.dart';
 import 'package:Fulltrip/widgets/form_field_container/index.dart';
-import 'package:Fulltrip/widgets/google_place_autocomplete/google_place_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
-class AdresseDuSiege extends StatefulWidget {
-  AdresseDuSiege({Key key}) : super(key: key);
+class RaisonSociale extends StatefulWidget {
+  RaisonSociale({Key key}) : super(key: key);
 
   @override
-  _AdresseDuSiegeState createState() => _AdresseDuSiegeState();
+  _RaisonSocialeState createState() => _RaisonSocialeState();
 }
 
-class _AdresseDuSiegeState extends State<AdresseDuSiege> {
-  String headQAdd = '';
-  final headQFormKey = GlobalKey<FormState>();
+class _RaisonSocialeState extends State<RaisonSociale> {
+  final raisonSocialeFormKey = GlobalKey<FormState>();
+  String raisonSociale = '';
+
+  @override
+  void initState() {
+    super.initState();
+    raisonSociale = context.read<AuthProvider>().loggedInUser.raisonSociale;
+  }
+
+  onSave() async {
+    if (raisonSocialeFormKey.currentState.validate()) {
+      final form = raisonSocialeFormKey.currentState;
+      form.save();
+
+      setState(() {
+        context.read<AuthProvider>().loggedInUser.raisonSociale = raisonSociale;
+      });
+      setState(() => Global.isLoading = true);
+      await context.read<AuthProvider>().loggedInUser.save(context);
+      setState(() => Global.isLoading = false);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Mise à jour réussie de la raison sociale'),
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +61,7 @@ class _AdresseDuSiegeState extends State<AdresseDuSiege> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Adresse du siège', style: AppStyles.blackTextStyle),
+              title: Text('Raison sociale', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
@@ -51,16 +80,19 @@ class _AdresseDuSiegeState extends State<AdresseDuSiege> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Adresse du siège',
+                                          'Raison sociale',
                                           style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                         ),
                                         Form(
-                                          key: headQFormKey,
+                                          key: raisonSocialeFormKey,
                                           child: FormFieldContainer(
-                                            child: GooglePlacesAutocomplete(
-                                              initialValue: headQAdd,
-                                              validator: (value) => Validators.required(value, errorText: "Veuillez saisir l'adresse du siège"),
-                                              onSelect: (val) => this.setState(() => headQAdd = val),
+                                            child: TextFormField(
+                                              initialValue: raisonSociale,
+                                              decoration: hintTextDecoration('Entrer raison sociale'),
+                                              validator: (value) => Validators.required(value, errorText: 'Veuillez saisir une raison sociale'),
+                                              keyboardType: TextInputType.text,
+                                              style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                              onSaved: (val) => setState(() => raisonSociale = val),
                                             ),
                                           ),
                                         ),
@@ -80,9 +112,7 @@ class _AdresseDuSiegeState extends State<AdresseDuSiege> {
                                           child: Text('Sauvegarder', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                                           color: AppColors.primaryColor,
                                           textColor: Color(0xFF343434),
-                                          onPressed: () {
-                                            headQFormKey.currentState.validate();
-                                          },
+                                          onPressed: onSave,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),

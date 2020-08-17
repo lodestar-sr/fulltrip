@@ -1,4 +1,5 @@
-import 'package:Fulltrip/services/auth.service.dart';
+import 'package:Fulltrip/data/models/user.model.dart';
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
@@ -16,20 +17,35 @@ class Compte extends StatefulWidget {
 }
 
 class _CompteState extends State<Compte> {
-  AuthService _authService;
-  String checkStatus = 'verified';
+  String checkStatus = 'incomplet';
+  var trails = [
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+    Container(height: 14, width: 14),
+  ];
+
   //incomplete
   //verified
 
   @override
   void initState() {
-    _authService = AuthService.getInstance();
     Global.isLoading = false;
+    if (context.read<AuthProvider>().loggedInUser.isEmailVerified && context.read<AuthProvider>().loggedInUser.isPhoneVerified) {
+      checkStatus = 'validation';
+      if (context.read<AuthProvider>().loggedInUser.isActivated) {
+        checkStatus = 'verified';
+      }
+    }
   }
 
   signOut() {
     context.read<FirebaseAuthService>().signOut().then((value) async {
-      await _authService.updateUser(user: null);
+      await context.read<AuthProvider>().updateUser(user: null);
       Navigator.of(context).pushReplacementNamed('login');
     });
   }
@@ -37,177 +53,144 @@ class _CompteState extends State<Compte> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return ModalProgressHUD(
-        inAsyncCall: Global.isLoading,
-        color: AppColors.primaryColor,
-        progressIndicator: CircularProgressIndicator(),
-        child: Scaffold(
-            appBar: AppBar(
-              elevation: 1,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              iconTheme: IconThemeData(
-                color: AppColors.backButtonColor, //change your color here
-              ),
-              title: Text('Compte',
-                  style: AppStyles.blackTextStyle
-                      .copyWith(fontWeight: FontWeight.w500)),
-              bottom: PreferredSize(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: checkStatus == 'verified'
-                                    ? AppColors.darkgreenColor
-                                    : checkStatus == 'incomplete'
-                                        ? AppColors.redColor
-                                        : Colors.orange),
-                            child: Text(
-                              'd',
-                              style: TextStyle(color: Colors.transparent),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            checkStatus == 'verified'
-                                ? 'Vérifié'
-                                : checkStatus == 'incomplete'
-                                    ? 'Incomplet'
-                                    : 'Validation en cours',
-                            style: AppStyles.blackTextStyle.copyWith(
-                                fontSize: 14,
-                                color: checkStatus == 'verified'
-                                    ? AppColors.darkgreenColor
-                                    : checkStatus == 'incomplete'
-                                        ? AppColors.redColor
-                                        : Colors.orange),
-                          ),
-                        ],
-                      ),
+
+    if (context.watch<AuthProvider>().getInfoBadge() > 0) {
+      trails[0] = Container(
+        height: 14,
+        width: 14,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+        ),
+        child: Center(
+          child: Text(
+            '${context.watch<AuthProvider>().getInfoBadge()}',
+            style: TextStyle(color: Colors.white, fontSize: 10),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: AppColors.backButtonColor, //change your color here
+        ),
+        title: Text('Compte', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500)),
+        bottom: PreferredSize(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5.0),
+            child: Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: checkStatus == 'verified' ? AppColors.darkgreenColor : checkStatus == 'validation' ? AppColors.orangeColor : AppColors.redColor),
+                    child: Text(
+                      'd',
+                      style: TextStyle(color: Colors.transparent),
                     ),
                   ),
-                  preferredSize: null),
-              centerTitle: true,
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    checkStatus == 'verified' ? 'Vérifié' : checkStatus == 'validation' ? 'Validation en cours' : 'Incomplet',
+                    style: AppStyles.blackTextStyle
+                      .copyWith(fontSize: 14, color: checkStatus == 'verified' ? AppColors.darkgreenColor : checkStatus == 'validation' ? AppColors.orangeColor : AppColors.redColor),
+                  ),
+                ],
+              ),
             ),
-            body: Container(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                    child: GestureDetector(
-                        onTap: () => FocusScope.of(context)
-                            .requestFocus(new FocusNode()),
-                        child: Container(
-                            padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: Global.profileOptions.length,
-                                        itemBuilder:
-                                            (BuildContext context, index) {
-                                          return Column(
-                                            children: [
-                                              ListTile(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 0.0),
-                                                leading: Icon(
-                                                    Global.profileIcons[index],
-                                                    size: 26,
-                                                    color:
-                                                        AppColors.primaryColor),
-                                                title: Text(
-                                                  Global.profileOptions[index],
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppColors.darkColor,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                onTap: () {
-                                                  index == 0
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mes_informations')
-                                                      : null;
-                                                  index == 1
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'Announces')
-                                                      : null;
-                                                  index == 2
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'TransPort')
-                                                      : null;
-                                                  index == 3
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'centredaide')
-                                                      : null;
-                                                  index == 4 ? null : null;
-                                                  index == 5
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mesdocuments')
-                                                      : null;
-                                                  index == 6
-                                                      ? Navigator.of(context)
-                                                          .pushNamed(
-                                                              'mesdocuments')
-                                                      : null;
-                                                  index == 7 ? null : null;
-                                                },
-                                              ),
-                                              Container(
-                                                color: AppColors.compteDivider,
-                                                height: 1,
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: SizeConfig.safeBlockVertical * 12),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          color: AppColors.compteDivider,
-                                          height: 1,
-                                        ),
-                                        ListTile(
-                                          onTap: () => signOut(),
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 0.0),
-                                          leading: Icon(
-                                            Feather.log_out,
-                                            color: AppColors.redColor,
-                                            size: 30,
-                                          ),
-                                          title: Text(
-                                            'Se déconnecter',
-                                          ),
-                                        ),
-                                        Container(
-                                          color: AppColors.compteDivider,
-                                          height: 1,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ])))))));
+          ),
+          preferredSize: null),
+        centerTitle: true,
+      ),
+      body: Container(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: Global.profileOptions.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                              leading: Icon(Global.profileIcons[index], size: 26, color: AppColors.primaryColor),
+                              title: Text(
+                                Global.profileOptions[index],
+                                style: TextStyle(color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                              ),
+                              onTap: () {
+                                index == 0 ? Navigator.of(context).pushNamed('mes_informations') : null;
+                                index == 1 ? Navigator.of(context).pushNamed('Announces') : null;
+                                index == 2 ? Navigator.of(context).pushNamed('TransPort') : null;
+                                index == 3 ? Navigator.of(context).pushNamed('centredaide') : null;
+                                index == 4 ? null : null;
+                                index == 5 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                index == 6 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                index == 7 ? null : null;
+                              },
+                              trailing: trails[index],
+                            ),
+                            Container(
+                              color: AppColors.compteDivider,
+                              height: 1,
+                            )
+                          ],
+                        );
+                      }),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 12),
+                    child: Column(
+                      children: [
+                        Container(
+                          color: AppColors.compteDivider,
+                          height: 1,
+                        ),
+                        ListTile(
+                          onTap: () => signOut(),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                          leading: Icon(
+                            Feather.log_out,
+                            color: AppColors.redColor,
+                            size: 30,
+                          ),
+                          title: Text(
+                            'Se déconnecter',
+                          ),
+                        ),
+                        Container(
+                          color: AppColors.compteDivider,
+                          height: 1,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

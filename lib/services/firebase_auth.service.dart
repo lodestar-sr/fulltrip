@@ -1,4 +1,4 @@
-import 'package:Fulltrip/data/models/user.dart';
+import 'package:Fulltrip/data/models/user.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -18,7 +18,7 @@ class FirebaseAuthService {
     return User(
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      raisonSociale: user.displayName,
       photoUrl: user.photoUrl,
       phone: user.phoneNumber,
       isEmailVerified: user.isEmailVerified,
@@ -29,13 +29,13 @@ class FirebaseAuthService {
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }
 
-  Future<User> createWithEmailAndPassword({String email, String password, String name, String phone}) async {
+  Future<User> createWithEmailAndPassword({String email, String password, String raisonSociale, String phone}) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     await authResult.user.sendEmailVerification();
     User user = _userFromFirebase(authResult.user);
-    user.displayName = name;
+    user.raisonSociale = raisonSociale;
     user.phone = phone;
-    await Global.firestore.collection('users').add(user.toJson());
+    await user.create();
     return user;
   }
 
@@ -52,7 +52,11 @@ class FirebaseAuthService {
       idToken: googleAuth.idToken,
     );
     final authResult = await _firebaseAuth.signInWithCredential(credential);
-    return _userFromFirebase(authResult.user);
+    User user = _userFromFirebase(authResult.user);
+    user.raisonSociale = '';
+    user.phone = '';
+    await user.create();
+    return user;
   }
 
   Future<void> verifyPhone({String number, onCompleted, onFailed, onCodeSent}) {
@@ -84,5 +88,15 @@ class FirebaseAuthService {
 
   Future<void> resetPassword(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> updateEmail(String email) async {
+    final user = await _firebaseAuth.currentUser();
+    return user.updateEmail(email);
+  }
+
+  Future<void> updatePassword(String password) async {
+    final user = await _firebaseAuth.currentUser();
+    return user.updatePassword(password);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:Fulltrip/data/models/DistanceTimeModel.dart';
+import 'package:Fulltrip/data/models/distance_time.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';

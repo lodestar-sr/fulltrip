@@ -1,4 +1,4 @@
-import 'package:Fulltrip/services/auth.service.dart';
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -22,16 +22,18 @@ class _RegisterState extends State<Register> {
   String _email;
   String _password;
   String _confirmPassword;
-  String _name;
+  String _raisonSociale;
   String _phone;
   bool absure = true;
 
-  AuthService _authService;
+  bool raisonAutoValidate= false;
+  bool phoneAutoValidate= false;
+  bool emailAutoValidate= false;
+  bool passwordAutoValidate= false;
 
   @override
   void initState() {
     super.initState();
-    _authService = AuthService.getInstance();
   }
 
   onSubmit() {
@@ -40,11 +42,10 @@ class _RegisterState extends State<Register> {
       form.save();
 
       setState(() => Global.isLoading = true);
-      context.read<FirebaseAuthService>().createWithEmailAndPassword(email: _email, password: _password, name: _name, phone: _phone).then((user) {
+      context.read<FirebaseAuthService>().createWithEmailAndPassword(email: _email, password: _password, raisonSociale: _raisonSociale, phone: _phone).then((user) {
         setState(() => Global.isLoading = false);
-        _authService.updateUser(user: user);
+        context.read<AuthProvider>().updateUser(user: user);
         Navigator.of(context).pushNamed('dashboard');
-//        Navigator.of(context).pushNamed('verify-sms', arguments: <String, dynamic>{'user': user, 'password': _password});
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(
@@ -84,7 +85,7 @@ class _RegisterState extends State<Register> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 8, top: 16),
+                          margin: EdgeInsets.only(bottom: 8, top: 24),
                           width: double.infinity,
                           child: Text('Commençons', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
                         ),
@@ -100,18 +101,22 @@ class _RegisterState extends State<Register> {
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: raisonAutoValidate,
                                   initialValue: '',
+                                  onTap: () => setState(() => raisonAutoValidate = true),
                                   decoration: hintTextDecoration('Nom de l\'entreprise'),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir nom de l\'entreprise'),
                                   keyboardType: TextInputType.text,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                  onSaved: (val) => setState(() => _name = val),
+                                  onSaved: (val) => setState(() => _raisonSociale = val),
                                 ),
                               ),
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: phoneAutoValidate,
                                   initialValue: '',
+                                  onTap: () => setState(() => phoneAutoValidate = true),
                                   decoration: hintTextDecoration('Numéro de téléphone'),
                                   validator: (value) => Validators.mustNumeric(value, errorText: 'Veuillez saisir un numéro de téléphone valide'),
                                   keyboardType: TextInputType.phone,
@@ -122,7 +127,9 @@ class _RegisterState extends State<Register> {
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: emailAutoValidate,
                                   initialValue: '',
+                                  onTap: () => setState(() => emailAutoValidate = true),
                                   decoration: hintTextDecoration('Email'),
                                   validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
@@ -133,6 +140,8 @@ class _RegisterState extends State<Register> {
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: passwordAutoValidate,
+                                  onTap: () => setState(() => passwordAutoValidate = true),
                                   decoration: hintTextDecoration('Mot de passe').copyWith(
                                     suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure)),
                                   ),
@@ -147,6 +156,8 @@ class _RegisterState extends State<Register> {
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: passwordAutoValidate,
+                                  onTap: () => setState(() => passwordAutoValidate = true),
                                   decoration: hintTextDecoration('Répéter mot de passe'),
                                   validator: (val) {
                                     if (val.isEmpty) {

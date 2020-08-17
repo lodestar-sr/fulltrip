@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Fulltrip/data/models/ChatModel.dart';
+import 'package:Fulltrip/data/models/chat.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -18,8 +18,7 @@ class ChatMessages extends StatefulWidget {
   _ChatMessagesState createState() => _ChatMessagesState();
 }
 
-class _ChatMessagesState extends State<ChatMessages>
-    with SingleTickerProviderStateMixin {
+class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderStateMixin {
   TextEditingController inputMessage = TextEditingController();
   ScrollController _controller = new ScrollController();
   bool emojis = false;
@@ -44,8 +43,7 @@ class _ChatMessagesState extends State<ChatMessages>
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(
-                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -57,8 +55,7 @@ class _ChatMessagesState extends State<ChatMessages>
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 200),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 200), () => _controller.jumpTo(_controller.position.maxScrollExtent));
 
     scrollListner();
   }
@@ -107,8 +104,7 @@ class _ChatMessagesState extends State<ChatMessages>
                     child: FormFieldContainer(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                            color: AppColors.lightGreyColor.withOpacity(0.6)),
+                        border: Border.all(color: AppColors.lightGreyColor.withOpacity(0.6)),
                       ),
                       child: TextField(
                         controller: inputMessage,
@@ -117,14 +113,9 @@ class _ChatMessagesState extends State<ChatMessages>
                         maxLines: 5,
                         textInputAction: TextInputAction.newline,
                         maxLengthEnforced: true,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(5)),
+                        decoration: InputDecoration(border: InputBorder.none, contentPadding: EdgeInsets.all(5)),
                         onTap: () {
-                          Timer(
-                              Duration(milliseconds: 300),
-                              () => _controller.jumpTo(
-                                  _controller.position.maxScrollExtent));
+                          Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
                           setState(() {
                             emojis = false;
                           });
@@ -138,11 +129,8 @@ class _ChatMessagesState extends State<ChatMessages>
                 ),
                 IconButton(
                   icon: Container(
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryColor, shape: BoxShape.circle),
-                    child: Center(
-                        child: Icon(Icons.arrow_upward,
-                            size: 30, color: Colors.white)),
+                    decoration: BoxDecoration(color: AppColors.primaryColor, shape: BoxShape.circle),
+                    child: Center(child: Icon(Icons.arrow_upward, size: 30, color: Colors.white)),
                   ),
                   onPressed: () {
                     addNewMessage();
@@ -177,8 +165,7 @@ class _ChatMessagesState extends State<ChatMessages>
         inputMessage.text = '';
       });
     }
-    Timer(Duration(milliseconds: 300),
-        () => _controller.jumpTo(_controller.position.maxScrollExtent));
+    Timer(Duration(milliseconds: 300), () => _controller.jumpTo(_controller.position.maxScrollExtent));
   }
 
   @override
@@ -193,8 +180,7 @@ class _ChatMessagesState extends State<ChatMessages>
               ),
           title: Text(
             'Messages',
-            style:
-                AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w400),
+            style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w400),
           ),
         ),
         body: SingleChildScrollView(
@@ -202,8 +188,7 @@ class _ChatMessagesState extends State<ChatMessages>
             inAsyncCall: Global.isLoading,
             color: AppColors.primaryColor,
             child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -211,12 +196,8 @@ class _ChatMessagesState extends State<ChatMessages>
                         child: Stack(children: [
                       Container(
                         height: SizeConfig.safeBlockVertical * 94,
-                        padding: EdgeInsets.fromLTRB(
-                            16, isVisible ? 40 : 15, 16, emojis ? 240 : 90),
-                        child: ListView(
-                            controller: _controller,
-                            shrinkWrap: true,
-                            children: chatMessages()),
+                        padding: EdgeInsets.fromLTRB(16, isVisible ? 40 : 15, 16, emojis ? 240 : 90),
+                        child: ListView(controller: _controller, shrinkWrap: true, children: chatMessages()),
                       ),
                       Positioned(
                         top: 0,
@@ -227,11 +208,7 @@ class _ChatMessagesState extends State<ChatMessages>
                           duration: Duration(milliseconds: 300),
                           child: Container(
                             height: isVisible ? 51.0 : 0.0,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: AppColors.compteDivider))),
+                            decoration: BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: AppColors.compteDivider))),
                             child: Column(
                               children: [
                                 Padding(
@@ -240,8 +217,7 @@ class _ChatMessagesState extends State<ChatMessages>
                                   ),
                                   child: Text(
                                     "Nom de l'entreprise",
-                                    style: AppStyles.blackTextStyle
-                                        .copyWith(fontWeight: FontWeight.w500),
+                                    style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],
@@ -249,11 +225,7 @@ class _ChatMessagesState extends State<ChatMessages>
                           ),
                         ),
                       ),
-                      Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: builMessageTextField())
+                      Positioned(bottom: 0, left: 0, right: 0, child: builMessageTextField())
                     ])),
                   ],
                 )),

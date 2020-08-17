@@ -1,3 +1,4 @@
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/screens/auth/login.dart';
 import 'package:Fulltrip/screens/auth/register.dart';
 import 'package:Fulltrip/screens/auth/verify_sms.dart';
@@ -7,10 +8,10 @@ import 'package:Fulltrip/screens/home/home.dart';
 import 'package:Fulltrip/screens/home/lot_details/lot_details.dart';
 import 'package:Fulltrip/screens/home/propose_lot/payment_method/payment_method.dart';
 import 'package:Fulltrip/screens/home/propose_lot/propose_lot.dart';
-import 'package:Fulltrip/screens/profil/Profil.dart';
+import 'package:Fulltrip/screens/profil/Announces/finished_details.dart';
 import 'package:Fulltrip/screens/profil/informations/Transport_history/DetailsDuVoyage.dart';
 import 'package:Fulltrip/screens/profil/informations/Transport_history/HistoriqueTransport.dart';
-import 'package:Fulltrip/screens/splash/splash.dart';
+import 'package:Fulltrip/screens/profil/profil.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,25 +28,24 @@ import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot4.dart';
 import 'screens/messages/ChatMessages.dart';
 import 'screens/messages/MessagesList.dart';
-import 'screens/profil/Announces/Annonces.dart';
+import 'screens/profil/Announces/annonces.dart';
 import 'screens/profil/MesDocuments/Mes_Documents.dart';
-import 'screens/profil/TransPort/TransPort.dart';
+import 'screens/profil/TransPort/transport.dart';
 import 'screens/profil/informations/CoordoneedBancaires/CoordonneesBancaries.dart';
 import 'screens/profil/informations/HelpCenter/CentreDaide.dart';
-import 'screens/profil/informations/Mes_information/AdresseDuSiege.dart';
-import 'screens/profil/informations/Mes_information/Commanditaire.dart';
-import 'screens/profil/informations/Mes_information/Mes_Informations.dart';
-import 'screens/profil/informations/Mes_information/RaisonSociale.dart';
-import 'screens/profil/informations/Mes_information/changePassword.dart';
-import 'screens/profil/informations/Mes_information/emailOption.dart';
-import 'screens/profil/informations/Mes_information/telephoneoption.dart';
 import 'screens/profil/informations/TransactionEnCours/TransactionEnCours.dart';
 import 'screens/profil/informations/TransactionEnCours/TransactionInformation.dart';
+import 'screens/profil/informations/informations/Informations.dart';
+import 'screens/profil/informations/informations/change_address.dart';
+import 'screens/profil/informations/informations/change_email.dart';
+import 'screens/profil/informations/informations/change_password.dart';
+import 'screens/profil/informations/informations/change_phone.dart';
+import 'screens/profil/informations/informations/commanditaire.dart';
+import 'screens/profil/informations/informations/raison_sociale.dart';
 import 'util/theme.dart';
 
 class Routes {
   final routes = <String, WidgetBuilder>{
-    'splash': (BuildContext context) => Splash(),
     'login': (BuildContext context) => Login(),
     'register': (BuildContext context) => Register(),
     'verify-sms': (BuildContext context) => VerifySMS(),
@@ -61,16 +61,15 @@ class Routes {
     'MeansOfPayment': (BuildContext context) => PaymentMethod(),
     'Felicitations': (BuildContext context) => Felicitations(),
     'Profil': (BuildContext context) => Compte(),
-    'mes_informations': (BuildContext context) => Mes_Informations(),
+    'mes_informations': (BuildContext context) => Informations(),
     'raisonsociale': (BuildContext context) => RaisonSociale(),
-    'emailoption': (BuildContext context) => EmailOption(),
-    'telephoneoption': (BuildContext context) => TelephoneOption(),
+    'emailoption': (BuildContext context) => ChangeEmail(),
+    'telephoneoption': (BuildContext context) => ChangePhone(),
     'changepassword': (BuildContext context) => ChangePassword(),
-    'adressedusiege': (BuildContext context) => AdresseDuSiege(),
+    'adressedusiege': (BuildContext context) => ChangeAddress(),
     'CoordonneesBancaries': (BuildContext context) => CoordonneesBancaries(),
     'transactionencours': (BuildContext context) => TransactionEnCours(),
-    'transactioninformation': (BuildContext context) =>
-        TransactionInformation(),
+    'transactioninformation': (BuildContext context) => TransactionInformation(),
     'centredaide': (BuildContext context) => CentreDaide(),
     'historiqueinformation': (BuildContext context) => HistoriqueInformation(),
     'detailsduvage': (BuildContext context) => DetailsDuVage(),
@@ -80,33 +79,26 @@ class Routes {
     'Commanditaire': (BuildContext context) => Commanditaire(),
     'Announces': (BuildContext context) => Announces(),
     'TransPort': (BuildContext context) => TransPort(),
+    'finished-details': (BuildContext context) => FinishedDetails(),
   };
 
-  Routes(
-      {FirebaseStorage storage,
-      Firestore firestore,
-      FirebaseAuth auth,
-      GoogleSignIn googleSignIn}) {
+  Routes({FirebaseStorage storage, Firestore firestore, FirebaseAuth auth, GoogleSignIn googleSignIn}) {
     Global.storage = storage;
     Global.firestore = firestore;
     Global.googleSignIn = googleSignIn;
     Global.auth = auth;
     runApp(MultiProvider(
       providers: [
-        Provider(
-          create: (_) => FirebaseAuthService(),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<FirebaseAuthService>().onAuthStateChanged,
-        ),
+        Provider(create: (_) => FirebaseAuthService()),
+        StreamProvider(create: (context) => context.read<FirebaseAuthService>().onAuthStateChanged),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fulltrip',
         theme: appTheme(),
         routes: routes,
-        home: Dashboard(),
+        home: Login(),
       ),
     ));
   }

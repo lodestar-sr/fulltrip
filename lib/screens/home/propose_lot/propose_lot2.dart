@@ -29,12 +29,8 @@ class _ProposeLot2State extends State<ProposeLot2> {
   @override
   void initState() {
     super.initState();
-    deliveryDateFromController.text = Global.lotForm.deliveryDateFrom != null
-        ? dateFormat.format(Global.lotForm.deliveryDateFrom)
-        : '';
-    deliveryDateToController.text = Global.lotForm.deliveryDateTo != null
-        ? dateFormat.format(Global.lotForm.deliveryDateTo)
-        : '';
+    deliveryDateFromController.text = Global.lotForm.deliveryDateFrom != null ? dateFormat.format(Global.lotForm.deliveryDateFrom) : '';
+    deliveryDateToController.text = Global.lotForm.deliveryDateTo != null ? dateFormat.format(Global.lotForm.deliveryDateTo) : '';
   }
 
   goToNext() {
@@ -72,24 +68,20 @@ class _ProposeLot2State extends State<ProposeLot2> {
               GestureDetector(
                 child: Center(
                   child: Container(
-                    child: Text('Précédent',
-                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Précédent', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
                 onTap: () => Navigator.of(context).pop(),
               ),
-              new Text("A l'arrivée",
-                  style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
+              new Text("A l'arrivée", style: TextStyle(fontSize: 17, color: AppColors.darkColor)),
               GestureDetector(
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(right: 12),
-                    child: Text('Fermer',
-                        style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                    child: Text('Fermer', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
                   ),
                 ),
-                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                    'dashboard', (Route<dynamic> route) => false),
+                onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false),
               )
             ],
           ),
@@ -101,8 +93,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
           onTap: () {
             FocusScope.of(context).requestFocus(new FocusNode());
           },
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstraints) {
+          child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
             return Form(
               key: _formKey,
               child: Container(
@@ -122,14 +113,9 @@ class _ProposeLot2State extends State<ProposeLot2> {
                           RichText(
                             text: TextSpan(
                               text: "Adresse d'arrivée",
-                              style: AppStyles.blackTextStyle
-                                  .copyWith(fontWeight: FontWeight.w500),
+                              style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                               children: <TextSpan>[
-                                TextSpan(
-                                    text: ' *',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.redColor)),
+                                TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
                               ],
                             ),
                           ),
@@ -138,8 +124,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 5.0),
-                                child: Icon(Feather.map_pin,
-                                    size: 16, color: AppColors.redColor),
+                                child: Icon(Feather.map_pin, size: 16, color: AppColors.redColor),
                               ),
                               SizedBox(
                                 width: 10,
@@ -147,30 +132,20 @@ class _ProposeLot2State extends State<ProposeLot2> {
                               Expanded(
                                 child: GooglePlacesAutocomplete(
                                   initialValue: Global.lotForm.arrivalAddress,
-                                  validator: (value) => Validators.required(
-                                      value,
-                                      errorText:
-                                          'Adresse d\'arrivée est requis'),
-                                  onSelect: (val) => this.setState(() =>
-                                      Global.lotForm.arrivalAddress = val),
+                                  validator: (value) => Validators.required(value, errorText: 'Adresse d\'arrivée est requis'),
+                                  onSelect: (val) => this.setState(() => Global.lotForm.arrivalAddress = val),
                                 ),
                               ),
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Type de lieu',
-                                style: AppStyles.blackTextStyle
-                                    .copyWith(fontWeight: FontWeight.w500),
+                                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.redColor)),
+                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
                                 ],
                               ),
                             ),
@@ -184,45 +159,34 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   value: itm,
                                   child: Text(
                                     itm,
-                                    style: AppStyles.blackTextStyle
-                                        .copyWith(fontSize: 14),
+                                    style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                                   ),
                                 );
                               }).toList(),
-                              validator: (value) => Validators.required(value,
-                                  errorText: 'Type de lieu est requis'),
-                              value: Global.lotForm.arrivalLocationType != ''
-                                  ? Global.lotForm.arrivalLocationType
-                                  : null,
+                              validator: (value) => Validators.required(value, errorText: 'Type de lieu est requis'),
+                              value: Global.lotForm.arrivalLocationType != '' ? Global.lotForm.arrivalLocationType : null,
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.arrivalLocationType = val;
                                 });
                               },
                               decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(() =>
-                                  Global.lotForm.arrivalLocationType = val),
+                              onSaved: (val) => setState(() => Global.lotForm.arrivalLocationType = val),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                          Global.lotForm.arrivalLocationType == 'Immeuble' ? Padding(
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: "Type d'accès",
-                                style: AppStyles.blackTextStyle
-                                    .copyWith(fontWeight: FontWeight.w500),
+                                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.redColor)),
+                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
                                 ],
                               ),
                             ),
-                          ),
-                          Padding(
+                          ) : Container(),
+                          Global.lotForm.arrivalLocationType == 'Immeuble' ? Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Row(
                               children: [
@@ -231,29 +195,21 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                     children: [
                                       Radio(
                                         activeColor: AppColors.primaryColor,
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         value: 'Plein pieds',
                                         groupValue: selectedRadio,
                                         onChanged: (value) {
                                           setState(() {
                                             print(value);
                                             setSelectedRadio(value);
-                                            Global.lotForm.arrivalAccessType =
-                                                value;
+                                            Global.lotForm.arrivalAccessType = value;
                                           });
                                         },
                                       ),
                                       Text(
                                         'Plein pieds',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: selectedRadio ==
-                                                        'Plein pieds'
-                                                    ? AppColors.primaryColor
-                                                    : Colors.black),
+                                        style:
+                                            AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500, color: selectedRadio == 'Plein pieds' ? AppColors.primaryColor : Colors.black),
                                       ),
                                     ],
                                   ),
@@ -263,29 +219,21 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                     children: [
                                       Radio(
                                         activeColor: AppColors.primaryColor,
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         value: 'Ascenseur',
                                         groupValue: selectedRadio,
                                         onChanged: (value) {
                                           setState(() {
                                             print(value);
                                             setSelectedRadio(value);
-                                            Global.lotForm.arrivalAccessType =
-                                                value;
+                                            Global.lotForm.arrivalAccessType = value;
                                           });
                                         },
                                       ),
                                       Text(
                                         'Ascenseur',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color:
-                                                    selectedRadio == 'Ascenseur'
-                                                        ? AppColors.primaryColor
-                                                        : Colors.black),
+                                        style:
+                                            AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500, color: selectedRadio == 'Ascenseur' ? AppColors.primaryColor : Colors.black),
                                       ),
                                     ],
                                   ),
@@ -294,8 +242,7 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   child: Row(
                                     children: [
                                       Radio(
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         activeColor: AppColors.primaryColor,
                                         value: 'Escaliers',
                                         groupValue: selectedRadio,
@@ -303,47 +250,34 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                           setState(() {
                                             print(value);
                                             setSelectedRadio(value);
-                                            Global.lotForm.arrivalAccessType =
-                                                value;
+                                            Global.lotForm.arrivalAccessType = value;
                                           });
                                         },
                                       ),
                                       Text(
                                         'Escaliers',
-                                        style: AppStyles.blackTextStyle
-                                            .copyWith(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color:
-                                                    selectedRadio == 'Escaliers'
-                                                        ? AppColors.primaryColor
-                                                        : Colors.black),
+                                        style:
+                                            AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500, color: selectedRadio == 'Escaliers' ? AppColors.primaryColor : Colors.black),
                                       ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                          ) : Container(),
+                          Global.lotForm.arrivalLocationType == 'Immeuble' ? Padding(
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: RichText(
                               text: TextSpan(
                                 text: 'Etages',
-                                style: AppStyles.blackTextStyle
-                                    .copyWith(fontWeight: FontWeight.w500),
+                                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                 children: <TextSpan>[
-                                  TextSpan(
-                                      text: ' *',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.redColor)),
+                                  TextSpan(text: ' *', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.redColor)),
                                 ],
                               ),
                             ),
-                          ),
-                          FormFieldContainer(
+                          ) : Container(),
+                          Global.lotForm.arrivalLocationType == 'Immeuble' ? FormFieldContainer(
                             margin: EdgeInsets.only(top: 10),
                             child: DropdownButtonFormField(
                               isExpanded: true,
@@ -352,33 +286,26 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   value: itm,
                                   child: Text(
                                     itm,
-                                    style: AppStyles.blackTextStyle
-                                        .copyWith(fontSize: 14),
+                                    style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                                   ),
                                 );
                               }).toList(),
-                              value: Global.lotForm.arrivalFloors != ''
-                                  ? Global.lotForm.arrivalFloors
-                                  : null,
-                              validator: (value) => Validators.required(value,
-                                  errorText: 'Etages est requis'),
+                              value: Global.lotForm.arrivalFloors != '' ? Global.lotForm.arrivalFloors : null,
+                              validator: (value) => Validators.required(value, errorText: 'Etages est requis'),
                               onChanged: (val) {
                                 setState(() {
                                   Global.lotForm.arrivalFloors = val;
                                 });
                               },
                               decoration: hintTextDecoration('Choisissez '),
-                              onSaved: (val) => setState(
-                                  () => Global.lotForm.arrivalFloors = val),
+                              onSaved: (val) => setState(() => Global.lotForm.arrivalFloors = val),
                             ),
-                          ),
+                          ) : Container(),
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 2),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 2),
                             child: Text(
                               "Période d'enlèvement",
-                              style: AppStyles.blackTextStyle
-                                  .copyWith(fontWeight: FontWeight.w500),
+                              style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                             ),
                           ),
                           Row(
@@ -397,15 +324,11 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                     ),
                                     Expanded(
                                       child: FormFieldContainer(
-                                        margin: EdgeInsets.only(
-                                            top: 10, bottom: 16, right: 8),
+                                        margin: EdgeInsets.only(top: 10, bottom: 16, right: 8),
                                         child: TextFormField(
                                           readOnly: true,
-                                          controller:
-                                              deliveryDateFromController,
-                                          decoration:
-                                              hintTextDecoration('entre le')
-                                                  .copyWith(),
+                                          controller: deliveryDateFromController,
+                                          decoration: hintTextDecoration('entre le').copyWith(),
                                           onTap: () {
                                             DatePicker.showDatePicker(
                                               context,
@@ -415,20 +338,10 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                                 Duration(days: 90),
                                               ),
                                               onConfirm: (date) {
-                                                setState(() => Global.lotForm
-                                                    .deliveryDateFrom = date);
-                                                deliveryDateFromController
-                                                        .text =
-                                                    dateFormat.format(Global
-                                                        .lotForm
-                                                        .deliveryDateFrom);
+                                                setState(() => Global.lotForm.deliveryDateFrom = date);
+                                                deliveryDateFromController.text = dateFormat.format(Global.lotForm.deliveryDateFrom);
                                               },
-                                              currentTime: Global.lotForm
-                                                          .deliveryDateFrom ==
-                                                      null
-                                                  ? DateTime.now()
-                                                  : Global
-                                                      .lotForm.deliveryDateFrom,
+                                              currentTime: Global.lotForm.deliveryDateFrom == null ? DateTime.now() : Global.lotForm.deliveryDateFrom,
                                               locale: LocaleType.fr,
                                             );
                                           },
@@ -446,38 +359,20 @@ class _ProposeLot2State extends State<ProposeLot2> {
                                   child: TextFormField(
                                     readOnly: true,
                                     controller: deliveryDateToController,
-                                    decoration:
-                                        hintTextDecoration('et le').copyWith(),
+                                    decoration: hintTextDecoration('et le').copyWith(),
                                     onTap: () {
                                       DatePicker.showDatePicker(
                                         context,
                                         showTitleActions: true,
-                                        minTime: Global
-                                                    .lotForm.deliveryDateFrom ==
-                                                null
-                                            ? DateTime.now()
-                                            : Global.lotForm.deliveryDateFrom,
-                                        maxTime:
-                                            (Global.lotForm.deliveryDateFrom ==
-                                                        null
-                                                    ? DateTime.now()
-                                                    : Global.lotForm
-                                                        .deliveryDateFrom)
-                                                .add(
+                                        minTime: Global.lotForm.deliveryDateFrom == null ? DateTime.now() : Global.lotForm.deliveryDateFrom,
+                                        maxTime: (Global.lotForm.deliveryDateFrom == null ? DateTime.now() : Global.lotForm.deliveryDateFrom).add(
                                           Duration(days: 90),
                                         ),
                                         onConfirm: (date) {
-                                          setState(() => Global
-                                              .lotForm.deliveryDateTo = date);
-                                          deliveryDateToController.text =
-                                              dateFormat.format(Global
-                                                  .lotForm.deliveryDateTo);
+                                          setState(() => Global.lotForm.deliveryDateTo = date);
+                                          deliveryDateToController.text = dateFormat.format(Global.lotForm.deliveryDateTo);
                                         },
-                                        currentTime:
-                                            Global.lotForm.deliveryDateTo ==
-                                                    null
-                                                ? DateTime.now()
-                                                : Global.lotForm.deliveryDateTo,
+                                        currentTime: Global.lotForm.deliveryDateTo == null ? DateTime.now() : Global.lotForm.deliveryDateTo,
                                         locale: LocaleType.fr,
                                       );
                                     },
@@ -494,17 +389,14 @@ class _ProposeLot2State extends State<ProposeLot2> {
                               children: [
                                 Text(
                                   'Monte meuble nécessaire',
-                                  style: AppStyles.blackTextStyle
-                                      .copyWith(fontSize: 14),
+                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 14),
                                 ),
                                 CupertinoSwitch(
                                   activeColor: AppColors.primaryColor,
-                                  value: Global.lotForm.arrivalFurnitureLift ==
-                                      'Oui',
+                                  value: Global.lotForm.arrivalFurnitureLift == 'Oui',
                                   onChanged: (bool value) {
                                     setState(() {
-                                      Global.lotForm.arrivalFurnitureLift =
-                                          value ? 'Oui' : 'Non';
+                                      Global.lotForm.arrivalFurnitureLift = value ? 'Oui' : 'Non';
                                     });
                                   },
                                 ),
@@ -515,19 +407,13 @@ class _ProposeLot2State extends State<ProposeLot2> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Remontage des meubles ?',
-                                  style: AppStyles.blackTextStyle
-                                      .copyWith(fontSize: 14)),
+                              Text('Remontage des meubles ?', style: AppStyles.blackTextStyle.copyWith(fontSize: 14)),
                               CupertinoSwitch(
-                                value: Global
-                                        .lotForm.startingDismantlingFurniture ==
-                                    'Oui',
+                                value: Global.lotForm.startingDismantlingFurniture == 'Oui',
                                 activeColor: AppColors.primaryColor,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    Global.lotForm
-                                            .startingDismantlingFurniture =
-                                        value ? 'Oui' : 'Non';
+                                    Global.lotForm.startingDismantlingFurniture = value ? 'Oui' : 'Non';
                                   });
                                 },
                               )
@@ -699,28 +585,19 @@ class _ProposeLot2State extends State<ProposeLot2> {
 
                           ///BottomButton
                           Padding(
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 4),
+                            padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 4),
                             child: Container(
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
                                 boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.24),
-                                      blurRadius: 16,
-                                      spreadRadius: 4),
+                                  BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
                                 ],
                               ),
                               child: ButtonTheme(
                                 minWidth: double.infinity,
                                 height: 60,
                                 child: RaisedButton(
-                                  child: Text('Suivant',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
+                                  child: Text('Suivant', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                                   color: AppColors.primaryColor,
                                   textColor: Colors.white,
                                   onPressed: goToNext,

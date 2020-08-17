@@ -1,3 +1,5 @@
+import 'package:Fulltrip/data/providers/auth.provider.dart';
+import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -5,6 +7,7 @@ import 'package:Fulltrip/util/validators/index.dart';
 import 'package:Fulltrip/widgets/form_field_container/index.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
   ChangePassword({Key key}) : super(key: key);
@@ -24,9 +27,54 @@ class _ChangePasswordState extends State<ChangePassword> {
   bool validateoldPassword = false;
   bool validatenewPassword = false;
   bool validateretypePassword = false;
-  bool absureoldPassword = true;
-  bool absurenewPassword = true;
-  bool absureretypePassword = true;
+  bool absurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  onSave() async {
+    if (changePasswordFormKey.currentState.validate()) {
+      final form = changePasswordFormKey.currentState;
+      form.save();
+
+      setState(() => Global.isLoading = true);
+      context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: context.read<AuthProvider>().loggedInUser.email, password: oldPassword).then((usr) async {
+        context.read<FirebaseAuthService>().updatePassword(newPassword).then((value) {
+          setState(() => Global.isLoading = false);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('Mot de passe mis à jour avec succès'),
+              );
+            },
+          );
+        }).catchError((err) {
+          setState(() => Global.isLoading = false);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(err.message),
+              );
+            },
+          );
+        });
+      }).catchError((error) {
+        setState(() => Global.isLoading = false);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text('L\'ancien mot de passe n\'est pas valide'),
+            );
+          },
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +132,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                 },
                                                 decoration: hintTextDecoration("Entrez l'ancien mot de passe").copyWith(
                                                     suffixIcon: IconButton(
-                                                        icon: absureoldPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
-                                                        onPressed: () => setState(() => absureoldPassword = !absureoldPassword))),
-                                                obscureText: absureoldPassword,
+                                                        icon: absurePassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                                                        onPressed: () => setState(() => absurePassword = !absurePassword))),
+                                                obscureText: absurePassword,
                                                 validator: (value) => Validators.required(value, errorText: "Veuillez entrer l'ancien mot de passe"),
                                                 keyboardType: TextInputType.text,
-                                                style: AppStyles.greyTextStyle.copyWith(fontSize: 18),
+                                                style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
                                                 onSaved: (val) => setState(() => oldPassword = val),
                                               ),
                                             ),
@@ -116,13 +164,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                                               onFieldSubmitted: (value) {
                                                 retypePasswordNode.requestFocus();
                                               },
-                                              decoration: hintTextDecoration("Entrez un nouveau mot de passe").copyWith(
-                                                  suffixIcon: IconButton(
-                                                      icon: absurenewPassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
-                                                      onPressed: () => setState(() => absurenewPassword = !absurenewPassword))),
+                                              obscureText: absurePassword,
+                                              decoration: hintTextDecoration("Entrez un nouveau mot de passe"),
                                               validator: (value) => Validators.required(value, errorText: "Veuillez entrer un nouveau mot de passe"),
                                               keyboardType: TextInputType.text,
-                                              style: AppStyles.greyTextStyle.copyWith(fontSize: 18),
+                                              style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
                                               onSaved: (val) => setState(() => newPassword = val),
                                             ),
                                           ),
@@ -137,10 +183,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                             padding: EdgeInsets.all(4),
                                             child: TextFormField(
                                               initialValue: '',
-                                              decoration: hintTextDecoration("Retapez le nouveau mot de passe").copyWith(
-                                                  suffixIcon: IconButton(
-                                                      icon: absureretypePassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
-                                                      onPressed: () => setState(() => absureretypePassword = !absureretypePassword))),
+                                              decoration: hintTextDecoration("Retapez le nouveau mot de passe"),
                                               validator: (value) {
                                                 if (value.trim().isEmpty) {
                                                   return "Veuillez retaper le nouveau mot de passe";
@@ -150,7 +193,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                                                 return null;
                                               },
                                               keyboardType: TextInputType.text,
-                                              style: AppStyles.greyTextStyle.copyWith(fontSize: 18),
+                                              style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                              obscureText: absurePassword,
                                               onChanged: (value) {
                                                 setState(() {
                                                   validateretypePassword = true;
@@ -177,9 +221,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                             child: Text('Sauvegarder', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                                             color: AppColors.primaryColor,
                                             textColor: Color(0xFF343434),
-                                            onPressed: () {
-                                              changePasswordFormKey.currentState.validate();
-                                            },
+                                            onPressed: onSave,
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(10),
                                             ),

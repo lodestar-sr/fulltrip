@@ -1,21 +1,56 @@
+import 'package:Fulltrip/data/models/user.model.dart';
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:Fulltrip/util/validators/index.dart';
-import 'package:Fulltrip/widgets/form_field_container/index.dart';
+import 'package:Fulltrip/util/validators/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:provider/provider.dart';
 
-class RaisonSociale extends StatefulWidget {
-  RaisonSociale({Key key}) : super(key: key);
+class ChangePhone extends StatefulWidget {
+  ChangePhone({Key key}) : super(key: key);
 
   @override
-  _RaisonSocialeState createState() => _RaisonSocialeState();
+  _ChangePhoneState createState() => _ChangePhoneState();
 }
 
-class _RaisonSocialeState extends State<RaisonSociale> {
-  final raisonSocialeFormKey = GlobalKey<FormState>();
-  String raisonSociale = '';
+class _ChangePhoneState extends State<ChangePhone> {
+  final phoneFormKey = GlobalKey<FormState>();
+
+  String _phoneno = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneno = context.read<AuthProvider>().loggedInUser.phone;
+  }
+
+  onSave() async {
+    if (phoneFormKey.currentState.validate()) {
+      final form = phoneFormKey.currentState;
+      form.save();
+
+      setState(() {
+        context.read<AuthProvider>().loggedInUser.phone = _phoneno;
+      });
+      setState(() => Global.isLoading = true);
+      await context.read<AuthProvider>().loggedInUser.save(context);
+      setState(() => Global.isLoading = false);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text('Le numéro de téléphone a été mis à jour avec succès'),
+          );
+        },
+      );
+
+//      User user  = context.read<AuthProvider>().loggedInUser;
+//      user.phone = _phoneno;
+//      Navigator.of(context).pushNamed('verify-sms', arguments: <String, User>{'user': user});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +66,7 @@ class _RaisonSocialeState extends State<RaisonSociale> {
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),
-              title: Text('Raison sociale', style: AppStyles.blackTextStyle),
+              title: Text('Téléphone', style: AppStyles.blackTextStyle),
             ),
             body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
@@ -50,20 +85,18 @@ class _RaisonSocialeState extends State<RaisonSociale> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Raison sociale',
+                                          'Changer le numéro',
                                           style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                                         ),
                                         Form(
-                                          key: raisonSocialeFormKey,
-                                          child: FormFieldContainer(
-                                            child: TextFormField(
-                                              initialValue: '',
-                                              decoration: hintTextDecoration('Entrer raison sociale'),
-                                              validator: (value) => Validators.required(value, errorText: 'Veuillez saisir une raison sociale'),
-                                              keyboardType: TextInputType.text,
-                                              style: AppStyles.greyTextStyle.copyWith(fontSize: 18),
-                                              onSaved: (val) => setState(() => raisonSociale = val),
-                                            ),
+                                          key: phoneFormKey,
+                                          child: TextFormField(
+                                            initialValue: _phoneno,
+                                            decoration: hintTextDecoration('Entrez le numéro de téléphone'),
+                                            validator: (value) => Validators.mustNumeric(value, errorText: 'Veuillez entrer votre numéro de téléphone valide'),
+                                            keyboardType: TextInputType.phone,
+                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
+                                            onSaved: (val) => setState(() => _phoneno = val),
                                           ),
                                         ),
                                       ],
@@ -82,9 +115,7 @@ class _RaisonSocialeState extends State<RaisonSociale> {
                                           child: Text('Sauvegarder', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                                           color: AppColors.primaryColor,
                                           textColor: Color(0xFF343434),
-                                          onPressed: () {
-                                            raisonSocialeFormKey.currentState.validate();
-                                          },
+                                          onPressed: onSave,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),
                                           ),

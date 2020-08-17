@@ -34,14 +34,11 @@ class _MessageScreenState extends State<MessageScreen> {
                     Container(
                       height: 50,
                       width: 50,
-                      decoration: BoxDecoration(
-                          color: AppColors.chatIconColor,
-                          shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: AppColors.chatIconColor, shape: BoxShape.circle),
                       child: Center(
                         child: Text(
                           'W',
-                          style:
-                              AppStyles.blackTextStyle.copyWith(fontSize: 24),
+                          style: AppStyles.blackTextStyle.copyWith(fontSize: 24),
                         ),
                       ),
                     ),
@@ -52,12 +49,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         height: 12,
                         width: 12,
                         decoration: BoxDecoration(
-                            color: element.status == 'online'
-                                ? AppColors.darkgreenColor
-                                : Colors.orangeAccent,
-                            border: Border.all(
-                                color: AppColors.borderwhite, width: 1.5),
-                            shape: BoxShape.circle),
+                            color: element.status == 'online' ? AppColors.darkgreenColor : Colors.orangeAccent, border: Border.all(color: AppColors.borderwhite, width: 1.5), shape: BoxShape.circle),
                       ),
                     ),
                   ],
@@ -72,8 +64,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   children: [
                     Text(
                       element.name,
-                      style: AppStyles.blackTextStyle
-                          .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                      style: AppStyles.blackTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
@@ -104,8 +95,7 @@ class _MessageScreenState extends State<MessageScreen> {
                         '${element.unread}',
                         style: TextStyle(color: Colors.white),
                       ),
-                      decoration: BoxDecoration(
-                          color: AppColors.redColor, shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: AppColors.redColor, shape: BoxShape.circle),
                     ),
                   )
                 ],
@@ -121,8 +111,7 @@ class _MessageScreenState extends State<MessageScreen> {
         child: Center(
           child: Text(
             'No data Available',
-            style: TextStyle(
-                color: AppColors.greyColor, fontSize: 14, height: 1.8),
+            style: TextStyle(color: AppColors.greyColor, fontSize: 14, height: 1.8),
             textAlign: TextAlign.center,
           ),
         ),
@@ -146,44 +135,32 @@ class _MessageScreenState extends State<MessageScreen> {
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
                   'Messages',
-                  style: AppStyles.blackTextStyle
-                      .copyWith(fontWeight: FontWeight.w500),
+                  style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
             ),
-            body: LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstraints) {
+            body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                   width: double.infinity,
                   child: SingleChildScrollView(
                       child: GestureDetector(
-                          onTap: () => FocusScope.of(context)
-                              .requestFocus(new FocusNode()),
+                          onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
                           child: ConstrainedBox(
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(16, 10, 16, 40),
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          height:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  160,
-                                          child: ListView(
-                                            shrinkWrap: true,
-                                            padding: EdgeInsets.only(
-                                                left: 4, right: 4, top: 10),
-                                            children: getmessages(),
-                                          ),
-                                        )
-                                      ]))))));
+                                  child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max, children: [
+                                    Container(
+                                      height: SizeConfig.safeBlockHorizontal * 160,
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.only(left: 4, right: 4, top: 10),
+                                        children: getmessages(),
+                                      ),
+                                    )
+                                  ]))))));
             })));
   }
 }

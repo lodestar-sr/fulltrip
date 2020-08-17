@@ -1,4 +1,5 @@
-import 'package:Fulltrip/services/auth.service.dart';
+import 'package:Fulltrip/data/models/user.model.dart';
+import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -26,15 +27,16 @@ class _LoginState extends State<Login> {
   String _password;
   String _forgotEmail;
 
-  AuthService _authService;
+  bool emailAutoValidate= false;
+  bool passwordAutoValidate= false;
+  bool emailValid = false;
 
   @override
   void initState() {
     super.initState();
-    _authService = AuthService.getInstance();
     SharedPreferences.getInstance().then((value) {
       Global.prefs = value;
-      if (_authService.isLoggedIn()) {
+      if (context.read<AuthProvider>().isLoggedIn()) {
         Navigator.of(context).pushReplacementNamed('dashboard');
       }
     });
@@ -45,21 +47,12 @@ class _LoginState extends State<Login> {
       final form = loginFormKey.currentState;
       form.save();
       setState(() => Global.isLoading = true);
-      context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((user) {
+      context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((usr) async {
+        final docSnap = await Global.firestore.collection('users').document(usr.uid).get();
+        final user = User.fromJson(docSnap.data);
         setState(() => Global.isLoading = false);
-//        if (user.isEmailVerified != null && user.isEmailVerified) {
-        _authService.updateUser(user: user);
+        context.read<AuthProvider>().updateUser(user: user);
         Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
-//        } else {
-//          showDialog(
-//            context: context,
-//            builder: (context) {
-//              return AlertDialog(
-//                content: Text('Email is not activated. Please verify your email'),
-//              );
-//            },
-//          );
-//        }
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(
@@ -105,6 +98,21 @@ class _LoginState extends State<Login> {
     }
   }
 
+  loginGoogle() {
+    setState(() => Global.isLoading = true);
+    context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
+      setState(() => Global.isLoading = false);
+      context.read<AuthProvider>().updateUser(user: user);
+      Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+    }).catchError((error) {
+      setState(() => Global.isLoading = false);
+    });
+  }
+
+  loginApple() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -130,7 +138,7 @@ class _LoginState extends State<Login> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(bottom: 8, top: 16),
+                          margin: EdgeInsets.only(bottom: 8, top: 24),
                           width: double.infinity,
                           child: Text('Se connecter', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
                         ),
@@ -150,24 +158,35 @@ class _LoginState extends State<Login> {
                         ),
                         Form(
                           key: loginFormKey,
-                          //autovalidate: true,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: emailAutoValidate,
                                   initialValue: '',
-                                  decoration: hintTextDecoration('Votre email').copyWith(suffixIcon: Icon(Icons.check, color: AppColors.primaryColor)),
+                                  onTap: () => setState(() => emailAutoValidate = true),
+                                  decoration: emailValid ? hintTextDecoration('Votre email').copyWith(suffixIcon: Icon(Icons.check, color: AppColors.primaryColor)) : hintTextDecoration('Votre email'),
                                   validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
                                   style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
                                   onSaved: (val) => setState(() => _email = val),
+                                  onChanged: (val) {
+                                    var res = Validators.mustEmail(val, errorText: 'Veuillez saisir votre email valide');
+                                    if (res != null) {
+                                      setState(() => emailValid = false);
+                                    } else {
+                                      setState(() => emailValid = true);
+                                    }
+                                  },
                                 ),
                               ),
                               FormFieldContainer(
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
+                                  autovalidate: passwordAutoValidate,
+                                  onTap: () => setState(() => passwordAutoValidate = true),
                                   decoration: hintTextDecoration('Mot de passe')
                                       .copyWith(suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure))),
                                   validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
@@ -259,15 +278,7 @@ class _LoginState extends State<Login> {
                               )
                             ],
                           ),
-                          onPressed: () {
-                            setState(() => Global.isLoading = true);
-                            context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
-                              setState(() => Global.isLoading = false);
-                              Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
-                            }).catchError((error) {
-                              setState(() => Global.isLoading = false);
-                            });
-                          },
+                          onPressed: loginGoogle,
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 16, bottom: 64),
@@ -289,15 +300,7 @@ class _LoginState extends State<Login> {
                                 )
                               ],
                             ),
-                            onPressed: () {
-                              setState(() => Global.isLoading = true);
-                              context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
-                                setState(() => Global.isLoading = false);
-                                Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
-                              }).catchError((error) {
-                                setState(() => Global.isLoading = false);
-                              });
-                            },
+                            onPressed: loginApple,
                           ),
                         ),
                         Container(

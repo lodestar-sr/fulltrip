@@ -12,14 +12,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class LotDetails extends StatefulWidget {
-  LotDetails({Key key}) : super(key: key);
+class FinishedDetails extends StatefulWidget {
+  FinishedDetails({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LotDetailsState();
+  State<StatefulWidget> createState() => _FinishedDetailsState();
 }
 
-class _LotDetailsState extends State<LotDetails> {
+class _FinishedDetailsState extends State<FinishedDetails> {
   var myFormat = DateFormat('d/MM');
   Lot lot;
   var startingaddress = [];
@@ -119,7 +119,7 @@ class _LotDetailsState extends State<LotDetails> {
                                 Icon(MaterialCommunityIcons.calendar_range, size: 20, color: AppColors.primaryColor),
                                 Padding(
                                   padding: EdgeInsets.only(left: 8),
-                                  child: Text('Publié le ${myFormat.format(lot.date)}', style: AppStyles.blackTextStyle.copyWith(fontSize: 15)),
+                                  child: Text('Réservé le ${myFormat.format(lot.date)}', style: AppStyles.blackTextStyle.copyWith(fontSize: 15)),
                                 ),
                               ],
                             ),

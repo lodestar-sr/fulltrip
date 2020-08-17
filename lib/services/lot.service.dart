@@ -1,4 +1,4 @@
-import 'package:Fulltrip/data/models/lot.dart';
+import 'package:Fulltrip/data/models/lot.model.dart';
 import 'package:Fulltrip/util/global.dart';
 
 class LotService {
