@@ -134,10 +134,10 @@ class _ChatMessagesState extends State<ChatMessages> with SingleTickerProviderSt
                   ),
                   onPressed: () {
                     addNewMessage();
-                    setState(() {
-                      emojis = false;
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    });
+                    // setState(() {
+                    //   emojis = false;
+                    //   FocusScope.of(context).requestFocus(FocusNode());
+                    // });
                   },
                 ),
               ],
