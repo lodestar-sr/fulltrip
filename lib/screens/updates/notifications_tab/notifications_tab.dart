@@ -34,14 +34,35 @@ class _NotificationsTabState extends State<NotificationsTab> {
     setState(() => Global.isLoading = false);
   }
 
+  NotificationWidget buildStandardNotificationWidget(Notification notification,
+      {String bottomText}) {
+    return NotificationWidget(
+      text: notification.text,
+      companyName: notification.senderCompanyName,
+      onPressed: () async {
+        Navigator.of(context).pushNamed(
+          'lot-details',
+          arguments: {
+            'lot': await LotService.getLotByUid(notification.lot),
+            'company_name': notification.senderCompanyName,
+            'bottom_text': bottomText,
+          },
+        );
+      },
+    );
+  }
+
   List<Widget> buildNotificationList() {
     List<Widget> list = [];
+
     notifications.forEach((notification) async {
       final notificationType = NotificationType.values[notification.type];
+      NotificationWidget widget;
 
-      if (notificationType == NotificationType.newReservation) {
-        list.add(
-          NotificationWidget(
+      switch (notificationType) {
+        case NotificationType.reservationValidation:
+        case NotificationType.refusedReservationValidation:
+          widget = NotificationWidget(
             text: notification.text,
             companyName: notification.senderCompanyName,
             onPressed: () async {
@@ -49,30 +70,47 @@ class _NotificationsTabState extends State<NotificationsTab> {
                 'lot-validation',
                 arguments: {
                   'lot': await LotService.getLotByUid(notification.lot),
-                  'sender_uid': notification.sender,
-                  'sender_company_name': notification.senderCompanyName,
+                  'reserved_user_uid': notification.sender,
+                  'reserved_company_name': notification.senderCompanyName,
                 },
               );
             },
-          ),
-        );
-      } else if (notificationType == NotificationType.rejectedReservation) {
-        list.add(
-          NotificationWidget(
-            text: notification.text,
-            companyName: notification.senderCompanyName,
-            onPressed: () async {
-              Navigator.of(context).pushNamed(
-                'lot-details',
-                arguments: {
-                  'lot': await LotService.getLotByUid(notification.lot),
-                  'company_name': notification.senderCompanyName,
-                },
-              );
-            },
-          ),
-        );
+          );
+          break;
+        case NotificationType.confirmedReservation:
+          widget = buildStandardNotificationWidget(
+            notification,
+            bottomText:
+                'Votre réservation a été acceptée, prenez contacte avec votre nouveau collaborateur',
+          );
+          break;
+        case NotificationType.refusedReservation:
+          widget = buildStandardNotificationWidget(
+            notification,
+            bottomText: 'Votre réservation a été refusée',
+          );
+          break;
+        case NotificationType.irrelevantReservation:
+          widget = buildStandardNotificationWidget(
+            notification,
+            bottomText: 'Un autre transporteur a été sélectionné pour ce lot',
+          );
+          break;
+        case NotificationType.confirmedReservationValidation:
+          widget = buildStandardNotificationWidget(
+            notification,
+            bottomText: 'Vous avez confirmé cette réservation',
+          );
+          break;
+        case NotificationType.irrelevantReservationValidation:
+          widget = buildStandardNotificationWidget(
+            notification,
+            bottomText:
+                'Vous avez sélectionné un autre transporteur pour ce lot',
+          );
+          break;
       }
+      list.add(widget);
     });
 
     if (list.length == 0) {
@@ -82,11 +120,7 @@ class _NotificationsTabState extends State<NotificationsTab> {
           child: Center(
             child: Text(
               'No data available',
-              style: TextStyle(
-                color: AppColors.greyColor,
-                fontSize: 14,
-                height: 1.8,
-              ),
+              style: AppStyles.missingDataTextStyle,
               textAlign: TextAlign.center,
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/screens/home/home.dart';
 import 'package:Fulltrip/screens/home/propose_lot/propose_lot.dart';
 import 'package:Fulltrip/screens/profile/profile.dart';
+import 'package:Fulltrip/screens/search/search.dart';
 import 'package:Fulltrip/screens/updates/updates.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,7 @@ class _DashboardState extends State<Dashboard> {
       Home(
         key: PageStorageKey('Page1'),
       ),
-      Home(
+      Search(
         key: PageStorageKey('Page2'),
       ),
       ProposeLot(

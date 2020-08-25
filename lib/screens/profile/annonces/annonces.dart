@@ -1,5 +1,5 @@
-import 'package:Fulltrip/screens/profile/announcements/ongoing_lots.dart';
-import 'package:Fulltrip/screens/profile/announcements/completed_lots.dart';
+import 'package:Fulltrip/screens/profile/annonces/ongoing_lots.dart';
+import 'package:Fulltrip/screens/profile/annonces/completed_lots.dart';
 import 'package:Fulltrip/services/lot.service.dart';
 import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:Fulltrip/util/global.dart';

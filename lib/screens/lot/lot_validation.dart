@@ -13,11 +13,11 @@ class LotValidation extends StatelessWidget {
     final LinkedHashMap<String, dynamic> args =
         ModalRoute.of(context).settings.arguments;
     final Lot lot = args['lot'];
-    final reservedUserUid = args['sender_uid'];
+    final reservedUserUid = args['reserved_user_uid'];
 
     return LotScreenShell(
       lot: lot,
-      companyName: args['sender_company_name'],
+      companyName: args['reserved_company_name'],
       acceptButton: AcceptButton(
         text: 'Accepter le transport',
         onPressed: () {
@@ -31,27 +31,10 @@ class LotValidation extends StatelessWidget {
                   'J\'ai lu toutes les conditions générales et je confirme la réservation',
               acceptButtonText: 'Je confirme',
               rejectButtonText: 'Annuler',
-              onAcceptButtonPressed: () {},
-              onRejectButtonPressed: () => Navigator.pop(context),
-            ),
-          );
-        },
-      ),
-      rejectButton: RejectButton(
-        text: 'Refuser le transport',
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            isDismissible: true,
-            builder: (context) => ConfirmationPopup(
-              confirmationText: 'Refusez-vous cette réservation?',
-              acceptButtonText: 'Je refuse',
-              rejectButtonText: 'Annuler',
               onAcceptButtonPressed: () {
-                lot.removeReservedUser(reservedUserUid);
-                NotificationService.rejectReservationNotification(
-                    lot, reservedUserUid);
+                lot.setAssignedUser(reservedUserUid);
+                NotificationService.addConfirmedReservationNotification(lot);
+                NotificationService.addIrrelevantReservationNotifications(lot);
 
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     'success-screen', (Route<dynamic> route) => false);
@@ -61,6 +44,32 @@ class LotValidation extends StatelessWidget {
           );
         },
       ),
+      rejectButton: !lot.refusedReservationFor.contains(reservedUserUid)
+          ? RejectButton(
+              text: 'Refuser le transport',
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  isDismissible: true,
+                  builder: (context) => ConfirmationPopup(
+                    confirmationText: 'Refusez-vous cette réservation?',
+                    acceptButtonText: 'Je refuse',
+                    rejectButtonText: 'Annuler',
+                    onAcceptButtonPressed: () {
+                      lot.addRefusedReservationUser(reservedUserUid);
+                      NotificationService.addRefusedReservationNotification(
+                          lot, reservedUserUid);
+
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          'success-screen', (Route<dynamic> route) => false);
+                    },
+                    onRejectButtonPressed: () => Navigator.pop(context),
+                  ),
+                );
+              },
+            )
+          : RejectButton(text: 'Cette réservation a été refusée'),
     );
   }
 }

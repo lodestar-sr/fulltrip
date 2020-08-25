@@ -1,5 +1,5 @@
-import 'package:Fulltrip/screens/home/CloseToYou/Carte.dart';
-import 'package:Fulltrip/screens/home/CloseToYou/Liste.dart';
+import 'package:Fulltrip/screens/home/close_to_you/carte.dart';
+import 'package:Fulltrip/screens/home/close_to_you/liste.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';

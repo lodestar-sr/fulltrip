@@ -29,10 +29,8 @@ class UserCurrentLocation {
 
   static Future getCurrentLocation() async {
     Geolocator _geolocator = Geolocator();
-    Position pos = await _geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    List<Placemark> newPlace =
-        await _geolocator.placemarkFromCoordinates(pos.latitude, pos.longitude);
+    Position pos = await _geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> newPlace = await _geolocator.placemarkFromCoordinates(pos.latitude, pos.longitude);
     Placemark placeMark = newPlace[0];
     String name = placeMark.name;
     String subLocality = placeMark.subLocality;
@@ -40,8 +38,7 @@ class UserCurrentLocation {
     String administrativeArea = placeMark.administrativeArea;
     String postalCode = placeMark.postalCode;
     String country = placeMark.country;
-    String address =
-        "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
+    String address = "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
 
     Global.address = address;
   }

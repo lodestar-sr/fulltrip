@@ -34,6 +34,7 @@ class Lot {
   String proposedBy;
   String proposedCompanyName;
   List reservedBy;
+  List refusedReservationFor;
   String assignedTo;
 
   Lot({
@@ -65,6 +66,7 @@ class Lot {
     this.proposedBy,
     this.proposedCompanyName,
     this.reservedBy,
+    this.refusedReservationFor,
     this.assignedTo,
   });
 
@@ -105,6 +107,7 @@ class Lot {
         proposedBy: json['proposed_by'],
         proposedCompanyName: json['proposed_company_name'],
         reservedBy: json['reserved_by'],
+        refusedReservationFor: json['refused_reservation_for'],
         assignedTo: json['assigned_to'],
       );
 
@@ -142,6 +145,7 @@ class Lot {
         "proposed_by": proposedBy,
         "proposed_company_name": proposedCompanyName,
         "reserved_by": reservedBy ?? [],
+        "refused_reservation_for": refusedReservationFor ?? [],
         "assigned_to": assignedTo,
       };
 
@@ -153,6 +157,14 @@ class Lot {
     arrivalCity = await AddressUtils.getCityFromAddress(arrivalAddress);
   }
 
+  void setAssignedUser(String userUid) {
+    assignedTo = userUid;
+    Global.firestore
+        .collection('lots')
+        .document(uid)
+        .updateData({'assigned_to': assignedTo});
+  }
+
   void addReservedUser(String userUid) {
     reservedBy.add(userUid);
     Global.firestore
@@ -161,12 +173,12 @@ class Lot {
         .updateData({'reserved_by': reservedBy});
   }
 
-  void removeReservedUser(String userUid) {
-    reservedBy.remove(userUid);
+  void addRefusedReservationUser(String userUid) {
+    refusedReservationFor.add(userUid);
     Global.firestore
         .collection('lots')
         .document(uid)
-        .updateData({'reserved_by': reservedBy});
+        .updateData({'refused_reservation_for': refusedReservationFor});
   }
 
   String getProposedStatus() {

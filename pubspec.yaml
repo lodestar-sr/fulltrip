@@ -60,6 +60,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/map_style.txt
 
   fonts:
     - family: Roboto

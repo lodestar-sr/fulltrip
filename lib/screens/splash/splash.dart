@@ -19,7 +19,7 @@ class _SplashState extends State<Splash> {
     Future.delayed(Constants.splashAnimationDuration, () async {
       if (context.read<AuthProvider>().isLoggedIn()) {
         await context.read<AuthProvider>().downloadUserData();
-        Navigator.of(context).pushReplacementNamed('dashboard');
+        Navigator.of(context).pushReplacementNamed('map-street');
       } else {
         Navigator.of(context).pushReplacementNamed('login');
       }

@@ -32,7 +32,7 @@ class LotReservation extends StatelessWidget {
               onAcceptButtonPressed: () {
                 final reservedUser = context.read<AuthProvider>().loggedInUser;
                 lot.addReservedUser(reservedUser.uid);
-                NotificationService.addNewReservationNotification(
+                NotificationService.addReservationValidationNotification(
                     lot, reservedUser);
 
                 Navigator.of(context).pushNamedAndRemoveUntil(

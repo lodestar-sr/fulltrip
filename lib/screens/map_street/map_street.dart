@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
@@ -5,6 +7,7 @@ import 'package:Fulltrip/widgets/google_place_autocomplete.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,17 +21,27 @@ class MapStreet extends StatefulWidget {
 }
 
 class _MapStreetState extends State<MapStreet> {
-  CameraPosition _initialLocation =
-      CameraPosition(target: LatLng(0.0, 0.0), zoom: 18);
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   GoogleMapController mapController;
 
   final Geolocator _geolocator = Geolocator();
   Position _currentPosition;
+  String _mapStyle;
+
+  BitmapDescriptor pinLocationIcon;
+  Set<Marker> _markers = {};
+  LatLng _pinPosition = LatLng(0.0, 0.0);
 
   @override
   void initState() {
     super.initState();
     initData();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/pin.png').then((onValue) {
+      pinLocationIcon = onValue;
+    });
   }
 
   initData() {
@@ -37,17 +50,22 @@ class _MapStreetState extends State<MapStreet> {
 
   // Method for retrieving the current location
   _getCurrentLocation() async {
-    _geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
+    _geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) async {
       setState(() {
         _currentPosition = position;
         print('CURRENT POS: $_currentPosition');
+        _pinPosition = LatLng(position.latitude, position.longitude);
         mapController.animateCamera(
           CameraUpdate.newCameraPosition(
-            CameraPosition(
-                target: LatLng(position.latitude, position.longitude)),
+            CameraPosition(target: _pinPosition, zoom: 9),
           ),
+        );
+        _markers.add(
+          Marker(
+            markerId: MarkerId('<MARKER_ID>'),
+            position: _pinPosition,
+            icon: pinLocationIcon
+          )
         );
       });
     }).catchError((e) {
@@ -77,8 +95,10 @@ class _MapStreetState extends State<MapStreet> {
                 mapType: MapType.normal,
                 zoomGesturesEnabled: true,
                 zoomControlsEnabled: false,
+                markers: _markers,
                 onMapCreated: (GoogleMapController controller) {
                   mapController = controller;
+                  mapController.setMapStyle(_mapStyle);
                 },
               ),
             ),
@@ -90,8 +110,7 @@ class _MapStreetState extends State<MapStreet> {
                 children: [
                   GestureDetector(
                     child: Icon(Icons.close, size: 16),
-                    onTap: () =>
-                        Navigator.of(context).pushReplacementNamed('dashboard'),
+                    onTap: () => Navigator.of(context).pushReplacementNamed('dashboard'),
                   ),
                   Column(
                     children: [
@@ -123,13 +142,10 @@ class _MapStreetState extends State<MapStreet> {
                         minWidth: double.infinity,
                         height: 45,
                         child: RaisedButton(
-                          child: Text('Je suis là',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          child: Text('Je suis là', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                           color: AppColors.primaryColor,
                           textColor: Colors.white,
-                          onPressed: () => Navigator.of(context)
-                              .pushReplacementNamed('dashboard'),
+                          onPressed: () => Navigator.of(context).pushReplacementNamed('dashboard'),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

@@ -1,7 +1,11 @@
 enum NotificationType {
-  newReservation,
+  reservationValidation,
   confirmedReservation,
-  rejectedReservation,
+  refusedReservation,
+  irrelevantReservation,
+  confirmedReservationValidation,
+  refusedReservationValidation,
+  irrelevantReservationValidation,
 }
 
 class Notification {

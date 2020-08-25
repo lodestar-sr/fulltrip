@@ -109,6 +109,11 @@ class AppStyles {
     fontWeight: FontWeight.normal,
     height: 1.47,
   );
+  static const missingDataTextStyle = TextStyle(
+    color: AppColors.greyColor,
+    fontSize: 14,
+    height: 1.8,
+  );
 }
 
 InputDecoration hintTextDecoration(String text) {
