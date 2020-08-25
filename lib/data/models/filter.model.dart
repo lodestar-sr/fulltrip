@@ -1,6 +1,8 @@
 class Filter {
   String startingAddress;
+  String startingCity;
   String arrivalAddress;
+  String arrivalCity;
   int quantity;
   int lowPrice;
   int highPrice;
@@ -10,7 +12,9 @@ class Filter {
 
   Filter({
     this.startingAddress = '',
+    this.startingCity = '',
     this.arrivalAddress = '',
+    this.arrivalCity = '',
     this.quantity = 0,
     this.delivery = '',
     this.lowPrice = 0,
@@ -21,7 +25,9 @@ class Filter {
 
   reset() {
     this.startingAddress = '';
+    this.startingCity = '';
     this.arrivalAddress = '';
+    this.arrivalCity = '';
     this.quantity = 0;
     this.delivery = '';
     this.lowPrice = 0;
@@ -32,10 +38,12 @@ class Filter {
 
   resetStartingAddress() {
     this.startingAddress = '';
+    this.startingCity = '';
   }
 
   resetArrivalAddress() {
     this.arrivalAddress = '';
+    this.arrivalCity = '';
   }
 
   resetQuantity() {

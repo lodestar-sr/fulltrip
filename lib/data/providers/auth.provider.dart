@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'package:Fulltrip/data/models/user.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 class AuthProvider extends ChangeNotifier {
-
   User _loggedInUser;
 
   User get loggedInUser => _loggedInUser;
@@ -43,9 +41,17 @@ class AuthProvider extends ChangeNotifier {
     return _loggedInUser != null;
   }
 
-  int getCompteBadge() {
+  Future downloadUserData() async {
+    final docSnap = await Global.firestore.collection('users').document(_loggedInUser.uid).get();
+    final user = User.fromJson(docSnap.data);
+    return this.updateUser(user: user);
+  }
+
+  int getProfileBadge() {
     int count = 0;
-    count += getInfoBadge();
+    if (_loggedInUser != null) {
+      count += getInfoBadge();
+    }
     return count;
   }
 
@@ -62,10 +68,10 @@ class AuthProvider extends ChangeNotifier {
   int getCommanditaireBadge() {
     int count = 0;
     if (_loggedInUser.firstName.isEmpty) {
-      count ++;
+      count++;
     }
     if (_loggedInUser.lastName.isEmpty) {
-      count ++;
+      count++;
     }
     return count;
   }
@@ -73,7 +79,7 @@ class AuthProvider extends ChangeNotifier {
   int getPhoneBadge() {
     int count = 0;
     if (_loggedInUser.phone.isEmpty) {
-      count ++;
+      count++;
     }
     return count;
   }
@@ -81,7 +87,7 @@ class AuthProvider extends ChangeNotifier {
   int getRaisonBadge() {
     int count = 0;
     if (_loggedInUser.raisonSociale.isEmpty) {
-      count ++;
+      count++;
     }
     return count;
   }
@@ -89,13 +95,28 @@ class AuthProvider extends ChangeNotifier {
   int getPaymentBadge() {
     int count = 0;
     if (_loggedInUser.bic.isEmpty || _loggedInUser.iban.isEmpty) {
-      count ++;
+      count++;
     }
     return count;
   }
 
   int getDocBadge() {
     int count = 0;
-    return 4;
+    if (_loggedInUser.insuranceDoc.isEmpty) {
+      count ++;
+    }
+    if (_loggedInUser.transportDoc.isEmpty) {
+      count ++;
+    }
+    if (_loggedInUser.kbisDoc.isEmpty) {
+      count ++;
+    }
+    if (_loggedInUser.identityDoc.isEmpty) {
+      count ++;
+    }
+    if (_loggedInUser.bankDoc.isEmpty) {
+      count ++;
+    }
+    return count;
   }
 }

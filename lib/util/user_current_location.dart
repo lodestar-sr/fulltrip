@@ -1,12 +1,12 @@
 import 'package:Fulltrip/util/global.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 
 class UserCurrentLocation {
   static checkpermissionstatus() async {
-    Location location = new Location();
+    loc.Location location = new loc.Location();
     bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    loc.PermissionStatus _permissionGranted;
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -16,9 +16,9 @@ class UserCurrentLocation {
       }
     }
     _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
+    if (_permissionGranted == loc.PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+      if (_permissionGranted != loc.PermissionStatus.granted) {
         getCurrentLocation();
         return;
       }
@@ -28,13 +28,9 @@ class UserCurrentLocation {
   }
 
   static Future getCurrentLocation() async {
-    Location location = new Location();
     Geolocator _geolocator = Geolocator();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
-    _locationData = await location.getLocation();
-    List<Placemark> newPlace = await _geolocator.placemarkFromCoordinates(_locationData.latitude, _locationData.longitude);
+    Position pos = await _geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> newPlace = await _geolocator.placemarkFromCoordinates(pos.latitude, pos.longitude);
     Placemark placeMark = newPlace[0];
     String name = placeMark.name;
     String subLocality = placeMark.subLocality;
@@ -44,9 +40,6 @@ class UserCurrentLocation {
     String country = placeMark.country;
     String address = "${name}, ${subLocality}, ${locality}, ${administrativeArea} ${postalCode}, ${country}";
 
-    print(address);
     Global.address = address;
-    print(_locationData.latitude);
-    print(_locationData.longitude);
   }
 }

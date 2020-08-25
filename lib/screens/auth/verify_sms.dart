@@ -4,6 +4,7 @@ import 'package:Fulltrip/data/models/user.model.dart';
 import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,8 @@ class _VerifySMSState extends State<VerifySMS> {
   }
 
   initUser() {
-    final LinkedHashMap<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final LinkedHashMap<String, dynamic> args =
+        ModalRoute.of(context).settings.arguments;
     if (args == null) {
       Navigator.of(context).pop();
     } else {
@@ -70,7 +72,8 @@ class _VerifySMSState extends State<VerifySMS> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                content: Text('We sent verification SMS code to your phone. Please input code'),
+                content: Text(
+                    'We sent verification SMS code to your phone. Please input code'),
               );
             },
           );
@@ -92,7 +95,8 @@ class _VerifySMSState extends State<VerifySMS> {
 
   onSubmit() {
     if (verificationCode != null && _pinPutController.text.isNotEmpty) {
-      final AuthCredential authCred = PhoneAuthProvider.getCredential(verificationId: verificationCode, smsCode: _pinPutController.text);
+      final AuthCredential authCred = PhoneAuthProvider.getCredential(
+          verificationId: verificationCode, smsCode: _pinPutController.text);
       Global.auth.signInWithCredential(authCred).then((value) {
         showDialog(
           context: context,
@@ -122,18 +126,22 @@ class _VerifySMSState extends State<VerifySMS> {
       initUser();
     }
 
-    BoxDecoration pinPutDecoration = BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.lightGreyColor));
+    BoxDecoration pinPutDecoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.lightGreyColor));
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
       color: AppColors.primaryColor,
-      progressIndicator: CircularProgressIndicator(),
+      progressIndicator: AppLoader(),
       child: Scaffold(
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -149,12 +157,18 @@ class _VerifySMSState extends State<VerifySMS> {
                           Container(
                             margin: EdgeInsets.only(bottom: 8, top: 16),
                             width: double.infinity,
-                            child: Text('Vérification code', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
+                            child: Text('Vérification code',
+                                style: TextStyle(
+                                    fontSize: 34,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.darkColor)),
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 64),
                             width: double.infinity,
-                            child: Text('Vérifiez votre compte en entrant le code à 6 chiffres envoyé à: + ${user != null ? user.phone : ''}', style: AppStyles.greyTextStyle),
+                            child: Text(
+                                'Vérifiez votre compte en entrant le code à 6 chiffres envoyé à: + ${user != null ? user.phone : ''}',
+                                style: AppStyles.greyTextStyle),
                           ),
                           Container(
                             child: PinPut(
@@ -167,20 +181,28 @@ class _VerifySMSState extends State<VerifySMS> {
                               selectedFieldDecoration: pinPutDecoration,
                               followingFieldDecoration: pinPutDecoration,
                               pinAnimationType: PinAnimationType.fade,
-                              textStyle: TextStyle(color: AppColors.darkColor, fontSize: 20),
+                              textStyle: TextStyle(
+                                  color: AppColors.darkColor, fontSize: 20),
                             ),
                           ),
                           Expanded(
                             child: Center(
                               child: countTime > 0
-                                  ? Text('Renvoyer le code en ${(countTime / 60).floor()}:${countTime % 60}', style: AppStyles.greyTextStyle.copyWith(fontSize: 12))
+                                  ? Text(
+                                      'Renvoyer le code en ${(countTime / 60).floor()}:${countTime % 60}',
+                                      style: AppStyles.greyTextStyle
+                                          .copyWith(fontSize: 12))
                                   : GestureDetector(
                                       child: RichText(
                                         text: TextSpan(
                                           text: 'Renvoyer',
-                                          style: AppStyles.primaryTextStyle.copyWith(fontSize: 12),
+                                          style: AppStyles.primaryTextStyle
+                                              .copyWith(fontSize: 12),
                                           children: <TextSpan>[
-                                            TextSpan(text: ' le code du téléphone', style: AppStyles.greyTextStyle.copyWith(fontSize: 12)),
+                                            TextSpan(
+                                                text: ' le code du téléphone',
+                                                style: AppStyles.greyTextStyle
+                                                    .copyWith(fontSize: 12)),
                                           ],
                                         ),
                                       ),
@@ -190,16 +212,24 @@ class _VerifySMSState extends State<VerifySMS> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
                               boxShadow: <BoxShadow>[
-                                BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                BoxShadow(
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.24),
+                                    blurRadius: 16,
+                                    spreadRadius: 4),
                               ],
                             ),
                             child: ButtonTheme(
                               minWidth: double.infinity,
                               height: 56,
                               child: RaisedButton(
-                                child: Text('Vérifier', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                child: Text('Vérifier',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold)),
                                 color: AppColors.primaryColor,
                                 textColor: Colors.white,
                                 onPressed: onSubmit,

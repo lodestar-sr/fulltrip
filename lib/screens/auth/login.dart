@@ -4,7 +4,8 @@ import 'package:Fulltrip/services/firebase_auth.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/util/validators/validators.dart';
-import 'package:Fulltrip/widgets/form_field_container/form_field_container.dart';
+import 'package:Fulltrip/widgets/app_loader.dart';
+import 'package:Fulltrip/widgets/form_field_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -27,8 +28,8 @@ class _LoginState extends State<Login> {
   String _password;
   String _forgotEmail;
 
-  bool emailAutoValidate= false;
-  bool passwordAutoValidate= false;
+  bool emailAutoValidate = false;
+  bool passwordAutoValidate = false;
   bool emailValid = false;
 
   @override
@@ -47,12 +48,17 @@ class _LoginState extends State<Login> {
       final form = loginFormKey.currentState;
       form.save();
       setState(() => Global.isLoading = true);
-      context.read<FirebaseAuthService>().signInWithEmailAndPassword(email: _email, password: _password).then((usr) async {
-        final docSnap = await Global.firestore.collection('users').document(usr.uid).get();
+      context
+          .read<FirebaseAuthService>()
+          .signInWithEmailAndPassword(email: _email, password: _password)
+          .then((usr) async {
+        final docSnap =
+            await Global.firestore.collection('users').document(usr.uid).get();
         final user = User.fromJson(docSnap.data);
         setState(() => Global.isLoading = false);
         context.read<AuthProvider>().updateUser(user: user);
-        Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            'dashboard', (Route<dynamic> route) => false);
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(
@@ -74,7 +80,10 @@ class _LoginState extends State<Login> {
 
       Navigator.of(context).pop();
       setState(() => Global.isLoading = true);
-      context.read<FirebaseAuthService>().resetPassword(_forgotEmail).then((value) {
+      context
+          .read<FirebaseAuthService>()
+          .resetPassword(_forgotEmail)
+          .then((value) {
         setState(() => Global.isLoading = false);
         showDialog(
           context: context,
@@ -100,32 +109,33 @@ class _LoginState extends State<Login> {
 
   loginGoogle() {
     setState(() => Global.isLoading = true);
-    context.read<FirebaseAuthService>().signInWithGoogle().then((user) {
+    context.read<FirebaseAuthService>().signInWithGoogle().then((usr) async {
+      await usr.create3rdLogin(context);
       setState(() => Global.isLoading = false);
-      context.read<AuthProvider>().updateUser(user: user);
-      Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          'dashboard', (Route<dynamic> route) => false);
     }).catchError((error) {
       setState(() => Global.isLoading = false);
     });
   }
 
-  loginApple() {
-
-  }
+  loginApple() {}
 
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
       color: AppColors.primaryColor,
-      progressIndicator: CircularProgressIndicator(),
+      progressIndicator: AppLoader(),
       child: Scaffold(
-        body: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
               child: GestureDetector(
-                onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: viewportConstraints.maxHeight,
@@ -140,15 +150,21 @@ class _LoginState extends State<Login> {
                         Container(
                           margin: EdgeInsets.only(bottom: 8, top: 24),
                           width: double.infinity,
-                          child: Text('Se connecter', style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: AppColors.darkColor)),
+                          child: Text('Se connecter',
+                              style: TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.darkColor)),
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 24),
                           child: Row(
                             children: [
-                              Text('Vous n\'avez pas de compte? ', style: AppStyles.greyTextStyle),
+                              Text('Vous n\'avez pas de compte? ',
+                                  style: AppStyles.greyTextStyle),
                               GestureDetector(
-                                child: Text(' Créer un compte', style: AppStyles.primaryTextStyle),
+                                child: Text(' Créer un compte',
+                                    style: AppStyles.primaryTextStyle),
                                 onTap: () {
                                   Navigator.of(context).pushNamed('register');
                                 },
@@ -166,14 +182,28 @@ class _LoginState extends State<Login> {
                                 child: TextFormField(
                                   autovalidate: emailAutoValidate,
                                   initialValue: '',
-                                  onTap: () => setState(() => emailAutoValidate = true),
-                                  decoration: emailValid ? hintTextDecoration('Votre email').copyWith(suffixIcon: Icon(Icons.check, color: AppColors.primaryColor)) : hintTextDecoration('Votre email'),
-                                  validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
+                                  onTap: () =>
+                                      setState(() => emailAutoValidate = true),
+                                  decoration: emailValid
+                                      ? hintTextDecoration('Votre email')
+                                          .copyWith(
+                                              suffixIcon: Icon(Icons.check,
+                                                  color:
+                                                      AppColors.primaryColor))
+                                      : hintTextDecoration('Votre email'),
+                                  validator: (value) => Validators.mustEmail(
+                                      value,
+                                      errorText:
+                                          'Veuillez saisir votre email valide'),
                                   keyboardType: TextInputType.emailAddress,
-                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                  onSaved: (val) => setState(() => _email = val),
+                                  style: AppStyles.blackTextStyle
+                                      .copyWith(fontSize: 18),
+                                  onSaved: (val) =>
+                                      setState(() => _email = val),
                                   onChanged: (val) {
-                                    var res = Validators.mustEmail(val, errorText: 'Veuillez saisir votre email valide');
+                                    var res = Validators.mustEmail(val,
+                                        errorText:
+                                            'Veuillez saisir votre email valide');
                                     if (res != null) {
                                       setState(() => emailValid = false);
                                     } else {
@@ -186,20 +216,36 @@ class _LoginState extends State<Login> {
                                 padding: EdgeInsets.all(4),
                                 child: TextFormField(
                                   autovalidate: passwordAutoValidate,
-                                  onTap: () => setState(() => passwordAutoValidate = true),
+                                  onTap: () => setState(
+                                      () => passwordAutoValidate = true),
                                   decoration: hintTextDecoration('Mot de passe')
-                                      .copyWith(suffixIcon: IconButton(icon: absure ? Icon(Icons.visibility_off) : Icon(Icons.visibility), onPressed: () => setState(() => absure = !absure))),
-                                  validator: (value) => Validators.required(value, errorText: 'Veuillez saisir votre mot de passe'),
+                                      .copyWith(
+                                          suffixIcon: IconButton(
+                                              icon: absure
+                                                  ? Icon(Icons.visibility_off)
+                                                  : Icon(Icons.visibility),
+                                              onPressed: () => setState(
+                                                  () => absure = !absure))),
+                                  validator: (value) => Validators.required(
+                                      value,
+                                      errorText:
+                                          'Veuillez saisir votre mot de passe'),
                                   keyboardType: TextInputType.text,
                                   obscureText: absure,
-                                  style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                  onSaved: (val) => setState(() => _password = val),
+                                  style: AppStyles.blackTextStyle
+                                      .copyWith(fontSize: 18),
+                                  onSaved: (val) =>
+                                      setState(() => _password = val),
                                 ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(top: 16),
                                 child: GestureDetector(
-                                  child: Text('Mot de passe oublié?', style: AppStyles.primaryTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.bold)),
+                                  child: Text('Mot de passe oublié?',
+                                      style: AppStyles.primaryTextStyle
+                                          .copyWith(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold)),
                                   onTap: () {
                                     showDialog(
                                       context: context,
@@ -212,17 +258,29 @@ class _LoginState extends State<Login> {
                                               padding: EdgeInsets.all(4),
                                               child: TextFormField(
                                                 initialValue: '',
-                                                decoration: hintTextDecoration('Email'),
-                                                validator: (value) => Validators.mustEmail(value, errorText: 'Veuillez saisir votre email valide'),
-                                                keyboardType: TextInputType.emailAddress,
-                                                style: AppStyles.blackTextStyle.copyWith(fontSize: 18),
-                                                onSaved: (val) => setState(() => _forgotEmail = val),
+                                                decoration:
+                                                    hintTextDecoration('Email'),
+                                                validator: (value) =>
+                                                    Validators.mustEmail(value,
+                                                        errorText:
+                                                            'Veuillez saisir votre email valide'),
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                style: AppStyles.blackTextStyle
+                                                    .copyWith(fontSize: 18),
+                                                onSaved: (val) => setState(
+                                                    () => _forgotEmail = val),
                                               ),
                                             ),
                                           ),
                                           actions: [
                                             RaisedButton(
-                                              child: Text('Envoyer', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                                              child: Text('Envoyer',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
                                               color: AppColors.primaryColor,
                                               onPressed: sendResetEmail,
                                             ),
@@ -236,16 +294,24 @@ class _LoginState extends State<Login> {
                               Container(
                                 margin: EdgeInsets.only(top: 32, bottom: 24),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
                                   boxShadow: <BoxShadow>[
-                                    BoxShadow(color: AppColors.primaryColor.withOpacity(0.24), blurRadius: 16, spreadRadius: 4),
+                                    BoxShadow(
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.24),
+                                        blurRadius: 16,
+                                        spreadRadius: 4),
                                   ],
                                 ),
                                 child: ButtonTheme(
                                   minWidth: double.infinity,
                                   height: 56,
                                   child: RaisedButton(
-                                    child: Text('Se connecter', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                                    child: Text('Se connecter',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold)),
                                     color: AppColors.primaryColor,
                                     textColor: Colors.white,
                                     onPressed: onSubmit,
@@ -261,20 +327,26 @@ class _LoginState extends State<Login> {
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 24),
-                          child: Text("OU", style: AppStyles.greyTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 14)),
+                          child: Text("OU",
+                              style: AppStyles.greyTextStyle.copyWith(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
                         ),
                         OutlineButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                           borderSide: BorderSide(color: Color(0xFFE0E0E0)),
                           padding: EdgeInsets.all(16),
                           highlightedBorderColor: AppColors.greyColor,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/images/google.png', width: 16),
+                              Image.asset('assets/images/google.png',
+                                  width: 16),
                               Container(
                                 margin: EdgeInsets.only(left: 8),
-                                child: Text('Se connecter avec Google', style: AppStyles.darkGreyTextStyle.copyWith(fontSize: 14)),
+                                child: Text('Se connecter avec Google',
+                                    style: AppStyles.darkGreyTextStyle
+                                        .copyWith(fontSize: 14)),
                               )
                             ],
                           ),
@@ -283,7 +355,8 @@ class _LoginState extends State<Login> {
                         Container(
                           margin: EdgeInsets.only(top: 16, bottom: 64),
                           child: FlatButton(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
                             padding: EdgeInsets.all(16),
                             color: Colors.black,
                             child: Row(
@@ -296,7 +369,11 @@ class _LoginState extends State<Login> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(left: 8),
-                                  child: Text('Se connecter avec Apple', style: AppStyles.darkGreyTextStyle.copyWith(fontSize: 14, color: Colors.white)),
+                                  child: Text('Se connecter avec Apple',
+                                      style: AppStyles.darkGreyTextStyle
+                                          .copyWith(
+                                              fontSize: 14,
+                                              color: Colors.white)),
                                 )
                               ],
                             ),
@@ -307,20 +384,28 @@ class _LoginState extends State<Login> {
                           margin: EdgeInsets.only(bottom: 32),
                           child: RichText(
                             textAlign: TextAlign.center,
-                            text: TextSpan(text: 'En vous inscrivant, vous acceptez les règles énoncées dans la ', style: AppStyles.greyTextStyle.copyWith(fontSize: 13), children: [
-                              TextSpan(
-                                text: 'Politique de confidentialité',
-                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
-                              ),
-                              TextSpan(
-                                text: ' et ',
-                                style: AppStyles.greyTextStyle.copyWith(fontSize: 13),
-                              ),
-                              TextSpan(
-                                text: 'les règles de service.',
-                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
-                              ),
-                            ]),
+                            text: TextSpan(
+                                text:
+                                    'En vous inscrivant, vous acceptez les règles énoncées dans la ',
+                                style: AppStyles.greyTextStyle
+                                    .copyWith(fontSize: 13),
+                                children: [
+                                  TextSpan(
+                                    text: 'Politique de confidentialité',
+                                    style: AppStyles.primaryTextStyle
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                  TextSpan(
+                                    text: ' et ',
+                                    style: AppStyles.greyTextStyle
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                  TextSpan(
+                                    text: 'les règles de service.',
+                                    style: AppStyles.primaryTextStyle
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                ]),
                           ),
                         ),
                       ],

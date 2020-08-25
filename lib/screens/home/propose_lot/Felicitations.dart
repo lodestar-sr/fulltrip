@@ -1,6 +1,7 @@
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -19,7 +20,7 @@ class _FelicitationsState extends State<Felicitations> {
     return ModalProgressHUD(
       inAsyncCall: Global.isLoading,
       color: AppColors.primaryColor,
-      progressIndicator: CircularProgressIndicator(),
+      progressIndicator: AppLoader(),
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -27,7 +28,8 @@ class _FelicitationsState extends State<Felicitations> {
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
             },
-            child: LayoutBuilder(builder: (BuildContext context, BoxConstraints viewportConstraints) {
+            child: LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
               return Container(
                 width: double.infinity,
                 child: SingleChildScrollView(
@@ -58,18 +60,22 @@ class _FelicitationsState extends State<Felicitations> {
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
                               'Lot publié, attendez que le transporteur vous contacte !',
-                              style: TextStyle(fontSize: 13, color: AppColors.greyColor),
+                              style: TextStyle(
+                                  fontSize: 13, color: AppColors.greyColor),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    'dashboard',
+                                    (Route<dynamic> route) => false);
                               },
                               child: Text(
                                 "Page d'accueil",
-                                style: AppStyles.primaryTextStyle.copyWith(fontSize: 18, fontWeight: FontWeight.w500),
+                                style: AppStyles.primaryTextStyle.copyWith(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),

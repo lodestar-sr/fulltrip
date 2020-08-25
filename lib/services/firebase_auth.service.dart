@@ -18,9 +18,8 @@ class FirebaseAuthService {
     return User(
       uid: user.uid,
       email: user.email,
-      raisonSociale: user.displayName,
-      photoUrl: user.photoUrl,
-      phone: user.phoneNumber,
+      photoUrl: user.photoUrl ?? '',
+      phone: user.phoneNumber ?? '',
       isEmailVerified: user.isEmailVerified,
     );
   }
@@ -29,14 +28,10 @@ class FirebaseAuthService {
     return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
   }
 
-  Future<User> createWithEmailAndPassword({String email, String password, String raisonSociale, String phone}) async {
+  Future<User> createWithEmailAndPassword({String email, String password}) async {
     final authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     await authResult.user.sendEmailVerification();
-    User user = _userFromFirebase(authResult.user);
-    user.raisonSociale = raisonSociale;
-    user.phone = phone;
-    await user.create();
-    return user;
+    return _userFromFirebase(authResult.user);
   }
 
   Future<User> signInWithEmailAndPassword({String email, String password}) async {
@@ -52,11 +47,7 @@ class FirebaseAuthService {
       idToken: googleAuth.idToken,
     );
     final authResult = await _firebaseAuth.signInWithCredential(credential);
-    User user = _userFromFirebase(authResult.user);
-    user.raisonSociale = '';
-    user.phone = '';
-    await user.create();
-    return user;
+    return _userFromFirebase(authResult.user);
   }
 
   Future<void> verifyPhone({String number, onCompleted, onFailed, onCodeSent}) {
