@@ -6,7 +6,7 @@ ThemeData appTheme() {
     cursorColor: AppColors.primaryColor,
     accentColor: AppColors.primaryColor,
     fontFamily: 'Roboto',
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: AppColors.lightestGreyColor,
   );
 }
 

@@ -3,6 +3,8 @@ import 'package:Fulltrip/screens/auth/login.dart';
 import 'package:Fulltrip/screens/auth/register.dart';
 import 'package:Fulltrip/screens/auth/verify_sms.dart';
 import 'package:Fulltrip/screens/dashboard/dashboard.dart';
+import 'package:Fulltrip/screens/home/CloseToYou/CloseToYou.dart';
+import 'package:Fulltrip/screens/home/CloseToYou/Liste.dart';
 import 'package:Fulltrip/screens/home/filter/filter.dart';
 import 'package:Fulltrip/screens/home/home.dart';
 import 'package:Fulltrip/screens/lot/lot_reservation.dart';
@@ -24,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/home/CloseToYou/Carte.dart';
 import 'screens/lot/success_screen.dart';
 import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
@@ -87,6 +90,9 @@ class Routes {
     'lot-validation': (BuildContext context) => LotValidation(),
     'lot-details': (BuildContext context) => LotDetails(),
     'success-screen': (BuildContext context) => SuccessScreen(),
+    'closetoyou': (BuildContext context) => CloseToYou(),
+    'Carte': (BuildContext context) => Carte(),
+    'Liste': (BuildContext context) => Liste(),
   };
 
   Routes({

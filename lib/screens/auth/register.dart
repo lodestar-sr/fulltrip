@@ -53,8 +53,9 @@ class _RegisterState extends State<Register> {
 
         setState(() => Global.isLoading = false);
         context.read<AuthProvider>().updateUser(user: user);
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            'dashboard', (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamed('map-street');
+        // Navigator.of(context).pushNamedAndRemoveUntil(
+        //     'dashboard', (Route<dynamic> route) => false);
       }).catchError((error) {
         setState(() => Global.isLoading = false);
         showDialog(

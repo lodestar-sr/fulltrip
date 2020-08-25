@@ -4,36 +4,29 @@ import 'package:Fulltrip/services/lot.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:Fulltrip/util/user_current_location.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
-import 'package:location/location.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+class Liste extends StatefulWidget {
+  Liste({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _HomeState();
+  _ListeState createState() => _ListeState();
 }
 
-class _HomeState extends State<Home> {
+class _ListeState extends State<Liste> {
   List<Lot> lots = [];
   List<Lot> filteredLots = [];
   var myFormat = DateFormat('d/MM');
-
   bool isVisible = true;
-  bool geoLocation = false;
-
-  Location location = new Location();
-  bool _serviceEnabled;
-  String currentAddress = '';
+  bool checkFilter = false;
   @override
   void initState() {
     super.initState();
@@ -47,10 +40,312 @@ class _HomeState extends State<Home> {
     LotService.getSearchLots(user).then((searchLots) {
       setState(() {
         lots = searchLots;
+        filteredLots = lots;
         Global.isLoading = false;
-        toggleLocation();
       });
     });
+  }
+
+  filterLots() {
+    if (Global.filter.startingAddress != '') {
+      filteredLots = filteredLots
+          .where((lot) => lot.startingCity == Global.filter.startingCity)
+          .toList();
+    }
+
+    if (Global.filter.arrivalAddress != '') {
+      filteredLots = filteredLots
+          .where((lot) => lot.arrivalCity == Global.filter.arrivalCity)
+          .toList();
+    }
+
+    if (Global.filter.quantity != 0) {
+      filteredLots = filteredLots
+          .where((lot) => lot.quantity <= Global.filter.quantity)
+          .toList();
+    }
+
+    if (Global.filter.delivery != '') {
+      filteredLots = filteredLots
+          .where((lot) => lot.delivery == Global.filter.delivery)
+          .toList();
+    }
+
+    if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 0) {
+      filteredLots = filteredLots
+          .where((lot) =>
+              lot.price >= Global.filter.lowPrice &&
+              lot.price <= Global.filter.highPrice)
+          .toList();
+    }
+
+    if (Global.filter.pickUpDate != null) {
+      filteredLots = filteredLots.where((lot) {
+        if (lot.pickupDateFrom == null || lot.pickupDateTo == null) {
+          return false;
+        }
+        if (Global.filter.pickUpDate.isAfter(lot.pickupDateFrom) &&
+            Global.filter.pickUpDate.isBefore(lot.pickupDateTo)) {
+          return true;
+        }
+        return false;
+      }).toList();
+    }
+
+    if (Global.filter.deliveryDate != null) {
+      filteredLots = filteredLots.where((lot) {
+        if (lot.deliveryDateFrom == null || lot.deliveryDateTo == null) {
+          return false;
+        }
+        if (Global.filter.deliveryDate.isAfter(lot.deliveryDateFrom) &&
+            Global.filter.deliveryDate.isBefore(lot.deliveryDateTo)) {
+          return true;
+        }
+        return false;
+      }).toList();
+    }
+  }
+
+  List<Widget> getFilters() {
+    List<Widget> list = [];
+
+    if (Global.filter.startingAddress != '') {
+      var startingaddress = Global.filter.startingAddress.split(',');
+      String startCity = '';
+      if (startingaddress.length >= 2) {
+        startCity = startingaddress[startingaddress.length - 2];
+      } else {
+        startCity = startingaddress[0];
+      }
+
+      list.add(card(
+        child: Row(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 8),
+              child: Icon(MaterialCommunityIcons.circle_slice_8,
+                  size: 15, color: AppColors.primaryColor),
+            ),
+            Expanded(
+              child: Text(
+                startCity,
+                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+              ),
+            ),
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 8),
+                child: Icon(Icons.close,
+                    size: 15,
+                    color:
+                        isVisible ? AppColors.mediumGreyColor : Colors.white),
+              ),
+              onTap: () {
+                setState(() {
+                  Global.filter.resetStartingAddress();
+                });
+              },
+            )
+          ],
+        ),
+      ));
+    }
+
+    if (Global.filter.arrivalAddress != '') {
+      var arrivaladdress = Global.filter.arrivalAddress.split(',');
+      String arriveCity = '';
+      if (arrivaladdress.length >= 2) {
+        arriveCity = arrivaladdress[arrivaladdress.length - 2];
+      } else {
+        arriveCity = arrivaladdress[0];
+      }
+      list.add(card(
+        child: Row(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 8),
+              child: Icon(Feather.map_pin, size: 15, color: AppColors.redColor),
+            ),
+            Expanded(
+              child: Text(
+                arriveCity,
+                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+              ),
+            ),
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 8),
+                child: Icon(Icons.close,
+                    size: 15,
+                    color:
+                        isVisible ? AppColors.mediumGreyColor : Colors.white),
+              ),
+              onTap: () {
+                setState(() => Global.filter.resetArrivalAddress());
+              },
+            )
+          ],
+        ),
+      ));
+    }
+
+    if (Global.filter.lowPrice != 0 || Global.filter.highPrice != 10000) {
+      list.add(
+        card(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  "${Global.filter.lowPrice}€ - ${Global.filter.highPrice}€",
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8),
+                  child: Icon(Icons.close,
+                      size: 15,
+                      color:
+                          isVisible ? AppColors.mediumGreyColor : Colors.white),
+                ),
+                onTap: () {
+                  setState(() => Global.filter.resetPrice());
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (Global.filter.delivery != '') {
+      list.add(
+        card(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  Global.filter.delivery,
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8),
+                  child: Icon(Icons.close,
+                      size: 15,
+                      color:
+                          isVisible ? AppColors.mediumGreyColor : Colors.white),
+                ),
+                onTap: () {
+                  setState(() => Global.filter.resetDelivery());
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (Global.filter.quantity != 0) {
+      list.add(
+        card(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  "≤${Global.filter.quantity}m³",
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8),
+                  child: Icon(Icons.close,
+                      size: 15,
+                      color:
+                          isVisible ? AppColors.mediumGreyColor : Colors.white),
+                ),
+                onTap: () {
+                  setState(() => Global.filter.resetQuantity());
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (Global.filter.pickUpDate != null) {
+      list.add(card(
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                "D'enlèvement: ${Global.filter.pickUpDate.day}/${Global.filter.pickUpDate.month}",
+                style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+              ),
+            ),
+            GestureDetector(
+              child: Container(
+                margin: EdgeInsets.only(left: 8),
+                child: Icon(Icons.close,
+                    size: 15,
+                    color:
+                        isVisible ? AppColors.mediumGreyColor : Colors.white),
+              ),
+              onTap: () {
+                setState(() => Global.filter.resetPickUpDate());
+              },
+            )
+          ],
+        ),
+      ));
+    }
+
+    if (Global.filter.deliveryDate != null) {
+      list.add(
+        card(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  "Livraison: ${Global.filter.deliveryDate.day}/${Global.filter.deliveryDate.month}",
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 13),
+                ),
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(left: 8),
+                  child: Icon(Icons.close,
+                      size: 15,
+                      color:
+                          isVisible ? AppColors.mediumGreyColor : Colors.white),
+                ),
+                onTap: () {
+                  setState(() => Global.filter.resetDelivery());
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    list.isEmpty ? checkFilter = true : checkFilter = false;
+    return list;
+  }
+
+  Widget card({Widget child}) {
+    return Container(
+      margin: EdgeInsets.only(right: 8),
+      padding: EdgeInsets.only(right: 8, left: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: child,
+    );
   }
 
   List<Widget> listLotItems() {
@@ -104,7 +399,7 @@ class _HomeState extends State<Home> {
                   ),
                   Divider(
                     color: AppColors.lightestGreyColor,
-                    thickness: 2,
+                    thickness: 1,
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 16, right: 16, top: 5),
@@ -352,169 +647,189 @@ class _HomeState extends State<Home> {
     return list;
   }
 
-  void toggleLocation() async {
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-
-      if (!_serviceEnabled) {
-        return UserCurrentLocation.checkpermissionstatus();
-      }
-    } else {
-      setState(() => Global.isLoading = true);
-      UserCurrentLocation.getCurrentLocation().then((value) {
-        setState(() {
-          Global.isLoading = false;
-          var currentCity = Global.address.split(',');
-          currentAddress = currentCity[2];
-        });
-        filterNearMe(Global.address);
-      }).catchError((err) {
-        setState(() => Global.isLoading = false);
-        print(err.message);
-      });
-    }
-  }
-
-  void filterNearMe(String address) {
-    setState(() => Global.isLoading = true);
-    var futures = lots.map((lot) {
-      return Global.calculateDistance(
-          startingAddress: address, arrivalAddress: lot.startingAddress);
-    }).toList();
-
-    Future.wait(futures).then((List<Map> dist) {
-      setState(() => Global.isLoading = false);
-      if (mounted) {
-        setState(() {
-          filteredLots.clear();
-        });
-        dist.sort((b, a) => (b['distanceinKm']).compareTo(a['distanceinKm']));
-        for (int i = 0; i < dist.length; i++) {
-          print(dist[i]['distanceinKm']);
-          if (i < 5) {
-            setState(() => filteredLots.add(lots[i]));
-          }
-        }
-      }
-    }).catchError((error) => setState(() => Global.isLoading = false));
+  Future<void> actionSheet() async {
+    return showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: Text(
+            'Trier par',
+            style: TextStyle(color: AppColors.navigationBarInactiveColor),
+          ),
+          actions: [
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Au plus proche',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Au plus loin',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Du plus cher au moins cher',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Du moins cher au plus cher',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Du plus petit au plus gros volume',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+            CupertinoActionSheetAction(
+                onPressed: () {},
+                child: Text(
+                  'Du plus gros au plus petit volume',
+                  style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+                )),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Annuler',
+                style: AppStyles.primaryTextStyle.copyWith(fontSize: 14),
+              )),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    setState(() => filterLots());
     SizeConfig().init(context);
-    // if (!geoLocation) {
-    //   setState(() {
-    //     filteredLots.clear();
-    //     filteredLots = lots;
-    //   });
-    // }
-
     return ModalProgressHUD(
-      inAsyncCall: Global.isLoading,
-      color: AppColors.primaryColor,
-      progressIndicator: AppLoader(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.lightestGreyColor,
-          elevation: 1,
-          title: RaisedButton.icon(
-            icon: Image.asset('assets/images/location.png',
-                height: 20, width: 20, color: Colors.white),
-            label: Text(currentAddress, style: TextStyle(fontSize: 12)),
-            color: AppColors.primaryColor,
-            textColor: Colors.white,
-            onPressed: toggleLocation,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-          ),
-        ),
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
+        inAsyncCall: Global.isLoading,
+        color: AppColors.primaryColor,
+        progressIndicator: AppLoader(),
+        child: Scaffold(body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
               child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Column(
                         children: [
-                          Text(
-                            'Proche de vous',
-                            style: AppStyles.blackTextStyle.copyWith(
-                                fontSize: 22, fontWeight: FontWeight.w500),
-                          ),
                           GestureDetector(
-                            onTap: () =>
-                                Navigator.of(context).pushNamed('closetoyou'),
-                            child: Text(
-                              'Voir plus',
-                              style: AppStyles.primaryTextStyle.copyWith(
-                                  fontSize: 13, fontWeight: FontWeight.w500),
+                            onTap: () {
+                              actionSheet();
+                            },
+                            child: Center(
+                              child: Container(
+                                width: 70,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: Colors.white),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Tri'),
+                                    Icon(Icons.keyboard_arrow_down)
+                                  ],
+                                ),
+                              ),
                             ),
-                          )
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical * 79,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: listLotItems(),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: listLotItems(),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Mis en avant',
-                          style: AppStyles.blackTextStyle.copyWith(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          'Voir plus',
-                          style: AppStyles.primaryTextStyle.copyWith(
-                              fontSize: 13, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: listLotItems(),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Nouveau',
-                          style: AppStyles.blackTextStyle.copyWith(
-                              fontSize: 22, fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          'Voir plus',
-                          style: AppStyles.primaryTextStyle.copyWith(
-                              fontSize: 13, fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: listLotItems(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
+                      Positioned(
+                          bottom: 0,
+                          right: 0,
+                          left: 0,
+                          child: Container(
+                            color: AppColors.lightestGreyColor,
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    width: 80,
+                                    height: 5,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.lightGreyColor,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Text(' '),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: SizeConfig.safeBlockVertical * 2),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                      boxShadow: <BoxShadow>[
+                                        BoxShadow(
+                                            color: AppColors.primaryColor
+                                                .withOpacity(0.24),
+                                            blurRadius: 16,
+                                            spreadRadius: 4),
+                                      ],
+                                    ),
+                                    child: ButtonTheme(
+                                      minWidth: double.infinity,
+                                      height: 50,
+                                      child: RaisedButton(
+                                        child: Text('Options de recherche',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold)),
+                                        color: AppColors.primaryColor,
+                                        textColor: Colors.white,
+                                        onPressed: () => Navigator.of(context)
+                                            .pushNamed('filter'),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        elevation: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                checkFilter
+                                    ? Container()
+                                    : Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 15.0, bottom: 10),
+                                        child: Container(
+                                          child: GridView.count(
+                                            shrinkWrap: true,
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 4.0,
+                                            childAspectRatio: 5,
+                                            primary: false,
+                                            children: getFilters(),
+                                          ),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ))
+                    ],
+                  )));
+        })));
   }
 }

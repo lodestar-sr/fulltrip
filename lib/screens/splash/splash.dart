@@ -19,7 +19,7 @@ class _SplashState extends State<Splash> {
     Future.delayed(Constants.splashAnimationDuration, () async {
       if (context.read<AuthProvider>().isLoggedIn()) {
         await context.read<AuthProvider>().downloadUserData();
-        Navigator.of(context).pushReplacementNamed('map-street');
+        Navigator.of(context).pushReplacementNamed('dashboard');
       } else {
         Navigator.of(context).pushReplacementNamed('login');
       }
@@ -33,6 +33,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         height: double.infinity,
         width: double.infinity,

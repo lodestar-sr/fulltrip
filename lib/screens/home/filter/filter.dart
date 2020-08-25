@@ -1,3 +1,4 @@
+import 'package:Fulltrip/screens/home/CloseToYou/CloseToYou.dart';
 import 'package:Fulltrip/util/address_utils.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -88,8 +89,8 @@ class _FilterState extends State<Filter> {
       Global.filter.deliveryDate = deliveryDate;
     });
 
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('dashboard', (Route<dynamic> route) => false);
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => CloseToYou()));
   }
 
   @override
