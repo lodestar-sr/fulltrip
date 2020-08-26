@@ -15,11 +15,13 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-
+    getStringValuesSF();
     Future.delayed(Constants.splashAnimationDuration, () async {
       if (context.read<AuthProvider>().isLoggedIn()) {
         await context.read<AuthProvider>().downloadUserData();
-        Navigator.of(context).pushReplacementNamed('map-street');
+        Global.address != ''
+            ? Navigator.of(context).pushReplacementNamed('dashboard')
+            : Navigator.of(context).pushReplacementNamed('map-street');
       } else {
         Navigator.of(context).pushReplacementNamed('login');
       }
@@ -28,6 +30,17 @@ class _SplashState extends State<Splash> {
     SharedPreferences.getInstance().then((value) {
       Global.prefs = value;
     });
+  }
+
+  getStringValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String stringValue = prefs.getString('globaladdress');
+
+    if (stringValue != null) {
+      Global.address = stringValue;
+    }
+    return stringValue;
   }
 
   @override

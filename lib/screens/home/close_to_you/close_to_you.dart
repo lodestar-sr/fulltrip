@@ -49,7 +49,6 @@ class _CloseToYouState extends State<CloseToYou>
             (BuildContext context, BoxConstraints viewportConstraints) {
           return Container(
               width: double.infinity,
-              padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
               child: SingleChildScrollView(
                   child: GestureDetector(
                       onTap: () =>
@@ -148,6 +147,7 @@ class _CloseToYouState extends State<CloseToYou>
                               child: Stack(
                                 children: [
                                   PageView(
+                                    physics:new NeverScrollableScrollPhysics(),
                                     controller: _controller,
                                     onPageChanged: (index) {
                                       setState(() {

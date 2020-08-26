@@ -21,21 +21,22 @@ class GooglePlacesAutocomplete extends StatefulWidget {
   final suffixIcon;
   final underline;
   final hintText;
+  final padding;
 
-  GooglePlacesAutocomplete({
-    this.mode = Mode.overlay,
-    this.language = "fr",
-    this.components,
-    this.onSelect,
-    this.initialValue,
-    this.validator,
-    this.onChanged,
-    this.onSaved,
-    this.prefixIcon,
-    this.underline,
-    this.hintText = 'Rechercher une adresse',
-    this.suffixIcon,
-  });
+  GooglePlacesAutocomplete(
+      {this.mode = Mode.overlay,
+      this.language = "fr",
+      this.components,
+      this.onSelect,
+      this.initialValue,
+      this.validator,
+      this.onChanged,
+      this.onSaved,
+      this.prefixIcon,
+      this.underline,
+      this.hintText = 'Rechercher une adresse',
+      this.suffixIcon,
+      this.padding = const EdgeInsets.only(top: 20)});
 
   @override
   State<StatefulWidget> createState() => _GooglePlacesAutocompleteState();
@@ -78,7 +79,7 @@ class _GooglePlacesAutocompleteState extends State<GooglePlacesAutocomplete> {
       readOnly: true,
       decoration: hintTextDecoration(widget.hintText).copyWith(
         prefixIcon: widget.prefixIcon,
-        contentPadding: EdgeInsets.only(top: 20),
+        contentPadding: widget.padding,
         border: widget.underline,
         suffixIcon: widget.suffixIcon,
       ),

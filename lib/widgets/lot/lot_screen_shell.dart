@@ -6,6 +6,10 @@ import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LotScreenShell extends StatefulWidget {
@@ -31,11 +35,11 @@ class _LotScreenShellState extends State<LotScreenShell> {
   String time = '';
   Future<DistanceTimeModel> distanceTimeModel;
 
+  final myFormat = DateFormat('d/MM');
   @override
   void initState() {
     lot = widget.lot;
     super.initState();
-    calculateDistance();
   }
 
   calculateDistance() {
@@ -68,7 +72,7 @@ class _LotScreenShellState extends State<LotScreenShell> {
           title: Text('Détails du lot',
               style: AppStyles.blackTextStyle
                   .copyWith(fontWeight: FontWeight.w500)),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.lightestGreyColor,
         ),
         body: Container(
           width: double.infinity,

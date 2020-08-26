@@ -1,18 +1,85 @@
 import 'package:Fulltrip/data/models/lot.model.dart';
+import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/description_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
-class LotWidget extends StatelessWidget {
+class LotWidget extends StatefulWidget {
   final Lot lot;
   final String companyName;
   final double distanceInKm;
   final String time;
+  LotWidget({
+    this.lot,
+    this.companyName,
+    this.distanceInKm,
+    this.time,
+  });
 
-  LotWidget({this.lot, this.companyName, this.distanceInKm, this.time});
+  @override
+  _LotWidgetState createState() => _LotWidgetState();
+}
+
+class _LotWidgetState extends State<LotWidget> {
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+  GoogleMapController mapController;
+  Position _currentPosition;
+  String _mapStyle;
+  final Geolocator _geolocator = Geolocator();
+  BitmapDescriptor pinLocationIcon;
+  BitmapDescriptor deliveryIcon;
+  Set<Marker> _markers = {};
+  LatLng _pinPosition = LatLng(0.0, 0.0);
+  LatLng _deliveryPosition = LatLng(0.0, 0.0);
+  @override
+  void initState() {
+    super.initState();
+
+    _getCurrentLocation();
+    rootBundle.loadString('assets/map_style.txt').then((string) {
+      _mapStyle = string;
+    });
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
+            'assets/images/arrivalpin.png')
+        .then((onValue) {
+      pinLocationIcon = onValue;
+    });
+  }
+
+  // Method for retrieving the current location
+  _getCurrentLocation() async {
+    _geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      List<Placemark> placemark =
+          await Geolocator().placemarkFromAddress(widget.lot.arrivalAddress);
+
+      setState(() {
+        _currentPosition = position;
+        print('CURRENT POS: $_currentPosition');
+        _pinPosition = LatLng(
+            placemark[0].position.latitude, placemark[0].position.longitude);
+
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: _pinPosition, zoom: 9),
+          ),
+        );
+        _markers.add(Marker(
+            markerId: MarkerId('<MARKER_ID>'),
+            position: _pinPosition,
+            icon: pinLocationIcon));
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +93,17 @@ class LotWidget extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 146,
-          margin: EdgeInsets.only(right: 14),
+          margin: EdgeInsets.only(top: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(4)),
-            image: lot.photo != ''
+            image: widget.lot.photo != ''
                 ? DecorationImage(
-                    image: NetworkImage(lot.photo),
+                    image: NetworkImage(widget.lot.photo),
                     fit: BoxFit.cover,
                   )
                 : DecorationImage(
-                    image: this.lot.photo != ''
-                        ? NetworkImage(lot.photo)
+                    image: this.widget.lot.photo != ''
+                        ? NetworkImage(widget.lot.photo)
                         : AssetImage("assets/images/noimage.png"),
                     fit: BoxFit.contain,
                   ),
@@ -50,7 +117,7 @@ class LotWidget extends StatelessWidget {
                   size: 20, color: AppColors.primaryColor),
               Padding(
                 padding: EdgeInsets.only(left: 8),
-                child: Text('Publié le ${myFormat.format(lot.date)}',
+                child: Text('Publié le ${myFormat.format(widget.lot.date)}',
                     style: AppStyles.blackTextStyle.copyWith(fontSize: 15)),
               ),
             ],
@@ -59,6 +126,25 @@ class LotWidget extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Divider(),
+        ),
+        Container(
+          height: 200,
+          width: SizeConfig.screenWidth,
+          padding: EdgeInsets.only(bottom: 10),
+          child: GoogleMap(
+            scrollGesturesEnabled: true,
+            initialCameraPosition: _initialLocation,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            mapType: MapType.normal,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
+            markers: _markers,
+            onMapCreated: (GoogleMapController controller) {
+              mapController = controller;
+              mapController.setMapStyle(_mapStyle);
+            },
+          ),
         ),
         Container(
           width: double.infinity,
@@ -93,16 +179,16 @@ class LotWidget extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(top: 3.0),
                       child: Text(
-                        lot.startingAddress,
+                        widget.lot.startingAddress,
                         style: AppStyles.blackTextStyle.copyWith(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ),
-                    lot.pickupDateFrom != null
+                    widget.lot.pickupDateFrom != null
                         ? Padding(
                             padding: EdgeInsets.only(top: 5.0),
                             child: Text(
-                              'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
+                              'du ${myFormat.format(widget.lot.pickupDateFrom)} au ${myFormat.format(widget.lot.pickupDateTo)}',
                               style: AppStyles.greyTextStyle.copyWith(
                                   fontWeight: FontWeight.w400, fontSize: 13),
                             ),
@@ -116,7 +202,7 @@ class LotWidget extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(bottom: 5, top: 5, left: 8),
-          child: Text('$time  ($distanceInKm km)',
+          child: Text('${widget.time}  (${widget.distanceInKm} km)',
               style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
         ),
         Container(
@@ -152,16 +238,16 @@ class LotWidget extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(top: 3.0),
                       child: Text(
-                        lot.arrivalAddress,
+                        widget.lot.arrivalAddress,
                         style: AppStyles.blackTextStyle.copyWith(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ),
-                    lot.deliveryDateFrom != null
+                    widget.lot.deliveryDateFrom != null
                         ? Padding(
                             padding: EdgeInsets.only(top: 5.0),
                             child: Text(
-                              'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
+                              'du ${myFormat.format(widget.lot.deliveryDateFrom)} au ${myFormat.format(widget.lot.deliveryDateTo)}',
                               style: AppStyles.greyTextStyle
                                   .copyWith(fontSize: 12),
                             ),
@@ -210,11 +296,11 @@ class LotWidget extends StatelessWidget {
                               style: AppStyles.blackTextStyle
                                   .copyWith(fontSize: 14)),
                         ),
-                        Text('${lot.startingLocationType.trim()}',
+                        Text('${widget.lot.startingLocationType.trim()}',
                             style: AppStyles.blackTextStyle.copyWith(
                                 color: AppColors.backButtonColor,
                                 fontSize: 14)),
-                        lot.startingAccessType.isNotEmpty
+                        widget.lot.startingAccessType.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 8),
                                 child: Text("Type d'accès",
@@ -222,13 +308,13 @@ class LotWidget extends StatelessWidget {
                                         .copyWith(fontSize: 14)),
                               )
                             : Container(),
-                        lot.startingAccessType.isNotEmpty
-                            ? Text('${lot.startingAccessType}',
+                        widget.lot.startingAccessType.isNotEmpty
+                            ? Text('${widget.lot.startingAccessType}',
                                 style: AppStyles.blackTextStyle.copyWith(
                                     color: AppColors.backButtonColor,
                                     fontSize: 14))
                             : Container(),
-                        lot.startingFloors.isNotEmpty
+                        widget.lot.startingFloors.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 8),
                                 child: Text("Etages",
@@ -236,8 +322,8 @@ class LotWidget extends StatelessWidget {
                                         .copyWith(fontSize: 14)),
                               )
                             : Container(),
-                        lot.startingFloors.isNotEmpty
-                            ? Text('${lot.startingFloors}',
+                        widget.lot.startingFloors.isNotEmpty
+                            ? Text('${widget.lot.startingFloors}',
                                 style: AppStyles.blackTextStyle.copyWith(
                                     color: AppColors.backButtonColor,
                                     fontSize: 14))
@@ -261,11 +347,11 @@ class LotWidget extends StatelessWidget {
                               style: AppStyles.blackTextStyle
                                   .copyWith(fontSize: 14)),
                         ),
-                        Text('${lot.arrivalLocationType}',
+                        Text('${widget.lot.arrivalLocationType}',
                             style: AppStyles.blackTextStyle.copyWith(
                                 color: AppColors.backButtonColor,
                                 fontSize: 14)),
-                        lot.arrivalAccessType.isNotEmpty
+                        widget.lot.arrivalAccessType.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 8),
                                 child: Text("Type d'accès",
@@ -273,13 +359,13 @@ class LotWidget extends StatelessWidget {
                                         .copyWith(fontSize: 14)),
                               )
                             : Container(),
-                        lot.arrivalAccessType.isNotEmpty
-                            ? Text('${lot.arrivalAccessType}',
+                        widget.lot.arrivalAccessType.isNotEmpty
+                            ? Text('${widget.lot.arrivalAccessType}',
                                 style: AppStyles.blackTextStyle.copyWith(
                                     color: AppColors.backButtonColor,
                                     fontSize: 14))
                             : Container(),
-                        lot.arrivalFloors.isNotEmpty
+                        widget.lot.arrivalFloors.isNotEmpty
                             ? Container(
                                 margin: EdgeInsets.only(bottom: 4, top: 8),
                                 child: Text("Etages",
@@ -287,8 +373,8 @@ class LotWidget extends StatelessWidget {
                                         .copyWith(fontSize: 14)),
                               )
                             : Container(),
-                        lot.arrivalFloors.isNotEmpty
-                            ? Text('${lot.arrivalFloors}',
+                        widget.lot.arrivalFloors.isNotEmpty
+                            ? Text('${widget.lot.arrivalFloors}',
                                 style: AppStyles.blackTextStyle.copyWith(
                                     color: AppColors.backButtonColor,
                                     fontSize: 14))
@@ -313,7 +399,7 @@ class LotWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          lot.startingFurnitureLift != 'Non'
+                          widget.lot.startingFurnitureLift != 'Non'
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text('Monte meubles',
@@ -321,14 +407,14 @@ class LotWidget extends StatelessWidget {
                                           .copyWith(fontSize: 14)),
                                 )
                               : Container(),
-                          lot.startingFurnitureLift != 'Non'
-                              ? Text('${lot.startingFurnitureLift}',
+                          widget.lot.startingFurnitureLift != 'Non'
+                              ? Text('${widget.lot.startingFurnitureLift}',
                                   style: AppStyles.blackTextStyle.copyWith(
                                       color: AppColors.backButtonColor,
                                       fontSize: 14))
                               : Container(),
                           Container(padding: EdgeInsets.all(4)),
-                          lot.startingDismantlingFurniture != 'Non'
+                          widget.lot.startingDismantlingFurniture != 'Non'
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text('Démontage meubles',
@@ -336,8 +422,9 @@ class LotWidget extends StatelessWidget {
                                           .copyWith(fontSize: 14)),
                                 )
                               : Container(),
-                          lot.startingDismantlingFurniture != 'Non'
-                              ? Text('${lot.startingDismantlingFurniture}',
+                          widget.lot.startingDismantlingFurniture != 'Non'
+                              ? Text(
+                                  '${widget.lot.startingDismantlingFurniture}',
                                   style: AppStyles.blackTextStyle.copyWith(
                                       color: AppColors.backButtonColor,
                                       fontSize: 14))
@@ -350,7 +437,7 @@ class LotWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          lot.arrivalFurnitureLift != 'Non'
+                          widget.lot.arrivalFurnitureLift != 'Non'
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text('Monte meubles',
@@ -358,14 +445,14 @@ class LotWidget extends StatelessWidget {
                                           .copyWith(fontSize: 14)),
                                 )
                               : Container(),
-                          lot.arrivalFurnitureLift != 'Non'
-                              ? Text('${lot.arrivalFurnitureLift}',
+                          widget.lot.arrivalFurnitureLift != 'Non'
+                              ? Text('${widget.lot.arrivalFurnitureLift}',
                                   style: AppStyles.blackTextStyle.copyWith(
                                       color: AppColors.backButtonColor,
                                       fontSize: 14))
                               : Container(),
                           Container(padding: EdgeInsets.all(4)),
-                          lot.arrivalReassemblyFurniture != 'Non'
+                          widget.lot.arrivalReassemblyFurniture != 'Non'
                               ? Container(
                                   margin: EdgeInsets.only(bottom: 4, top: 4),
                                   child: Text('Remontage meubles',
@@ -373,8 +460,8 @@ class LotWidget extends StatelessWidget {
                                           .copyWith(fontSize: 14)),
                                 )
                               : Container(),
-                          lot.arrivalReassemblyFurniture != 'Non'
-                              ? Text('${lot.arrivalReassemblyFurniture}',
+                          widget.lot.arrivalReassemblyFurniture != 'Non'
+                              ? Text('${widget.lot.arrivalReassemblyFurniture}',
                                   style: AppStyles.blackTextStyle.copyWith(
                                       color: AppColors.backButtonColor,
                                       fontSize: 14))
@@ -394,10 +481,10 @@ class LotWidget extends StatelessWidget {
               style: AppStyles.blackTextStyle
                   .copyWith(fontWeight: FontWeight.w500, fontSize: 17)),
         ),
-        Text('${lot.quantity}m³',
+        Text('${widget.lot.quantity}m³',
             style: AppStyles.blackTextStyle
                 .copyWith(color: AppColors.primaryColor, fontSize: 18)),
-        lot.description.isNotEmpty
+        widget.lot.description.isNotEmpty
             ? Container(
                 margin: EdgeInsets.only(bottom: 4, top: 15),
                 child: Text('La description',
@@ -405,9 +492,9 @@ class LotWidget extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w500, fontSize: 17)),
               )
             : Container(),
-        lot.description.isNotEmpty
+        widget.lot.description.isNotEmpty
             ? DescriptionText(
-                text: lot.description,
+                text: widget.lot.description,
                 minLength: 60,
                 textStyle: AppStyles.greyTextStyle.copyWith(
                     fontSize: 13,
@@ -426,7 +513,7 @@ class LotWidget extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(top: 10),
           child: Text(
-            '${lot.price.toStringAsFixed(0)}€',
+            '${widget.lot.price.toStringAsFixed(0)}€',
             style: AppStyles.darkGreyTextStyle.copyWith(
                 fontWeight: FontWeight.w500,
                 color: AppColors.primaryColor,
@@ -437,7 +524,7 @@ class LotWidget extends StatelessWidget {
           margin: EdgeInsets.only(top: 25),
           alignment: Alignment.centerLeft,
           child: Text(
-            companyName,
+            widget.companyName,
             style: AppStyles.blackTextStyle
                 .copyWith(fontWeight: FontWeight.w500, fontSize: 17),
           ),

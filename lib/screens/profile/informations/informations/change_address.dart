@@ -58,7 +58,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
         child: Scaffold(
             appBar: AppBar(
               elevation: 1,
-              backgroundColor: Colors.white,
+              backgroundColor: AppColors.lightestGreyColor,
               iconTheme: IconThemeData(
                 color: AppColors.backButtonColor, //change your color here
               ),

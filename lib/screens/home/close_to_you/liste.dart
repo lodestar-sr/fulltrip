@@ -11,7 +11,6 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
 import 'package:provider/provider.dart';
 
 class Liste extends StatefulWidget {
@@ -718,6 +717,7 @@ class _ListeState extends State<Liste> {
           return SingleChildScrollView(
               child: Container(
                   width: double.infinity,
+                  padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
                   child: Stack(
                     children: [
                       Column(
@@ -745,7 +745,7 @@ class _ListeState extends State<Liste> {
                             ),
                           ),
                           Container(
-                            height: SizeConfig.blockSizeVertical * 79,
+                            height: SizeConfig.blockSizeVertical * 68,
                             child: ListView(
                               shrinkWrap: true,
                               children: listLotItems(),
