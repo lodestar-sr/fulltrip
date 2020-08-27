@@ -37,81 +37,86 @@ class Lot {
   String assignedTo;
   String assignedCompanyName;
 
-  Lot({
-    this.uid,
-    this.startingAddress = '',
-    this.startingCity = '',
-    this.startingLocationType = '',
-    this.startingAccessType = '',
-    this.startingFloors = '',
-    this.startingFurnitureLift = 'Non',
-    this.startingDismantlingFurniture = 'Non',
-    this.pickupDateFrom,
-    this.pickupDateTo,
-    this.quantity = 0,
-    this.arrivalAddress = '',
-    this.arrivalCity = '',
-    this.arrivalLocationType = '',
-    this.arrivalAccessType = '',
-    this.arrivalFloors = '',
-    this.arrivalFurnitureLift = 'Non',
-    this.arrivalReassemblyFurniture = 'Non',
-    this.delivery = '',
-    this.deliveryDateFrom,
-    this.deliveryDateTo,
-    this.price,
-    this.photo = '',
-    this.description = '',
-    this.date,
-    this.proposedBy,
-    this.proposedCompanyName,
-    this.reservedBy,
-    this.refusedReservationFor,
-    this.assignedTo,
-    this.assignedCompanyName,
-  });
+  double distanceInKm = 0.0;
+  String time = '';
+
+  Lot(
+      {this.uid,
+      this.startingAddress = '',
+      this.startingCity = '',
+      this.startingLocationType = '',
+      this.startingAccessType = '',
+      this.startingFloors = '',
+      this.startingFurnitureLift = 'Non',
+      this.startingDismantlingFurniture = 'Non',
+      this.pickupDateFrom,
+      this.pickupDateTo,
+      this.quantity = 0,
+      this.arrivalAddress = '',
+      this.arrivalCity = '',
+      this.arrivalLocationType = '',
+      this.arrivalAccessType = '',
+      this.arrivalFloors = '',
+      this.arrivalFurnitureLift = 'Non',
+      this.arrivalReassemblyFurniture = 'Non',
+      this.delivery = '',
+      this.deliveryDateFrom,
+      this.deliveryDateTo,
+      this.price,
+      this.photo = '',
+      this.description = '',
+      this.date,
+      this.proposedBy,
+      this.proposedCompanyName,
+      this.reservedBy,
+      this.refusedReservationFor,
+      this.assignedTo,
+      this.assignedCompanyName,
+      this.distanceInKm = 0.0,
+      this.time = ''});
 
   factory Lot.fromJson(Map<String, dynamic> json) => Lot(
-        uid: json["uid"],
-        startingAddress: json["starting_address"],
-        startingCity: json["starting_city"],
-        startingLocationType: json["starting_location_type"],
-        startingAccessType: json["starting_access_type"],
-        startingFloors: json["starting_floors"],
-        startingFurnitureLift: json["starting_furniture_lift"],
-        startingDismantlingFurniture: json["starting_dismantling_furniture"],
-        pickupDateFrom: json["pickup_date_from"] != null
-            ? DateTime.parse(json["pickup_date_from"])
-            : null,
-        pickupDateTo: json["pickup_date_to"] != null
-            ? DateTime.parse(json["pickup_date_to"])
-            : null,
-        quantity: json["quantity"],
-        arrivalAddress: json["arrival_address"],
-        arrivalCity: json["arrival_city"],
-        arrivalLocationType: json["arrival_location_type"],
-        arrivalAccessType: json["arrival_access_type"],
-        arrivalFloors: json["arrival_floors"],
-        arrivalFurnitureLift: json["arrival_furniture_lift"],
-        arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
-        delivery: json["delivery"],
-        deliveryDateFrom: json["delivery_date_from"] != null
-            ? DateTime.parse(json["delivery_date_from"])
-            : null,
-        deliveryDateTo: json["delivery_date_to"] != null
-            ? DateTime.parse(json["delivery_date_to"])
-            : null,
-        price: json["price"],
-        photo: json["photo"],
-        description: json["description"],
-        date: DateTime.parse(json["date"]),
-        proposedBy: json['proposed_by'],
-        proposedCompanyName: json['proposed_company_name'],
-        reservedBy: json['reserved_by'],
-        refusedReservationFor: json['refused_reservation_for'],
-        assignedTo: json['assigned_to'],
-        assignedCompanyName: json['assigned_company_name'],
-      );
+      uid: json["uid"],
+      startingAddress: json["starting_address"],
+      startingCity: json["starting_city"],
+      startingLocationType: json["starting_location_type"],
+      startingAccessType: json["starting_access_type"],
+      startingFloors: json["starting_floors"],
+      startingFurnitureLift: json["starting_furniture_lift"],
+      startingDismantlingFurniture: json["starting_dismantling_furniture"],
+      pickupDateFrom: json["pickup_date_from"] != null
+          ? DateTime.parse(json["pickup_date_from"])
+          : null,
+      pickupDateTo: json["pickup_date_to"] != null
+          ? DateTime.parse(json["pickup_date_to"])
+          : null,
+      quantity: json["quantity"],
+      arrivalAddress: json["arrival_address"],
+      arrivalCity: json["arrival_city"],
+      arrivalLocationType: json["arrival_location_type"],
+      arrivalAccessType: json["arrival_access_type"],
+      arrivalFloors: json["arrival_floors"],
+      arrivalFurnitureLift: json["arrival_furniture_lift"],
+      arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
+      delivery: json["delivery"],
+      deliveryDateFrom: json["delivery_date_from"] != null
+          ? DateTime.parse(json["delivery_date_from"])
+          : null,
+      deliveryDateTo: json["delivery_date_to"] != null
+          ? DateTime.parse(json["delivery_date_to"])
+          : null,
+      price: json["price"],
+      photo: json["photo"],
+      description: json["description"],
+      date: DateTime.parse(json["date"]),
+      proposedBy: json['proposed_by'],
+      proposedCompanyName: json['proposed_company_name'],
+      reservedBy: json['reserved_by'],
+      refusedReservationFor: json['refused_reservation_for'],
+      assignedTo: json['assigned_to'],
+      assignedCompanyName: json['assigned_company_name'],
+      distanceInKm: json['distance_InKm'] != null ? json['distance_InKm'] : 0.0,
+      time: json['time'] != null ? json['time'] : '');
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
@@ -150,6 +155,8 @@ class Lot {
         "refused_reservation_for": refusedReservationFor ?? [],
         "assigned_to": assignedTo,
         "assigned_company_name": assignedCompanyName,
+        "distance_InKm": distanceInKm ?? 0.0,
+        "time": time ?? ''
       };
 
   Future<void> setCityFromStartingAddress() async {

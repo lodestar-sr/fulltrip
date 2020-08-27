@@ -4,6 +4,7 @@ import 'package:Fulltrip/screens/home/propose_lot/propose_lot.dart';
 import 'package:Fulltrip/screens/profile/profile.dart';
 import 'package:Fulltrip/screens/search/search.dart';
 import 'package:Fulltrip/screens/updates/updates.dart';
+import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,8 @@ class _DashboardState extends State<Dashboard> {
   onTabTapped(int index) {
     setState(() {
       currentTab = index;
+
+      Global.searchTitle = 'Search for a lot';
     });
   }
 

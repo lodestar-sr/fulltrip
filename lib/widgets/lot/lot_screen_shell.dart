@@ -31,30 +31,12 @@ class LotScreenShell extends StatefulWidget {
 
 class _LotScreenShellState extends State<LotScreenShell> {
   Lot lot;
-  double distanceInKm = 0.0;
-  String time = '';
-  Future<DistanceTimeModel> distanceTimeModel;
 
   final myFormat = DateFormat('d/MM');
   @override
   void initState() {
     lot = widget.lot;
     super.initState();
-  }
-
-  calculateDistance() {
-    setState(() => Global.isLoading = true);
-
-    Global.calculateDistance(
-      startingAddress: lot.startingAddress,
-      arrivalAddress: lot.arrivalAddress,
-    ).then((value) {
-      setState(() {
-        distanceInKm = value['distanceinKm'].toDouble();
-        time = value['duration'];
-        Global.isLoading = false;
-      });
-    });
   }
 
   @override
@@ -85,8 +67,6 @@ class _LotScreenShellState extends State<LotScreenShell> {
                 LotWidget(
                   lot: lot,
                   companyName: widget.companyName,
-                  distanceInKm: distanceInKm,
-                  time: time,
                 ),
                 widget.acceptButton ?? SizedBox(),
                 widget.rejectButton ?? SizedBox(),

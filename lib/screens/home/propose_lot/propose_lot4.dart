@@ -46,7 +46,11 @@ class _ProposeLot4State extends State<ProposeLot4> {
       if (mounted) {
         setState(() {
           distanceinKm = value['distanceinKm'];
+          Global.lotForm.distanceInKm = distanceinKm;
+          print(Global.lotForm.distanceInKm);
           time = value['duration'];
+          Global.lotForm.time = time;
+          print(Global.lotForm.time);
         });
       }
     });
