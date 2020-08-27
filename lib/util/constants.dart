@@ -1,25 +1,14 @@
 class Constants {
-  static const appVersion = '0.0.3';
+  static const appVersion = '0.0.5';
 
   static const googleAPIKey = 'AIzaSyAviivTDt0XzleVXCCrY3TDqeHZkaEjB4U';
+
+  static const splashAnimationDuration = Duration(milliseconds: 2700);
 
   static const services = {
     'Luxe': 'Luxe',
     'Standard': 'Standard',
     'Economique': 'Economique',
-  };
-
-  static const splashAnimationDuration = Duration(milliseconds: 2700);
-
-  static const proposedLotStatus = {
-    'posted': 'Publié',
-    'validating': 'En attente de validation',
-    'ongoing': 'Transport en cours',
-  };
-
-  static const reservedLotStatus = {
-    'validating': 'En attente de validation',
-    'ongoing': 'Transport en cours',
   };
 
   static const List<String> typedelieu = [

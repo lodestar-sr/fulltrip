@@ -1,4 +1,3 @@
-import 'package:Fulltrip/util/constants.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/address_utils.dart';
 
@@ -36,6 +35,7 @@ class Lot {
   List reservedBy;
   List refusedReservationFor;
   String assignedTo;
+  String assignedCompanyName;
 
   Lot({
     this.uid,
@@ -68,6 +68,7 @@ class Lot {
     this.reservedBy,
     this.refusedReservationFor,
     this.assignedTo,
+    this.assignedCompanyName,
   });
 
   factory Lot.fromJson(Map<String, dynamic> json) => Lot(
@@ -109,6 +110,7 @@ class Lot {
         reservedBy: json['reserved_by'],
         refusedReservationFor: json['refused_reservation_for'],
         assignedTo: json['assigned_to'],
+        assignedCompanyName: json['assigned_company_name'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -147,6 +149,7 @@ class Lot {
         "reserved_by": reservedBy ?? [],
         "refused_reservation_for": refusedReservationFor ?? [],
         "assigned_to": assignedTo,
+        "assigned_company_name": assignedCompanyName,
       };
 
   Future<void> setCityFromStartingAddress() async {
@@ -157,12 +160,13 @@ class Lot {
     arrivalCity = await AddressUtils.getCityFromAddress(arrivalAddress);
   }
 
-  void setAssignedUser(String userUid) {
+  void setAssignedUser(String userUid, String companyName) {
     assignedTo = userUid;
-    Global.firestore
-        .collection('lots')
-        .document(uid)
-        .updateData({'assigned_to': assignedTo});
+    assignedCompanyName = companyName;
+    Global.firestore.collection('lots').document(uid).updateData({
+      'assigned_to': assignedTo,
+      'assigned_company_name': assignedCompanyName,
+    });
   }
 
   void addReservedUser(String userUid) {
@@ -181,21 +185,69 @@ class Lot {
         .updateData({'refused_reservation_for': refusedReservationFor});
   }
 
-  String getProposedStatus() {
-    if (reservedBy.length == 0) {
-      return Constants.proposedLotStatus['posted'];
-    } else if (assignedTo != null) {
-      return Constants.proposedLotStatus['ongoing'];
+  ProposedLotStatus getProposedStatus() {
+    if (reservedBy.length == 0 ||
+        reservedBy.length == refusedReservationFor.length) {
+      return ProposedLotStatus.published;
+    } else if (assignedTo == null) {
+      return ProposedLotStatus.validating;
     } else {
-      return Constants.proposedLotStatus['validating'];
+      return ProposedLotStatus.ongoing;
     }
   }
 
-  String getReservedStatus() {
-    if (assignedTo != null) {
-      return Constants.reservedLotStatus['ongoing'];
+  ReservedLotStatus getReservedStatus(String userUid) {
+    if (assignedTo == userUid) {
+      return ReservedLotStatus.ongoing;
+    } else if (refusedReservationFor.contains(userUid)) {
+      return ReservedLotStatus.refused;
+    } else if (assignedTo != null) {
+      return ReservedLotStatus.irrelevant;
     } else {
-      return Constants.reservedLotStatus['validating'];
+      return ReservedLotStatus.reserved;
+    }
+  }
+}
+
+enum ProposedLotStatus {
+  published,
+  validating,
+  ongoing,
+}
+
+extension ProposedLotStatusExtension on ProposedLotStatus {
+  // ignore: missing_return
+  String get string {
+    switch (this) {
+      case ProposedLotStatus.published:
+        return 'Publié';
+      case ProposedLotStatus.validating:
+        return 'Être validé';
+      case ProposedLotStatus.ongoing:
+        return 'En cours';
+    }
+  }
+}
+
+enum ReservedLotStatus {
+  reserved,
+  ongoing,
+  refused,
+  irrelevant,
+}
+
+extension ReservedLotStatusExtension on ReservedLotStatus {
+  // ignore: missing_return
+  String get string {
+    switch (this) {
+      case ReservedLotStatus.reserved:
+        return 'Réservé';
+      case ReservedLotStatus.ongoing:
+        return 'En cours';
+      case ReservedLotStatus.refused:
+        return 'Refusé';
+      case ReservedLotStatus.irrelevant:
+        return 'Invalide';
     }
   }
 }

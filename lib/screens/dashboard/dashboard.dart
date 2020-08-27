@@ -17,30 +17,17 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int currentTab = 0;
-
   List<Widget> screens = [];
-  final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   void initState() {
     super.initState();
     screens = [
-      Home(
-        key: PageStorageKey('Page1'),
-      ),
-      Search(
-        key: PageStorageKey('Page2'),
-      ),
-      ProposeLot(
-        key: PageStorageKey('Page3'),
-        onBack: resetPage,
-      ),
-      Updates(
-        key: PageStorageKey('Page4'),
-      ),
-      Profile(
-        key: PageStorageKey('Page5'),
-      ),
+      Home(),
+      Search(),
+      ProposeLot(onBack: resetPage),
+      Updates(),
+      Profile(),
     ];
   }
 
@@ -59,10 +46,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageStorage(
-        child: screens[currentTab],
-        bucket: bucket,
-      ),
+      body: screens[currentTab],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
         type: BottomNavigationBarType.fixed,

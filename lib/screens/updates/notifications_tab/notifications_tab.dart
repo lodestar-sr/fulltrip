@@ -5,7 +5,8 @@ import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:Fulltrip/services/notification.service.dart';
 import 'package:Fulltrip/data/models/notification.model.dart';
-import 'package:Fulltrip/widgets/notification_widget.dart';
+import 'package:Fulltrip/widgets/no_data.dart';
+import 'package:Fulltrip/widgets/cards/notification_card.dart';
 import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -34,9 +35,9 @@ class _NotificationsTabState extends State<NotificationsTab> {
     setState(() => Global.isLoading = false);
   }
 
-  NotificationWidget buildStandardNotificationWidget(Notification notification,
+  NotificationCard buildStandardNotificationWidget(Notification notification,
       {String bottomText}) {
-    return NotificationWidget(
+    return NotificationCard(
       text: notification.text,
       companyName: notification.senderCompanyName,
       onPressed: () async {
@@ -57,12 +58,12 @@ class _NotificationsTabState extends State<NotificationsTab> {
 
     notifications.forEach((notification) async {
       final notificationType = NotificationType.values[notification.type];
-      NotificationWidget widget;
+      NotificationCard card;
 
       switch (notificationType) {
         case NotificationType.reservationValidation:
         case NotificationType.refusedReservationValidation:
-          widget = NotificationWidget(
+          card = NotificationCard(
             text: notification.text,
             companyName: notification.senderCompanyName,
             onPressed: () async {
@@ -78,54 +79,43 @@ class _NotificationsTabState extends State<NotificationsTab> {
           );
           break;
         case NotificationType.confirmedReservation:
-          widget = buildStandardNotificationWidget(
+          card = buildStandardNotificationWidget(
             notification,
             bottomText:
                 'Votre réservation a été acceptée, prenez contacte avec votre nouveau collaborateur',
           );
           break;
         case NotificationType.refusedReservation:
-          widget = buildStandardNotificationWidget(
+          card = buildStandardNotificationWidget(
             notification,
             bottomText: 'Votre réservation a été refusée',
           );
           break;
         case NotificationType.irrelevantReservation:
-          widget = buildStandardNotificationWidget(
+          card = buildStandardNotificationWidget(
             notification,
             bottomText: 'Un autre transporteur a été sélectionné pour ce lot',
           );
           break;
         case NotificationType.confirmedReservationValidation:
-          widget = buildStandardNotificationWidget(
+          card = buildStandardNotificationWidget(
             notification,
             bottomText: 'Vous avez confirmé cette réservation',
           );
           break;
         case NotificationType.irrelevantReservationValidation:
-          widget = buildStandardNotificationWidget(
+          card = buildStandardNotificationWidget(
             notification,
             bottomText:
                 'Vous avez sélectionné un autre transporteur pour ce lot',
           );
           break;
       }
-      list.add(widget);
+      list.add(card);
     });
 
     if (list.length == 0) {
-      list.add(
-        Container(
-          padding: EdgeInsets.only(left: 32, right: 32, top: 48),
-          child: Center(
-            child: Text(
-              'No data available',
-              style: AppStyles.missingDataTextStyle,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      );
+      list.add(NoData());
     }
     return list;
   }

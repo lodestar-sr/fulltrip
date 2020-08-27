@@ -2,6 +2,7 @@ import 'package:Fulltrip/data/models/distance_time.model.dart';
 import 'package:Fulltrip/data/models/lot.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/widgets/action_buttons/accept_button.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,13 +56,18 @@ class _ProposeLot4State extends State<ProposeLot4> {
     setState(() => Global.isLoading = true);
 
     final document = Global.firestore.collection('lots').document();
-    // Make lot id the same as firestore document id
     Global.lotForm.uid = document.documentID;
     document.setData(Global.lotForm.toJson());
 
     Global.isLoading = false;
     Navigator.of(context).pushNamedAndRemoveUntil(
-        'Felicitations', (Route<dynamic> route) => false);
+      'success-screen',
+      (_) => false,
+      arguments: {
+        'text':
+            'Ce lot a été publié, attendez que les transporteurs le réservent.',
+      },
+    );
   }
 
   @override
@@ -641,46 +647,18 @@ class _ProposeLot4State extends State<ProposeLot4> {
                               ],
                             ),
                           ),
-
                           Padding(
-                            padding:
-                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.24),
-                                      blurRadius: 16,
-                                      spreadRadius: 4),
-                                ],
-                              ),
-                              child: ButtonTheme(
-                                minWidth: double.infinity,
-                                height: 60,
-                                child: RaisedButton(
-                                  child: Text('Réserver ce lot',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                  color: AppColors.primaryColor,
-                                  textColor: Colors.white,
-                                  onPressed: onSubmit,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 0,
-                                ),
-                              ),
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            child: AcceptButton(
+                              text: 'Publiez ce lot',
+                              onPressed: onSubmit,
                             ),
                           ),
                           Text(
                             "En cas de non prise en charge de votre lot, et sur demande de votre part, l'ensemble des frais engagés peuvent être remboursés sans pénalités",
                             style: AppStyles.blackTextStyle.copyWith(
                                 fontSize: 11, color: AppColors.backButtonColor),
-                          )
+                          ),
                         ],
                       ),
                     ),

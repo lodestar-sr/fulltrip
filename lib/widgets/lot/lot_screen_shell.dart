@@ -20,7 +20,7 @@ class LotScreenShell extends StatefulWidget {
 
   LotScreenShell({
     @required this.lot,
-    @required this.companyName,
+    this.companyName,
     this.acceptButton,
     this.rejectButton,
   });

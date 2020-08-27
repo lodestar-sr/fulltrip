@@ -1,4 +1,4 @@
-import 'package:Fulltrip/screens/home/close_to_you/close_to_you.dart';
+import 'package:Fulltrip/screens/search/search.dart';
 import 'package:Fulltrip/util/address_utils.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
@@ -90,7 +90,7 @@ class _FilterState extends State<Filter> {
     });
 
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (BuildContext context) => CloseToYou()));
+      MaterialPageRoute(builder: (BuildContext context) => Search()));
   }
 
   @override

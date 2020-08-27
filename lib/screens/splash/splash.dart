@@ -20,8 +20,8 @@ class _SplashState extends State<Splash> {
       if (context.read<AuthProvider>().isLoggedIn()) {
         await context.read<AuthProvider>().downloadUserData();
         Global.address != ''
-            ? Navigator.of(context).pushReplacementNamed('dashboard')
-            : Navigator.of(context).pushReplacementNamed('map-street');
+          ? Navigator.of(context).pushReplacementNamed('dashboard')
+          : Navigator.of(context).pushReplacementNamed('map-street');
       } else {
         Navigator.of(context).pushReplacementNamed('login');
       }

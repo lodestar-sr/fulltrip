@@ -22,7 +22,7 @@ class Global {
   static Lot lotForm;
   static Filter filter = Filter();
   static SharedPreferences prefs;
-  static int tabIndex = 0;
+  static int updatesTabIndex = 0;
 
   static List<ChatModel> chatMessages = [
     ChatModel(

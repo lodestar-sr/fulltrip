@@ -23,7 +23,7 @@ class SentMessage extends StatelessWidget {
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15)),
           child: Container(
-            color: AppColors.senderchatColor,
+            color: AppColors.senderChatColor,
             // margin: const EdgeInsets.only(left: 10.0),
             child: Stack(children: <Widget>[
               Padding(

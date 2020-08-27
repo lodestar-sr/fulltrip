@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/util/validators/validators.dart';
+import 'package:Fulltrip/widgets/action_buttons/accept_button.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -238,7 +238,6 @@ class _ProposeLot3State extends State<ProposeLot3> {
                             style:
                                 AppStyles.blackTextStyle.copyWith(fontSize: 13),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: new Center(
@@ -302,7 +301,6 @@ class _ProposeLot3State extends State<ProposeLot3> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: EdgeInsets.only(
                                 top: SizeConfig.safeBlockVertical * 2),
@@ -355,40 +353,13 @@ class _ProposeLot3State extends State<ProposeLot3> {
                                 Global.lotForm.price = double.parse(value),
                             keyboardType: TextInputType.number,
                           ),
-
-                          ///BottomButton
                           Padding(
                             padding: EdgeInsets.only(
-                                top: SizeConfig.safeBlockVertical * 4),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30)),
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.24),
-                                      blurRadius: 16,
-                                      spreadRadius: 4),
-                                ],
-                              ),
-                              child: ButtonTheme(
-                                minWidth: double.infinity,
-                                height: 60,
-                                child: RaisedButton(
-                                  child: Text('Publier le lot',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold)),
-                                  color: AppColors.primaryColor,
-                                  textColor: Colors.white,
-                                  onPressed: onSubmit,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 0,
-                                ),
-                              ),
+                              top: SizeConfig.safeBlockVertical * 4,
+                            ),
+                            child: AcceptButton(
+                              text: 'Revoir ce lot',
+                              onPressed: onSubmit,
                             ),
                           ),
                         ],

@@ -3,9 +3,9 @@ import 'package:Fulltrip/screens/auth/login.dart';
 import 'package:Fulltrip/screens/auth/register.dart';
 import 'package:Fulltrip/screens/auth/verify_sms.dart';
 import 'package:Fulltrip/screens/dashboard/dashboard.dart';
-import 'package:Fulltrip/screens/home/close_to_you/carte.dart';
-import 'package:Fulltrip/screens/home/close_to_you/close_to_you.dart';
-import 'package:Fulltrip/screens/home/close_to_you/liste.dart';
+import 'package:Fulltrip/screens/search/carte.dart';
+import 'package:Fulltrip/screens/search/search.dart';
+import 'package:Fulltrip/screens/search/liste.dart';
 import 'package:Fulltrip/screens/home/filter/filter.dart';
 import 'package:Fulltrip/screens/home/home.dart';
 import 'package:Fulltrip/screens/lot/lot_reservation.dart';
@@ -28,7 +28,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/lot/success_screen.dart';
-import 'screens/home/propose_lot/Felicitations.dart';
 import 'screens/home/propose_lot/propose_lot2.dart';
 import 'screens/home/propose_lot/propose_lot3.dart';
 import 'screens/home/propose_lot/propose_lot4.dart';
@@ -65,7 +64,6 @@ class Routes {
     'ProposeLot3': (BuildContext context) => ProposeLot3(),
     'ProposeLot4': (BuildContext context) => ProposeLot4(),
     'MeansOfPayment': (BuildContext context) => PaymentMethod(),
-    'Felicitations': (BuildContext context) => Felicitations(),
     'profile': (BuildContext context) => Profile(),
     'mes_informations': (BuildContext context) => Informations(),
     'raisonsociale': (BuildContext context) => RaisonSociale(),
@@ -90,7 +88,7 @@ class Routes {
     'lot-validation': (BuildContext context) => LotValidation(),
     'lot-details': (BuildContext context) => LotDetails(),
     'success-screen': (BuildContext context) => SuccessScreen(),
-    'closetoyou': (BuildContext context) => CloseToYou(),
+    'closetoyou': (BuildContext context) => Search(),
     'Carte': (BuildContext context) => Carte(),
     'Liste': (BuildContext context) => Liste(),
   };

@@ -73,7 +73,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('Commanditaire'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -141,7 +140,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('emailoption'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -179,7 +177,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('telephoneoption'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -259,7 +256,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('raisonsociale'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -327,7 +323,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('adressedusiege'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -365,7 +360,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('MeansOfPayment'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -431,7 +425,6 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -469,7 +462,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('changepassword'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -507,7 +499,6 @@ class _InformationsState extends State<Informations> {
                                           child: GestureDetector(
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('mesdocuments'),
-                                            behavior: HitTestBehavior.opaque,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment

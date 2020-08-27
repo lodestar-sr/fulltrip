@@ -20,9 +20,10 @@ class _UpdatesState extends State<Updates> with SingleTickerProviderStateMixin {
     _tabController = TabController(
       vsync: this,
       length: 2,
-      initialIndex: Global.tabIndex,
+      initialIndex: Global.updatesTabIndex,
     );
-    _tabController.addListener(() => Global.tabIndex = _tabController.index);
+    _tabController
+        .addListener(() => Global.updatesTabIndex = _tabController.index);
   }
 
   @override
@@ -36,7 +37,7 @@ class _UpdatesState extends State<Updates> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColors.appbarColor,
+        backgroundColor: Colors.white,
         toolbarHeight: 70,
         bottom: PreferredSize(
           preferredSize: null,

@@ -2,6 +2,7 @@ import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
+import 'package:Fulltrip/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -58,10 +59,10 @@ class _MessagesTabState extends State<MessagesTab> {
                           width: 12,
                           decoration: BoxDecoration(
                               color: element.status == 'online'
-                                  ? AppColors.darkgreenColor
+                                  ? AppColors.darkGreenColor
                                   : Colors.orangeAccent,
                               border: Border.all(
-                                color: AppColors.borderwhite,
+                                color: AppColors.borderWhiteColor,
                                 width: 1.5,
                               ),
                               shape: BoxShape.circle),
@@ -90,7 +91,7 @@ class _MessagesTabState extends State<MessagesTab> {
                           ),
                           Text(
                             '3:03pm',
-                            style: AppStyles.greyTextStyle.copyWith(
+                            style: AppStyles.notificationTextStyle.copyWith(
                               fontSize: 12,
                             ),
                           ),
@@ -103,9 +104,7 @@ class _MessagesTabState extends State<MessagesTab> {
                           Expanded(
                             child: Text(
                               element.message,
-                              style: AppStyles.greyTextStyle.copyWith(
-                                fontSize: 14,
-                              ),
+                              style: AppStyles.notificationTextStyle,
                             ),
                           ),
                           SizedBox(width: 15),
@@ -133,22 +132,7 @@ class _MessagesTabState extends State<MessagesTab> {
     });
 
     if (list.length == 0) {
-      list.add(
-        Container(
-          padding: EdgeInsets.only(left: 32, right: 32, top: 48),
-          child: Center(
-            child: Text(
-              'No data available',
-              style: TextStyle(
-                color: AppColors.greyColor,
-                fontSize: 14,
-                height: 1.8,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      );
+      list.add(NoData());
     }
     return list;
   }

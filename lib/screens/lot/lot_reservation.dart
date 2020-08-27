@@ -36,7 +36,14 @@ class LotReservation extends StatelessWidget {
                     lot, reservedUser);
 
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    'success-screen', (Route<dynamic> route) => false);
+                  'success-screen',
+                  (_) => false,
+                  arguments: {
+                    'text':
+                        'Ce lot a bien été réservé, prenez contact avec votre nouveau collaborateur.',
+                    'company_name': reservedUser.raisonSociale,
+                  },
+                );
               },
               onRejectButtonPressed: () => Navigator.pop(context),
             ),

@@ -3,8 +3,8 @@ import 'package:Fulltrip/data/models/chat.model.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:Fulltrip/widgets/chat_widgets/received_message.dart';
-import 'package:Fulltrip/widgets/chat_widgets/sent_message.dart';
+import 'package:Fulltrip/widgets/chat/received_message.dart';
+import 'package:Fulltrip/widgets/chat/sent_message.dart';
 import 'package:Fulltrip/widgets/form_field_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -225,7 +225,7 @@ class _ChatMessagesState extends State<ChatMessages>
                                 color: Colors.white,
                                 border: Border(
                                     bottom: BorderSide(
-                                        color: AppColors.compteDivider))),
+                                        color: AppColors.profileDivider))),
                             child: Column(
                               children: [
                                 Padding(

@@ -38,9 +38,7 @@ class _MapStreetState extends State<MapStreet> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/pin.png')
-        .then((onValue) {
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/pin.png').then((onValue) {
       pinLocationIcon = onValue;
     });
   }
@@ -51,9 +49,7 @@ class _MapStreetState extends State<MapStreet> {
 
   // Method for retrieving the current location
   _getCurrentLocation() async {
-    _geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
+    _geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((Position position) async {
       setState(() async {
         _pinPosition = LatLng(position.latitude, position.longitude);
         mapController.animateCamera(
@@ -61,8 +57,7 @@ class _MapStreetState extends State<MapStreet> {
             CameraPosition(target: _pinPosition, zoom: 15),
           ),
         );
-        Marker marker = _markers.firstWhere((p) => p.markerId == MarkerId('1'),
-            orElse: () => null);
+        Marker marker = _markers.firstWhere((p) => p.markerId == MarkerId('1'), orElse: () => null);
 
         _markers.remove(marker);
         _markers.add(Marker(
@@ -75,15 +70,13 @@ class _MapStreetState extends State<MapStreet> {
             }),
             icon: pinLocationIcon));
         try {
-          List<Placemark> newPlace = await Geolocator()
-              .placemarkFromCoordinates(position.latitude, position.longitude);
+          List<Placemark> newPlace = await Geolocator().placemarkFromCoordinates(position.latitude, position.longitude);
           Placemark placeMark = newPlace[0];
           String name = placeMark.name;
           String administrativeArea = placeMark.administrativeArea;
           String postalCode = placeMark.postalCode;
           String country = placeMark.country;
-          String address =
-              "${name}, ${administrativeArea} ${postalCode}, ${country}";
+          String address = "${name}, ${administrativeArea} ${postalCode}, ${country}";
           setState(() {
             print(address);
             Global.address = address;
@@ -98,29 +91,21 @@ class _MapStreetState extends State<MapStreet> {
   }
 
   void _resetMarker(String newAddress) async {
-    List<Placemark> placemark =
-        await Geolocator().placemarkFromAddress(newAddress);
+    List<Placemark> placemark = await Geolocator().placemarkFromAddress(newAddress);
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: LatLng(placemark[0].position.latitude,
-                placemark[0].position.longitude),
-            zoom: 15),
+        CameraPosition(target: LatLng(placemark[0].position.latitude, placemark[0].position.longitude), zoom: 15),
       ),
     );
 
-    _updatePosition(CameraPosition(
-        target: LatLng(
-            placemark[0].position.latitude, placemark[0].position.longitude)));
+    _updatePosition(CameraPosition(target: LatLng(placemark[0].position.latitude, placemark[0].position.longitude)));
   }
 
   void _updatePosition(CameraPosition _position) async {
     print(_position.target.latitude);
     print(_position.target.longitude);
-    print(
-        'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
-    Marker marker = _markers.firstWhere((p) => p.markerId == MarkerId('1'),
-        orElse: () => null);
+    print('inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
+    Marker marker = _markers.firstWhere((p) => p.markerId == MarkerId('1'), orElse: () => null);
 
     _markers.remove(marker);
     _markers.add(
@@ -180,16 +165,14 @@ class _MapStreetState extends State<MapStreet> {
                     children: [
                       GestureDetector(
                         child: Icon(Icons.close, size: 25),
-                        onTap: () => Navigator.of(context)
-                            .pushReplacementNamed('dashboard'),
+                        onTap: () => Navigator.of(context).pushReplacementNamed('dashboard'),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Center(
                             child: Text(
                           Global.address,
-                          style:
-                              AppStyles.blackTextStyle.copyWith(fontSize: 20),
+                          style: AppStyles.blackTextStyle.copyWith(fontSize: 20),
                           textAlign: TextAlign.center,
                         )),
                       ),
@@ -206,9 +189,7 @@ class _MapStreetState extends State<MapStreet> {
                               borderRadius: BorderRadius.circular(15.0),
                               child: Container(
                                 width: 220,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(35)),
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(35)),
                                 child: GooglePlacesAutocomplete(
                                   underline: InputBorder.none,
                                   padding: EdgeInsets.all(10),
@@ -243,14 +224,11 @@ class _MapStreetState extends State<MapStreet> {
                         minWidth: double.infinity,
                         height: 45,
                         child: RaisedButton(
-                          child: Text('Je suis là',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold)),
+                          child: Text('Je suis là', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                           color: AppColors.primaryColor,
                           textColor: Colors.white,
                           onPressed: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed('dashboard');
+                            Navigator.of(context).pushReplacementNamed('dashboard');
                             addAddressToSF();
                           },
                           shape: RoundedRectangleBorder(

@@ -1,12 +1,12 @@
 import 'package:Fulltrip/util/theme.dart';
 import 'package:flutter/material.dart';
 
-class NotificationWidget extends StatelessWidget {
+class NotificationCard extends StatelessWidget {
   final String text;
   final String companyName;
   final Function onPressed;
 
-  NotificationWidget({this.text, this.companyName, this.onPressed});
+  NotificationCard({this.text, this.companyName, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class NotificationWidget extends StatelessWidget {
                       ),
                       Text(
                         '3:03pm',
-                        style: AppStyles.greyTextStyle.copyWith(
+                        style: AppStyles.notificationTextStyle.copyWith(
                           fontSize: 12,
                         ),
                       ),
@@ -64,9 +64,7 @@ class NotificationWidget extends StatelessWidget {
                     padding: EdgeInsets.only(top: 5.0),
                     child: Text(
                       text,
-                      style: AppStyles.greyTextStyle.copyWith(
-                        fontSize: 14,
-                      ),
+                      style: AppStyles.notificationTextStyle,
                     ),
                   )
                 ],

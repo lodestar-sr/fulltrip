@@ -48,7 +48,10 @@ class _ProfileState extends State<Profile> {
     SizeConfig().init(context);
     if (context.select((AuthProvider value) => value).getProfileBadge() == 0) {
       setState(() => checkStatus = 'validation');
-      if (context.select((AuthProvider value) => value).loggedInUser.isActivated) {
+      if (context
+          .select((AuthProvider value) => value)
+          .loggedInUser
+          .isActivated) {
         setState(() => checkStatus = 'verified');
       }
     }
@@ -95,7 +98,7 @@ class _ProfileState extends State<Profile> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: checkStatus == 'verified'
-                              ? AppColors.darkgreenColor
+                              ? AppColors.darkGreenColor
                               : checkStatus == 'validation'
                                   ? AppColors.orangeColor
                                   : AppColors.redColor),
@@ -116,7 +119,7 @@ class _ProfileState extends State<Profile> {
                       style: AppStyles.blackTextStyle.copyWith(
                           fontSize: 14,
                           color: checkStatus == 'verified'
-                              ? AppColors.darkgreenColor
+                              ? AppColors.darkGreenColor
                               : checkStatus == 'validation'
                                   ? AppColors.orangeColor
                                   : AppColors.redColor),
@@ -190,7 +193,7 @@ class _ProfileState extends State<Profile> {
                                 trailing: trails[index],
                               ),
                               Container(
-                                color: AppColors.compteDivider,
+                                color: AppColors.profileDivider,
                                 height: 1,
                               )
                             ],
@@ -203,7 +206,7 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       children: [
                         Container(
-                          color: AppColors.compteDivider,
+                          color: AppColors.profileDivider,
                           height: 1,
                         ),
                         ListTile(
@@ -219,7 +222,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         Container(
-                          color: AppColors.compteDivider,
+                          color: AppColors.profileDivider,
                           height: 1,
                         )
                       ],

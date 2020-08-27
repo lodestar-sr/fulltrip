@@ -68,116 +68,92 @@ class _AnnouncesState extends State<Announces>
           ),
           backgroundColor: Colors.white,
           title: Text(
-            "Annonces",
+            'Annonces',
             style: AppStyles.blackTextStyle
                 .copyWith(fontWeight: FontWeight.w600, fontSize: 17),
           ),
         ),
-        body: LayoutBuilder(builder:
-            (BuildContext context, BoxConstraints viewportConstraints) {
-          return Container(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              child: GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).requestFocus(new FocusNode()),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                            color: Color(0xFFF1F1F1),
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: AppColors.lightGreyColor, width: 1),
-                                top: BorderSide(
-                                    color: AppColors.lightGreyColor,
-                                    width: 1))),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _tabIndex = 0;
-                                  _controller.animateToPage(0,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.ease);
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                color: _tabIndex == 0
-                                    ? AppColors.primaryColor
-                                    : Colors.transparent,
-                                child: Text(
-                                  'En cours',
-                                  style: AppStyles.blackTextStyle.copyWith(
-                                      color: _tabIndex == 0
-                                          ? Colors.white
-                                          : Colors.black),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _tabIndex = 1;
-                                  _controller.animateToPage(1,
-                                      duration: Duration(milliseconds: 500),
-                                      curve: Curves.ease);
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                color: _tabIndex == 1
-                                    ? AppColors.primaryColor
-                                    : Colors.transparent,
-                                child: Text(
-                                  'Terminé',
-                                  style: AppStyles.blackTextStyle.copyWith(
-                                      color: _tabIndex == 1
-                                          ? Colors.white
-                                          : Colors.black),
-                                ),
-                              ),
-                            ),
-                          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    color: Color(0xFFF1F1F1),
+                    border: Border(
+                        bottom: BorderSide(
+                            color: AppColors.lightGreyColor, width: 1),
+                        top: BorderSide(
+                            color: AppColors.lightGreyColor, width: 1))),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _tabIndex = 0;
+                          _controller.animateToPage(0,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        color: _tabIndex == 0
+                            ? AppColors.primaryColor
+                            : Colors.transparent,
+                        child: Text(
+                          'En cours',
+                          style: AppStyles.blackTextStyle.copyWith(
+                              color:
+                                  _tabIndex == 0 ? Colors.white : Colors.black),
                         ),
                       ),
-                      Container(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                height: SizeConfig.safeBlockVertical * 79,
-                                child: PageView(
-                                  controller: _controller,
-                                  onPageChanged: (index) {
-                                    setState(() {
-                                      _tabIndex = index;
-                                    });
-                                  },
-                                  children: [
-                                    OngoingLots(),
-                                    CompletedLots(),
-                                  ],
-                                ),
-                              ),
-                            ]),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _tabIndex = 1;
+                          _controller.animateToPage(1,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.ease);
+                        });
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        color: _tabIndex == 1
+                            ? AppColors.primaryColor
+                            : Colors.transparent,
+                        child: Text(
+                          'Terminé',
+                          style: AppStyles.blackTextStyle.copyWith(
+                              color:
+                                  _tabIndex == 1 ? Colors.white : Colors.black),
+                        ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Container(
+                  height: SizeConfig.safeScreenHeight - 116,
+                  child: PageView(
+                    controller: _controller,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _tabIndex = index;
+                      });
+                    },
+                    children: [
+                      OngoingLots(),
+                      CompletedLots(),
                     ],
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+            ],
+          ),
+        ),
       ),
     );
   }

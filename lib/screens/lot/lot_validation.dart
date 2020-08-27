@@ -14,10 +14,11 @@ class LotValidation extends StatelessWidget {
         ModalRoute.of(context).settings.arguments;
     final Lot lot = args['lot'];
     final reservedUserUid = args['reserved_user_uid'];
+    final reservedCompanyName = args['reserved_company_name'];
 
     return LotScreenShell(
       lot: lot,
-      companyName: args['reserved_company_name'],
+      companyName: reservedCompanyName,
       acceptButton: AcceptButton(
         text: 'Accepter le transport',
         onPressed: () {
@@ -32,12 +33,19 @@ class LotValidation extends StatelessWidget {
               acceptButtonText: 'Je confirme',
               rejectButtonText: 'Annuler',
               onAcceptButtonPressed: () {
-                lot.setAssignedUser(reservedUserUid);
+                lot.setAssignedUser(reservedUserUid, reservedCompanyName);
                 NotificationService.addConfirmedReservationNotification(lot);
                 NotificationService.addIrrelevantReservationNotifications(lot);
 
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    'success-screen', (Route<dynamic> route) => false);
+                  'success-screen',
+                  (_) => false,
+                  arguments: {
+                    'text':
+                        'Votre lot sera pris en charge, prenez contact avec votre collaborateur afin d\'organiser au mieux son trajet.',
+                    'company_name': reservedCompanyName,
+                  },
+                );
               },
               onRejectButtonPressed: () => Navigator.pop(context),
             ),
@@ -62,7 +70,13 @@ class LotValidation extends StatelessWidget {
                           lot, reservedUserUid);
 
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          'success-screen', (Route<dynamic> route) => false);
+                        'success-screen',
+                        (_) => false,
+                        arguments: {
+                          'text':
+                              'Vous avez refusé cette réservation, validez les autres.',
+                        },
+                      );
                     },
                     onRejectButtonPressed: () => Navigator.pop(context),
                   ),
