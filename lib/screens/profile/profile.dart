@@ -34,6 +34,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     Global.isLoading = false;
+    Global.customSearch.clear();
   }
 
   signOut() {
@@ -51,7 +52,10 @@ class _ProfileState extends State<Profile> {
             .getProfileBadgeCounter() ==
         0) {
       setState(() => checkStatus = 'validation');
-      if (context.select((AuthProvider value) => value).loggedInUser.isActivated) {
+      if (context
+          .select((AuthProvider value) => value)
+          .loggedInUser
+          .isActivated) {
         setState(() => checkStatus = 'verified');
       }
     }
@@ -84,7 +88,9 @@ class _ProfileState extends State<Profile> {
         iconTheme: IconThemeData(
           color: AppColors.backButtonColor, //change your color here
         ),
-        title: Text('Compte', style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500)),
+        title: Text('Compte',
+            style:
+                AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500)),
         bottom: PreferredSize(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 5.0),
@@ -94,8 +100,13 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      decoration:
-                          BoxDecoration(shape: BoxShape.circle, color: checkStatus == 'verified' ? AppColors.darkGreenColor : checkStatus == 'validation' ? AppColors.orangeColor : AppColors.redColor),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: checkStatus == 'verified'
+                              ? AppColors.darkGreenColor
+                              : checkStatus == 'validation'
+                                  ? AppColors.orangeColor
+                                  : AppColors.redColor),
                       child: Text(
                         'd',
                         style: TextStyle(color: Colors.transparent),
@@ -105,9 +116,18 @@ class _ProfileState extends State<Profile> {
                       width: 5,
                     ),
                     Text(
-                      checkStatus == 'verified' ? 'Vérifié' : checkStatus == 'validation' ? 'Validation en cours' : 'Incomplet',
-                      style: AppStyles.blackTextStyle
-                          .copyWith(fontSize: 14, color: checkStatus == 'verified' ? AppColors.darkGreenColor : checkStatus == 'validation' ? AppColors.orangeColor : AppColors.redColor),
+                      checkStatus == 'verified'
+                          ? 'Vérifié'
+                          : checkStatus == 'validation'
+                              ? 'Validation en cours'
+                              : 'Incomplet',
+                      style: AppStyles.blackTextStyle.copyWith(
+                          fontSize: 14,
+                          color: checkStatus == 'verified'
+                              ? AppColors.darkGreenColor
+                              : checkStatus == 'validation'
+                                  ? AppColors.orangeColor
+                                  : AppColors.redColor),
                     ),
                   ],
                 ),
@@ -134,40 +154,63 @@ class _ProfileState extends State<Profile> {
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: Global.profileOptions.length,
                         separatorBuilder: (context, index) => Divider(
-                          color: AppColors.profileDivider,
-                        ),
+                              color: AppColors.profileDivider,
+                            ),
                         itemBuilder: (BuildContext context, index) {
                           return Column(
                             children: [
                               ListTile(
-                                contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
-                                leading: Icon(Global.profileIcons[index], size: 26, color: AppColors.primaryColor),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 0.0),
+                                leading: Icon(Global.profileIcons[index],
+                                    size: 26, color: AppColors.primaryColor),
                                 title: Text(
                                   Global.profileOptions[index],
-                                  style: TextStyle(color: AppColors.darkColor, fontWeight: FontWeight.w500),
+                                  style: TextStyle(
+                                      color: AppColors.darkColor,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 onTap: () {
-                                  index == 0 ? Navigator.of(context).pushNamed('mes_informations') : null;
-                                  index == 1 ? Navigator.of(context).pushNamed('Announces') : null;
-                                  index == 2 ? Navigator.of(context).pushNamed('TransPort') : null;
-                                  index == 3 ? Navigator.of(context).pushNamed('centredaide') : null;
+                                  index == 0
+                                      ? Navigator.of(context)
+                                          .pushNamed('mes_informations')
+                                      : null;
+                                  index == 1
+                                      ? Navigator.of(context)
+                                          .pushNamed('Announces')
+                                      : null;
+                                  index == 2
+                                      ? Navigator.of(context)
+                                          .pushNamed('TransPort')
+                                      : null;
+                                  index == 3
+                                      ? Navigator.of(context)
+                                          .pushNamed('centredaide')
+                                      : null;
                                   index == 4 ? null : null;
-                                  index == 5 ? Navigator.of(context).pushNamed('mesdocuments') : null;
-                                  index == 6 ? Navigator.of(context).pushNamed('mesdocuments') : null;
+                                  index == 5
+                                      ? Navigator.of(context)
+                                          .pushNamed('mesdocuments')
+                                      : null;
+                                  index == 6
+                                      ? Navigator.of(context)
+                                          .pushNamed('mesdocuments')
+                                      : null;
                                   index == 7 ? null : null;
                                 },
                                 trailing: trails[index],
                               ),
-                              Container(
-                                color: AppColors.profileDivider,
-                                height: 1,
-                              )
+                              // Container(
+                              //   color: AppColors.profileDivider,
+                              //   height: 1,
+                              // )
                             ],
                           );
                         }),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 12),
+                    padding:
+                        EdgeInsets.only(top: SizeConfig.safeBlockVertical * 12),
                     child: Column(
                       children: [
                         Container(

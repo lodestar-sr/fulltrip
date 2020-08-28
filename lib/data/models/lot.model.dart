@@ -85,8 +85,12 @@ class Lot {
         startingFloors: json["starting_floors"],
         startingFurnitureLift: json["starting_furniture_lift"],
         startingDismantlingFurniture: json["starting_dismantling_furniture"],
-        pickupDateFrom: json["pickup_date_from"] != null ? DateTime.parse(json["pickup_date_from"]) : null,
-        pickupDateTo: json["pickup_date_to"] != null ? DateTime.parse(json["pickup_date_to"]) : null,
+        pickupDateFrom: json["pickup_date_from"] != null
+            ? DateTime.parse(json["pickup_date_from"])
+            : null,
+        pickupDateTo: json["pickup_date_to"] != null
+            ? DateTime.parse(json["pickup_date_to"])
+            : null,
         quantity: json["quantity"],
         arrivalAddress: json["arrival_address"],
         arrivalCity: json["arrival_city"],
@@ -96,8 +100,12 @@ class Lot {
         arrivalFurnitureLift: json["arrival_furniture_lift"],
         arrivalReassemblyFurniture: json["arrival_reassembly_furniture"],
         delivery: json["delivery"],
-        deliveryDateFrom: json["delivery_date_from"] != null ? DateTime.parse(json["delivery_date_from"]) : null,
-        deliveryDateTo: json["delivery_date_to"] != null ? DateTime.parse(json["delivery_date_to"]) : null,
+        deliveryDateFrom: json["delivery_date_from"] != null
+            ? DateTime.parse(json["delivery_date_from"])
+            : null,
+        deliveryDateTo: json["delivery_date_to"] != null
+            ? DateTime.parse(json["delivery_date_to"])
+            : null,
         price: json["price"],
         photo: json["photo"],
         description: json["description"],
@@ -108,7 +116,8 @@ class Lot {
         refusedReservationFor: json['refused_reservation_for'],
         assignedTo: json['assigned_to'],
         assignedCompanyName: json['assigned_company_name'],
-        distanceInKm: json['distance_InKm'] != null ? json['distance_InKm'] : 0.0,
+        distanceInKm:
+            json['distance_InKm'] != null ? json['distance_InKm'] : 0.0,
         time: json['time'] != null ? json['time'] : '',
       );
 
@@ -121,8 +130,10 @@ class Lot {
         "starting_floors": startingFloors,
         "starting_furniture_lift": startingFurnitureLift,
         "starting_dismantling_furniture": startingDismantlingFurniture,
-        "pickup_date_from": pickupDateFrom != null ? pickupDateFrom.toIso8601String() : null,
-        "pickup_date_to": pickupDateTo != null ? pickupDateTo.toIso8601String() : null,
+        "pickup_date_from":
+            pickupDateFrom != null ? pickupDateFrom.toIso8601String() : null,
+        "pickup_date_to":
+            pickupDateTo != null ? pickupDateTo.toIso8601String() : null,
         "quantity": quantity,
         "arrival_address": arrivalAddress,
         "arrival_city": arrivalCity,
@@ -132,8 +143,11 @@ class Lot {
         "arrival_furniture_lift": arrivalFurnitureLift,
         "arrival_reassembly_furniture": arrivalReassemblyFurniture,
         "delivery": delivery,
-        "delivery_date_from": deliveryDateFrom != null ? deliveryDateFrom.toIso8601String() : null,
-        "delivery_date_to": deliveryDateTo != null ? deliveryDateTo.toIso8601String() : null,
+        "delivery_date_from": deliveryDateFrom != null
+            ? deliveryDateFrom.toIso8601String()
+            : null,
+        "delivery_date_to":
+            deliveryDateTo != null ? deliveryDateTo.toIso8601String() : null,
         "price": price,
         "photo": photo,
         "description": description,
@@ -167,16 +181,23 @@ class Lot {
 
   void addReservedUser(String userUid) {
     reservedBy.add(userUid);
-    Global.firestore.collection('lots').document(uid).updateData({'reserved_by': reservedBy});
+    Global.firestore
+        .collection('lots')
+        .document(uid)
+        .updateData({'reserved_by': reservedBy});
   }
 
   void addRefusedReservationUser(String userUid) {
     refusedReservationFor.add(userUid);
-    Global.firestore.collection('lots').document(uid).updateData({'refused_reservation_for': refusedReservationFor});
+    Global.firestore
+        .collection('lots')
+        .document(uid)
+        .updateData({'refused_reservation_for': refusedReservationFor});
   }
 
   ProposedLotStatus getProposedStatus() {
-    if (reservedBy.length == 0 || reservedBy.length == refusedReservationFor.length) {
+    if (reservedBy.length == 0 ||
+        reservedBy.length == refusedReservationFor.length) {
       return ProposedLotStatus.published;
     } else if (assignedTo == null) {
       return ProposedLotStatus.validating;

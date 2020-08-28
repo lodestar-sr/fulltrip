@@ -27,7 +27,7 @@ class Global {
   static int transportTabIndex = 0;
   static int initialindex = 0;
   static String searchTitle = '';
-
+  static List<Lot> customSearch = [];
   static List<ChatModel> chatMessages = [
     ChatModel(
         message:

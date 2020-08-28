@@ -71,6 +71,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 15.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('Commanditaire'),
                                             child: Row(
@@ -138,6 +140,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('emailoption'),
                                             child: Row(
@@ -175,6 +179,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('telephoneoption'),
                                             child: Row(
@@ -254,6 +260,8 @@ class _InformationsState extends State<Informations> {
                                           padding: EdgeInsets.only(
                                               top: 15.0, bottom: 5),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('raisonsociale'),
                                             child: Row(
@@ -321,6 +329,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('adressedusiege'),
                                             child: Row(
@@ -358,6 +368,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('MeansOfPayment'),
                                             child: Row(
@@ -425,6 +437,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -460,6 +474,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('changepassword'),
                                             child: Row(
@@ -497,6 +513,8 @@ class _InformationsState extends State<Informations> {
                                           padding: const EdgeInsets.only(
                                               top: 5.0, bottom: 5.0),
                                           child: GestureDetector(
+                                            behavior:
+                                                HitTestBehavior.translucent,
                                             onTap: () => Navigator.of(context)
                                                 .pushNamed('mesdocuments'),
                                             child: Row(

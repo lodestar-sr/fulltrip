@@ -1,5 +1,6 @@
 import 'package:Fulltrip/data/models/lot.model.dart';
 import 'package:Fulltrip/data/providers/auth.provider.dart';
+import 'package:Fulltrip/screens/search/liste.dart';
 import 'package:Fulltrip/services/lot.service.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/size_config.dart';
@@ -16,7 +17,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+  final seeMore;
+  Home({Key key, this.seeMore}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _HomeState();
@@ -25,8 +27,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Lot> lots = [];
   List<Lot> filteredLots = [];
+  List<Lot> newestLots = [];
+  List<Lot> searchfilteredLots = [];
+  List<Lot> searchnewestLots = [];
   var myFormat = DateFormat('d/MM');
-
+  List<Distances> _distanceModel = [];
   bool isVisible = true;
   bool geoLocation = false;
 
@@ -37,6 +42,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    Global.customSearch.clear();
     initData();
   }
 
@@ -54,7 +60,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<Widget> listLotItems() {
+  List<Widget> listLotItems(List<Lot> filteredLots) {
     List<Widget> list = [];
 
     filteredLots.forEach((lot) {
@@ -69,7 +75,10 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.all(Radius.circular(15)),
                 color: Colors.white,
                 boxShadow: <BoxShadow>[
-                  BoxShadow(color: AppColors.lightGreyColor.withOpacity(0.24), blurRadius: 10, spreadRadius: 2),
+                  BoxShadow(
+                      color: AppColors.lightGreyColor.withOpacity(0.24),
+                      blurRadius: 10,
+                      spreadRadius: 2),
                 ],
               ),
               child: Column(
@@ -85,12 +94,16 @@ class _HomeState extends State<Home> {
                       children: [
                         Text(
                           lot.proposedCompanyName,
-                          style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+                          style: AppStyles.blackTextStyle
+                              .copyWith(fontWeight: FontWeight.w500),
                         ),
                         Container(
                           child: Text(
                             "${lot.price.toStringAsFixed(0)}€" ?? "",
-                            style: TextStyle(color: AppColors.primaryColor, fontSize: 18, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],
@@ -111,7 +124,8 @@ class _HomeState extends State<Home> {
                                 height: 85,
                                 margin: EdgeInsets.only(right: 14),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
                                   color: AppColors.lightGreyColor,
                                   image: lot.photo != ''
                                       ? DecorationImage(
@@ -119,7 +133,8 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.cover,
                                         )
                                       : DecorationImage(
-                                          image: ExactAssetImage('assets/images/noimage.png'),
+                                          image: ExactAssetImage(
+                                              'assets/images/noimage.png'),
                                           fit: BoxFit.fitWidth,
                                         ),
                                 ),
@@ -128,7 +143,8 @@ class _HomeState extends State<Home> {
                                 width: 85,
                                 height: 85,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
                                   color: AppColors.lightGreyColor,
                                 ),
                                 margin: EdgeInsets.only(right: 14),
@@ -141,7 +157,8 @@ class _HomeState extends State<Home> {
                                             fit: BoxFit.cover,
                                           )
                                         : DecorationImage(
-                                            image: ExactAssetImage('assets/images/noimage.png'),
+                                            image: ExactAssetImage(
+                                                'assets/images/noimage.png'),
                                             fit: BoxFit.fitWidth,
                                           ),
                                   ),
@@ -156,15 +173,23 @@ class _HomeState extends State<Home> {
                                 Container(
                                   width: double.infinity,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Icon(MaterialCommunityIcons.circle_slice_8, size: 20, color: AppColors.primaryColor),
+                                              Icon(
+                                                  MaterialCommunityIcons
+                                                      .circle_slice_8,
+                                                  size: 20,
+                                                  color:
+                                                      AppColors.primaryColor),
                                               Container(
                                                   child: Dash(
                                                 direction: Axis.vertical,
@@ -173,34 +198,62 @@ class _HomeState extends State<Home> {
                                                 dashThickness: 2,
                                                 dashColor: AppColors.greyColor,
                                               )),
-                                              Icon(Feather.map_pin, size: 20, color: AppColors.redColor),
+                                              Icon(Feather.map_pin,
+                                                  size: 20,
+                                                  color: AppColors.redColor),
                                             ],
                                           ),
                                           Expanded(
                                             child: Container(
                                               height: 90,
                                               child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 4, bottom: 5),
-                                                    child: SingleChildScrollView(
-                                                      scrollDirection: Axis.horizontal,
+                                                    padding: EdgeInsets.only(
+                                                        left: 4, bottom: 5),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
                                                             lot.startingCity,
-                                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-                                                            overflow: TextOverflow.ellipsis,
+                                                            style: AppStyles
+                                                                .blackTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                           ),
-                                                          lot.pickupDateFrom != null
+                                                          lot.pickupDateFrom !=
+                                                                  null
                                                               ? Padding(
-                                                                  padding: EdgeInsets.only(top: 5.0),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5.0),
                                                                   child: Text(
                                                                     'du ${myFormat.format(lot.pickupDateFrom)} au ${myFormat.format(lot.pickupDateTo)}',
-                                                                    style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
+                                                                    style: AppStyles
+                                                                        .navbarInactiveTextStyle
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppColors.mediumGreyColor,
+                                                                            fontSize: 11),
                                                                   ),
                                                                 )
                                                               : Container()
@@ -209,23 +262,46 @@ class _HomeState extends State<Home> {
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 4, bottom: 8),
-                                                    child: SingleChildScrollView(
-                                                      scrollDirection: Axis.horizontal,
+                                                    padding: EdgeInsets.only(
+                                                        left: 4, bottom: 8),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
                                                       child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Text(
                                                             lot.arrivalCity,
-                                                            style: AppStyles.blackTextStyle.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-                                                            overflow: TextOverflow.ellipsis,
+                                                            style: AppStyles
+                                                                .blackTextStyle
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                           ),
-                                                          lot.deliveryDateFrom != null
+                                                          lot.deliveryDateFrom !=
+                                                                  null
                                                               ? Padding(
-                                                                  padding: EdgeInsets.only(top: 5.0),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 5.0),
                                                                   child: Text(
                                                                     'du ${myFormat.format(lot.deliveryDateFrom)} au ${myFormat.format(lot.deliveryDateTo)}',
-                                                                    style: AppStyles.navbarInactiveTextStyle.copyWith(color: AppColors.mediumGreyColor, fontSize: 11),
+                                                                    style: AppStyles
+                                                                        .navbarInactiveTextStyle
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppColors.mediumGreyColor,
+                                                                            fontSize: 11),
                                                                   ),
                                                                 )
                                                               : Container()
@@ -250,7 +326,8 @@ class _HomeState extends State<Home> {
                           margin: EdgeInsets.only(left: 8, bottom: 6),
                           child: Text(
                             "${lot.quantity.toString()}m³" ?? "",
-                            style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                            style: TextStyle(
+                                color: AppColors.greyColor, fontSize: 14),
                           ),
                         ),
                       ],
@@ -314,6 +391,7 @@ class _HomeState extends State<Home> {
         currentAddress = currentCity[0];
       });
       filterNearMe(Global.address);
+      filterNewest();
     }
   }
 
@@ -324,7 +402,8 @@ class _HomeState extends State<Home> {
   void filterNearMe(String address) {
     setState(() => Global.isLoading = true);
     var futures = lots.map((lot) {
-      return Global.calculateDistance(startingAddress: address, arrivalAddress: lot.startingAddress);
+      return Global.calculateDistance(
+          startingAddress: address, arrivalAddress: lot.startingAddress);
     }).toList();
 
     Future.wait(futures).then((List<Map> dist) {
@@ -332,18 +411,40 @@ class _HomeState extends State<Home> {
       if (mounted) {
         setState(() {
           filteredLots.clear();
+          searchfilteredLots.clear();
         });
-        dist.sort((b, a) => (b['distanceinKm']).compareTo(a['distanceinKm']));
-        for (int i = 0; i < dist.length; i++) {
-          print(lots[i].distanceInKm);
-          print(lots[i].time);
-          print(lots[i].arrivalAddress);
+        for (var i = 0; i < dist.length; i++) {
+          setState(() {
+            _distanceModel
+                .add(Distances(distance: dist[i]['distanceinKm'], count: i));
+          });
+        }
+        _distanceModel.sort((b, a) => (b.distance).compareTo(a.distance));
+        for (int i = 0; i < _distanceModel.length; i++) {
+          searchfilteredLots.add(lots[_distanceModel[i].count]);
           if (i < 5) {
-            setState(() => filteredLots.add(lots[i]));
+            setState(() => filteredLots.add(lots[_distanceModel[i].count]));
           }
         }
       }
     }).catchError((error) => setState(() => Global.isLoading = false));
+  }
+
+  void filterNewest() {
+    setState(() {
+      newestLots.clear();
+      searchnewestLots.clear();
+    });
+    for (var i = 0; i < lots.length; i++) {
+      searchnewestLots.add(lots[i]);
+      if (i < 5) {
+        newestLots.add(lots[i]);
+      }
+    }
+    setState(() {
+      newestLots.sort((b, a) => a.date.compareTo(b.date));
+      searchnewestLots.sort((b, a) => a.date.compareTo(b.date));
+    });
   }
 
   @override
@@ -367,7 +468,8 @@ class _HomeState extends State<Home> {
           automaticallyImplyLeading: false,
           centerTitle: false,
           title: RaisedButton.icon(
-            icon: Image.asset('assets/images/location.png', height: 20, width: 20, color: Colors.white),
+            icon: Image.asset('assets/images/location.png',
+                height: 20, width: 20, color: Colors.white),
             label: Text(currentAddress, style: TextStyle(fontSize: 12)),
             color: AppColors.primaryColor,
             textColor: Colors.white,
@@ -392,16 +494,21 @@ class _HomeState extends State<Home> {
                         children: [
                           Text(
                             'Proche de vous',
-                            style: AppStyles.blackTextStyle.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+                            style: AppStyles.blackTextStyle.copyWith(
+                                fontSize: 22, fontWeight: FontWeight.w500),
                           ),
                           GestureDetector(
                             onTap: () {
-                              Global.searchTitle = 'Proche de vous';
-                              Navigator.of(context).pushNamed('closetoyou');
+                              setState(() {
+                                Global.searchTitle = 'Proche de vous';
+                                Global.customSearch = searchfilteredLots;
+                                widget.seeMore();
+                              });
                             },
                             child: Text(
                               'Voir plus',
-                              style: AppStyles.primaryTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+                              style: AppStyles.primaryTextStyle.copyWith(
+                                  fontSize: 13, fontWeight: FontWeight.w500),
                             ),
                           )
                         ],
@@ -410,7 +517,7 @@ class _HomeState extends State<Home> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: listLotItems(),
+                        children: listLotItems(filteredLots),
                       ),
                     ),
                     Row(
@@ -418,16 +525,21 @@ class _HomeState extends State<Home> {
                       children: [
                         Text(
                           'Mis en avant',
-                          style: AppStyles.blackTextStyle.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+                          style: AppStyles.blackTextStyle.copyWith(
+                              fontSize: 22, fontWeight: FontWeight.w500),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Global.searchTitle = 'Mis en avant';
-                            Navigator.of(context).pushNamed('closetoyou');
+                            setState(() {
+                              Global.searchTitle = 'Mis en avant';
+                              Global.customSearch = searchfilteredLots;
+                              widget.seeMore();
+                            });
                           },
                           child: Text(
                             'Voir plus',
-                            style: AppStyles.primaryTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+                            style: AppStyles.primaryTextStyle.copyWith(
+                                fontSize: 13, fontWeight: FontWeight.w500),
                           ),
                         )
                       ],
@@ -435,7 +547,7 @@ class _HomeState extends State<Home> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: listLotItems(),
+                        children: listLotItems(filteredLots),
                       ),
                     ),
                     Row(
@@ -443,16 +555,21 @@ class _HomeState extends State<Home> {
                       children: [
                         Text(
                           'Nouveau',
-                          style: AppStyles.blackTextStyle.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
+                          style: AppStyles.blackTextStyle.copyWith(
+                              fontSize: 22, fontWeight: FontWeight.w500),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Global.searchTitle = 'Nouveau';
-                            Navigator.of(context).pushNamed('closetoyou');
+                            setState(() {
+                              Global.searchTitle = 'Nouveau';
+                              Global.customSearch = searchnewestLots;
+                              widget.seeMore();
+                            });
                           },
                           child: Text(
                             'Voir plus',
-                            style: AppStyles.primaryTextStyle.copyWith(fontSize: 13, fontWeight: FontWeight.w500),
+                            style: AppStyles.primaryTextStyle.copyWith(
+                                fontSize: 13, fontWeight: FontWeight.w500),
                           ),
                         )
                       ],
@@ -460,7 +577,7 @@ class _HomeState extends State<Home> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: listLotItems(),
+                        children: listLotItems(newestLots),
                       ),
                     ),
                   ],

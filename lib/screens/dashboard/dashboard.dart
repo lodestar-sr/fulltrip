@@ -24,8 +24,9 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+
     screens = [
-      Home(),
+      Home(seeMore: searchPage),
       Search(),
       ProposeLot(onBack: resetPage),
       Updates(),
@@ -36,6 +37,12 @@ class _DashboardState extends State<Dashboard> {
   resetPage() {
     setState(() {
       currentTab = 0;
+    });
+  }
+
+  searchPage() {
+    setState(() {
+      currentTab = 1;
     });
   }
 

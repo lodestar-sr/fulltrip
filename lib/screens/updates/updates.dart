@@ -17,6 +17,7 @@ class _UpdatesState extends State<Updates> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    Global.customSearch.clear();
     _tabController = TabController(
       vsync: this,
       length: 2,
