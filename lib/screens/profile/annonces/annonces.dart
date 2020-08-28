@@ -1,4 +1,5 @@
 import 'package:Fulltrip/screens/profile/annonces/ongoing_lots.dart';
+import 'package:Fulltrip/screens/profile/annonces/reservations.dart';
 import 'package:Fulltrip/screens/profile/annonces/completed_lots.dart';
 import 'package:Fulltrip/services/lot.service.dart';
 import 'package:Fulltrip/data/providers/auth.provider.dart';
@@ -19,19 +20,25 @@ class Announces extends StatefulWidget {
 
 class _AnnouncesState extends State<Announces>
     with SingleTickerProviderStateMixin {
-  int _tabIndex = 0;
-  PageController _controller;
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    setUpTabs();
     initData();
+
+    _tabController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: Global.annoncesTabIndex,
+    );
+    _tabController
+        .addListener(() => Global.annoncesTabIndex = _tabController.index);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -45,12 +52,6 @@ class _AnnouncesState extends State<Announces>
         Global.isLoading = false;
       });
     });
-  }
-
-  setUpTabs() {
-    _controller = PageController(
-      initialPage: _tabIndex,
-    );
   }
 
   @override
@@ -78,57 +79,44 @@ class _AnnouncesState extends State<Announces>
             children: [
               Container(
                 height: 60,
+                width: double.infinity,
                 decoration: BoxDecoration(
-                    color: Color(0xFFF1F1F1),
-                    border: Border(
-                        bottom: BorderSide(
-                            color: AppColors.lightGreyColor, width: 1),
-                        top: BorderSide(
-                            color: AppColors.lightGreyColor, width: 1))),
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _tabIndex = 0;
-                          _controller.animateToPage(0,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        });
-                      },
+                  color: Color(0xFFF1F1F1),
+                  border: Border.symmetric(
+                    vertical: BorderSide(
+                      color: AppColors.lightGreyColor,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  isScrollable: true,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelPadding: EdgeInsets.zero,
+                  indicator: BoxDecoration(
+                    color: AppColors.primaryColor,
+                  ),
+                  labelStyle: TextStyle(fontSize: 16),
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.black,
+                  tabs: [
+                    Tab(
                       child: Container(
-                        padding: EdgeInsets.all(20),
-                        color: _tabIndex == 0
-                            ? AppColors.primaryColor
-                            : Colors.transparent,
-                        child: Text(
-                          'En cours',
-                          style: AppStyles.blackTextStyle.copyWith(
-                              color:
-                                  _tabIndex == 0 ? Colors.white : Colors.black),
-                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text('En cours'),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _tabIndex = 1;
-                          _controller.animateToPage(1,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        color: _tabIndex == 1
-                            ? AppColors.primaryColor
-                            : Colors.transparent,
-                        child: Text(
-                          'Terminé',
-                          style: AppStyles.blackTextStyle.copyWith(
-                              color:
-                                  _tabIndex == 1 ? Colors.white : Colors.black),
-                        ),
+                    Tab(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text('Réservations'),
+                      ),
+                    ),
+                    Tab(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text('Terminé'),
                       ),
                     ),
                   ],
@@ -137,15 +125,11 @@ class _AnnouncesState extends State<Announces>
               Container(
                 child: Container(
                   height: SizeConfig.safeScreenHeight - 116,
-                  child: PageView(
-                    controller: _controller,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _tabIndex = index;
-                      });
-                    },
+                  child: TabBarView(
+                    controller: _tabController,
                     children: [
                       OngoingLots(),
+                      Reservations(),
                       CompletedLots(),
                     ],
                   ),

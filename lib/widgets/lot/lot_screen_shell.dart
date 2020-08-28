@@ -6,9 +6,6 @@ import 'package:Fulltrip/util/theme.dart';
 import 'package:Fulltrip/widgets/app_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -51,9 +48,11 @@ class _LotScreenShellState extends State<LotScreenShell> {
           iconTheme: IconThemeData(
             color: AppColors.backButtonColor, //change your color here
           ),
-          title: Text('Détails du lot',
-              style: AppStyles.blackTextStyle
-                  .copyWith(fontWeight: FontWeight.w500)),
+          title: Text(
+            'Détails du lot',
+            style:
+                AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500),
+          ),
           backgroundColor: AppColors.lightestGreyColor,
         ),
         body: Container(

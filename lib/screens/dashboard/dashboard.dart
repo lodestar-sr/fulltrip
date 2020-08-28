@@ -6,6 +6,7 @@ import 'package:Fulltrip/screens/search/search.dart';
 import 'package:Fulltrip/screens/updates/updates.dart';
 import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/util/theme.dart';
+import 'package:Fulltrip/widgets/icon_with_badge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -41,13 +42,16 @@ class _DashboardState extends State<Dashboard> {
   onTabTapped(int index) {
     setState(() {
       currentTab = index;
-
       Global.searchTitle = 'Search for a lot';
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    int updatesBadgeCounter = 0;
+    int profileBadgeCounter =
+        Provider.of<AuthProvider>(context).getProfileBadgeCounter();
+
     return Scaffold(
       body: screens[currentTab],
       bottomNavigationBar: BottomNavigationBar(
@@ -55,19 +59,21 @@ class _DashboardState extends State<Dashboard> {
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
         currentIndex: currentTab,
+        selectedIconTheme: IconThemeData(
+          color: AppColors.primaryColor,
+          size: 24,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: AppColors.navigationBarInactiveColor,
+          size: 24,
+        ),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Feather.home,
-                color: AppColors.navigationBarInactiveColor, size: 24),
-            activeIcon:
-                Icon(Feather.home, color: AppColors.primaryColor, size: 24),
+            icon: Icon(Feather.home),
             title: Container(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Feather.search,
-                color: AppColors.navigationBarInactiveColor, size: 24),
-            activeIcon:
-                Icon(Feather.search, color: AppColors.primaryColor, size: 24),
+            icon: Icon(Feather.search),
             title: Container(),
           ),
           BottomNavigationBarItem(
@@ -87,120 +93,22 @@ class _DashboardState extends State<Dashboard> {
               ),
               child: Icon(Icons.add, size: 32, color: Colors.white),
             ),
-            title: Container(),
+            title: SizedBox(),
           ),
           BottomNavigationBarItem(
-            activeIcon: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(width: 32, height: 32),
-                Icon(Feather.bell, color: AppColors.primaryColor, size: 24),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(20)),
-                    constraints: BoxConstraints(minWidth: 15, minHeight: 15),
-                    child: Center(
-                      child: Text(
-                        '1',
-                        style: TextStyle(color: Colors.white, fontSize: 9),
-                      ),
-                    ),
-                  ),
-                )
-              ],
+            icon: IconWithBadge(
+              icon: Feather.bell,
+              badgeCounter: updatesBadgeCounter,
             ),
-            icon: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(width: 32, height: 32),
-                Icon(Feather.bell,
-                    color: AppColors.navigationBarInactiveColor, size: 24),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: new BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(20)),
-                    constraints: BoxConstraints(minWidth: 15, minHeight: 15),
-                    child: Center(
-                      child: Text(
-                        '1',
-                        style: TextStyle(color: Colors.white, fontSize: 9),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            title: Container(),
+            title: SizedBox(),
           ),
           BottomNavigationBarItem(
-              icon: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Container(width: 32, height: 32),
-                  Icon(AntDesign.user,
-                      color: AppColors.navigationBarInactiveColor, size: 24),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: context.watch<AuthProvider>().getProfileBadge() > 0
-                        ? Container(
-                            width: 15,
-                            height: 15,
-                            decoration: new BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${context.watch<AuthProvider>().getProfileBadge()}',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 9),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ),
-                ],
-              ),
-              activeIcon: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Container(width: 32, height: 32),
-                  Icon(AntDesign.user, color: AppColors.primaryColor, size: 24),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: context.watch<AuthProvider>().getProfileBadge() > 0
-                        ? Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(6)),
-                            child: Center(
-                              child: Text(
-                                '${context.watch<AuthProvider>().getProfileBadge()}',
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 9),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        : Container(),
-                  ),
-                ],
-              ),
-              title: Container()),
+            icon: IconWithBadge(
+              icon: AntDesign.user,
+              badgeCounter: profileBadgeCounter,
+            ),
+            title: SizedBox(),
+          ),
         ],
       ),
     );

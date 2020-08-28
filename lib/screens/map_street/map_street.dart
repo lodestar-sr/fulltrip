@@ -92,12 +92,11 @@ class _MapStreetState extends State<MapStreet> {
 
   void _resetMarker(String newAddress) async {
     List<Placemark> placemark = await Geolocator().placemarkFromAddress(newAddress);
-    mapController.animateCamera(
+    await mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(placemark[0].position.latitude, placemark[0].position.longitude), zoom: 15),
       ),
     );
-
     _updatePosition(CameraPosition(target: LatLng(placemark[0].position.latitude, placemark[0].position.longitude)));
   }
 

@@ -1,5 +1,5 @@
 class Constants {
-  static const appVersion = '0.0.5';
+  static const appVersion = '0.0.6';
 
   static const googleAPIKey = 'AIzaSyAviivTDt0XzleVXCCrY3TDqeHZkaEjB4U';
 

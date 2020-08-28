@@ -4,14 +4,9 @@ import 'package:Fulltrip/widgets/cards/ongoing_lot_card.dart';
 import 'package:Fulltrip/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
-class OngoingLots extends StatefulWidget {
+class OngoingLots extends StatelessWidget {
   OngoingLots({Key key}) : super(key: key);
 
-  @override
-  _OngoingLotsState createState() => _OngoingLotsState();
-}
-
-class _OngoingLotsState extends State<OngoingLots> {
   List<Widget> listLotItems() {
     List<Widget> list = [];
 

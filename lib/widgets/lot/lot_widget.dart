@@ -50,14 +50,10 @@ class _LotWidgetState extends State<LotWidget> {
     rootBundle.loadString('assets/map_style.txt').then((string) {
       _mapStyle = string;
     });
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5),
-            'assets/images/arrivalpin.png')
-        .then((onValue) {
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/arrivalpin.png').then((onValue) {
       arrivalLocationIcon = onValue;
     });
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/pin.png')
-        .then((onValue) {
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), 'assets/images/pin.png').then((onValue) {
       startingLocationIcon = onValue;
     });
   }
@@ -92,28 +88,15 @@ class _LotWidgetState extends State<LotWidget> {
   }
 
   void _resetMarker(String startingAddress, String arrivalAddress) async {
-    List<Placemark> startingplacemark =
-        await Geolocator().placemarkFromAddress(startingAddress);
-    List<Placemark> arrivalplacemark =
-        await Geolocator().placemarkFromAddress(arrivalAddress);
-    _arrivalLocationPosition = LatLng(arrivalplacemark[0].position.latitude,
-        arrivalplacemark[0].position.longitude);
-    _startingLocationPosition = LatLng(startingplacemark[0].position.latitude,
-        startingplacemark[0].position.longitude);
+    List<Placemark> startingplacemark = await Geolocator().placemarkFromAddress(startingAddress);
+    List<Placemark> arrivalplacemark = await Geolocator().placemarkFromAddress(arrivalAddress);
+    _arrivalLocationPosition = LatLng(arrivalplacemark[0].position.latitude, arrivalplacemark[0].position.longitude);
+    _startingLocationPosition = LatLng(startingplacemark[0].position.latitude, startingplacemark[0].position.longitude);
     await updateCameraLocation(
-        LatLng(startingplacemark[0].position.latitude,
-            startingplacemark[0].position.longitude),
-        LatLng(arrivalplacemark[0].position.latitude,
-            arrivalplacemark[0].position.longitude),
-        mapController);
+        LatLng(startingplacemark[0].position.latitude, startingplacemark[0].position.longitude), LatLng(arrivalplacemark[0].position.latitude, arrivalplacemark[0].position.longitude), mapController);
 
-    _updatePosition(
-        CameraPosition(
-            target: LatLng(startingplacemark[0].position.latitude,
-                startingplacemark[0].position.longitude)),
-        CameraPosition(
-            target: LatLng(arrivalplacemark[0].position.latitude,
-                arrivalplacemark[0].position.longitude)));
+    _updatePosition(CameraPosition(target: LatLng(startingplacemark[0].position.latitude, startingplacemark[0].position.longitude)),
+        CameraPosition(target: LatLng(arrivalplacemark[0].position.latitude, arrivalplacemark[0].position.longitude)));
     setState(() {});
   }
 
@@ -126,17 +109,12 @@ class _LotWidgetState extends State<LotWidget> {
 
     LatLngBounds bounds;
 
-    if (source.latitude > destination.latitude &&
-        source.longitude > destination.longitude) {
+    if (source.latitude > destination.latitude && source.longitude > destination.longitude) {
       bounds = LatLngBounds(southwest: destination, northeast: source);
     } else if (source.longitude > destination.longitude) {
-      bounds = LatLngBounds(
-          southwest: LatLng(source.latitude, destination.longitude),
-          northeast: LatLng(destination.latitude, source.longitude));
+      bounds = LatLngBounds(southwest: LatLng(source.latitude, destination.longitude), northeast: LatLng(destination.latitude, source.longitude));
     } else if (source.latitude > destination.latitude) {
-      bounds = LatLngBounds(
-          southwest: LatLng(destination.latitude, source.longitude),
-          northeast: LatLng(source.latitude, destination.longitude));
+      bounds = LatLngBounds(southwest: LatLng(destination.latitude, source.longitude), northeast: LatLng(source.latitude, destination.longitude));
     } else {
       bounds = LatLngBounds(southwest: source, northeast: destination);
     }
@@ -146,8 +124,7 @@ class _LotWidgetState extends State<LotWidget> {
     return checkCameraLocation(cameraUpdate, mapController);
   }
 
-  Future<void> checkCameraLocation(
-      CameraUpdate cameraUpdate, GoogleMapController mapController) async {
+  Future<void> checkCameraLocation(CameraUpdate cameraUpdate, GoogleMapController mapController) async {
     mapController.animateCamera(cameraUpdate);
     LatLngBounds l1 = await mapController.getVisibleRegion();
     LatLngBounds l2 = await mapController.getVisibleRegion();
@@ -157,34 +134,27 @@ class _LotWidgetState extends State<LotWidget> {
     }
   }
 
-  void _updatePosition(
-      CameraPosition _startingposition, CameraPosition _arrivalposition) async {
+  void _updatePosition(CameraPosition _startingposition, CameraPosition _arrivalposition) async {
     //Starting Address Marker
-    Marker startingmarker = _markers.firstWhere(
-        (p) => p.markerId == MarkerId('starting'),
-        orElse: () => null);
+    Marker startingmarker = _markers.firstWhere((p) => p.markerId == MarkerId('starting'), orElse: () => null);
 
     _markers.remove(startingmarker);
     _markers.add(
       Marker(
         markerId: MarkerId('starting'),
-        position: LatLng(_startingposition.target.latitude,
-            _startingposition.target.longitude),
+        position: LatLng(_startingposition.target.latitude, _startingposition.target.longitude),
         draggable: true,
         icon: startingLocationIcon,
       ),
     );
     //Starting Address Marker
-    Marker arrivalmarker = _markers.firstWhere(
-        (p) => p.markerId == MarkerId('arrival'),
-        orElse: () => null);
+    Marker arrivalmarker = _markers.firstWhere((p) => p.markerId == MarkerId('arrival'), orElse: () => null);
 
     _markers.remove(arrivalmarker);
     _markers.add(
       Marker(
         markerId: MarkerId('arrival'),
-        position: LatLng(_arrivalposition.target.latitude,
-            _arrivalposition.target.longitude),
+        position: LatLng(_arrivalposition.target.latitude, _arrivalposition.target.longitude),
         draggable: true,
         icon: arrivalLocationIcon,
       ),
@@ -209,8 +179,10 @@ class _LotWidgetState extends State<LotWidget> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   image: DecorationImage(
-                    image: NetworkImage(widget.lot.photo),
-                    fit: BoxFit.cover,
+                    image: this.widget.lot.photo != ''
+                      ? NetworkImage(widget.lot.photo)
+                      : AssetImage("assets/images/noimage.png"),
+                    fit: BoxFit.contain,
                   ),
                 ),
               )
@@ -328,8 +300,7 @@ class _LotWidgetState extends State<LotWidget> {
         ),
         Container(
           margin: EdgeInsets.only(bottom: 5, top: 5, left: 8),
-          child: Text('${widget.lot.time}  (${widget.lot.distanceInKm} km)',
-              style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
+          child: Text('${widget.lot.time}  (${widget.lot.distanceInKm} km)', style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
         ),
         Container(
           width: double.infinity,
@@ -650,8 +621,7 @@ class _LotWidgetState extends State<LotWidget> {
         widget.companyName != null
             ? Text(
                 widget.companyName,
-                style: AppStyles.blackTextStyle
-                    .copyWith(fontWeight: FontWeight.w500, fontSize: 17),
+                style: AppStyles.blackTextStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 17),
               )
             : SizedBox(),
         widget.companyName != null
@@ -669,8 +639,7 @@ class _LotWidgetState extends State<LotWidget> {
                         padding: EdgeInsets.only(left: 8),
                         child: Text(
                           'Contacter l\'entreprise',
-                          style: AppStyles.primaryTextStyle.copyWith(
-                              fontSize: 14, fontWeight: FontWeight.w500),
+                          style: AppStyles.primaryTextStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ],

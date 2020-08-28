@@ -4,14 +4,9 @@ import 'package:Fulltrip/util/global.dart';
 import 'package:Fulltrip/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
-class CompletedLots extends StatefulWidget {
+class CompletedLots extends StatelessWidget {
   CompletedLots({Key key}) : super(key: key);
 
-  @override
-  _CompletedLotsState createState() => _CompletedLotsState();
-}
-
-class _CompletedLotsState extends State<CompletedLots> {
   List<Widget> listLotItems() {
     List<Widget> list = [];
 

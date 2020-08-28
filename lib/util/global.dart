@@ -23,8 +23,11 @@ class Global {
   static Filter filter = Filter();
   static SharedPreferences prefs;
   static int updatesTabIndex = 0;
+  static int annoncesTabIndex = 0;
+  static int transportTabIndex = 0;
   static int initialindex = 0;
   static String searchTitle = '';
+
   static List<ChatModel> chatMessages = [
     ChatModel(
         message:

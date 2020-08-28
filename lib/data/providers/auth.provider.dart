@@ -42,12 +42,15 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future downloadUserData() async {
-    final docSnap = await Global.firestore.collection('users').document(_loggedInUser.uid).get();
+    final docSnap = await Global.firestore
+        .collection('users')
+        .document(_loggedInUser.uid)
+        .get();
     final user = User.fromJson(docSnap.data);
     return this.updateUser(user: user);
   }
 
-  int getProfileBadge() {
+  int getProfileBadgeCounter() {
     int count = 0;
     if (_loggedInUser != null) {
       count += getInfoBadge();
@@ -103,19 +106,19 @@ class AuthProvider extends ChangeNotifier {
   int getDocBadge() {
     int count = 0;
     if (_loggedInUser.insuranceDoc.isEmpty) {
-      count ++;
+      count++;
     }
     if (_loggedInUser.transportDoc.isEmpty) {
-      count ++;
+      count++;
     }
     if (_loggedInUser.kbisDoc.isEmpty) {
-      count ++;
+      count++;
     }
     if (_loggedInUser.identityDoc.isEmpty) {
-      count ++;
+      count++;
     }
     if (_loggedInUser.bankDoc.isEmpty) {
-      count ++;
+      count++;
     }
     return count;
   }

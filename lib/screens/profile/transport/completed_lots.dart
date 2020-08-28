@@ -6,17 +6,11 @@ import 'package:Fulltrip/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CompletedLots extends StatefulWidget {
+class CompletedLots extends StatelessWidget {
   CompletedLots({Key key}) : super(key: key);
 
-  @override
-  _CompletedLotsState createState() => _CompletedLotsState();
-}
-
-class _CompletedLotsState extends State<CompletedLots> {
-  String userUid;
-
-  List<Widget> listLotItems() {
+  List<Widget> listLotItems(BuildContext context) {
+    final userUid = Provider.of<AuthProvider>(context).loggedInUser.uid;
     List<Widget> list = [];
 
     Global.reservedLots.forEach((lot) {
@@ -37,16 +31,10 @@ class _CompletedLotsState extends State<CompletedLots> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    userUid = context.read<AuthProvider>().loggedInUser.uid;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      children: listLotItems(),
+      children: listLotItems(context),
     );
   }
 }

@@ -14,6 +14,7 @@ class LotReservation extends StatelessWidget {
     final LinkedHashMap<String, Lot> args =
         ModalRoute.of(context).settings.arguments;
     final lot = args['lot'];
+    final reservedUser = Provider.of<AuthProvider>(context).loggedInUser;
 
     return LotScreenShell(
       lot: lot,
@@ -30,7 +31,6 @@ class LotReservation extends StatelessWidget {
               acceptButtonText: 'Oui',
               rejectButtonText: 'Non',
               onAcceptButtonPressed: () {
-                final reservedUser = context.read<AuthProvider>().loggedInUser;
                 lot.addReservedUser(reservedUser.uid);
                 NotificationService.addReservationValidationNotification(
                     lot, reservedUser);
