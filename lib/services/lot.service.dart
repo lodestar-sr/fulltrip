@@ -10,15 +10,20 @@ class LotService {
   }
 
   static Future<List<Lot>> getSearchLots(User user) async {
+    List<Lot> nullreservedby = [];
     final querySnapshot =
         await Global.firestore.collection('lots').getDocuments();
-    return querySnapshot.documents
-        .map((document) => Lot.fromJson(document.data))
-        .where((lot) =>
-            lot.proposedBy != user.uid &&
-            !lot.reservedBy.contains(user.uid) &&
-            lot.assignedTo == null)
-        .toList();
+    try {
+      return querySnapshot.documents
+          .map((document) => Lot.fromJson(document.data))
+          .where((lot) =>
+              lot.proposedBy != user.uid &&
+              !lot.reservedBy.contains(user.uid) &&
+              lot.assignedTo == null)
+          .toList();
+    } catch (e) {
+      return nullreservedby;
+    }
   }
 
   static Future<List<Lot>> getProposedLots(User user) async {

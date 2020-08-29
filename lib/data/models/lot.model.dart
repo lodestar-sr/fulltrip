@@ -110,7 +110,7 @@ class Lot {
         photo: json["photo"],
         description: json["description"],
         date: DateTime.parse(json["date"]),
-        proposedBy: json['proposed_by'],
+        proposedBy: json['proposed_by'] != null ? json['proposed_by'] : [],
         proposedCompanyName: json['proposed_company_name'],
         reservedBy: json['reserved_by'],
         refusedReservationFor: json['refused_reservation_for'],
