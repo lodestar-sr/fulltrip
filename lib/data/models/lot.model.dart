@@ -37,8 +37,8 @@ class Lot {
   String assignedTo;
   String assignedCompanyName;
 
-  double distanceInKm = 0.0;
-  String time = '';
+  double travelDistance = 0.0;
+  String travelDuration = '';
 
   Lot({
     this.uid,
@@ -72,8 +72,8 @@ class Lot {
     this.refusedReservationFor,
     this.assignedTo,
     this.assignedCompanyName,
-    this.distanceInKm = 0.0,
-    this.time = '',
+    this.travelDistance,
+    this.travelDuration,
   });
 
   factory Lot.fromJson(Map<String, dynamic> json) => Lot(
@@ -116,9 +116,8 @@ class Lot {
         refusedReservationFor: json['refused_reservation_for'],
         assignedTo: json['assigned_to'],
         assignedCompanyName: json['assigned_company_name'],
-        distanceInKm:
-            json['distance_InKm'] != null ? json['distance_InKm'] : 0.0,
-        time: json['time'] != null ? json['time'] : '',
+        travelDistance: json['travel_distance'],
+        travelDuration: json['travel_duration'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -158,8 +157,8 @@ class Lot {
         "refused_reservation_for": refusedReservationFor ?? [],
         "assigned_to": assignedTo,
         "assigned_company_name": assignedCompanyName,
-        "distance_InKm": distanceInKm ?? 0.0,
-        "time": time ?? ''
+        "travel_distance": travelDistance,
+        "travel_duration": travelDuration,
       };
 
   Future<void> setCityFromStartingAddress() async {

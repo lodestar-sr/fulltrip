@@ -111,8 +111,12 @@ class Distance {
 }
 
 /////
-Future<DistanceTimeModel> fetchRequestGoogleApi(double startinglat,
-    double startinglong, double arrivallat, double arrivallong) async {
+Future<DistanceTimeModel> fetchRequestGoogleApi(
+  double startinglat,
+  double startinglong,
+  double arrivallat,
+  double arrivallong,
+) async {
   final response = await http.get(
       'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=$startinglat,$startinglong&destinations=$arrivallat,$arrivallong&key=${Constants.googleAPIKey}');
 

@@ -30,101 +30,100 @@ class Global {
   static List<Lot> customSearch = [];
   static List<ChatModel> chatMessages = [
     ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
+      message:
+      'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
+      id: 0),
     ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
+      message:
+      'Hey! Notre entreprise est engagée dans le transport depuis 2001',
+      id: 1),
     ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
+      message:
+      'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
+      id: 0),
     ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
+      message:
+      'Hey! Notre entreprise est engagée dans le transport depuis 2001',
+      id: 1),
     ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
+      message:
+      'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
+      id: 0),
     ChatModel(
-        message:
-            'Hey! Notre entreprise est engagée dans le transport depuis 2001',
-        id: 1),
+      message:
+      'Hey! Notre entreprise est engagée dans le transport depuis 2001',
+      id: 1),
     ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
+      message:
+      'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
+      id: 0),
     ChatModel(
-        message:
-            'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
-        id: 0),
+      message:
+      'Bonne journée! Je veux en savoir plus sur votre entreprise et depuis combien de temps êtes-vous sur le marché du transport?',
+      id: 0),
   ];
 
   static List<Message> userMessages = [
     Message(
-        name: 'WCR',
-        message:
-            'Thank You fdsfdsf dfs fsdf sf f f f f f f f f fdfs fsdf dsf sdfds fsdf sdf sf sdf sdf dsfsd fdsf dsf sdf sd  fds fsd fsd fsdfsfsf sdfsdf',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
+      name: 'WCR',
+      message:
+      'Thank You fdsfdsf dfs fsdf sf f f f f f f f f fdfs fsdf dsf sdfds fsdf sdf sf sdf sdf dsfsd fdsf dsf sdf sd  fds fsd fsd fsdfsfsf sdfsdf',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 8,
+      status: 'online',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 8,
+      status: 'online',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 8,
-        status: 'online',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 8,
+      status: 'online',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 9,
-        status: 'online',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 9,
+      status: 'online',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 3,
-        status: 'online',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 3,
+      status: 'online',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 7,
-        status: 'offline',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 7,
+      status: 'offline',
+      photo: ''),
     Message(
-        name: 'WCR',
-        message: 'Thank You',
-        time: DateTime(2017, 9, 7, 17, 30),
-        unread: 5,
-        status: 'offline',
-        photo: ''),
+      name: 'WCR',
+      message: 'Thank You',
+      time: DateTime(2017, 9, 7, 17, 30),
+      unread: 5,
+      status: 'offline',
+      photo: ''),
   ];
 
-  static Future<Map> calculateDistance(
-      {String startingAddress, String arrivalAddress}) async {
+  static Future<Map> calculateDistance({String startingAddress, String arrivalAddress}) async {
     List startinglatlong = [];
     List arrivallatlong = [];
 
     try {
       //Start
       List<Placemark> startingAddressPlacemark =
-          await Geolocator().placemarkFromAddress(startingAddress);
+      await Geolocator().placemarkFromAddress(startingAddress);
       Placemark startingPlace = startingAddressPlacemark[0];
       startinglatlong = [
         startingPlace.position.latitude,
@@ -132,35 +131,38 @@ class Global {
       ];
       //Arrival
       List<Placemark> arrivalAddressPlacemark =
-          await Geolocator().placemarkFromAddress(arrivalAddress);
+      await Geolocator().placemarkFromAddress(arrivalAddress);
       Placemark arrivalPlace = arrivalAddressPlacemark[0];
       arrivallatlong = [
         arrivalPlace.position.latitude,
         arrivalPlace.position.longitude
       ];
 
-      return fetchRequestGoogleApi(startinglatlong[0], startinglatlong[1],
-              arrivallatlong[0], arrivallatlong[1])
-          .then((value) {
+      return fetchRequestGoogleApi(
+        startinglatlong[0],
+        startinglatlong[1],
+        arrivallatlong[0],
+        arrivallatlong[1],
+      ).then((value) {
         if (value.status == 'OK') {
           var rows = value.rows;
           var element = rows[0].elements[0];
           return {
             'distanceinKm':
-                element.distance == null ? 0.0 : element.distance.value / 1000,
-            'duration': element.duration == null ? '' : element.duration.text,
+            element.distance != null ? element.distance.value / 1000 : 0.0,
+            'duration':
+            element.duration != null ? element.duration.text : 'Undefined',
           };
         } else {
           return {
-            'distanceinKm': 0,
+            'distanceinKm': 0.0,
             'duration': 'Undefined',
           };
         }
       });
     } catch (e) {
-      print(e);
       return {
-        'distanceinKm': 0,
+        'distanceinKm': 0.0,
         'duration': 'Undefined',
       };
     }

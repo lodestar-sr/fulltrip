@@ -23,8 +23,7 @@ class _UpdatesState extends State<Updates> with SingleTickerProviderStateMixin {
       length: 2,
       initialIndex: Global.updatesTabIndex,
     );
-    _tabController
-        .addListener(() => Global.updatesTabIndex = _tabController.index);
+    _tabController.addListener(() => Global.updatesTabIndex = _tabController.index);
   }
 
   @override

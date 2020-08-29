@@ -1,12 +1,12 @@
+import 'package:Fulltrip/data/models/notification.model.dart';
 import 'package:Fulltrip/util/theme.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 
 class NotificationCard extends StatelessWidget {
-  final String text;
-  final String companyName;
+  final Notification notification;
   final Function onPressed;
 
-  NotificationCard({this.text, this.companyName, this.onPressed});
+  NotificationCard({this.notification, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +46,14 @@ class NotificationCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        companyName,
+                        notification.senderCompanyName,
                         style: AppStyles.blackTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
-                        '3:03pm',
+                        notification.formatTimestamp(),
                         style: AppStyles.notificationTextStyle.copyWith(
                           fontSize: 12,
                         ),
@@ -63,7 +63,7 @@ class NotificationCard extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 5.0),
                     child: Text(
-                      text,
+                      notification.text,
                       style: AppStyles.notificationTextStyle,
                     ),
                   )

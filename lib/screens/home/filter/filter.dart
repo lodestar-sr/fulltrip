@@ -88,6 +88,7 @@ class _FilterState extends State<Filter> {
       Global.filter.pickUpDate = pickUpDate;
       Global.filter.deliveryDate = deliveryDate;
     });
+
     Navigator.pop(context, true);
     // Navigator.of(context).pushReplacement(
     //   MaterialPageRoute(builder: (BuildContext context) => Search()));

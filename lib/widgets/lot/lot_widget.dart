@@ -62,6 +62,35 @@ class _LotWidgetState extends State<LotWidget> {
     });
   }
 
+  // Method for retrieving the current location
+  _getCurrentLocation() async {
+    _geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      List<Placemark> placemark =
+          await Geolocator().placemarkFromAddress(widget.lot.arrivalAddress);
+
+      setState(() {
+        _currentPosition = position;
+        print('CURRENT POS: $_currentPosition');
+        _pinPosition = LatLng(
+            placemark[0].position.latitude, placemark[0].position.longitude);
+
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: _pinPosition, zoom: 9),
+          ),
+        );
+        _markers.add(Marker(
+            markerId: MarkerId('<MARKER_ID>'),
+            position: _pinPosition,
+            icon: pinLocationIcon));
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   void _resetMarker(String startingAddress, String arrivalAddress) async {
     List<Placemark> startingplacemark =
         await Geolocator().placemarkFromAddress(startingAddress);
@@ -172,6 +201,42 @@ class _LotWidgetState extends State<LotWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
+        widget.lot.photo != ''
+            ? Container(
+                width: double.infinity,
+                height: 146,
+                margin: EdgeInsets.only(top: 14),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  image: DecorationImage(
+                    image: this.widget.lot.photo != ''
+                        ? NetworkImage(widget.lot.photo)
+                        : AssetImage("assets/images/noimage.png"),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              )
+            : Container(
+                height: 146,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: AppColors.lightGreyColor,
+                ),
+                margin: EdgeInsets.only(right: 14),
+                child: Center(
+                  child: Container(
+                    height: 85,
+                    width: 85,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: ExactAssetImage('assets/images/noimage.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
         Container(
           margin: EdgeInsets.only(top: 16, bottom: 5),
           child: Row(
@@ -265,7 +330,8 @@ class _LotWidgetState extends State<LotWidget> {
         ),
         Container(
           margin: EdgeInsets.only(bottom: 5, top: 5, left: 8),
-          child: Text('${widget.lot.time}  (${widget.lot.distanceInKm} km)',
+          child: Text(
+              '${widget.lot.travelDuration}  (${widget.lot.travelDistance} km)',
               style: AppStyles.blackTextStyle.copyWith(fontSize: 12)),
         ),
         Container(

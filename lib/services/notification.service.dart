@@ -14,6 +14,7 @@ class NotificationService {
     final querySnapshot = await Global.firestore
         .collection('notifications')
         .where('receiver', isEqualTo: userUid)
+        .orderBy('timestamp', descending: true)
         .getDocuments();
     return querySnapshot.documents
         .map((document) => Notification.fromJson(document.data))

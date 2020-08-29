@@ -21,10 +21,10 @@ class ProposeLot4 extends StatefulWidget {
 class _ProposeLot4State extends State<ProposeLot4> {
   var myFormat = DateFormat('d/MM');
   Lot lot;
-  var startingaddress = [];
-  var arrivaladdress = [];
-  double distanceinKm = 0.0;
-  String time = '';
+  var startingAddress = [];
+  var arrivalAddress = [];
+  double travelDistance = 0.0;
+  String travelDuration = 'Undefined';
   Future<DistanceTimeModel> distanceTimeModel;
 
   @override
@@ -33,24 +33,23 @@ class _ProposeLot4State extends State<ProposeLot4> {
 
     setState(() {
       lot = Global.lotForm;
-      startingaddress = lot.startingAddress.split(',');
-      arrivaladdress = lot.arrivalAddress.split(',');
+      startingAddress = lot.startingAddress.split(',');
+      arrivalAddress = lot.arrivalAddress.split(',');
     });
 
     setState(() => Global.isLoading = true);
     Global.calculateDistance(
-            startingAddress: lot.startingAddress,
-            arrivalAddress: lot.arrivalAddress)
-        .then((value) {
+      startingAddress: lot.startingAddress,
+      arrivalAddress: lot.arrivalAddress,
+    ).then((value) {
       setState(() => Global.isLoading = false);
       if (mounted) {
         setState(() {
-          distanceinKm = value['distanceinKm'];
-          Global.lotForm.distanceInKm = value['distanceinKm'];
-          print(Global.lotForm.distanceInKm);
-          time = value['duration'];
-          Global.lotForm.time = value['duration'];
-          print(Global.lotForm.time);
+          travelDistance = value['distanceinKm'];
+          travelDuration = value['duration'];
+
+          Global.lotForm.travelDistance = travelDistance;
+          Global.lotForm.travelDuration = travelDuration;
         });
       }
     });
@@ -221,7 +220,7 @@ class _ProposeLot4State extends State<ProposeLot4> {
                           ),
                           Container(
                             margin: EdgeInsets.only(bottom: 5, top: 5, left: 8),
-                            child: Text('$time  ($distanceinKm km)',
+                            child: Text('$travelDuration  ($travelDistance km)',
                                 style: AppStyles.blackTextStyle
                                     .copyWith(fontSize: 12)),
                           ),

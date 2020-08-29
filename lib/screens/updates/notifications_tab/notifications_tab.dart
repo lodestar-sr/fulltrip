@@ -11,6 +11,7 @@ import 'package:Fulltrip/data/providers/auth.provider.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class NotificationsTab extends StatefulWidget {
   NotificationsTab({Key key}) : super(key: key);
@@ -24,22 +25,25 @@ class _NotificationsTabState extends State<NotificationsTab> {
 
   @override
   void initState() {
-    Global.isLoading = true;
     super.initState();
+
+    initializeDateFormatting('fr_FR', null);
     getNotifications();
   }
 
   void getNotifications() async {
+    setState(() => Global.isLoading = true);
+
     final user = context.read<AuthProvider>().loggedInUser;
     notifications = await NotificationService.getNotificationsForUser(user.uid);
+
     setState(() => Global.isLoading = false);
   }
 
   NotificationCard buildStandardNotificationWidget(Notification notification,
       {String bottomText}) {
     return NotificationCard(
-      text: notification.text,
-      companyName: notification.senderCompanyName,
+      notification: notification,
       onPressed: () async {
         Navigator.of(context).pushNamed(
           'lot-details',
@@ -64,8 +68,7 @@ class _NotificationsTabState extends State<NotificationsTab> {
         case NotificationType.reservationValidation:
         case NotificationType.refusedReservationValidation:
           card = NotificationCard(
-            text: notification.text,
-            companyName: notification.senderCompanyName,
+            notification: notification,
             onPressed: () async {
               Navigator.of(context).pushNamed(
                 'lot-validation',
